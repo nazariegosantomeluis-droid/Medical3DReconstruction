@@ -24,6 +24,7 @@ if _SRC_PATH not in sys.path:
 
 from medical3d.core.config import load_organ_config  # noqa: E402
 from medical3d.core.exporters import export_mesh  # noqa: E402
+from medical3d.core.html_viewer import export_interactive_viewer  # noqa: E402
 from medical3d.core.visualization import render_mesh_interactive, render_mesh_screenshot  # noqa: E402
 from medical3d.io import VolumeLoadError, load_volume  # noqa: E402
 from medical3d.organs import ORGAN_PIPELINES  # noqa: E402
@@ -65,9 +66,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--visualize",
-        choices=["interactive", "screenshot", "none"],
+        choices=["interactive", "screenshot", "html", "none"],
         default="screenshot",
-        help="3D visualization mode: an interactive viewer window, a rendered PNG preview, or skip (default: screenshot)",
+        help=(
+            "3D visualization mode: an interactive viewer window, a rendered "
+            "PNG preview, a self-contained HTML viewer (3D mesh + CT slice "
+            "scrubber, no server/install needed), or skip (default: screenshot)"
+        ),
     )
     parser.add_argument(
         "--metrics-json", default=None, help="Optional path to also write metrics + validation as JSON"
@@ -141,6 +146,18 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\nRendering 3D preview to {screenshot_path}...")
         render_mesh_screenshot(result.mesh, args.organ, screenshot_path)
         print(f"  -> {screenshot_path}")
+    elif args.visualize == "html":
+        viewer_path = os.path.join(args.output_dir, f"{args.organ}_viewer.html")
+        print(f"\nExporting interactive HTML viewer to {viewer_path}...")
+        export_interactive_viewer(
+            organ=args.organ,
+            mesh=result.mesh,
+            metrics=result.metrics,
+            validation=result.validation,
+            volume=result.volume,
+            output_path=viewer_path,
+        )
+        print(f"  -> {viewer_path} (open in any browser, no server needed)")
 
     print("\nDone.")
     return 0

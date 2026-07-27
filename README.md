@@ -38,13 +38,19 @@ postprocess → mesh → optimize → validate), prints the metrics and
 validation report, exports `outputs/lungs.{stl,obj,ply}`, and renders a
 preview to `outputs/lungs_preview.png`.
 
+Pass `--visualize html` instead to get a self-contained, interactive
+viewer (`outputs/lungs_viewer.html`) — a rotatable/zoomable 3D view of the
+mesh plus a windowed CT slice scrubber over the source volume, in one
+file you can open in any browser with no server or install. See
+[3D visualization notes](#3d-visualization-notes) below.
+
 ```bash
 python main.py --input <volume-or-dicom-dir> --organ {lungs,heart,liver,kidneys} \
     [--modality {CT,MRI}] \
     [--config configs/<organ>.yaml] \
     [--output-dir outputs] \
     [--formats stl obj ply] \
-    [--visualize {interactive,screenshot,none}] \
+    [--visualize {interactive,screenshot,html,none}] \
     [--metrics-json outputs/<organ>_metrics.json]
 ```
 
@@ -81,6 +87,7 @@ src/medical3d/
     validation.py               Dice/Jaccard/surface distance, plausibility ranges
     exporters.py                STL/OBJ/PLY export
     visualization.py            3D rendering (PyVista, with a Matplotlib fallback)
+    html_viewer.py               Self-contained interactive HTML export (WebGL mesh view + CT slice scrubber)
   organs/
     base.py                    OrganPipeline ABC: preprocess → segment → postprocess → mesh → optimize → validate
     lungs/                      threshold + connected components
@@ -156,6 +163,17 @@ In headless environments without a GPU/EGL/OSMesa context, `--visualize
 screenshot` automatically falls back to a Matplotlib-rendered preview
 (the fallback runs the risky PyVista attempt in an isolated subprocess
 first, since a missing off-screen driver can segfault VTK at the C level).
+
+`--visualize html` (`core/html_viewer.py`) sidesteps the off-screen-GPU
+problem entirely: it exports a single HTML file with a hand-written,
+dependency-free WebGL renderer (no PyVista/VTK, no CDN scripts) plus a
+windowed CT slice scrubber (drag the slice slider, adjust window
+level/width, or use Lung/Soft tissue/Bone presets) over the source
+volume — open it in any browser, on any machine, with nothing installed.
+It complements, not replaces, the mesh export and metrics: the file is a
+viewer, with no editing, annotation, or multi-study management, so it
+doesn't change this project's scope away from single-organ
+reconstruction (see [Scope](#scope)).
 
 ## License
 
