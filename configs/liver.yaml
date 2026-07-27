@@ -1,0 +1,42 @@
+# Liver segmentation config.
+#
+# Liver parenchyma is fairly homogeneous (unenhanced HU roughly 40-70) but
+# overlaps with the spleen, kidneys, and muscle, so a global threshold over-
+# or under-segments depending on where else in the abdomen those HU values
+# occur. The classical fix that reached Dice 0.918 in prior project work is
+# seeded region growing: start from a point known (via a coarse anatomical
+# prior — the liver occupies the right-upper abdominal quadrant) to be
+# inside the liver, then grow outward only while local statistics stay
+# consistent with the seed region.
+#
+# NOTE: the ROI fractions below are a coordinate-space heuristic, not an
+# atlas registration, and assume an axial CT in standard LPS orientation
+# (SimpleITK/DICOM default) with the scan covering at least the upper
+# abdomen. Tune per acquisition protocol if the field of view differs.
+
+organ: liver
+modality: CT
+
+# --- preprocessing ---
+# Right-upper-quadrant ROI, as a fraction of the full volume bounding box.
+# x: patient right is low-x in LPS with identity direction, so a low-x
+# window keeps the right lobe (and enough of the midline for the left
+# lobe); y: anterior half; z: upper abdomen.
+roi_x_fraction: [0.0, 0.65]
+roi_y_fraction: [0.05, 0.65]
+roi_z_fraction: [0.30, 0.75]
+resample_isotropic_spacing_mm: 1.5
+denoise_sigma_mm: 1.0
+
+# --- segmentation (confidence-connected region growing) ---
+seed_hu_range: [20, 70]
+confidence_multiplier: 2.5
+confidence_iterations: 5
+confidence_initial_neighborhood_radius: 2
+
+# --- postprocessing ---
+morphological_closing_radius_mm: 2.0
+
+mesh_smoothing_sigma: 1.2
+mesh_taubin_iterations: 15
+mesh_decimate_target_fraction: 0.5

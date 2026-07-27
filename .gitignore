@@ -2,3 +2,23 @@ __pycache__/
 *.py[cod]
 *.so
 *.pyd
+
+# Virtual environments
+.venv/
+venv/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Generated pipeline outputs (meshes, previews, JSON reports) — reproducible
+# from source data + configs, not source themselves.
+outputs/
+
+# OS cruft
+.DS_Store
+Thumbs.db

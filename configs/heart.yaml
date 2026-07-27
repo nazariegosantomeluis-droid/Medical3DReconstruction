@@ -1,0 +1,43 @@
+# Heart segmentation config.
+#
+# Unlike lungs, the heart cannot be separated from its surroundings by
+# intensity alone: myocardium and blood pool (roughly 0-100 HU unenhanced)
+# overlap with the great vessels, pericardial fat boundary, diaphragm, and
+# liver dome. A plain threshold leaks into the aorta/vena cava and beyond.
+# This is exactly the case the project's prior work flagged as needing
+# boundary-aware segmentation, so this pipeline uses a geodesic active
+# contour level set that stops at image *edges* (gradient magnitude),
+# rather than at an intensity value.
+
+organ: heart
+modality: CT
+
+# --- preprocessing ---
+# Mediastinal ROI as a fraction of the full volume bounding box (x: L-R,
+# y: A-P, z: S-I). This is a coarse anatomical prior standing in for atlas
+# registration: the heart sits centrally and slightly anterior in the
+# thorax. Cropping to this region also keeps the level set numerically
+# well-behaved and fast by excluding the lungs' huge low-gradient interior.
+roi_x_fraction: [0.25, 0.75]
+roi_y_fraction: [0.15, 0.75]
+roi_z_fraction: [0.15, 0.85]
+resample_isotropic_spacing_mm: 1.2
+denoise_sigma_mm: 1.0
+
+# --- segmentation (boundary-aware geodesic active contour level set) ---
+gradient_sigma_mm: 1.0
+# Seed = centroid of soft-tissue-range voxels (HU) within the ROI.
+seed_hu_range: [-30, 100]
+initial_sphere_radius_mm: 15.0
+propagation_scaling: 0.6
+curvature_scaling: 1.2
+advection_scaling: 1.5
+max_iterations: 500
+max_rms_error: 0.005
+
+# --- postprocessing ---
+morphological_closing_radius_mm: 1.5
+
+mesh_smoothing_sigma: 1.0
+mesh_taubin_iterations: 15
+mesh_decimate_target_fraction: 0.5
