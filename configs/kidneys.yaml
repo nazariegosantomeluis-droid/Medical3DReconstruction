@@ -1,0 +1,43 @@
+# Kidney segmentation config.
+#
+# Like the heart, kidneys cannot be reliably separated from their
+# surroundings by intensity alone: unenhanced renal parenchyma (~30-60 HU)
+# overlaps with the psoas muscle and liver/spleen HU ranges. This pipeline
+# uses the same boundary-aware geodesic active contour level set as the
+# heart pipeline, run independently from two seeds (left and right flank)
+# within a shared posterior-abdomen ROI — independent evolutions because
+# the two kidneys are two separate anatomical objects, not because the
+# segmentation code itself differs from the heart's (it is the same class
+# of algorithm, applied to kidney-specific geometry and seeds).
+
+organ: kidneys
+modality: CT
+
+# --- preprocessing ---
+# Posterior abdomen ROI as a fraction of the full volume bounding box.
+# x spans most of the width (kidneys are bilateral); y is posterior
+# (higher y fraction = more posterior in LPS); z is mid-abdomen.
+roi_x_fraction: [0.10, 0.90]
+roi_y_fraction: [0.45, 0.90]
+roi_z_fraction: [0.35, 0.65]
+resample_isotropic_spacing_mm: 1.2
+denoise_sigma_mm: 1.0
+
+# --- segmentation (bilateral boundary-aware geodesic active contour) ---
+gradient_sigma_mm: 1.0
+seed_hu_range: [20, 70]
+initial_sphere_radius_mm: 8.0
+propagation_scaling: 0.6
+curvature_scaling: 1.2
+advection_scaling: 1.5
+max_iterations: 500
+max_rms_error: 0.005
+
+# --- postprocessing ---
+num_components: 2
+min_component_voxels: 200
+morphological_closing_radius_mm: 1.5
+
+mesh_smoothing_sigma: 1.0
+mesh_taubin_iterations: 15
+mesh_decimate_target_fraction: 0.5
