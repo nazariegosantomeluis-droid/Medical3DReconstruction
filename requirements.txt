@@ -1,0 +1,25 @@
+# Core imaging I/O and classical segmentation primitives (thresholding,
+# region growing, level sets, morphology, resampling).
+SimpleITK==2.5.5
+
+# Numerical / scientific computing.
+numpy==2.4.6
+scipy==1.17.1
+
+# Marching cubes surface extraction from segmentation masks.
+scikit-image==0.26.0
+
+# Mesh representation, smoothing, decimation, repair, STL/OBJ/PLY export.
+trimesh==4.12.2
+fast-simplification==0.1.13
+
+# 3D visualization (primary path). Falls back to Matplotlib automatically
+# if no GPU/EGL/OSMesa off-screen rendering context is available.
+pyvista==0.48.4
+matplotlib==3.11.1
+
+# Organ configuration files.
+PyYAML==6.0.3
+
+# Tests.
+pytest==9.1.1
