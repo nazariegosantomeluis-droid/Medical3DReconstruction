@@ -122,22 +122,33 @@ def crop_fractional_roi(
     )
 
 
-def crop_to_mask_bbox(mask: np.ndarray, volume: Volume, pad_voxels: int = 3) -> tuple[np.ndarray, Volume]:
-    """Crop both ``mask`` and ``volume`` to the mask's own bounding box
-    (plus a small pad), discarding empty space around the segmented region.
+def crop_to_mask_bbox(
+    mask: np.ndarray,
+    volume: Volume,
+    pad_voxels: int = 3,
+    companion_mask: np.ndarray | None = None,
+) -> tuple[np.ndarray, Volume, np.ndarray | None]:
+    """Crop ``mask`` and ``volume`` to the mask's own bounding box (plus a
+    small pad), discarding empty space around the segmented region.
 
-    Mesh generation and the smoothing/decimation that follows it operate on
-    whatever array they're handed — for a preprocessing ROI far larger than
-    the organ itself (e.g. a full sample-holder tube's bounding box for a
-    much smaller heart specimen), that's a lot of pure background carried
-    through several expensive steps for no reason. This is a shape
-    optimization only: the cropped region still contains 100% of the mask,
-    so the resulting mesh is identical, just cheaper (and, in practice, the
-    difference between fitting in memory and an OOM kill on large real
-    volumes) to produce.
+    This is meant to *replace* the caller's references to the original
+    ``mask``/``volume``, not sit alongside them — the point is to let the
+    (potentially much larger) original arrays be garbage collected before
+    mesh generation, not just to hand meshing a smaller view while the
+    full-size arrays stay referenced elsewhere. For an ROI prior far larger
+    than the organ itself (e.g. a full sample-holder tube's bounding box
+    for a much smaller specimen), that's the difference between fitting in
+    memory and an OOM kill on large real volumes, not just a speed tweak.
+    The cropped region still contains 100% of the mask, so the resulting
+    mesh is identical either way.
+
+    Always returns a 3-tuple ``(mask, volume, companion_mask)`` —
+    ``companion_mask`` is ``None`` through unchanged when not supplied,
+    e.g. a caller-supplied ground-truth mask for validation, cropped with
+    the exact same bounding box so it stays shape-compatible with the result.
     """
     if not mask.any():
-        return mask, volume
+        return mask, volume, companion_mask
 
     nz, ny, nx = mask.shape
     zz, yy, xx = np.nonzero(mask)
@@ -157,4 +168,6 @@ def crop_to_mask_bbox(mask: np.ndarray, volume: Volume, pad_voxels: int = 3) -> 
         modality=volume.modality,
         source_path=volume.source_path,
     )
-    return cropped_mask, cropped_volume
+
+    cropped_companion = None if companion_mask is None else companion_mask[z0:z1, y0:y1, x0:x1].copy()
+    return cropped_mask, cropped_volume, cropped_companion
