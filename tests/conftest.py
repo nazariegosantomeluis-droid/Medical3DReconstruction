@@ -204,9 +204,13 @@ def synchrotron_brain_phantom_volume():
     """Stands in for a real ex-vivo synchrotron "complete-organ" brain scan
     (see configs/brain_synchrotron.yaml): unlike the heart/liver/kidney
     phantoms, tissue fills nearly the whole sample-holder tube — there is no
-    separate low-density mounting medium to threshold away, just near-zero
-    gaps/artifacts outside a high tissue population (real LADAF-2021-17
-    brain data reads well above 3000 for tissue at the calibration slice).
+    separate low-density mounting medium to threshold away outside it. But
+    the tissue itself is bimodal in the real data: a lower population
+    (~3700-4500 native units, fluid filling the sulci between gyri) and a
+    higher one (~5100-7900, actual parenchyma) — this phantom's tissue
+    value (6000) sits in the upper population, above the
+    `tissue_intensity_threshold: 5000` valley the real config uses, the
+    same relationship validated against LADAF-2021-17.
     """
     from medical3d.core.volume import Volume
 
@@ -222,7 +226,7 @@ def synchrotron_brain_phantom_volume():
 
     tissue = _ellipsoid_mask(shape, (20, 40, 40), (18, 34, 34))
     tissue = tissue & np.broadcast_to(inside_tube, shape)
-    array[tissue] = 4000.0
+    array[tissue] = 6000.0
 
     array += rng.normal(0.0, 200.0, size=array.shape).astype(np.float32)
     array[~np.broadcast_to(inside_tube, shape)] = 0.0

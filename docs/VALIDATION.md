@@ -137,13 +137,18 @@ misma forma que el volumen *preprocesado*).
   rama `modality="synchrotron"` (`configs/brain_synchrotron.yaml`) se
   ejecutó de extremo a extremo contra un espécimen real — cerebro
   LADAF-2021-17, resolución de visión general de 169.6 µm — produciendo
-  una malla estanca de un solo cuerpo (~2248 mL, por encima del rango de
-  plausibilidad en vivo — ver `docs/ORGANOS.md` para la interpretación).
+  una malla estanca de un solo cuerpo (~1109 mL, **dentro** del rango de
+  plausibilidad en vivo). El umbral de segmentación fue recalibrado
+  visualmente: la distribución de intensidad de tejido es bimodal (fluido
+  en los surcos vs. parénquima real), y un umbral por debajo de ambas
+  poblaciones producía una masa cilíndrica sólida sin circunvoluciones
+  visibles — ver `docs/ORGAN_PIPELINES.md` para el detalle del histograma.
   Igual que arriba, este conjunto de datos crudo (~125MB comprimido) no se
   incluye en el repositorio; la batería de pruebas cubre esta rama
   (`tests/test_brain_pipeline.py::test_brain_pipeline_synchrotron_end_to_end`)
-  contra un fantoma sintético (tejido llenando casi todo el tubo, ~4000
-  unidades nativas, sin medio de montaje separado que umbralizar).
+  contra un fantoma sintético (tejido llenando casi todo el tubo, por
+  encima del valle del umbral, sin medio de montaje separado que
+  umbralizar).
 - **Corrección geométrica:** `tests/test_mesh_metrics.py` verifica el
   volumen, el área de superficie, el centroide y la caja delimitadora
   calculados contra la geometría de una esfera en forma cerrada — esto es

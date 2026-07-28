@@ -220,15 +220,11 @@ espécimen excisado y fijado, no de un paciente vivo.
 
 El rango de plausibilidad configurado es **1000–1600 mL**, el rango
 habitual del volumen cerebral en un adulto vivo medido por RM/TC clínica.
-Puesto que la única vía de reconstrucción cerebral de este proyecto es un
-espécimen ex-vivo fijado, es esperable —y no indica un error— que el
-volumen reconstruido caiga fuera de este rango de referencia. A diferencia
-del corazón, el hígado y los riñones (donde la fijación y la ausencia de
-perfusión tienden a **reducir** el volumen respecto al órgano in vivo), la
-reconstrucción real de este espécimen (LADAF-2021-17) midió **~2248 mL**,
-**por encima** del rango — el escaneo "órgano completo" probablemente
-incluye tronco encefálico, cerebelo y restos meníngeos/tejido conectivo
-adherido que un protocolo típico de volumetría por RM en un paciente vivo
-excluye o mide por separado. Esta discrepancia es una limitación conocida
-y documentada del proyecto, no una falla de la segmentación.
+La reconstrucción real de este espécimen (LADAF-2021-17) midió **~1109
+mL**, dentro de ese rango — uno de los pocos casos, junto con el hígado,
+en que la reconstrucción ex-vivo de este proyecto cae dentro del rango de
+referencia en vivo, en vez de fuera de él como el corazón o el riñón. Aun
+así, dado que la única vía de reconstrucción cerebral de este proyecto es
+un espécimen ex-vivo fijado, una discrepancia con el rango en vivo seguiría
+siendo esperable y no indicaría necesariamente un error de segmentación.
 </content>
