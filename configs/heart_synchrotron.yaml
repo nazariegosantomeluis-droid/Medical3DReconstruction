@@ -1,0 +1,59 @@
+# Heart segmentation config — ex-vivo synchrotron tomography variant.
+#
+# For real acquisitions from the ESRF Human Organ Atlas / HiP-CT project
+# (https://human-organ-atlas.esrf.fr) and similar phase-contrast ex-vivo
+# tomography archives, distributed as a directory or .zip of 2D slice
+# images (JP2/TIFF/PNG), NOT clinical DICOM/NIfTI.
+#
+# Load with:
+#   from medical3d.io import load_volume
+#   volume = load_volume(
+#       "path/to/slices_or.zip", modality="synchrotron",
+#       spacing_mm=(0.16936, 0.16936, 0.16936),  # match the scan's stated resolution
+#   )
+#
+# Unlike clinical CT, this modality does NOT need boundary-aware
+# segmentation: ex-vivo phase-contrast tomography gives far higher
+# soft-tissue contrast, so a plain intensity threshold cleanly separates
+# tissue from the mounting medium once the sample-holder tube is excluded
+# geometrically (see organs/heart/preprocessing.py). See
+# docs/ORGAN_PIPELINES.md for the full rationale.
+#
+# `tissue_intensity_threshold` and `tube_radius_fraction` below were
+# calibrated against LADAF-2021-17 (169.36um overview resolution) and will
+# need re-checking against a slice histogram for other specimens/scanners
+# — this is native scanner intensity, not a calibrated physical unit like
+# Hounsfield units, so it is not expected to transfer as-is.
+
+organ: heart
+modality: synchrotron
+
+# --- preprocessing ---
+# Fraction of min(slice_height, slice_width) covered by the sample-holder
+# tube's inner wall; everything outside this circle (tube wall + air) is
+# excluded on every slice before segmentation ever sees it.
+tube_radius_fraction: 0.465
+
+# --- segmentation (plain threshold + largest connected component) ---
+# Native 16-bit scanner intensity units. Background/mounting medium peaks
+# ~24000-26000; tissue ~27000+. See docs/ORGAN_PIPELINES.md.
+tissue_intensity_threshold: 27000
+
+# --- postprocessing ---
+# Small relative to the CT heart config's 1.5mm — voxels here are ~0.17mm,
+# roughly 9x finer, so the same physical closing radius needs a much
+# smaller value to avoid washing out real anatomical detail (vessel walls,
+# trabeculae) that is actually resolved at this resolution.
+morphological_closing_radius_mm: 0.35
+
+# --- mesh ---
+# mesh_smoothing_sigma is 0 (skip the pre-marching-cubes Gaussian pass):
+# the source volume here is much larger than a clinical CT crop, so
+# filtering the *entire* voxel grid before meshing is needless compute —
+# morphological closing (above) plus Taubin smoothing (below, which scales
+# with vertex count, not voxel count) already give a clean surface.
+# Decimated hard afterward since the raw marching-cubes mesh at this
+# resolution runs into the tens of millions of faces.
+mesh_smoothing_sigma: 0
+mesh_taubin_iterations: 12
+mesh_decimate_target_fraction: 0.02

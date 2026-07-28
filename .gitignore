@@ -19,6 +19,11 @@ dist/
 # from source data + configs, not source themselves.
 outputs/
 
+# Large third-party source datasets (e.g. downloaded Human Organ Atlas /
+# HiP-CT specimens) — exceed GitHub's per-file limit and don't belong in
+# this repo; see docs/VALIDATION.md for how to obtain and use them locally.
+data/organ_atlas/
+
 # OS cruft
 .DS_Store
 Thumbs.db

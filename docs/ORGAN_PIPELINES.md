@@ -80,6 +80,65 @@ chamber-by-chamber; a very weak endocardial/epicardial gradient (thin,
 low-dose, or motion-blurred acquisitions) can under- or over-shoot the
 true boundary and needs `advection_scaling`/`curvature_scaling` retuning.
 
+### Heart — ex-vivo synchrotron tomography variant
+
+`configs/heart_synchrotron.yaml`, `modality="synchrotron"` in
+`organs/heart/{preprocessing,segmentation}.py`.
+
+Clinical non-contrast CT is not the only real data this project has been
+validated against. The ESRF Human Organ Atlas / HiP-CT project
+(https://human-organ-atlas.esrf.fr) publishes ex-vivo phase-contrast
+synchrotron tomography of donated organs — a specimen (LADAF-2021-17
+heart, 169.36 µm overview resolution, 870×870×1020 voxels) was used to
+validate this branch. It is a genuinely different acquisition, not just a
+higher-resolution CT, so it gets its own algorithm rather than a config
+tweak on the CT one:
+
+1. **Preprocessing**: the specimen sits in a cylindrical sample-holder
+   tube. The tube wall is *denser* than the tissue of interest, so no
+   intensity threshold could separate "tissue" from "tube" — instead the
+   tube is excluded geometrically, cropping every slice to a circle
+   (`tube_radius_fraction`) sized to its inner wall.
+2. **Segmentation**: a plain intensity threshold
+   (`tissue_intensity_threshold`) plus morphological opening (denoise)
+   plus largest-connected-component. Ex-vivo phase-contrast tomography has
+   dramatically better soft-tissue contrast than clinical CT — background
+   mounting medium and tissue are already well separated once the tube is
+   gone — so the boundary-aware level set the CT branch needs would be
+   solving a problem this modality doesn't have.
+3. **Postprocessing**: same closing + hole-filling as the CT branch, just
+   with a much smaller physical radius (`morphological_closing_radius_mm:
+   0.35`) to match ~9x finer voxels.
+4. **Mesh repair**: real, noisy, high-resolution data produces a
+   high-genus surface (many small topological tunnels from threshold
+   noise) that `trimesh.repair.fill_holes` alone can't always close.
+   `core/mesh_ops.py::repair_mesh` falls back to
+   [pymeshfix](https://github.com/pyvista/pymeshfix) (Attene, 2010) when
+   the trimesh repair doesn't achieve watertightness — this is what
+   actually got the LADAF-2021-17 reconstruction to a valid closed mesh.
+
+**Loading this data:** it's distributed as a directory or `.zip` of 2D
+slice images (JP2/TIFF/PNG), not DICOM/NIfTI, and carries no reliable
+spacing metadata in the files themselves:
+
+```bash
+python main.py --input path/to/slices_or.zip --organ heart \
+    --modality synchrotron --spacing 0.16936 0.16936 0.16936
+```
+
+The raw dataset (~150MB compressed) is not committed to this repository —
+see docs/VALIDATION.md for why and how to reproduce this yourself.
+
+**Known failure modes:** `tissue_intensity_threshold` and
+`tube_radius_fraction` are calibrated against this specific specimen and
+scanner settings (native 16-bit intensity, not a portable physical unit
+like Hounsfield units) — a different specimen or acquisition will need a
+slice-histogram check before reusing these defaults; the reconstructed
+volume for a fixed/preserved ex-vivo specimen is not expected to fall in
+the living-patient plausibility range in `core/validation.py` (tissue
+shrinks under fixation), so a "not plausible" flag there is expected, not
+a bug.
+
 ## Liver
 
 **Algorithm:** seeded confidence-connected region growing.
