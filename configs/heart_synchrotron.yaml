@@ -34,6 +34,17 @@ modality: synchrotron
 # excluded on every slice before segmentation ever sees it.
 tube_radius_fraction: 0.465
 
+# A 870x870x1020-voxel overview scan is ~0.67 billion voxels before even
+# cropping to the tube's bounding box — carrying that through gradient/
+# morphology/marching-cubes steps at full resolution is what actually OOM
+# killed the process validating this pipeline (15GB RSS, on a 15GB-RAM
+# machine). Downsampling 2x (169.36um -> ~338.7um) cuts every downstream
+# array by 8x and comfortably fits typical workstation memory, while still
+# resolving the gross cardiac anatomy (chambers, vessel stumps) this
+# pipeline reconstructs — set to 1 to keep native resolution if you have
+# the RAM for it (~16GB+ free is a reasonable minimum at factor 1).
+downsample_factor: 2
+
 # --- segmentation (plain threshold + largest connected component) ---
 # Native 16-bit scanner intensity units. Background/mounting medium peaks
 # ~24000-26000; tissue ~27000+. See docs/ORGAN_PIPELINES.md.

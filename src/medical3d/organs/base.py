@@ -100,15 +100,21 @@ class OrganPipeline(ABC):
 
         raw_mask = self.segment(preprocessed)
         mask = self.postprocess(raw_mask, preprocessed)
+        del raw_mask
 
-        # Mesh generation only needs the segmented region, not whatever
-        # (possibly much larger) extent preprocessing's ROI prior covers —
-        # cropping to the mask's own bounding box before meshing keeps
-        # marching cubes, smoothing, and decimation from paying for empty
-        # space. PipelineResult keeps the full preprocessed volume/mask
-        # (below), so this is purely an internal cost optimization.
-        mesh_mask, mesh_volume = crop_to_mask_bbox(mask, preprocessed)
-        mesh = self.generate_mesh(mesh_mask, mesh_volume)
+        # Crop to the segmented region's own bounding box and *replace*
+        # mask/preprocessed with the cropped versions, rather than keeping
+        # both around — for a preprocessing ROI far larger than the organ
+        # itself (e.g. a sample-holder tube's full bounding box for a much
+        # smaller specimen), the difference is not just wasted compute in
+        # mesh generation, it's whether the whole pipeline fits in memory
+        # on a large real volume. ground_truth_mask, if supplied, is
+        # cropped identically so it stays shape-compatible.
+        mask, preprocessed, ground_truth_mask = crop_to_mask_bbox(
+            mask, preprocessed, companion_mask=ground_truth_mask
+        )
+
+        mesh = self.generate_mesh(mask, preprocessed)
         mesh = self.optimize_mesh(mesh)
 
         metrics = compute_mesh_metrics(mesh)

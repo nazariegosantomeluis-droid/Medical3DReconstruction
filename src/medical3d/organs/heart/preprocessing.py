@@ -42,31 +42,45 @@ def _preprocess_ct(volume: Volume, config: OrganConfig) -> Volume:
 
 
 def _preprocess_synchrotron(volume: Volume, config: OrganConfig) -> Volume:
-    radius_fraction = config.get("tube_radius_fraction", 0.465)
-    array = volume.array.copy()
-    nz, ny, nx = array.shape
+    """Exclude the sample-holder tube, crop to its bounding box, and
+    (optionally) downsample.
 
+    Only ever copies the *cropped* region, never the full raw array —
+    these volumes are large enough (order of a billion voxels at native
+    resolution) that an incidental full-array copy is the difference
+    between comfortably fitting in memory and an OOM kill partway through
+    the pipeline, not just wasted work.
+    """
+    radius_fraction = config.get("tube_radius_fraction", 0.465)
+    downsample_factor = config.get("downsample_factor", 1)
+
+    nz, ny, nx = volume.array.shape
     cy, cx = (ny - 1) / 2.0, (nx - 1) / 2.0
     radius_px = radius_fraction * min(ny, nx)
     yy, xx = np.meshgrid(np.arange(ny), np.arange(nx), indexing="ij")
-    outside_tube = (yy - cy) ** 2 + (xx - cx) ** 2 > radius_px**2
+    inside_tube = (yy - cy) ** 2 + (xx - cx) ** 2 <= radius_px**2
 
+    ys, xs = np.nonzero(inside_tube)
+    pad = 5
+    y0, y1 = max(0, ys.min() - pad), min(ny, ys.max() + pad + 1)
+    x0, x1 = max(0, xs.min() - pad), min(nx, xs.max() + pad + 1)
+
+    cropped = volume.array[:, y0:y1, x0:x1].copy()
     # Zero out the sample-holder tube wall and everything outside it, on
     # every slice — this guarantees the intensity threshold in
     # segmentation.py never fires there, regardless of the tube wall's
     # (high) density.
-    array[:, outside_tube] = 0.0
+    cropped[:, ~inside_tube[y0:y1, x0:x1]] = 0.0
 
-    ys, xs = np.nonzero(~outside_tube)
-    pad = 5
-    y0, y1 = max(0, ys.min() - pad), min(ny, ys.max() + pad + 1)
-    x0, x1 = max(0, xs.min() - pad), min(nx, xs.max() + pad + 1)
-    cropped = array[:, y0:y1, x0:x1]
+    spacing = volume.spacing
+    if downsample_factor > 1:
+        cropped = cropped[::downsample_factor, ::downsample_factor, ::downsample_factor].copy()
+        spacing = tuple(s * downsample_factor for s in spacing)
 
     new_origin = volume.index_to_world(np.array([[x0, y0, 0]], dtype=np.float64))[0]
     return Volume(
         array=cropped,
-        spacing=volume.spacing,
+        spacing=spacing,
         origin=tuple(new_origin),
         direction=volume.direction,
         modality=volume.modality,
