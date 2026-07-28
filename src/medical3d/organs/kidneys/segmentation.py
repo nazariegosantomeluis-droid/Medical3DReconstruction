@@ -1,26 +1,50 @@
-"""Kidney segmentation: bilateral gradient-based geodesic active contour level set.
+"""Kidney segmentation.
 
-Kidneys need the same *class* of technique as the heart (boundary-aware,
-because renal parenchyma HU overlaps the psoas muscle and adjacent organs)
-but the segmentation problem itself is different: there are two objects,
-found independently in the left and right halves of a shared ROI, each
-with its own seed. This module is deliberately self-contained rather than
-importing the heart pipeline's level-set code — the two organs' pipelines
-are independent by design (see AUDIT.md / docs/ARCHITECTURE.md), each
-implementing the algorithm it needs rather than sharing a segmentation
-routine parameterized by organ name.
+**CT** (clinical, in-vivo, ``_segment_ct``): bilateral gradient-based
+geodesic active contour level set. Kidneys need the same *class* of
+technique as the heart (boundary-aware, because renal parenchyma HU
+overlaps the psoas muscle and adjacent organs) but the segmentation
+problem itself is different: there are two objects, found independently in
+the left and right halves of a shared ROI, each with its own seed. This
+module is deliberately self-contained rather than importing the heart
+pipeline's level-set code — the two organs' pipelines are independent by
+design (see AUDIT.md / docs/ARCHITECTURE.md), each implementing the
+algorithm it needs rather than sharing a segmentation routine parameterized
+by organ name.
+
+**synchrotron** (ex-vivo tomography, ``_segment_synchrotron``): a plain
+intensity threshold + largest-connected-component. The K292 archive is a
+single excised kidney, not a bilateral in-situ pair, so there is exactly
+one object to find and no left/right seeding logic is needed — the same
+simplification the heart/liver synchrotron branches make relative to their
+CT counterparts.
 """
 
 from __future__ import annotations
 
 import numpy as np
 import SimpleITK as sitk
+from scipy import ndimage
 
 from medical3d.core.config import OrganConfig
+from medical3d.core.preprocessing_utils import largest_connected_components
 from medical3d.core.volume import Volume
 
 
 def segment(volume: Volume, config: OrganConfig) -> np.ndarray:
+    if volume.modality == "synchrotron":
+        return _segment_synchrotron(volume, config)
+    return _segment_ct(volume, config)
+
+
+def _segment_synchrotron(volume: Volume, config: OrganConfig) -> np.ndarray:
+    threshold = config.get("tissue_intensity_threshold", 44300)
+    tissue = volume.array > threshold
+    opened = ndimage.binary_opening(tissue, structure=np.ones((3, 3, 3)))
+    return largest_connected_components(opened, n=1, min_voxels=1)
+
+
+def _segment_ct(volume: Volume, config: OrganConfig) -> np.ndarray:
     image = volume.to_sitk_image()
 
     gradient_sigma = config.get("gradient_sigma_mm", 1.0)

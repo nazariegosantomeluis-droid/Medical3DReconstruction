@@ -1,0 +1,58 @@
+# Liver segmentation config — ex-vivo synchrotron tomography variant.
+#
+# For real acquisitions from the ESRF Human Organ Atlas / HiP-CT project
+# (https://human-organ-atlas.esrf.fr) and similar phase-contrast ex-vivo
+# tomography archives, distributed as a directory or .zip of 2D slice
+# images (JP2/TIFF/PNG), NOT clinical DICOM/NIfTI.
+#
+# Load with:
+#   from medical3d.io import load_volume
+#   volume = load_volume(
+#       "path/to/slices_or.zip", modality="synchrotron",
+#       spacing_mm=(0.18048, 0.18048, 0.18048),  # match the scan's stated resolution
+#   )
+#
+# Unlike the heart/brain archives, the liver specimen fills the frame with
+# no sample-holder-tube margin visible (checked against the real
+# LADAF-2021-17 liver archive: corner and center voxel populations are the
+# same order of magnitude), so no geometric tube exclusion is needed here
+# — see organs/liver/preprocessing.py.
+#
+# `tissue_intensity_threshold` was calibrated from a histogram of the real
+# archive's mid-volume slice: a dominant mounting-medium peak at
+# 17200-18200 native units, and a separate tissue population at
+# 19100-21000 — 18300 sits cleanly in the gap between them. This is native
+# scanner intensity, not a calibrated physical unit like Hounsfield units,
+# so it will need re-checking against a slice histogram for other
+# specimens/scanners.
+
+organ: liver
+modality: synchrotron
+
+# --- loading ---
+# A 1140x1140x1238-voxel overview scan is ~1.6 billion voxels — nearly 2.5x
+# the heart scan's native size. That's too large to even *decode* at full
+# resolution before any downsampling runs (decoding alone OOM-killed the
+# process validating this pipeline, well before preprocessing got a
+# chance to run) — so unlike heart/brain/kidneys, downsampling for liver
+# happens at LOAD time (io.volume_loader.load_volume's load_stride
+# parameter, read directly from this key by main.py), skipping every
+# load_stride-th slice/pixel while decoding instead of after. 3x
+# (180.48um -> ~541.4um) cuts the decoded array by 27x, which is what
+# actually keeps this within reach of a ~15GB-RAM machine.
+load_stride: 3
+
+# --- preprocessing ---
+# Optional *additional* downsampling after load_stride above — left at the
+# default (1, no-op) since load_stride already reduces this organ enough.
+
+# --- segmentation (plain threshold + largest connected component) ---
+tissue_intensity_threshold: 18300
+
+# --- postprocessing ---
+morphological_closing_radius_mm: 0.55
+
+# --- mesh ---
+mesh_smoothing_sigma: 0
+mesh_taubin_iterations: 12
+mesh_decimate_target_fraction: 0.02

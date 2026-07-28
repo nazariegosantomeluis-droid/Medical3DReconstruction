@@ -197,3 +197,100 @@ def synchrotron_heart_phantom_volume():
         modality="synchrotron", source_path="synthetic-heart-synchrotron",
     )
     return volume, expected_tissue_volume_mm3
+
+
+@pytest.fixture
+def synchrotron_brain_phantom_volume():
+    """Stands in for a real ex-vivo synchrotron "complete-organ" brain scan
+    (see configs/brain_synchrotron.yaml): unlike the heart/liver/kidney
+    phantoms, tissue fills nearly the whole sample-holder tube — there is no
+    separate low-density mounting medium to threshold away, just near-zero
+    gaps/artifacts outside a high tissue population (real LADAF-2021-17
+    brain data reads well above 3000 for tissue at the calibration slice).
+    """
+    from medical3d.core.volume import Volume
+
+    rng = np.random.default_rng(1)
+    shape = (40, 80, 80)  # (z, y, x)
+    spacing = (0.2, 0.2, 0.2)
+    array = np.zeros(shape, dtype=np.float32)
+
+    yy, xx = np.meshgrid(np.arange(shape[1]), np.arange(shape[2]), indexing="ij")
+    cy, cx = 39.5, 39.5
+    tube_radius = 37.0
+    inside_tube = (yy - cy) ** 2 + (xx - cx) ** 2 <= tube_radius**2
+
+    tissue = _ellipsoid_mask(shape, (20, 40, 40), (18, 34, 34))
+    tissue = tissue & np.broadcast_to(inside_tube, shape)
+    array[tissue] = 4000.0
+
+    array += rng.normal(0.0, 200.0, size=array.shape).astype(np.float32)
+    array[~np.broadcast_to(inside_tube, shape)] = 0.0
+    array[array < 0] = 0.0
+
+    expected_tissue_volume_mm3 = float(tissue.sum()) * (spacing[0] * spacing[1] * spacing[2])
+
+    volume = Volume(
+        array=array, spacing=spacing, origin=(0.0, 0.0, 0.0), direction=(1, 0, 0, 0, 1, 0, 0, 0, 1),
+        modality="synchrotron", source_path="synthetic-brain-synchrotron",
+    )
+    return volume, expected_tissue_volume_mm3
+
+
+@pytest.fixture
+def synchrotron_liver_phantom_volume():
+    """Stands in for a real ex-vivo synchrotron liver scan (see
+    configs/liver_synchrotron.yaml): unlike heart/brain, the real
+    LADAF-2021-17 liver archive fills the frame with no sample-holder-tube
+    margin visible, so this phantom has no tube-exclusion geometry either —
+    just a mounting-medium background and a denser tissue blob (real data:
+    background ~17200-18200, tissue ~19100-21000 native units).
+    """
+    from medical3d.core.volume import Volume
+
+    rng = np.random.default_rng(2)
+    shape = (40, 80, 80)  # (z, y, x)
+    spacing = (0.2, 0.2, 0.2)
+    array = np.full(shape, 17700.0, dtype=np.float32)
+
+    tissue = _ellipsoid_mask(shape, (20, 40, 40), (14, 26, 24))
+    array[tissue] = 20000.0
+
+    array += rng.normal(0.0, 250.0, size=array.shape).astype(np.float32)
+
+    expected_tissue_volume_mm3 = float(tissue.sum()) * (spacing[0] * spacing[1] * spacing[2])
+
+    volume = Volume(
+        array=array, spacing=spacing, origin=(0.0, 0.0, 0.0), direction=(1, 0, 0, 0, 1, 0, 0, 0, 1),
+        modality="synchrotron", source_path="synthetic-liver-synchrotron",
+    )
+    return volume, expected_tissue_volume_mm3
+
+
+@pytest.fixture
+def synchrotron_kidneys_phantom_volume():
+    """Stands in for a real ex-vivo synchrotron kidney scan (see
+    configs/kidneys_synchrotron.yaml): the real K292 archive is a SINGLE
+    excised kidney (not a bilateral pair), fills the frame with no tube
+    margin visible, and reads much higher native intensity than the other
+    archives (real data: background ~42600-43600, tissue ~43600-45600).
+    """
+    from medical3d.core.volume import Volume
+
+    rng = np.random.default_rng(3)
+    shape = (40, 80, 80)  # (z, y, x)
+    spacing = (0.2, 0.2, 0.2)
+    array = np.full(shape, 43100.0, dtype=np.float32)
+
+    tissue = _ellipsoid_mask(shape, (20, 40, 40), (14, 26, 20))
+    array[tissue] = 45000.0
+
+    array += rng.normal(0.0, 250.0, size=array.shape).astype(np.float32)
+
+    expected_tissue_volume_mm3 = float(tissue.sum()) * (spacing[0] * spacing[1] * spacing[2])
+
+    volume = Volume(
+        array=array, spacing=spacing, origin=(0.0, 0.0, 0.0), direction=(1, 0, 0, 0, 1, 0, 0, 0, 1),
+        modality="synchrotron", source_path="synthetic-kidney-synchrotron",
+    )
+    return volume, expected_tissue_volume_mm3

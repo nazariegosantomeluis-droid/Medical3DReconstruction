@@ -1,54 +1,66 @@
-# Validation methodology
+# Metodología de validación
 
-Every pipeline run produces a `ValidationReport` (`core/validation.py`),
-combining three independent checks:
+Cada ejecución del pipeline produce un `ValidationReport`
+(`core/validation.py`), que combina tres verificaciones independientes:
 
-## 1. Mesh quality
+## 1. Calidad de la malla
 
-`core/mesh_ops.py::assess_mesh_quality` reports:
+`core/mesh_ops.py::assess_mesh_quality` reporta:
 
-- `is_watertight` — every edge shared by exactly two faces. A
-  non-watertight mesh has an ill-defined enclosed volume and may not
-  slice/3D-print correctly.
-- `is_winding_consistent` — face normals agree on inside/outside.
-- `euler_number`, `num_bodies` — sanity signals for unexpected topology
-  (a lung mesh with 6 disconnected bodies likely has segmentation noise
-  that survived postprocessing).
+- `is_watertight` — cada arista compartida por exactamente dos caras. Una
+  malla no estanca (non-watertight) tiene un volumen encerrado mal
+  definido y puede no cortarse/imprimirse en 3D correctamente.
+- `is_winding_consistent` — las normales de las caras concuerdan en
+  qué es interior y qué es exterior.
+- `euler_number`, `num_bodies` — señales de sensatez para topología
+  inesperada (una malla pulmonar con 6 cuerpos desconectados
+  probablemente tiene ruido de segmentación que sobrevivió al
+  postprocesamiento).
 
-`ValidationReport.passed` requires `is_watertight` and a plausible volume
-(see below); it does **not** require single-body meshes, since lungs and
-kidneys are legitimately bilateral.
+`ValidationReport.passed` requiere `is_watertight` y un volumen plausible
+(ver abajo); **no** requiere mallas de un solo cuerpo, ya que los pulmones
+y los riñones son legítimamente bilaterales.
 
-## 2. Anatomical plausibility
+## 2. Plausibilidad anatómica
 
-`PLAUSIBLE_VOLUME_RANGES_ML` in `core/validation.py` holds wide,
-literature-informed adult reference ranges:
+`PLAUSIBLE_VOLUME_RANGES_ML` en `core/validation.py` contiene rangos de
+referencia amplios para adultos, informados por la literatura:
 
-| Organ | Range (mL) |
+| Órgano | Rango (mL) |
 |---|---|
-| Lungs | 2000–7000 |
-| Heart | 300–900 |
-| Liver | 1000–2500 |
-| Kidneys (both) | 200–450 |
+| Pulmones | 2000–7000 |
+| Corazón | 300–900 |
+| Hígado | 1000–2500 |
+| Riñones (ambos) | 200–450 |
+| Cerebro | 1000–1600 |
 
-These ranges span normal physiological variation (not just measurement
-noise) — the point is to catch gross segmentation failures (leakage into
-a neighboring structure, capturing only a fragment), not to grade
-accuracy. A result outside this range is a **warning to investigate**,
-not proof the segmentation is wrong (real anatomy varies, especially at
-the extremes of body size).
+Estos rangos abarcan la variación fisiológica normal (no solo el ruido de
+medición) — el objetivo es detectar fallos graves de segmentación (fuga
+hacia una estructura vecina, capturar solo un fragmento), no calificar la
+precisión. Un resultado fuera de este rango es una **advertencia para
+investigar**, no una prueba de que la segmentación esté mal (la anatomía
+real varía, especialmente en los extremos del tamaño corporal) — **con una
+excepción documentada**: las reconstrucciones en modalidad síncrotrón
+ex-vivo (corazón, hígado, riñones, cerebro) representan especímenes
+fijados/excisados, no pacientes vivos, así que caer fuera de estos rangos
+—calibrados para TC/RM clínica en vivo— es un resultado esperado para esa
+modalidad, no una señal de fallo. Ver `docs/ORGAN_PIPELINES.md` y
+`docs/ORGANOS.md` para el detalle por órgano.
 
-## 3. Overlap against ground truth (optional)
+## 3. Superposición contra la referencia (ground truth) (opcional)
 
-`compute_overlap_metrics(prediction, ground_truth, spacing)` computes:
+`compute_overlap_metrics(prediction, ground_truth, spacing)` calcula:
 
-- **Dice coefficient** and **Jaccard index** (voxel overlap).
-- **Mean and Hausdorff surface distance** (mm), from boundary voxels of
-  each mask via a KD-tree nearest-neighbor query in physical space.
+- **Coeficiente de Dice** e **índice de Jaccard** (superposición de
+  voxeles).
+- **Distancia de superficie media y de Hausdorff** (mm), a partir de los
+  voxeles de frontera de cada máscara mediante una consulta de vecino más
+  cercano con KD-tree en espacio físico.
 
-This is how the Dice scores referenced in this project's design notes —
-liver 0.918, lung 0.862 — were originally measured, and how you should
-validate this codebase against your own expert-labeled data:
+Así es como se midieron originalmente los puntajes de Dice referenciados
+en las notas de diseño de este proyecto — hígado 0.918, pulmón 0.862 — y
+así es como deberías validar este código contra tus propios datos
+etiquetados por expertos:
 
 ```python
 from medical3d.core.validation import compute_overlap_metrics
@@ -57,49 +69,90 @@ overlap = compute_overlap_metrics(predicted_mask, ground_truth_mask, spacing=vol
 print(overlap.dice, overlap.jaccard, overlap.mean_surface_distance_mm, overlap.hausdorff_distance_mm)
 ```
 
-`OrganPipeline.run(volume, ground_truth_mask=...)` wires this in
-automatically when a ground-truth mask (same shape as the *preprocessed*
-volume) is supplied.
+`OrganPipeline.run(volume, ground_truth_mask=...)` conecta esto
+automáticamente cuando se proporciona una máscara de referencia (con la
+misma forma que el volumen *preprocesado*).
 
-## What this repository validates, concretely
+## Qué valida este repositorio, concretamente
 
-- **Lungs, heart (CT):** end-to-end against the real chest CT fixture
-  (`data/volumes/CTChest.nrrd`) in `tests/test_lungs_pipeline.py` and
-  `tests/test_heart_pipeline.py` — plausible volume, watertight mesh,
-  expected component count.
-- **Heart (ex-vivo synchrotron tomography):** the `modality="synchrotron"`
-  branch (`configs/heart_synchrotron.yaml`) was developed and run
-  end-to-end against a real specimen — LADAF-2021-17, 169.36 µm overview
-  resolution, from the ESRF Human Organ Atlas / HiP-CT project
-  (https://human-organ-atlas.esrf.fr) — producing a watertight,
-  single-body mesh with a recognizable cardiac silhouette (apex, base,
-  attached great-vessel stump). **That raw dataset (~150MB compressed) is
-  not committed to this repository**: it exceeds GitHub's 100MB
-  per-file limit for a normal commit, and vendoring third-party
-  synchrotron-facility data into a general-purpose reconstruction repo
-  works against the project's own minimalism (see AUDIT.md). The
-  automated test suite instead covers this branch
+- **Pulmones, corazón (TC):** de extremo a extremo contra el fixture de TC
+  de tórax real (`data/volumes/CTChest.nrrd`) en
+  `tests/test_lungs_pipeline.py` y `tests/test_heart_pipeline.py` —
+  volumen plausible, malla estanca, número de componentes esperado.
+- **Corazón (tomografía por síncrotrón ex-vivo):** la rama
+  `modality="synchrotron"` (`configs/heart_synchrotron.yaml`) se
+  desarrolló y ejecutó de extremo a extremo contra un espécimen real —
+  LADAF-2021-17, resolución de visión general de 169.36 µm, del proyecto
+  ESRF Human Organ Atlas / HiP-CT
+  (https://human-organ-atlas.esrf.fr) — produciendo una malla estanca de
+  un solo cuerpo con una silueta cardíaca reconocible (ápex, base, muñón
+  de gran vaso adherido). **Ese conjunto de datos crudo (~150MB
+  comprimido) no se incluye en este repositorio**: excede el límite de
+  100MB por archivo de GitHub para un commit normal, y vendorizar datos de
+  una instalación de síncrotrón de terceros en un repositorio de
+  reconstrucción de propósito general va en contra del propio minimalismo
+  del proyecto (ver AUDIT.md). La batería de pruebas automatizadas cubre
+  en cambio esta rama
   (`tests/test_heart_pipeline.py::test_heart_pipeline_synchrotron_end_to_end`,
-  `tests/test_io.py`) against a small synthetic slice-sequence phantom
-  that reproduces the same intensity relationships (background
-  ~24000–26000, tissue ~27000+, cylindrical sample-holder tube) — pipeline
-  mechanics, not a substitute for the real-data result already obtained.
-  To reproduce it: download a specimen from the Human Organ Atlas
-  (registration/terms of use apply on their end), then
+  `tests/test_io.py`) contra un pequeño fantoma sintético de secuencia de
+  cortes que reproduce las mismas relaciones de intensidad (fondo
+  ~24000–26000, tejido ~27000+, tubo portamuestras cilíndrico) —
+  mecánica del pipeline, no un sustituto del resultado ya obtenido con
+  datos reales. Para reproducirlo: descarga un espécimen del Human Organ
+  Atlas (aplican registro/términos de uso de su parte), luego
   `python main.py --input path/to/slices_or.zip --organ heart --modality synchrotron --spacing SX SY SZ`.
-- **Liver, kidneys:** end-to-end against synthetic phantoms
+- **Hígado, riñones (TC):** de extremo a extremo contra fantomas sintéticos
   (`tests/conftest.py`, `tests/test_liver_pipeline.py`,
-  `tests/test_kidneys_pipeline.py`) — this repository does not ship an
-  abdominal CT or synchrotron fixture for either organ, so these tests
-  check pipeline *mechanics* (segmentation converges to a watertight mesh,
-  recovers most of a known synthetic volume) rather than clinical accuracy
-  on real anatomy.
-- **Geometry correctness:** `tests/test_mesh_metrics.py` checks computed
-  volume, surface area, centroid, and bounding box against closed-form
-  sphere geometry — this is what would fail if the coordinate transform
-  in `core/mesh.py` had a units or axis-order bug.
+  `tests/test_kidneys_pipeline.py`) — este repositorio no incluye un
+  fixture de TC abdominal para ninguno de los dos órganos, así que estas
+  pruebas verifican la *mecánica* del pipeline (la segmentación converge a
+  una malla estanca, se recupera la mayor parte de un volumen sintético
+  conocido) en lugar de la precisión clínica sobre anatomía real.
+- **Hígado (tomografía por síncrotrón ex-vivo):** la rama
+  `modality="synchrotron"` (`configs/liver_synchrotron.yaml`) se ejecutó
+  de extremo a extremo contra un espécimen real — hígado LADAF-2021-17,
+  resolución de visión general de 180.48 µm (el volumen nativo más grande
+  de los cinco órganos, ~1.6 mil millones de voxeles) — produciendo una
+  malla estanca de un solo cuerpo. Este archivo es tan grande que decodificarlo
+  a resolución nativa antes de cualquier downsampling agotaba la memoria
+  antes de que el preprocesamiento llegara a ejecutarse — ver
+  `load_stride` en `io/volume_loader.py`, que reduce la resolución
+  *mientras decodifica*, no después. Igual que con el corazón, este
+  conjunto de datos crudo (~320MB comprimido) no se incluye en el
+  repositorio; la batería de pruebas cubre esta rama
+  (`tests/test_liver_pipeline.py::test_liver_pipeline_synchrotron_end_to_end`)
+  contra un fantoma sintético con las mismas relaciones de intensidad
+  (fondo ~17200–18200, tejido ~19100–21000).
+- **Riñones (tomografía por síncrotrón ex-vivo):** la rama
+  `modality="synchrotron"` (`configs/kidneys_synchrotron.yaml`) se ejecutó
+  de extremo a extremo contra un espécimen real — riñón K292, resolución
+  de visión general de 163.52 µm — un único riñón excisado, no un par
+  bilateral, así que `num_components: 1` reemplaza la lógica de dos
+  componentes de la variante de TC. Igual que arriba, este conjunto de
+  datos crudo (~67MB comprimido) no se incluye en el repositorio; la
+  batería de pruebas cubre esta rama
+  (`tests/test_kidneys_pipeline.py::test_kidneys_pipeline_synchrotron_end_to_end`)
+  contra un fantoma sintético (fondo ~42600–43600, tejido ~43600–45600).
+- **Cerebro (tomografía por síncrotrón ex-vivo, único modo admitido):** la
+  rama `modality="synchrotron"` (`configs/brain_synchrotron.yaml`) se
+  ejecutó de extremo a extremo contra un espécimen real — cerebro
+  LADAF-2021-17, resolución de visión general de 169.6 µm — produciendo
+  una malla estanca de un solo cuerpo (~2248 mL, por encima del rango de
+  plausibilidad en vivo — ver `docs/ORGANOS.md` para la interpretación).
+  Igual que arriba, este conjunto de datos crudo (~125MB comprimido) no se
+  incluye en el repositorio; la batería de pruebas cubre esta rama
+  (`tests/test_brain_pipeline.py::test_brain_pipeline_synchrotron_end_to_end`)
+  contra un fantoma sintético (tejido llenando casi todo el tubo, ~4000
+  unidades nativas, sin medio de montaje separado que umbralizar).
+- **Corrección geométrica:** `tests/test_mesh_metrics.py` verifica el
+  volumen, el área de superficie, el centroide y la caja delimitadora
+  calculados contra la geometría de una esfera en forma cerrada — esto es
+  lo que fallaría si la transformación de coordenadas en `core/mesh.py`
+  tuviera un error de unidades o de orden de ejes.
 
-If you have expert-labeled CT/MRI data for any of these organs, running
-`compute_overlap_metrics` against it (and, ideally, adding it as a
-fixture the way `CTChest.nrrd` is used here) is the natural next step to
-turn the plausibility-range validation into a real accuracy measurement.
+Si tienes datos de TC/RM etiquetados por expertos para cualquiera de estos
+órganos, ejecutar `compute_overlap_metrics` contra ellos (e, idealmente,
+añadirlos como un fixture de la forma en que se usa aquí `CTChest.nrrd`)
+es el siguiente paso natural para convertir la validación por rango de
+plausibilidad en una medición de precisión real.
+</content>
