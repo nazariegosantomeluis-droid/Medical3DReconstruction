@@ -101,7 +101,7 @@ _HTML_TEMPLATE = r"""<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Medical3DReconstruction viewer</title>
+<title>Visor Medical3DReconstruction</title>
 <style>
   :root {
     --bg: #0a0e13; --surface: #121820; --surface-raised: #1a222c; --border: #26313d;
@@ -151,52 +151,52 @@ _HTML_TEMPLATE = r"""<!doctype html>
   <h1>Medical3DReconstruction</h1>
   <span class="spacer"></span>
   <div class="tab-switch">
-    <button class="tab-btn" id="tab-3d" aria-selected="true">3D Reconstruction</button>
-    <button class="tab-btn" id="tab-slices" aria-selected="false">CT Slice Viewer</button>
+    <button class="tab-btn" id="tab-3d" aria-selected="true">Reconstrucción 3D</button>
+    <button class="tab-btn" id="tab-slices" aria-selected="false">Visor de cortes CT</button>
   </div>
 </header>
 
 <main id="panel-3d">
   <aside>
     <div>
-      <p class="eyebrow">Organ</p>
+      <p class="eyebrow">Órgano</p>
       <p style="font-size:1rem;font-weight:650;text-transform:capitalize" id="organ-name"></p>
     </div>
     <div>
-      <p class="eyebrow">Reconstruction metrics</p>
+      <p class="eyebrow">Métricas de reconstrucción</p>
       <div id="metrics-panel"></div>
     </div>
     <div>
-      <p class="eyebrow">Validation</p>
+      <p class="eyebrow">Validación</p>
       <div id="validation-panel"></div>
     </div>
   </aside>
   <div class="stage">
     <canvas id="gl-canvas"></canvas>
-    <button class="icon-btn" id="reset-btn">Reset view</button>
-    <div class="stage-hud">drag to rotate &middot; scroll to zoom</div>
+    <button class="icon-btn" id="reset-btn">Restablecer vista</button>
+    <div class="stage-hud">arrastra para rotar &middot; desplaza para hacer zoom</div>
   </div>
 </main>
 
 <main id="panel-slices" class="hidden">
   <aside>
     <div>
-      <p class="eyebrow">Slice</p>
+      <p class="eyebrow">Corte</p>
       <div class="slider-row">
         <input type="range" id="slice-slider" min="0" max="0" value="0">
         <span id="slice-readout" style="font-family:ui-monospace,monospace;font-size:0.74rem;min-width:6rem;text-align:right"></span>
       </div>
     </div>
     <div>
-      <p class="eyebrow">Window preset</p>
+      <p class="eyebrow">Preajuste de ventana</p>
       <div class="preset-row" id="preset-row"></div>
     </div>
     <div>
-      <p class="eyebrow">Window level / width (HU)</p>
+      <p class="eyebrow">Nivel / ancho de ventana (HU)</p>
       <div class="slider-row"><input type="range" id="level-slider" min="-1024" max="2000" value="40"><span id="level-value" style="min-width:3rem;text-align:right;font-size:0.72rem"></span></div>
       <div class="slider-row"><input type="range" id="width-slider" min="1" max="4000" value="400"><span id="width-value" style="min-width:3rem;text-align:right;font-size:0.72rem"></span></div>
     </div>
-    <p class="note">Raw scan, no segmentation applied — in-plane downsampled for a lighter file.</p>
+    <p class="note">Escaneo original, sin segmentación aplicada — submuestreado en el plano para un archivo más ligero.</p>
   </aside>
   <div class="slice-stage">
     <canvas id="slice-canvas"></canvas>
@@ -238,20 +238,20 @@ _HTML_TEMPLATE = r"""<!doctype html>
   const metricsPanel = document.getElementById("metrics-panel");
   const m = PAYLOAD.metrics;
   metricsPanel.innerHTML = [
-    ["Volume", fmt(m.volume_ml, 1) + " mL"],
-    ["Surface area", fmt(m.surface_area_mm2, 0) + " mm²"],
-    ["Centroid (mm)", m.centroid_mm.map(v => fmt(v, 0)).join(", ")],
-    ["Bounding box min", m.bounding_box_min_mm.map(v => fmt(v, 0)).join(", ")],
-    ["Bounding box max", m.bounding_box_max_mm.map(v => fmt(v, 0)).join(", ")],
-    ["Vertices", fmt(m.num_vertices, 0)],
-    ["Triangles", fmt(m.num_triangles, 0)],
+    ["Volumen", fmt(m.volume_ml, 1) + " mL"],
+    ["Área de superficie", fmt(m.surface_area_mm2, 0) + " mm²"],
+    ["Centroide (mm)", m.centroid_mm.map(v => fmt(v, 0)).join(", ")],
+    ["Bounding box mín.", m.bounding_box_min_mm.map(v => fmt(v, 0)).join(", ")],
+    ["Bounding box máx.", m.bounding_box_max_mm.map(v => fmt(v, 0)).join(", ")],
+    ["Vértices", fmt(m.num_vertices, 0)],
+    ["Triángulos", fmt(m.num_triangles, 0)],
   ].map(([k, v]) => `<div class="metric-row"><span>${k}</span><span class="v">${v}</span></div>`).join("");
 
   const v = PAYLOAD.validation;
   document.getElementById("validation-panel").innerHTML = `
     <div class="validation-line">
       <span class="validation-dot ${v.passed ? "pass" : "fail"}"></span>
-      <span>${v.passed ? "Passed — watertight mesh, plausible volume" : "Flagged — see warnings"}</span>
+      <span>${v.passed ? "Aprobado — malla estanca, volumen plausible" : "Marcado — ver advertencias"}</span>
     </div>`;
 
   const canvas = document.getElementById("gl-canvas");
@@ -403,10 +403,10 @@ _HTML_TEMPLATE = r"""<!doctype html>
   sliceCanvas.width = snx; sliceCanvas.height = sny;
 
   const PRESETS = [
-    {label: "Lung", level: -600, width: 1500},
-    {label: "Soft tissue", level: 40, width: 400},
-    {label: "Bone", level: 400, width: 1800},
-    {label: "Full range", level: Math.round((sv.huMin+sv.huMax)/2), width: sv.huMax - sv.huMin},
+    {label: "Pulmón", level: -600, width: 1500},
+    {label: "Tejido blando", level: 40, width: 400},
+    {label: "Hueso", level: 400, width: 1800},
+    {label: "Rango completo", level: Math.round((sv.huMin+sv.huMax)/2), width: sv.huMax - sv.huMin},
   ];
   let windowLevel = 40, windowWidth = 400;
   presetRow.innerHTML = PRESETS.map((p, i) => `<button class="preset-btn" data-i="${i}" aria-pressed="${i===1}">${p.label}</button>`).join("");

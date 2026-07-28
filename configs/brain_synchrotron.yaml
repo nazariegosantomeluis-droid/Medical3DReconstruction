@@ -1,0 +1,44 @@
+# Brain segmentation config — ex-vivo synchrotron tomography ONLY.
+#
+# There is no clinical CT/MRI brain pipeline in this project (see
+# organs/brain/preprocessing.py for why). This config is calibrated
+# against LADAF-2021-17 (169.6um overview resolution) from the ESRF Human
+# Organ Atlas / HiP-CT project (https://human-organ-atlas.esrf.fr).
+#
+# Load with:
+#   from medical3d.io import load_volume
+#   volume = load_volume(
+#       "path/to/slices_or.zip", modality="synchrotron",
+#       spacing_mm=(0.1696, 0.1696, 0.1696),
+#   )
+
+organ: brain
+modality: synchrotron
+
+# --- preprocessing ---
+# A "complete-organ" brain scan fills nearly the entire sample-holder tube
+# (unlike heart/liver/kidney, there's no separate low-density mounting
+# medium visible around it) — measured empirically as the radius where the
+# fraction of nonzero voxels just outside it starts dropping (0.999 at
+# 0.49x frame width, no longer 1.0 slightly beyond). 0.485 leaves a small
+# safety margin.
+tube_radius_fraction: 0.485
+
+# 625M voxels (803x803x970) native resolution — same OOM risk class as the
+# heart pipeline's overview scan; downsampled by the same 2x default.
+downsample_factor: 2
+
+# --- segmentation (plain threshold + largest connected component) ---
+# Native 16-bit scanner intensity units, NOT Hounsfield units. Near-zero
+# values are gaps/tube-boundary artifacts; real tissue (gray matter, white
+# matter, cerebellar folia) all reads well above 3000 at the calibration
+# slice, so 2000 has margin without being so low it admits noise.
+tissue_intensity_threshold: 2000
+
+# --- postprocessing ---
+morphological_closing_radius_mm: 0.4
+
+# --- mesh ---
+mesh_smoothing_sigma: 0
+mesh_taubin_iterations: 12
+mesh_decimate_target_fraction: 0.02

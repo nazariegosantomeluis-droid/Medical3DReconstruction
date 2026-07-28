@@ -1,25 +1,27 @@
-# Architecture
+# Arquitectura
 
-## Design goals, in priority order
+## Objetivos de diseño, en orden de prioridad
 
-1. **Scientific correctness** — coordinate transforms, mesh metrics, and
-   validation logic are correct and tested against closed-form geometry,
-   not just "runs without crashing."
-2. **Reproducibility** — every parameter that affects a segmentation
-   result lives in a versioned YAML config, not a hard-coded constant
-   buried in a function.
-3. **Modularity** — each organ pipeline is a self-contained unit
-   implementing the same small interface (`OrganPipeline`), so adding a
-   fifth organ means adding a fifth package, not touching the other four.
-4. **Maintainability** — generic geometry/image operations are factored
-   into `core/` once; organ-specific anatomical decisions are not.
-5. **Validation** — every pipeline run ends in a validation report, not
-   just a mesh. A mesh with no volume/watertightness sanity check is not
-   a deliverable, it's a liability.
+1. **Corrección científica** — las transformaciones de coordenadas, las
+   métricas de malla y la lógica de validación son correctas y se prueban
+   contra geometría de forma cerrada, no solo "se ejecuta sin fallar".
+2. **Reproducibilidad** — cada parámetro que afecta a un resultado de
+   segmentación vive en una configuración YAML versionada, no en una
+   constante fija enterrada dentro de una función.
+3. **Modularidad** — cada pipeline de órgano es una unidad autocontenida
+   que implementa la misma pequeña interfaz (`OrganPipeline`), de modo que
+   añadir un sexto órgano significa añadir un sexto paquete, no tocar los
+   otros cinco (así se añadió el cerebro como quinto órgano).
+4. **Mantenibilidad** — las operaciones genéricas de geometría/imagen se
+   factorizan una sola vez en `core/`; las decisiones anatómicas
+   específicas de cada órgano no.
+5. **Validación** — cada ejecución del pipeline termina en un reporte de
+   validación, no solo en una malla. Una malla sin una verificación de
+   sensatez de volumen/estanqueidad no es un entregable, es un pasivo.
 
-## The `OrganPipeline` contract
+## El contrato de `OrganPipeline`
 
-Every organ implements exactly three methods:
+Cada órgano implementa exactamente tres métodos:
 
 ```python
 class OrganPipeline(ABC):
@@ -28,65 +30,75 @@ class OrganPipeline(ABC):
     def postprocess(self, mask: np.ndarray, volume: Volume) -> np.ndarray: ...
 ```
 
-`OrganPipeline.run()` (in `organs/base.py`) then calls, in order:
+`OrganPipeline.run()` (en `organs/base.py`) luego llama, en orden:
 `preprocess → segment → postprocess → generate_mesh → optimize_mesh →
-validate`, and returns a `PipelineResult` carrying the mask, mesh,
-metrics, and validation report together. The last three steps
-(mesh generation, mesh optimization, validation) have sensible shared
-defaults built from `core/`, but any organ can override them if its
-geometry warrants different mesh settings — which is exactly what each
-organ's YAML config already parameterizes (`mesh_smoothing_sigma`,
+validate`, y devuelve un `PipelineResult` que lleva juntos la máscara, la
+malla, las métricas y el reporte de validación. Los últimos tres pasos
+(generación de malla, optimización de malla, validación) tienen valores
+predeterminados compartidos y sensatos construidos a partir de `core/`,
+pero cualquier órgano puede sobrescribirlos si su geometría lo justifica
+con ajustes de malla distintos — que es exactamente lo que ya
+parametriza la configuración YAML de cada órgano (`mesh_smoothing_sigma`,
 `mesh_taubin_iterations`, `mesh_decimate_target_fraction`).
 
-## Why some code is shared and some isn't
+## Por qué parte del código se comparte y parte no
 
-The spec requires each organ to have an **independent pipeline** with **no
-shared segmentation algorithm**. This is implemented as:
+La especificación exige que cada órgano tenga un **pipeline independiente**
+sin **algoritmo de segmentación compartido**. Esto se implementa así:
 
-- **Not shared, ever:** `segment()` for each organ is a distinct module
-  with distinct logic — lung thresholding, liver region growing, and
-  heart/kidney level sets do not call into each other or into a common
-  "segment(organ_name)" dispatcher. Heart and kidneys both use a geodesic
-  active contour level set because both need boundary-awareness (the
-  same conclusion the project's prior work reached), but they are two
-  separate implementations (`organs/heart/segmentation.py` and
-  `organs/kidneys/segmentation.py`), each with its own ROI, seed-finding,
-  and tuning — not one function parameterized by organ.
-- **Shared, deliberately:** marching cubes (`core/mesh.py`), mesh
-  smoothing/decimation/repair (`core/mesh_ops.py`), STL/OBJ/PLY export
-  (`core/exporters.py`), and Dice/plausibility validation
-  (`core/validation.py`) are generic geometry and I/O — they take a mask
-  or a mesh as input and know nothing about which organ produced it.
-  Re-implementing marching cubes four times would not make the codebase
-  more "independent," it would just be four copies of the same bug
-  waiting to diverge. Likewise `core/preprocessing_utils.py` holds
-  library-grade primitives (resample, denoise, ROI crop, connected
-  components) that every organ's `preprocessing.py` composes differently
-  — the composition and the anatomical ROI fractions are organ-specific;
-  the underlying numpy/SimpleITK call is not.
+- **Nunca compartido:** `segment()` para cada órgano es un módulo distinto
+  con lógica distinta — el umbralizado pulmonar, el crecimiento de
+  regiones hepático y los level sets de corazón/riñón no se llaman entre
+  sí ni a un despachador ("segment(organ_name)") común. El corazón y los
+  riñones usan ambos un level set de contorno activo geodésico porque
+  ambos necesitan conciencia de bordes (la misma conclusión a la que
+  llegó el trabajo previo del proyecto), pero son dos implementaciones
+  separadas (`organs/heart/segmentation.py` y
+  `organs/kidneys/segmentation.py`), cada una con su propia ROI, búsqueda
+  de semilla y ajuste — no una función parametrizada por órgano.
+- **Compartido, deliberadamente:** marching cubes (`core/mesh.py`), el
+  suavizado/decimación/reparación de malla (`core/mesh_ops.py`), la
+  exportación STL/OBJ/PLY (`core/exporters.py`) y la validación de
+  Dice/plausibilidad (`core/validation.py`) son geometría e E/S genéricas —
+  toman una máscara o una malla como entrada y no saben nada sobre qué
+  órgano la produjo. Reimplementar marching cubes cinco veces no haría al
+  código más "independiente", solo serían cinco copias del mismo error
+  esperando divergir. De igual forma, `core/preprocessing_utils.py`
+  contiene primitivas de nivel biblioteca (resample, denoise, recorte de
+  ROI, componentes conexas) que el `preprocessing.py` de cada órgano
+  compone de forma diferente — la composición y las fracciones de ROI
+  anatómicas son específicas de cada órgano; la llamada subyacente a
+  numpy/SimpleITK no lo es.
 
-## Coordinate correctness
+## Corrección de coordenadas
 
-This is the part of the codebase most likely to silently produce a
-wrong-but-plausible-looking result, so it's centralized in one place:
-`Volume.index_to_world()` (`core/volume.py`) and the marching-cubes axis
-handling in `core/mesh.py`. See the module docstrings there for the exact
-convention (SimpleITK/NumPy `(z, y, x)` array order, ITK physical-space
-formula `world = origin + D @ (spacing * index)`, and why face winding is
-unconditionally repaired via `trimesh.repair.fix_normals` rather than
-trusted from marching cubes' output — reordering `(z, y, x)` to `(x, y, z)`
-is itself a reflection, so a mesh derived naively would have inward
-normals regardless of the acquisition's own direction cosines).
+Esta es la parte del código con más probabilidad de producir
+silenciosamente un resultado incorrecto pero de apariencia plausible, así
+que está centralizada en un solo lugar:
+`Volume.index_to_world()` (`core/volume.py`) y el manejo de ejes de
+marching cubes en `core/mesh.py`. Ver los docstrings de esos módulos para
+la convención exacta (orden de array `(z, y, x)` de SimpleITK/NumPy,
+fórmula de espacio físico de ITK `world = origin + D @ (spacing * index)`,
+y por qué la dirección (winding) de las caras se repara siempre de forma
+incondicional mediante `trimesh.repair.fix_normals` en lugar de confiar en
+la salida de marching cubes — reordenar `(z, y, x)` a `(x, y, z)` es en sí
+mismo una reflexión, así que una malla derivada de forma ingenua tendría
+normales hacia adentro independientemente de los cosenos de dirección
+propios de la adquisición).
 
-## Known limitations
+## Limitaciones conocidas
 
-- ROI priors for heart/liver/kidneys (`roi_x_fraction` etc. in their
-  configs) are coordinate-space heuristics assuming a standard axial CT
-  in LPS orientation with the relevant anatomy in the field of view —
-  not an atlas registration. They will need retuning for a different
-  scan protocol (e.g. a chest-only CT has no liver/kidneys to find).
-- Liver and kidney pipelines are validated in this repo against synthetic
-  phantoms, not real abdominal CT (see `docs/VALIDATION.md`).
-- The heart and kidney level sets are seeded from a coarse intensity
-  heuristic, not a trained detector — an unusual anatomy (e.g. post-
-  surgical, congenital) may need seed-radius or ROI adjustment.
+- Los priors de ROI para corazón/hígado/riñones (`roi_x_fraction`, etc. en
+  sus configuraciones) son heurísticas de espacio de coordenadas que
+  asumen una TC axial estándar en orientación LPS con la anatomía
+  relevante dentro del campo de visión — no un registro con atlas.
+  Necesitarán reajustarse para un protocolo de escaneo distinto (p. ej.
+  una TC solo de tórax no tiene hígado ni riñones que encontrar).
+- Los pipelines de hígado y riñón se validan en este repositorio contra
+  fantomas sintéticos, no contra TC abdominal real (ver
+  `docs/VALIDATION.md`).
+- Los level sets de corazón y riñón se inicializan (seed) a partir de una
+  heurística de intensidad tosca, no de un detector entrenado — una
+  anatomía inusual (p. ej. post-quirúrgica, congénita) puede necesitar
+  ajuste del radio de semilla o de la ROI.
+</content>

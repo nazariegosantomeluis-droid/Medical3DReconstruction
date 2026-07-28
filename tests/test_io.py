@@ -96,3 +96,15 @@ def test_load_volume_synchrotron_rejects_empty_zip(tmp_path):
         archive.writestr("readme.txt", "no images here")
     with pytest.raises(VolumeLoadError):
         load_volume(str(zip_path), modality="synchrotron", spacing_mm=(0.1, 0.1, 0.1))
+
+
+def test_load_volume_synchrotron_load_stride_downsamples_while_decoding(tmp_path):
+    """load_stride must skip slices/pixels during decode (not just after),
+    which is what keeps archives too large to decode at native resolution
+    (see configs/liver_synchrotron.yaml) from exhausting memory before the
+    pipeline's own preprocessing ever runs.
+    """
+    _write_slice_png_stack(str(tmp_path), num_slices=6, size=24)
+    volume = load_volume(str(tmp_path), modality="synchrotron", spacing_mm=(0.2, 0.2, 0.3), load_stride=2)
+    assert volume.array.shape == (3, 12, 12)
+    assert volume.spacing == (0.4, 0.4, 0.6)

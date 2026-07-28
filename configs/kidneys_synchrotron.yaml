@@ -1,0 +1,50 @@
+# Kidney segmentation config — ex-vivo synchrotron tomography variant.
+#
+# For real acquisitions from the ESRF Human Organ Atlas / HiP-CT project
+# (https://human-organ-atlas.esrf.fr) and similar phase-contrast ex-vivo
+# tomography archives, distributed as a directory or .zip of 2D slice
+# images (JP2/TIFF/PNG), NOT clinical DICOM/NIfTI.
+#
+# Load with:
+#   from medical3d.io import load_volume
+#   volume = load_volume(
+#       "path/to/slices_or.zip", modality="synchrotron",
+#       spacing_mm=(0.16352, 0.16352, 0.16352),  # match the scan's stated resolution
+#   )
+#
+# The K292 archive used here is a SINGLE excised kidney (not a bilateral
+# in-situ CT abdomen scan), fills the frame with no sample-holder-tube
+# margin visible, and reads at much higher native intensity than the other
+# organ archives — see organs/kidneys/preprocessing.py and segmentation.py.
+#
+# `tissue_intensity_threshold` was calibrated from a histogram of the real
+# archive's mid-volume slice: a dominant mounting-medium peak at
+# 42600-43600 native units, and a separate tissue population at
+# 43600-45600 — 44300 sits cleanly in the gap between them. This is native
+# scanner intensity, not Hounsfield units, so it will need re-checking
+# against a slice histogram for other specimens/scanners.
+#
+# `num_components: 1` (not the CT config's 2) — there is exactly one
+# kidney in this archive, not a left/right pair.
+
+organ: kidneys
+modality: synchrotron
+
+# --- preprocessing ---
+# A 600x600x931-voxel overview scan is ~335 million voxels — smaller than
+# the heart scan's native size even before downsampling, so native
+# resolution (factor 1) already fits comfortably.
+downsample_factor: 1
+
+# --- segmentation (plain threshold + largest connected component) ---
+tissue_intensity_threshold: 44300
+
+# --- postprocessing ---
+num_components: 1
+min_component_voxels: 1
+morphological_closing_radius_mm: 0.35
+
+# --- mesh ---
+mesh_smoothing_sigma: 0
+mesh_taubin_iterations: 12
+mesh_decimate_target_fraction: 0.02

@@ -41,6 +41,7 @@ def load_volume(
     path: str,
     modality: str = "CT",
     spacing_mm: tuple[float, float, float] | None = None,
+    load_stride: int = 1,
 ) -> Volume:
     """Load a volume from a file, a DICOM series directory, or (with
     ``modality="synchrotron"``) a directory/zip of 2D slice images.
@@ -58,6 +59,15 @@ def load_volume(
             (x, y, z) voxel spacing in millimeters, since slice-image
             archives don't carry it. Ignored for CT/MRI (spacing comes
             from the file/DICOM header).
+        load_stride: Only used with ``modality="synchrotron"``. Skips every
+            ``load_stride``-th slice/pixel *while decoding*, before the
+            full-resolution array is ever materialized. Some archives
+            (e.g. a ~1.6 billion voxel liver overview scan) are too large
+            to decode at native resolution and then downsample afterward —
+            decoding alone can exceed a typical machine's RAM before the
+            pipeline's own preprocessing downsample step ever runs.
+            Physical spacing is scaled by this factor accordingly. Default
+            1 (no striding) preserves the existing behavior.
 
     Raises:
         VolumeLoadError: if the path does not exist, no readable volume is
@@ -76,7 +86,7 @@ def load_volume(
                 "slice-image archives (JP2/TIFF/PNG stacks) carry no reliable physical "
                 "spacing metadata to read it from."
             )
-        image = _load_slice_sequence(path, spacing_mm)
+        image = _load_slice_sequence(path, spacing_mm, load_stride)
     elif os.path.isdir(path):
         image = _load_dicom_series(path)
     else:
@@ -124,7 +134,7 @@ def _load_dicom_series(directory: str) -> sitk.Image:
     return sitk.Cast(image, sitk.sitkFloat32)
 
 
-def _load_slice_sequence(path: str, spacing_mm: tuple[float, float, float]) -> sitk.Image:
+def _load_slice_sequence(path: str, spacing_mm: tuple[float, float, float], load_stride: int = 1) -> sitk.Image:
     if path.lower().endswith(".zip"):
         with tempfile.TemporaryDirectory() as tmp_dir:
             with zipfile.ZipFile(path) as archive:
@@ -134,30 +144,32 @@ def _load_slice_sequence(path: str, spacing_mm: tuple[float, float, float]) -> s
                         f"No slice images ({_SLICE_IMAGE_EXTENSIONS}) found in zip '{path}'"
                     )
                 archive.extractall(tmp_dir, members=members)
-            image = _read_slice_directory(tmp_dir)
+            image = _read_slice_directory(tmp_dir, load_stride)
     elif os.path.isdir(path):
-        image = _read_slice_directory(path)
+        image = _read_slice_directory(path, load_stride)
     else:
         raise VolumeLoadError(
             f"modality='synchrotron' expects a directory or .zip of 2D slice images, got '{path}'"
         )
-    image.SetSpacing(tuple(float(s) for s in spacing_mm))
+    scaled_spacing = tuple(float(s) * load_stride for s in spacing_mm)
+    image.SetSpacing(scaled_spacing)
     return image
 
 
-def _read_slice_directory(directory: str) -> sitk.Image:
+def _read_slice_directory(directory: str, load_stride: int = 1) -> sitk.Image:
     files = []
     for root, _dirs, names in os.walk(directory):
         for name in names:
             if name.lower().endswith(_SLICE_IMAGE_EXTENSIONS):
                 files.append(os.path.join(root, name))
     files.sort()
+    files = files[::load_stride]
 
     if len(files) < 2:
         raise VolumeLoadError(f"Found only {len(files)} slice image(s) under '{directory}'; need at least 2.")
 
     try:
-        first_slice = sitk.GetArrayFromImage(sitk.ReadImage(files[0]))
+        first_slice = sitk.GetArrayFromImage(sitk.ReadImage(files[0]))[::load_stride, ::load_stride]
     except RuntimeError as exc:
         raise VolumeLoadError(f"Failed to read slice image '{files[0]}': {exc}") from exc
     if first_slice.ndim != 2:
@@ -167,7 +179,7 @@ def _read_slice_directory(directory: str) -> sitk.Image:
     array[0] = first_slice
     for i, file_path in enumerate(files[1:], start=1):
         try:
-            array[i] = sitk.GetArrayFromImage(sitk.ReadImage(file_path))
+            array[i] = sitk.GetArrayFromImage(sitk.ReadImage(file_path))[::load_stride, ::load_stride]
         except RuntimeError as exc:
             raise VolumeLoadError(f"Failed to read slice image '{file_path}': {exc}") from exc
 
