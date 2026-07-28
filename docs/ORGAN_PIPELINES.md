@@ -307,18 +307,29 @@ Validado contra un espécimen real del ESRF Human Organ Atlas / HiP-CT
    sí, igual que en el corazón (`tube_radius_fraction: 0.485`, medido
    empíricamente barriendo radios candidatos y comprobando dónde la
    fracción de voxeles no nulos justo fuera de cada uno deja de ser 1.0).
-2. **Segmentación**: umbral de intensidad bajo
-   (`tissue_intensity_threshold: 2000`, muy por encima de los huecos/
-   artefactos casi nulos, muy por debajo del tejido real) más apertura
-   morfológica más componente conexa más grande — no hace falta excluir
-   una población de medio de montaje separada como en el resto de los
-   órganos.
+2. **Segmentación**: umbral de intensidad
+   (`tissue_intensity_threshold: 5000`) más apertura morfológica más
+   componente conexa más grande. Un histograma del corte de calibración
+   muestra una distribución de tejido claramente **bimodal**: una primera
+   población en ~3700–4500 (medio de montaje/fluido llenando los surcos
+   entre circunvoluciones) y una segunda, más grande, en ~5100–7900
+   (parénquima cerebral real), con un valle alrededor de 4900–5000. Un
+   umbral de 2000 (usado en una versión anterior de esta configuración)
+   caía por debajo de *ambas* poblaciones, fusionándolas en una masa
+   cilíndrica sólida sin circunvoluciones ni surcos visibles — verificado
+   visualmente comparando el umbralizado de un corte real a distintos
+   valores. 5000 se sitúa en el valle, conservando corteza y sustancia
+   blanca mientras excluye el fluido de los surcos, lo que sí recupera una
+   superficie cortical plegada reconocible.
 3. **Postprocesamiento / reparación de malla**: igual que el resto de las
    ramas síncrotrón.
 
 **Modos de fallo conocidos:** igual que el resto de las ramas síncrotrón —
-umbrales calibrados por espécimen/escáner; el volumen reconstruido
-(~2248 mL en el espécimen validado) cae fuera del rango de plausibilidad en
-vivo (1000–1600 mL) por las mismas razones de fijación/preservación que el
-resto de los especímenes ex-vivo — no es un error del pipeline.
+umbrales calibrados por espécimen/escáner (y, para este órgano en
+particular, sensibles a dónde cae exactamente el valle entre las
+poblaciones bimodales del histograma); el volumen reconstruido (~1109 mL
+en el espécimen validado) cae dentro del rango de plausibilidad en vivo
+(1000–1600 mL), aunque para otros especímenes/escáneres podría caer fuera
+por las mismas razones de fijación/preservación que el resto de los
+especímenes ex-vivo de este proyecto.
 </content>

@@ -29,11 +29,18 @@ tube_radius_fraction: 0.485
 downsample_factor: 2
 
 # --- segmentation (plain threshold + largest connected component) ---
-# Native 16-bit scanner intensity units, NOT Hounsfield units. Near-zero
-# values are gaps/tube-boundary artifacts; real tissue (gray matter, white
-# matter, cerebellar folia) all reads well above 3000 at the calibration
-# slice, so 2000 has margin without being so low it admits noise.
-tissue_intensity_threshold: 2000
+# Native 16-bit scanner intensity units, NOT Hounsfield units. A histogram
+# of the calibration slice shows the near-zero background peak, then a
+# CLEARLY BIMODAL tissue distribution: a first population at ~3700-4500
+# and a second, larger one at ~5100-7900, with a valley around 4900-5000.
+# The lower population is mounting medium / fluid filling the sulci
+# between gyri, not brain parenchyma — thresholding at 2000 (below BOTH
+# populations) merges the two into one solid cylindrical mass with no
+# visible gyri/sulci (verified visually: a threshold sweep at 2000 gives a
+# featureless disc, while 4700-5500 both recover a clearly recognizable
+# folded cortical surface). 5000 sits in the valley, keeping cortex+white
+# matter while excluding the fluid/medium filling the sulci.
+tissue_intensity_threshold: 5000
 
 # --- postprocessing ---
 morphological_closing_radius_mm: 0.4
