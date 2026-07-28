@@ -36,6 +36,7 @@ PLAUSIBLE_VOLUME_RANGES_ML: dict[str, tuple[float, float]] = {
     "heart": (300.0, 900.0),
     "liver": (1000.0, 2500.0),
     "kidneys": (200.0, 450.0),
+    "brain": (1000.0, 1600.0),
 }
 
 

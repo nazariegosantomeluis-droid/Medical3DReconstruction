@@ -22,6 +22,7 @@ import trimesh
 from medical3d.core.config import OrganConfig
 from medical3d.core.mesh import MeshMetrics, compute_mesh_metrics, mask_to_mesh
 from medical3d.core.mesh_ops import assess_mesh_quality, decimate_mesh, repair_mesh, smooth_mesh
+from medical3d.core.preprocessing_utils import crop_to_mask_bbox
 from medical3d.core.validation import ValidationReport, validate_segmentation
 from medical3d.core.volume import Volume
 
@@ -65,8 +66,13 @@ class OrganPipeline(ABC):
         return mask_to_mesh(mask, volume, smoothing_sigma=self.config.mesh_smoothing_sigma)
 
     def optimize_mesh(self, mesh: trimesh.Trimesh) -> trimesh.Trimesh:
-        mesh = smooth_mesh(mesh, iterations=self.config.mesh_taubin_iterations)
+        # Decimate before smoothing, not after: Taubin smoothing's cost
+        # scales with face count, and a raw marching-cubes mesh can be
+        # orders of magnitude larger than the final target (millions of
+        # faces for a high-resolution volume) — smoothing that first would
+        # mean paying for detail that's about to be thrown away anyway.
         mesh = decimate_mesh(mesh, target_face_fraction=self.config.mesh_decimate_target_fraction)
+        mesh = smooth_mesh(mesh, iterations=self.config.mesh_taubin_iterations)
         mesh = repair_mesh(mesh)
         return mesh
 
@@ -94,6 +100,19 @@ class OrganPipeline(ABC):
 
         raw_mask = self.segment(preprocessed)
         mask = self.postprocess(raw_mask, preprocessed)
+        del raw_mask
+
+        # Crop to the segmented region's own bounding box and *replace*
+        # mask/preprocessed with the cropped versions, rather than keeping
+        # both around — for a preprocessing ROI far larger than the organ
+        # itself (e.g. a sample-holder tube's full bounding box for a much
+        # smaller specimen), the difference is not just wasted compute in
+        # mesh generation, it's whether the whole pipeline fits in memory
+        # on a large real volume. ground_truth_mask, if supplied, is
+        # cropped identically so it stays shape-compatible.
+        mask, preprocessed, ground_truth_mask = crop_to_mask_bbox(
+            mask, preprocessed, companion_mask=ground_truth_mask
+        )
 
         mesh = self.generate_mesh(mask, preprocessed)
         mesh = self.optimize_mesh(mesh)

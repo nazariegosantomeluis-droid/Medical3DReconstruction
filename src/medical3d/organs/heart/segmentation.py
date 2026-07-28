@@ -1,33 +1,57 @@
-"""Heart segmentation: gradient-based geodesic active contour level set.
+"""Heart segmentation.
 
-This is the boundary-aware approach the project's prior work identified as
-necessary for the heart: instead of thresholding intensity (which overlaps
-with the aorta, vena cava, pericardial fat, and diaphragm), a level set
-front is seeded inside the heart and evolves outward, slowed to a stop by
-a speed function derived from the local image *gradient* — i.e. it stops
-at edges, not at an intensity value.
+Two independent algorithms, chosen by acquisition modality — this is the
+same architectural point as the preprocessing split (see
+``preprocessing.py``): the physics of the acquisition determines what's
+possible, not just what's convenient.
 
-Steps:
-  1. Gradient magnitude of the (denoised) ROI.
-  2. Sigmoid-map the gradient to a [0, 1] speed image: near 1 in
-     homogeneous interior regions, near 0 at strong edges.
-  3. Auto-seed at the centroid of soft-tissue-range voxels in the ROI
-     (heart blood pool / myocardium HU), then build a spherical signed
-     distance function around it as the initial contour.
-  4. Evolve with ``GeodesicActiveContourLevelSetImageFilter``; threshold
-     the result at 0 for the final binary mask.
+**CT** (clinical, in-vivo, ``segment_ct``): gradient-based geodesic active
+contour level set. Myocardium/blood pool HU overlaps the aorta, vena cava,
+pericardial fat, and diaphragm, so a level set seeded inside the heart and
+evolved outward, slowed to a stop by a speed function derived from the
+local image *gradient*, is used instead of thresholding intensity — it
+stops at edges, not at an intensity value.
+
+**synchrotron** (ex-vivo tomography, ``segment_synchrotron``): a plain
+intensity threshold + largest-connected-component. Ex-vivo phase-contrast
+tomography gives dramatically higher soft-tissue contrast than clinical
+CT — tissue and the surrounding mounting medium are already well
+separated in intensity once the sample-holder tube is excluded
+geometrically (done in preprocessing) — so the boundary-aware machinery
+CT needs would be solving a problem that, for this modality, doesn't exist.
 """
 
 from __future__ import annotations
 
 import numpy as np
 import SimpleITK as sitk
+from scipy import ndimage
 
 from medical3d.core.config import OrganConfig
+from medical3d.core.preprocessing_utils import largest_connected_components
 from medical3d.core.volume import Volume
 
 
 def segment(volume: Volume, config: OrganConfig) -> np.ndarray:
+    if volume.modality == "synchrotron":
+        return _segment_synchrotron(volume, config)
+    return _segment_ct(volume, config)
+
+
+def _segment_synchrotron(volume: Volume, config: OrganConfig) -> np.ndarray:
+    threshold = config.get("tissue_intensity_threshold", 27000)
+    tissue = volume.array > threshold
+
+    # A few voxels of morphological opening removes the salt-noise speckle
+    # inherent to phase-contrast tomography (and the mounting medium's
+    # texture) without eroding real tissue, which is many voxels thick at
+    # this resolution.
+    opened = ndimage.binary_opening(tissue, structure=np.ones((3, 3, 3)))
+
+    return largest_connected_components(opened, n=1, min_voxels=1)
+
+
+def _segment_ct(volume: Volume, config: OrganConfig) -> np.ndarray:
     image = volume.to_sitk_image()
 
     gradient_sigma = config.get("gradient_sigma_mm", 1.0)
