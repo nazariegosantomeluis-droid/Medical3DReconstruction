@@ -50,7 +50,25 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--organ", required=True, choices=sorted(ORGAN_PIPELINES), help="Organ to segment and reconstruct"
     )
-    parser.add_argument("--modality", default="CT", choices=["CT", "MRI"], help="Imaging modality (default: CT)")
+    parser.add_argument(
+        "--modality",
+        default="CT",
+        choices=["CT", "MRI", "synchrotron"],
+        help=(
+            "Imaging modality (default: CT). 'synchrotron' is for ex-vivo "
+            "phase-contrast tomography archives (e.g. ESRF Human Organ "
+            "Atlas / HiP-CT), distributed as a directory or .zip of 2D "
+            "slice images rather than DICOM/NIfTI — requires --spacing."
+        ),
+    )
+    parser.add_argument(
+        "--spacing",
+        nargs=3,
+        type=float,
+        default=None,
+        metavar=("SX", "SY", "SZ"),
+        help="Voxel spacing in mm (x y z), required with --modality synchrotron",
+    )
     parser.add_argument(
         "--config", default=None, help="Path to an organ config YAML (default: configs/<organ>.yaml)"
     )
@@ -82,7 +100,17 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_arg_parser().parse_args(argv)
-    config_path = args.config or DEFAULT_CONFIG_PATHS[args.organ]
+
+    if args.modality == "synchrotron" and args.spacing is None:
+        print("ERROR: --modality synchrotron requires --spacing SX SY SZ (mm)", file=sys.stderr)
+        return 1
+
+    default_config_path = DEFAULT_CONFIG_PATHS[args.organ]
+    if args.modality == "synchrotron":
+        synchrotron_config = os.path.join(_REPO_ROOT, "configs", f"{args.organ}_synchrotron.yaml")
+        if os.path.exists(synchrotron_config):
+            default_config_path = synchrotron_config
+    config_path = args.config or default_config_path
 
     print("=" * 60)
     print("Medical3DReconstruction")
@@ -90,7 +118,11 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"\nLoading volume: {args.input}")
     try:
-        volume = load_volume(args.input, modality=args.modality)
+        volume = load_volume(
+            args.input,
+            modality=args.modality,
+            spacing_mm=tuple(args.spacing) if args.spacing else None,
+        )
     except VolumeLoadError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

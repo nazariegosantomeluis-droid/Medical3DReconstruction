@@ -22,6 +22,7 @@ import trimesh
 from medical3d.core.config import OrganConfig
 from medical3d.core.mesh import MeshMetrics, compute_mesh_metrics, mask_to_mesh
 from medical3d.core.mesh_ops import assess_mesh_quality, decimate_mesh, repair_mesh, smooth_mesh
+from medical3d.core.preprocessing_utils import crop_to_mask_bbox
 from medical3d.core.validation import ValidationReport, validate_segmentation
 from medical3d.core.volume import Volume
 
@@ -65,8 +66,13 @@ class OrganPipeline(ABC):
         return mask_to_mesh(mask, volume, smoothing_sigma=self.config.mesh_smoothing_sigma)
 
     def optimize_mesh(self, mesh: trimesh.Trimesh) -> trimesh.Trimesh:
-        mesh = smooth_mesh(mesh, iterations=self.config.mesh_taubin_iterations)
+        # Decimate before smoothing, not after: Taubin smoothing's cost
+        # scales with face count, and a raw marching-cubes mesh can be
+        # orders of magnitude larger than the final target (millions of
+        # faces for a high-resolution volume) — smoothing that first would
+        # mean paying for detail that's about to be thrown away anyway.
         mesh = decimate_mesh(mesh, target_face_fraction=self.config.mesh_decimate_target_fraction)
+        mesh = smooth_mesh(mesh, iterations=self.config.mesh_taubin_iterations)
         mesh = repair_mesh(mesh)
         return mesh
 
@@ -95,7 +101,14 @@ class OrganPipeline(ABC):
         raw_mask = self.segment(preprocessed)
         mask = self.postprocess(raw_mask, preprocessed)
 
-        mesh = self.generate_mesh(mask, preprocessed)
+        # Mesh generation only needs the segmented region, not whatever
+        # (possibly much larger) extent preprocessing's ROI prior covers —
+        # cropping to the mask's own bounding box before meshing keeps
+        # marching cubes, smoothing, and decimation from paying for empty
+        # space. PipelineResult keeps the full preprocessed volume/mask
+        # (below), so this is purely an internal cost optimization.
+        mesh_mask, mesh_volume = crop_to_mask_bbox(mask, preprocessed)
+        mesh = self.generate_mesh(mesh_mask, mesh_volume)
         mesh = self.optimize_mesh(mesh)
 
         metrics = compute_mesh_metrics(mesh)

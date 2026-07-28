@@ -46,7 +46,8 @@ file you can open in any browser with no server or install. See
 
 ```bash
 python main.py --input <volume-or-dicom-dir> --organ {lungs,heart,liver,kidneys} \
-    [--modality {CT,MRI}] \
+    [--modality {CT,MRI,synchrotron}] \
+    [--spacing SX SY SZ] \
     [--config configs/<organ>.yaml] \
     [--output-dir outputs] \
     [--formats stl obj ply] \
@@ -55,7 +56,12 @@ python main.py --input <volume-or-dicom-dir> --organ {lungs,heart,liver,kidneys}
 ```
 
 `--input` accepts a single volume file (`.nrrd`, `.nii`, `.nii.gz`, `.mha`,
-`.mhd`) or a directory containing one DICOM series.
+`.mhd`) or a directory containing one DICOM series. With
+`--modality synchrotron` (ex-vivo phase-contrast tomography, e.g. the ESRF
+Human Organ Atlas / HiP-CT), `--input` instead takes a directory or `.zip`
+of 2D slice images (JP2/TIFF/PNG), and `--spacing` is required — these
+archives carry no reliable physical-spacing metadata to read it from. See
+[`docs/ORGAN_PIPELINES.md`](docs/ORGAN_PIPELINES.md#heart--ex-vivo-synchrotron-tomography-variant).
 
 ## What gets computed
 
@@ -111,7 +117,8 @@ for the reasoning.
 | Organ | Approach | Why |
 |---|---|---|
 | Lungs | Body-masked HU threshold + connected components | Aerated lung is >500 HU separated from all surrounding tissue — a global threshold is sufficient once background air is excluded via a body mask. |
-| Heart | Boundary-aware geodesic active contour level set | Myocardium/blood pool HU overlaps the great vessels, pericardial fat, and diaphragm — a threshold leaks; the level set stops at image gradients (edges), not intensity. |
+| Heart (CT) | Boundary-aware geodesic active contour level set | Myocardium/blood pool HU overlaps the great vessels, pericardial fat, and diaphragm — a threshold leaks; the level set stops at image gradients (edges), not intensity. |
+| Heart (ex-vivo synchrotron) | Threshold + largest connected component | Phase-contrast tomography gives far higher soft-tissue contrast than clinical CT — once the sample-holder tube is excluded geometrically, tissue is cleanly separable by intensity alone. |
 | Liver | Seeded confidence-connected region growing | Liver parenchyma is homogeneous but not intensity-unique (overlaps spleen/kidney/muscle) — region growing from a right-upper-quadrant seed, adapting to local statistics, contains the leak. |
 | Kidneys | Bilateral boundary-aware geodesic active contour level set | Same overlap problem as the heart (renal parenchyma vs. psoas muscle), run independently from two seeds for the two kidneys. |
 

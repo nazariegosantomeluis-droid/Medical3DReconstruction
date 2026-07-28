@@ -159,3 +159,41 @@ def kidneys_phantom_volume():
         modality="CT", source_path="synthetic-kidneys",
     )
     return volume, expected_kidneys_volume_mm3
+
+
+@pytest.fixture
+def synchrotron_heart_phantom_volume():
+    """Stands in for a real ex-vivo synchrotron tomography scan (see
+    configs/heart_synchrotron.yaml): a cylindrical sample-holder tube filled
+    with a textured "mounting medium" background, and a denser tissue blob
+    inside — same intensity relationships as the real LADAF-2021-17 data
+    this pipeline branch was built and validated against (background
+    ~24000-26000, tissue ~27000+), just a tiny synthetic volume instead of
+    a ~150MB real one.
+    """
+    from medical3d.core.volume import Volume
+
+    rng = np.random.default_rng(0)
+    shape = (40, 80, 80)  # (z, y, x)
+    spacing = (0.2, 0.2, 0.2)
+    array = np.zeros(shape, dtype=np.float32)
+
+    zz, yy, xx = np.meshgrid(*(np.arange(s) for s in shape), indexing="ij")
+    cy, cx = 39.5, 39.5
+    tube_radius = 37.0
+    inside_tube = (yy - cy) ** 2 + (xx - cx) ** 2 <= tube_radius**2
+    array[inside_tube] = 25000.0
+
+    tissue = _ellipsoid_mask(shape, (20, 40, 40), (12, 22, 20)) & inside_tube
+    array[tissue] = 29000.0
+
+    array += rng.normal(0.0, 300.0, size=array.shape).astype(np.float32)
+    array[~inside_tube] = 0.0
+
+    expected_tissue_volume_mm3 = float(tissue.sum()) * (spacing[0] * spacing[1] * spacing[2])
+
+    volume = Volume(
+        array=array, spacing=spacing, origin=(0.0, 0.0, 0.0), direction=(1, 0, 0, 0, 1, 0, 0, 0, 1),
+        modality="synchrotron", source_path="synthetic-heart-synchrotron",
+    )
+    return volume, expected_tissue_volume_mm3

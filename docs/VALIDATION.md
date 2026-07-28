@@ -63,16 +63,37 @@ volume) is supplied.
 
 ## What this repository validates, concretely
 
-- **Lungs, heart:** end-to-end against the real chest CT fixture
+- **Lungs, heart (CT):** end-to-end against the real chest CT fixture
   (`data/volumes/CTChest.nrrd`) in `tests/test_lungs_pipeline.py` and
   `tests/test_heart_pipeline.py` — plausible volume, watertight mesh,
   expected component count.
+- **Heart (ex-vivo synchrotron tomography):** the `modality="synchrotron"`
+  branch (`configs/heart_synchrotron.yaml`) was developed and run
+  end-to-end against a real specimen — LADAF-2021-17, 169.36 µm overview
+  resolution, from the ESRF Human Organ Atlas / HiP-CT project
+  (https://human-organ-atlas.esrf.fr) — producing a watertight,
+  single-body mesh with a recognizable cardiac silhouette (apex, base,
+  attached great-vessel stump). **That raw dataset (~150MB compressed) is
+  not committed to this repository**: it exceeds GitHub's 100MB
+  per-file limit for a normal commit, and vendoring third-party
+  synchrotron-facility data into a general-purpose reconstruction repo
+  works against the project's own minimalism (see AUDIT.md). The
+  automated test suite instead covers this branch
+  (`tests/test_heart_pipeline.py::test_heart_pipeline_synchrotron_end_to_end`,
+  `tests/test_io.py`) against a small synthetic slice-sequence phantom
+  that reproduces the same intensity relationships (background
+  ~24000–26000, tissue ~27000+, cylindrical sample-holder tube) — pipeline
+  mechanics, not a substitute for the real-data result already obtained.
+  To reproduce it: download a specimen from the Human Organ Atlas
+  (registration/terms of use apply on their end), then
+  `python main.py --input path/to/slices_or.zip --organ heart --modality synchrotron --spacing SX SY SZ`.
 - **Liver, kidneys:** end-to-end against synthetic phantoms
   (`tests/conftest.py`, `tests/test_liver_pipeline.py`,
   `tests/test_kidneys_pipeline.py`) — this repository does not ship an
-  abdominal CT fixture, so these tests check pipeline *mechanics*
-  (segmentation converges to a watertight mesh, recovers most of a known
-  synthetic volume) rather than clinical accuracy on real anatomy.
+  abdominal CT or synchrotron fixture for either organ, so these tests
+  check pipeline *mechanics* (segmentation converges to a watertight mesh,
+  recovers most of a known synthetic volume) rather than clinical accuracy
+  on real anatomy.
 - **Geometry correctness:** `tests/test_mesh_metrics.py` checks computed
   volume, surface area, centroid, and bounding box against closed-form
   sphere geometry — this is what would fail if the coordinate transform

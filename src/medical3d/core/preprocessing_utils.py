@@ -59,22 +59,32 @@ def window_intensity(volume: Volume, low: float, high: float) -> Volume:
 
 
 def largest_connected_components(mask: np.ndarray, n: int = 1, min_voxels: int = 1) -> np.ndarray:
-    """Keep the ``n`` largest connected components (26-connectivity) of a binary mask."""
+    """Keep the ``n`` largest connected components (26-connectivity) of a binary mask.
+
+    Uses ``np.bincount`` rather than ``scipy.ndimage.sum`` with a per-label
+    index to size components — for volumes with tens of thousands of noise
+    components (real, high-resolution data is noisier than clinical CT),
+    the latter is slow enough, and memory-heavy enough alongside the other
+    large arrays already live at that point in a pipeline, to be a real
+    problem rather than a style preference.
+    """
     from scipy import ndimage
 
     labeled, num_features = ndimage.label(mask, structure=np.ones((3, 3, 3)))
     if num_features == 0:
         return np.zeros_like(mask, dtype=bool)
 
-    sizes = ndimage.sum(mask, labeled, index=range(1, num_features + 1))
-    ranked = sorted(
-        ((size, idx + 1) for idx, size in enumerate(sizes) if size >= min_voxels),
-        reverse=True,
-    )
-    keep_labels = {idx for _size, idx in ranked[:n]}
+    sizes = np.bincount(labeled.ravel(), minlength=num_features + 1)
+    sizes[0] = 0  # background label is never a candidate
+    sizes[sizes < min_voxels] = 0
 
-    out = np.isin(labeled, list(keep_labels)) if keep_labels else np.zeros_like(mask, dtype=bool)
-    return out
+    keep_n = min(n, int(np.count_nonzero(sizes)))
+    if keep_n == 0:
+        return np.zeros_like(mask, dtype=bool)
+    top_labels = np.argpartition(sizes, -keep_n)[-keep_n:]
+    top_labels = top_labels[sizes[top_labels] > 0]
+
+    return np.isin(labeled, top_labels)
 
 
 def fill_holes_3d(mask: np.ndarray) -> np.ndarray:
@@ -110,3 +120,41 @@ def crop_fractional_roi(
         modality=volume.modality,
         source_path=volume.source_path,
     )
+
+
+def crop_to_mask_bbox(mask: np.ndarray, volume: Volume, pad_voxels: int = 3) -> tuple[np.ndarray, Volume]:
+    """Crop both ``mask`` and ``volume`` to the mask's own bounding box
+    (plus a small pad), discarding empty space around the segmented region.
+
+    Mesh generation and the smoothing/decimation that follows it operate on
+    whatever array they're handed — for a preprocessing ROI far larger than
+    the organ itself (e.g. a full sample-holder tube's bounding box for a
+    much smaller heart specimen), that's a lot of pure background carried
+    through several expensive steps for no reason. This is a shape
+    optimization only: the cropped region still contains 100% of the mask,
+    so the resulting mesh is identical, just cheaper (and, in practice, the
+    difference between fitting in memory and an OOM kill on large real
+    volumes) to produce.
+    """
+    if not mask.any():
+        return mask, volume
+
+    nz, ny, nx = mask.shape
+    zz, yy, xx = np.nonzero(mask)
+    z0, z1 = max(0, zz.min() - pad_voxels), min(nz, zz.max() + pad_voxels + 1)
+    y0, y1 = max(0, yy.min() - pad_voxels), min(ny, yy.max() + pad_voxels + 1)
+    x0, x1 = max(0, xx.min() - pad_voxels), min(nx, xx.max() + pad_voxels + 1)
+
+    cropped_mask = mask[z0:z1, y0:y1, x0:x1].copy()
+    cropped_array = volume.array[z0:z1, y0:y1, x0:x1].copy()
+    new_origin = volume.index_to_world(np.array([[x0, y0, z0]], dtype=np.float64))[0]
+
+    cropped_volume = Volume(
+        array=cropped_array,
+        spacing=volume.spacing,
+        origin=tuple(new_origin),
+        direction=volume.direction,
+        modality=volume.modality,
+        source_path=volume.source_path,
+    )
+    return cropped_mask, cropped_volume
