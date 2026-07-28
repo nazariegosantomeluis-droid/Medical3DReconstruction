@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+import numpy as np
 import trimesh
 from trimesh.smoothing import filter_taubin
 
@@ -76,7 +77,14 @@ def remove_small_components(mesh: trimesh.Trimesh, min_volume_fraction: float = 
 
 
 def repair_mesh(mesh: trimesh.Trimesh, min_volume_fraction: float = 0.01) -> trimesh.Trimesh:
-    """Best-effort repair to a clean, watertight, consistently-wound mesh."""
+    """Best-effort repair to a clean, watertight, consistently-wound mesh.
+
+    ``trimesh.repair.fill_holes`` handles the common case, but real
+    (noisy, high-genus) segmentation surfaces — e.g. marching cubes over a
+    speckled ex-vivo tomography mask — can have boundary topology it can't
+    close. When that happens, ``_repair_with_pymeshfix`` is tried as a
+    stronger fallback before giving up.
+    """
     repaired = mesh.copy()
     if len(repaired.faces) == 0:
         return repaired
@@ -87,7 +95,40 @@ def repair_mesh(mesh: trimesh.Trimesh, min_volume_fraction: float = 0.01) -> tri
     trimesh.repair.fill_holes(repaired)
     trimesh.repair.fix_normals(repaired, multibody=True)
     repaired = remove_small_components(repaired, min_volume_fraction=min_volume_fraction)
+
+    if not repaired.is_watertight:
+        fixed = _repair_with_pymeshfix(repaired)
+        if fixed is not None:
+            repaired = fixed
+
     return repaired
+
+
+def _repair_with_pymeshfix(mesh: trimesh.Trimesh) -> trimesh.Trimesh | None:
+    """Stronger hole/self-intersection repair via the MeshFix algorithm
+    (Attene, 2010). Returns ``None`` (caller keeps the trimesh-repaired
+    mesh) if pymeshfix isn't installed or repair doesn't converge.
+    """
+    try:
+        import pymeshfix
+    except ImportError:
+        return None
+
+    tin = pymeshfix.PyTMesh()
+    tin.set_quiet(True)
+    tin.load_array(
+        np.ascontiguousarray(mesh.vertices, dtype=np.float64),
+        np.ascontiguousarray(mesh.faces, dtype=np.int32),
+    )
+    tin.fill_small_boundaries(nbe=100, refine=True)
+    tin.clean(max_iters=10, inner_loops=3)
+    vertices, faces = tin.return_arrays()
+    if len(faces) == 0:
+        return None
+
+    fixed = trimesh.Trimesh(vertices=vertices, faces=faces, process=True)
+    trimesh.repair.fix_normals(fixed, multibody=True)
+    return fixed
 
 
 def assess_mesh_quality(mesh: trimesh.Trimesh) -> MeshQualityReport:

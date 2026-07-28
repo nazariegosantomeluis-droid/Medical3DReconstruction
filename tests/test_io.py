@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+import zipfile
+
 import numpy as np
 import pytest
 import SimpleITK as sitk
@@ -48,3 +51,60 @@ def test_load_real_ct_fixture(real_ct_path):
     assert volume.array.ndim == 3
     assert all(s > 0 for s in volume.spacing)
     assert volume.array.min() < -500  # contains air/lung-range HU
+
+
+def _write_slice_png_stack(directory: str, num_slices: int = 6, size: int = 24) -> None:
+    rng = np.random.default_rng(0)
+    for z in range(num_slices):
+        slice_arr = rng.integers(20000, 26000, size=(size, size)).astype(np.uint16)
+        image = sitk.GetImageFromArray(slice_arr)
+        sitk.WriteImage(image, os.path.join(directory, f"slice_{z:04d}.png"))
+
+
+def test_load_volume_synchrotron_requires_spacing(tmp_path):
+    _write_slice_png_stack(str(tmp_path))
+    with pytest.raises(VolumeLoadError):
+        load_volume(str(tmp_path), modality="synchrotron")
+
+
+def test_load_volume_synchrotron_from_directory(tmp_path):
+    _write_slice_png_stack(str(tmp_path), num_slices=6, size=24)
+    volume = load_volume(str(tmp_path), modality="synchrotron", spacing_mm=(0.2, 0.2, 0.3))
+    assert volume.array.shape == (6, 24, 24)
+    assert volume.spacing == (0.2, 0.2, 0.3)
+    assert volume.modality == "synchrotron"
+
+
+def test_load_volume_synchrotron_from_zip(tmp_path):
+    slices_dir = tmp_path / "slices"
+    slices_dir.mkdir()
+    _write_slice_png_stack(str(slices_dir), num_slices=5, size=20)
+
+    zip_path = tmp_path / "slices.zip"
+    with zipfile.ZipFile(zip_path, "w") as archive:
+        for name in sorted(os.listdir(slices_dir)):
+            archive.write(slices_dir / name, arcname=name)
+
+    volume = load_volume(str(zip_path), modality="synchrotron", spacing_mm=(0.17, 0.17, 0.17))
+    assert volume.array.shape == (5, 20, 20)
+    assert volume.spacing == (0.17, 0.17, 0.17)
+
+
+def test_load_volume_synchrotron_rejects_empty_zip(tmp_path):
+    zip_path = tmp_path / "empty.zip"
+    with zipfile.ZipFile(zip_path, "w") as archive:
+        archive.writestr("readme.txt", "no images here")
+    with pytest.raises(VolumeLoadError):
+        load_volume(str(zip_path), modality="synchrotron", spacing_mm=(0.1, 0.1, 0.1))
+
+
+def test_load_volume_synchrotron_load_stride_downsamples_while_decoding(tmp_path):
+    """load_stride must skip slices/pixels during decode (not just after),
+    which is what keeps archives too large to decode at native resolution
+    (see configs/liver_synchrotron.yaml) from exhausting memory before the
+    pipeline's own preprocessing ever runs.
+    """
+    _write_slice_png_stack(str(tmp_path), num_slices=6, size=24)
+    volume = load_volume(str(tmp_path), modality="synchrotron", spacing_mm=(0.2, 0.2, 0.3), load_stride=2)
+    assert volume.array.shape == (3, 12, 12)
+    assert volume.spacing == (0.4, 0.4, 0.6)

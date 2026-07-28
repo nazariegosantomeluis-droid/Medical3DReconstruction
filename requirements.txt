@@ -13,6 +13,11 @@ scikit-image==0.26.0
 trimesh==4.12.2
 fast-simplification==0.1.13
 
+# Stronger watertight repair fallback for high-genus/noisy real-data
+# meshes (used automatically by core/mesh_ops.py when trimesh's own hole
+# filling can't close a mesh's boundary topology).
+pymeshfix==0.18.1
+
 # 3D visualization (primary path). Falls back to Matplotlib automatically
 # if no GPU/EGL/OSMesa off-screen rendering context is available.
 pyvista==0.48.4
