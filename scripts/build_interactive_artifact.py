@@ -36,13 +36,34 @@ ORGAN_META = {
             "superficie anatómica real, no una aproximación."
         ),
         "anatomy": (
-            "Los pulmones son un par de órganos esponjosos alojados en la caja torácica, "
-            "responsables del intercambio de oxígeno y dióxido de carbono con la sangre. "
-            "El pulmón derecho tiene tres lóbulos y el izquierdo dos (para dejar espacio "
-            "al corazón), y juntos contienen unos 300-500 millones de alvéolos. El aire "
-            "aireado es mucho menos denso (radiotransparente) que el resto del cuerpo, "
-            "lo que hace que el pulmón sea uno de los órganos más fáciles de segmentar "
-            "por umbral en una tomografía computarizada."
+            "<h3>Estructura</h3>"
+            "<p>El aire entra por la tráquea, que se divide en dos bronquios principales "
+            "(uno por pulmón) y luego se ramifica una y otra vez, como las ramas de un "
+            "árbol, en bronquios cada vez más pequeños y después bronquiolos. El pulmón "
+            "derecho tiene tres lóbulos y el izquierdo solo dos, porque le cede espacio "
+            "al corazón. Una membrana doble llamada pleura envuelve cada pulmón y lo "
+            "separa de la pared torácica, permitiendo que se deslice al respirar.</p>"
+            "<h3>Dónde ocurre el intercambio de gases</h3>"
+            "<p>Cada bronquiolo termina en un racimo de sacos diminutos llamados alvéolos "
+            "— entre 300 y 500 millones en total — rodeados por una red de capilares "
+            "sanguíneos. Sus paredes son tan delgadas (una sola célula) que el oxígeno "
+            "pasa directo a la sangre y el dióxido de carbono sale de ella, en cuestión "
+            "de una fracción de segundo. Esa superficie total de intercambio, si se "
+            "desdoblara, cubriría casi una cancha de tenis.</p>"
+            "<h3>Cómo se mueve el aire</h3>"
+            "<p>Los pulmones no tienen músculo propio para expandirse: el diafragma (un "
+            "músculo en forma de cúpula bajo ellos) se contrae y baja, y los músculos "
+            "intercostales expanden la caja torácica, generando una presión negativa que "
+            "\"succiona\" el aire hacia adentro. El ritmo de la respiración lo controla "
+            "automáticamente el tronco encefálico, que mide el nivel de CO2 en la sangre "
+            "mucho más que el de oxígeno.</p>"
+            "<h3>Cuando algo falla</h3>"
+            "<p>El <b>asma</b> es una inflamación que estrecha los bronquios y dificulta "
+            "sacar el aire. La <b>bronquitis</b> y la <b>neumonía</b> son infecciones o "
+            "inflamaciones de las vías respiratorias o de los propios alvéolos, que se "
+            "llenan de moco o líquido. La <b>EPOC</b> (enfermedad pulmonar obstructiva "
+            "crónica), ligada casi siempre al tabaco, destruye poco a poco las paredes "
+            "de los alvéolos y reduce la superficie disponible para respirar.</p>"
         ),
         "threshold_native": -320,
         "threshold_below": True,
@@ -55,7 +76,7 @@ ORGAN_META = {
             "Condiciones comunes: asma, bronquitis, neumonía, EPOC (enfermedad pulmonar obstructiva crónica).",
         ],
         "diagram_svg": (
-            '<svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
+            '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
             '<line x1="160" y1="8" x2="160" y2="70" stroke="var(--text-dim)" stroke-width="9"/>'
             '<text x="176" y="42" font-size="11" fill="var(--text-dim)">Tráquea</text>'
             '<line x1="160" y1="70" x2="112" y2="102" stroke="var(--text-dim)" stroke-width="6"/>'
@@ -74,7 +95,21 @@ ORGAN_META = {
             '<text x="230" y="145" font-size="9" text-anchor="middle" fill="#3a2a2c">Lób. superior</text>'
             '<text x="228" y="200" font-size="9" text-anchor="middle" fill="#3a2a2c">Lób. inferior</text>'
             '<text x="230" y="272" font-size="10" text-anchor="middle" fill="var(--text-dim)">Pulmón izquierdo</text>'
-            '</svg>'
+            '</svg><div class="diagram-card-label">Vías aéreas y lóbulos de cada pulmón</div></div>'
+            '<div class="diagram-card diagram-inset"><svg viewBox="0 0 220 210" xmlns="http://www.w3.org/2000/svg">'
+            '<circle cx="110" cy="100" r="52" fill="#e8b4b8" fill-opacity="0.45" stroke="var(--border)"/>'
+            '<circle cx="110" cy="100" r="52" fill="none" stroke="#c0392b" stroke-width="4" stroke-dasharray="10 7" opacity="0.85"/>'
+            '<circle cx="110" cy="100" r="30" fill="var(--bg)" fill-opacity="0.35"/>'
+            '<text x="110" y="104" font-size="9" text-anchor="middle" fill="var(--text-dim)">alvéolo</text>'
+            '<path d="M18,60 L60,84" stroke="#3d8fd6" stroke-width="2.5" marker-end="url(#lungArrowO2)"/>'
+            '<text x="6" y="54" font-size="11" fill="#3d8fd6">O&#8322;</text>'
+            '<path d="M160,140 L120,116" stroke="#c0392b" stroke-width="2.5" marker-end="url(#lungArrowCO2)"/>'
+            '<text x="164" y="152" font-size="11" fill="#c0392b">CO&#8322;</text>'
+            '<defs>'
+            '<marker id="lungArrowO2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3d8fd6"/></marker>'
+            '<marker id="lungArrowCO2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#c0392b"/></marker>'
+            '</defs>'
+            '</svg><div class="diagram-card-label">Un alvéolo envuelto en capilares: así pasa el O&#8322; a la sangre y el CO&#8322; sale de ella</div></div>'
         ),
         "initial_theta": 0.6,
         "initial_phi": 1.15,
@@ -96,16 +131,36 @@ ORGAN_META = {
             "pequeño que un corazón vivo — esperado, no un error."
         ),
         "anatomy": (
-            "El corazón es una bomba muscular de cuatro cámaras (dos aurículas, dos "
-            "ventrículos) que impulsa la sangre por el circuito pulmonar y el sistémico. "
-            "Pesa entre 250 y 350 g en un adulto vivo y su volumen fisiológico típico "
-            "ronda 300-900 mL según la fase del ciclo cardíaco. La reconstrucción de "
-            "este proyecto proviene de tomografía sincrotrón ex-vivo, que resuelve "
-            "detalle anatómico (paredes miocárdicas, vasos) muy superior al que permite "
-            "una tomografía clínica sin contraste — a cambio, el volumen de un "
-            "espécimen fijado es menor que el de un corazón latiendo, así que caer "
-            "fuera del rango fisiológico en vivo es un resultado esperado, no un fallo "
-            "del pipeline."
+            "<h3>Estructura</h3>"
+            "<p>El corazón tiene cuatro cámaras: dos aurículas arriba (reciben sangre) y "
+            "dos ventrículos abajo (la expulsan). Entre ellas hay cuatro válvulas de una "
+            "sola vía — tricúspide, pulmonar, mitral y aórtica — que se abren y cierran "
+            "con cada latido para que la sangre solo avance en un sentido; el sonido "
+            "\"lub-dub\" del latido es justamente el golpe de cierre de esas válvulas. "
+            "Un tabique muscular separa por completo el lado derecho del izquierdo, y "
+            "la pared del ventrículo izquierdo es mucho más gruesa porque debe bombear "
+            "sangre a todo el cuerpo, mientras el derecho solo la envía a los pulmones.</p>"
+            "<h3>Dos circuitos en un solo bombeo</h3>"
+            "<p>El lado derecho recibe sangre pobre en oxígeno del cuerpo y la manda a "
+            "los pulmones (circuito pulmonar); el lado izquierdo recibe esa sangre ya "
+            "oxigenada y la impulsa a todo el organismo a través de la aorta (circuito "
+            "sistémico). Ambos circuitos laten de forma sincronizada en cada ciclo "
+            "cardíaco, aunque son anatómicamente independientes.</p>"
+            "<h3>Qué lo hace latir</h3>"
+            "<p>El corazón genera su propio impulso eléctrico: nace en el nodo sinusal "
+            "(la \"pila\" natural, en la aurícula derecha), pasa al nodo auriculoventricular "
+            "y baja por el haz de His hasta las fibras de Purkinje, que hacen que los "
+            "ventrículos se contraigan casi al unísono. Por eso un corazón extraído del "
+            "cuerpo puede seguir latiendo un tiempo si se mantiene con oxígeno y nutrientes.</p>"
+            "<h3>Cuando algo falla</h3>"
+            "<p>La <b>hipertensión</b> obliga al corazón a bombear contra más resistencia "
+            "de la que debería, engrosando el músculo con el tiempo. La <b>enfermedad "
+            "coronaria</b> ocurre cuando las arterias que alimentan al propio músculo "
+            "cardíaco se obstruyen con placas de grasa — si se bloquean del todo, esa "
+            "zona del músculo muere (infarto). Una <b>arritmia</b> es una falla en el "
+            "sistema eléctrico que altera el ritmo, y la <b>insuficiencia cardíaca</b> es "
+            "cuando el corazón ya no logra bombear con la fuerza suficiente para las "
+            "necesidades del cuerpo.</p>"
         ),
         "threshold_native": 27000,
         "threshold_below": False,
@@ -118,7 +173,7 @@ ORGAN_META = {
             "Condiciones comunes: hipertensión arterial, enfermedad coronaria, arritmias, insuficiencia cardiaca.",
         ],
         "diagram_svg": (
-            '<svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
+            '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
             '<rect x="98" y="24" width="20" height="32" rx="6" fill="#8aa0c9"/>'
             '<text x="108" y="18" font-size="10" text-anchor="middle" fill="var(--text-dim)">Art. pulmonar</text>'
             '<rect x="202" y="24" width="20" height="32" rx="6" fill="#c0392b"/>'
@@ -130,7 +185,16 @@ ORGAN_META = {
             '<text x="210" y="102" font-size="11" text-anchor="middle" fill="#fff">Aurícula<tspan x="210" dy="13">izquierda</tspan></text>'
             '<text x="110" y="192" font-size="11" text-anchor="middle" fill="#fff">Ventrículo<tspan x="110" dy="13">derecho</tspan></text>'
             '<text x="210" y="192" font-size="11" text-anchor="middle" fill="#fff">Ventrículo<tspan x="210" dy="13">izquierdo</tspan></text>'
-            '</svg>'
+            '</svg><div class="diagram-card-label">Las cuatro cámaras y los grandes vasos</div></div>'
+            '<div class="diagram-card diagram-inset"><svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg">'
+            '<path d="M120,36 C64,8 14,48 18,98 C22,150 78,192 120,232 C162,192 218,150 222,98 C226,48 176,8 120,36 Z" fill="#c0392b" fill-opacity="0.18" stroke="var(--border)" stroke-width="1.5"/>'
+            '<path d="M150,66 Q124,104 122,118 L122,178 M122,178 Q95,205 70,190 M122,178 Q149,205 174,190" fill="none" stroke="#f2a53c" stroke-width="3" stroke-linecap="round"/>'
+            '<circle cx="150" cy="66" r="7" fill="#f2a53c"/><text x="163" y="63" font-size="11" fill="var(--text-dim)">1</text>'
+            '<circle cx="122" cy="118" r="7" fill="#f2a53c"/><text x="135" y="123" font-size="11" fill="var(--text-dim)">2</text>'
+            '<circle cx="122" cy="178" r="6" fill="#f2a53c"/><text x="132" y="183" font-size="11" fill="var(--text-dim)">3</text>'
+            '<circle cx="70" cy="190" r="5" fill="#f2a53c"/><circle cx="174" cy="190" r="5" fill="#f2a53c"/>'
+            '<text x="70" y="212" font-size="10" text-anchor="middle" fill="var(--text-dim)">4</text><text x="174" y="212" font-size="10" text-anchor="middle" fill="var(--text-dim)">4</text>'
+            '</svg><div class="diagram-card-label">Sistema eléctrico: 1 nodo sinusal · 2 nodo AV · 3 haz de His · 4 fibras de Purkinje</div></div>'
         ),
         "initial_theta": 0.6,
         "initial_phi": 1.15,
@@ -151,14 +215,39 @@ ORGAN_META = {
             "órgano en un paciente vivo."
         ),
         "anatomy": (
-            "El hígado es el órgano sólido interno más grande del cuerpo, ubicado en el "
-            "cuadrante superior derecho del abdomen, justo bajo el diafragma. Tiene dos "
-            "lóbulos principales muy asimétricos (el derecho mucho mayor que el "
-            "izquierdo) y cumple cientos de funciones metabólicas: síntesis de "
-            "proteínas plasmáticas, producción de bilis, desintoxicación, y "
-            "almacenamiento de glucógeno. En un adulto vivo su volumen típico es de "
-            "1000-2500 mL. La reconstrucción de este proyecto usa la misma tomografía "
-            "sincrotrón ex-vivo de alta resolución que el corazón y el riñón."
+            "<h3>Estructura</h3>"
+            "<p>El hígado es el órgano sólido interno más grande del cuerpo, ubicado en "
+            "el cuadrante superior derecho del abdomen, justo bajo el diafragma. Tiene "
+            "dos lóbulos principales muy asimétricos — el derecho mucho más grande que "
+            "el izquierdo — y los cirujanos lo dividen además en ocho segmentos "
+            "independientes (segmentos de Couinaud), cada uno con su propio riego "
+            "sanguíneo, lo que permite operar o incluso trasplantar solo una parte.</p>"
+            "<h3>Una doble entrada de sangre</h3>"
+            "<p>A diferencia de casi todos los órganos, el hígado recibe sangre de dos "
+            "fuentes distintas: la vena porta (cerca del 75%), que trae sangre rica en "
+            "nutrientes directo desde el intestino, y la arteria hepática (25%), que "
+            "trae sangre oxigenada como cualquier otro órgano. Ambas se mezclan dentro "
+            "de unidades microscópicas llamadas lobulillos hepáticos, donde los "
+            "hepatocitos (las células del hígado) procesan la sangre antes de que "
+            "salga por las venas hepáticas hacia la circulación general.</p>"
+            "<h3>Función</h3>"
+            "<p>Es la fábrica química del cuerpo: sintetiza proteínas de la sangre como "
+            "la albúmina y los factores de coagulación, almacena glucosa en forma de "
+            "glucógeno para liberarla cuando hace falta energía, neutraliza toxinas y "
+            "medicamentos, y produce la bilis que se almacena en la vesícula biliar y "
+            "ayuda a digerir las grasas en el intestino. En total se le atribuyen más "
+            "de 500 funciones metabólicas distintas.</p>"
+            "<h3>Capacidad de regenerarse</h3>"
+            "<p>Es el único órgano interno humano capaz de regenerar su tamaño "
+            "funcional incluso después de perder hasta el 70% de su tejido — una "
+            "propiedad que hace posible el trasplante de hígado de donante vivo, donde "
+            "tanto la porción donada como la que queda en el donante vuelven a crecer.</p>"
+            "<h3>Cuando algo falla</h3>"
+            "<p>El <b>hígado graso</b> es la acumulación de grasa en los hepatocitos, "
+            "muchas veces sin síntomas al inicio. La <b>hepatitis</b> es la inflamación "
+            "del hígado, causada por virus, alcohol u otras sustancias. Si el daño se "
+            "repite durante años, el tejido sano se reemplaza por cicatrices "
+            "(<b>cirrosis</b>), lo que reduce progresivamente sus cientos de funciones.</p>"
         ),
         "threshold_native": 18300,
         "threshold_below": False,
@@ -170,7 +259,7 @@ ORGAN_META = {
             "Condiciones comunes: hígado graso, hepatitis, cirrosis.",
         ],
         "diagram_svg": (
-            '<svg viewBox="-40 0 360 280" xmlns="http://www.w3.org/2000/svg">'
+            '<div class="diagram-card diagram-main"><svg viewBox="-40 0 360 280" xmlns="http://www.w3.org/2000/svg">'
             '<path d="M40,85 C40,62 85,50 145,54 C220,58 280,80 280,132 C280,182 218,212 148,206 C88,201 40,168 40,122 Z" fill="#b9793f" fill-opacity="0.88" stroke="var(--border)" stroke-width="2"/>'
             '<line x1="172" y1="58" x2="150" y2="204" stroke="var(--bg)" stroke-width="4"/>'
             '<text x="220" y="128" font-size="12" text-anchor="middle" fill="#fff">Lóbulo derecho</text>'
@@ -179,7 +268,14 @@ ORGAN_META = {
             '<text x="192" y="222" font-size="9" text-anchor="middle" fill="var(--text-dim)">Vesícula biliar</text>'
             '<line x1="60" y1="150" x2="16" y2="150" stroke="var(--text-dim)" stroke-width="2"/>'
             '<text x="14" y="145" font-size="9" text-anchor="end" fill="var(--text-dim)">Vena porta</text>'
-            '</svg>'
+            '</svg><div class="diagram-card-label">Los dos lóbulos principales y la vesícula biliar</div></div>'
+            '<div class="diagram-card diagram-inset"><svg viewBox="0 0 220 210" xmlns="http://www.w3.org/2000/svg">'
+            '<polygon points="110,20 170,55 170,125 110,160 50,125 50,55" fill="#b9793f" fill-opacity="0.22" stroke="var(--border)"/>'
+            '<circle cx="110" cy="90" r="16" fill="#b9793f"/>'
+            '<text x="110" y="93" font-size="7.5" text-anchor="middle" fill="#fff">v. central</text>'
+            '<circle cx="50" cy="55" r="5" fill="#3d8fd6"/><circle cx="58" cy="48" r="5" fill="#c0392b"/><circle cx="46" cy="46" r="5" fill="#6b8e4e"/>'
+            '<text x="14" y="34" font-size="9" fill="var(--text-dim)">Tríada portal</text>'
+            '</svg><div class="diagram-card-label">Un lobulillo hepático: sangre de la vena porta (azul) y la arteria hepática (rojo) se mezclan y drenan a la vena central; la bilis (verde) sale por el conducto biliar</div></div>'
         ),
         "initial_theta": 0.6,
         "initial_phi": 1.15,
@@ -200,14 +296,36 @@ ORGAN_META = {
             "lógica bilateral: hay exactamente un objeto que encontrar."
         ),
         "anatomy": (
-            "Los riñones son un par de órganos con forma de frijol, ubicados en el "
-            "retroperitoneo (detrás del peritoneo, a ambos lados de la columna), cada "
-            "uno con un peso de 115-190 g. Filtran la sangre para eliminar desechos "
-            "metabólicos y regulan el balance de agua, electrolitos y presión arterial "
-            "mediante la formación de orina en aproximadamente un millón de nefronas "
-            "por riñón. En un adulto vivo el volumen combinado típico es 200-450 mL. "
-            "Este proyecto reconstruye un único riñón ex-vivo de altísima resolución, "
-            "donde se distinguen corteza y médula renal."
+            "<h3>Estructura</h3>"
+            "<p>Cada riñón tiene forma de frijol y se organiza en dos grandes zonas: la "
+            "corteza renal (la capa externa) y la médula renal (la interna, dividida en "
+            "pirámides). La orina que se va formando gotea desde las pirámides hacia la "
+            "pelvis renal, una especie de embudo colector que conecta con el uréter, el "
+            "tubo que la lleva hasta la vejiga. El hilio renal es el punto por donde "
+            "entran y salen los vasos sanguíneos, los nervios y el propio uréter.</p>"
+            "<h3>La nefrona: la unidad de filtrado</h3>"
+            "<p>Cada riñón contiene cerca de un millón de nefronas microscópicas, y cada "
+            "una hace el trabajo completo por sí sola. Empieza en el glomérulo, un ovillo "
+            "de capilares donde el agua y las moléculas pequeñas de la sangre se filtran "
+            "hacia una cápsula (cápsula de Bowman); ese filtrado inicial recorre un largo "
+            "túbulo (el asa de Henle y los túbulos contorneados) que va recuperando el "
+            "agua, la glucosa y las sales que el cuerpo todavía necesita, y deja pasar "
+            "el resto — que se convierte en orina — hacia el conducto colector.</p>"
+            "<h3>Más que un filtro</h3>"
+            "<p>Además de eliminar desechos, los riñones regulan la presión arterial "
+            "(liberando una hormona llamada renina cuando detectan que la presión baja), "
+            "producen la hormona que estimula la médula ósea a fabricar glóbulos rojos "
+            "(eritropoyetina), activan la vitamina D, y mantienen estable el balance de "
+            "sodio, potasio y otros electrolitos indispensables para el funcionamiento "
+            "de los músculos y las neuronas.</p>"
+            "<h3>Cuando algo falla</h3>"
+            "<p>Los <b>cálculos renales</b> (piedras) son cristales que se forman cuando "
+            "hay demasiada concentración de ciertas sales en la orina. Las "
+            "<b>infecciones urinarias</b> pueden subir desde la vejiga hasta el propio "
+            "riñón. La <b>enfermedad renal crónica</b> es la pérdida progresiva y a "
+            "veces silenciosa de nefronas funcionales; cuando ya queda muy poca función, "
+            "la diálisis hace artificialmente el trabajo de filtrado que el riñón ya no "
+            "puede hacer.</p>"
         ),
         "threshold_native": 44300,
         "threshold_below": False,
@@ -219,7 +337,7 @@ ORGAN_META = {
             "Condiciones comunes: cálculos renales (piedras), infecciones urinarias, enfermedad renal crónica.",
         ],
         "diagram_svg": (
-            '<svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
+            '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
             '<path d="M120,40 C182,28 232,60 230,120 C229,150 200,150 200,180 C199,222 168,252 128,246 C88,240 68,198 75,150 C81,100 70,52 120,40 Z" fill="#a8447a" fill-opacity="0.88" stroke="var(--border)" stroke-width="2"/>'
             '<path d="M138,70 C174,64 206,90 200,130 C197,155 176,155 172,176 C167,206 146,220 124,214 C102,208 92,183 98,150 C104,110 104,80 138,70 Z" fill="#c97ba8" fill-opacity="0.95"/>'
             '<ellipse cx="150" cy="145" rx="20" ry="28" fill="#7a2f57"/>'
@@ -233,7 +351,16 @@ ORGAN_META = {
             '<text x="250" y="186" font-size="10" fill="var(--text-dim)">Hilio renal</text>'
             '<line x1="202" y1="176" x2="246" y2="184" stroke="var(--text-dim)" stroke-width="1"/>'
             '<text x="155" y="272" font-size="10" text-anchor="middle" fill="var(--text-dim)">Uréter</text>'
-            '</svg>'
+            '</svg><div class="diagram-card-label">Corteza, médula y pelvis renal de un riñón</div></div>'
+            '<div class="diagram-card diagram-inset"><svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">'
+            '<path d="M40,30 Q50,15 65,25 Q78,15 85,32 Q95,45 80,55 Q70,65 55,58 Q40,50 40,30 Z" fill="#a8447a" fill-opacity="0.55" stroke="var(--border)"/>'
+            '<text x="6" y="18" font-size="9" fill="var(--text-dim)">Glomérulo</text>'
+            '<path d="M62,60 C62,80 30,85 30,110 C30,140 30,170 70,170 C110,170 110,140 110,110 C110,90 90,85 90,65" fill="none" stroke="#c97ba8" stroke-width="4"/>'
+            '<text x="0" y="126" font-size="9" fill="var(--text-dim)">Asa de<tspan x="0" dy="10">Henle</tspan></text>'
+            '<line x1="70" y1="170" x2="70" y2="198" stroke="var(--text-dim)" stroke-width="4" marker-end="url(#kidArrow)"/>'
+            '<text x="78" y="205" font-size="9" fill="var(--text-dim)">a la orina</text>'
+            '<defs><marker id="kidArrow" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto"><path d="M0,0 L8,0 L4,8 Z" fill="var(--text-dim)"/></marker></defs>'
+            '</svg><div class="diagram-card-label">Una nefrona: el glomérulo filtra la sangre y el túbulo recupera lo que el cuerpo todavía necesita</div></div>'
         ),
         "initial_theta": 3.14,
         "initial_phi": 1.15,
@@ -255,16 +382,41 @@ ORGAN_META = {
             "tomografía sincrotrón ex-vivo."
         ),
         "anatomy": (
-            "El cerebro es el órgano central del sistema nervioso, responsable de la "
-            "cognición, el control motor, la percepción sensorial y la regulación "
-            "autonómica. Se organiza en corteza cerebral (sustancia gris, muy plegada), "
-            "sustancia blanca subcortical, cerebelo y tronco encefálico. En un adulto "
-            "vivo su volumen típico es de 1000-1600 mL. La reconstrucción de este "
-            "proyecto proviene de un escaneo \"órgano completo\" ex-vivo que resuelve "
-            "circunvoluciones y estructuras internas con un detalle muy superior al de "
-            "la neuroimagen clínica convencional — el volumen puede diferir del rango "
-            "en vivo por las mismas razones de fijación/preservación que el resto de "
-            "los especímenes ex-vivo de este proyecto."
+            "<h3>Estructura</h3>"
+            "<p>La corteza cerebral —la capa externa, muy plegada, de \"materia gris\"— "
+            "se divide en cuatro lóbulos por lado: el frontal (razonamiento, "
+            "planificación, movimiento voluntario), el parietal (procesa el tacto y la "
+            "orientación espacial), el temporal (audición y memoria) y el occipital "
+            "(visión). Debajo de la corteza está la sustancia blanca, formada por los "
+            "cables (axones) que conectan unas zonas con otras; el cuerpo calloso es el "
+            "haz de fibras que comunica el hemisferio izquierdo con el derecho.</p>"
+            "<h3>Cerebelo y tronco encefálico</h3>"
+            "<p>Debajo y detrás de los hemisferios cerebrales está el cerebelo, que "
+            "afina la coordinación motora, el equilibrio y la precisión de los "
+            "movimientos aunque no los origine. El tronco encefálico (bulbo raquídeo, "
+            "protuberancia y mesencéfalo) conecta el cerebro con la médula espinal y "
+            "controla funciones automáticas de las que ni siquiera somos conscientes: "
+            "la respiración, el ritmo cardíaco y la presión arterial.</p>"
+            "<h3>Cómo se comunican las neuronas</h3>"
+            "<p>El cerebro humano tiene alrededor de 86 mil millones de neuronas, cada "
+            "una conectada con miles de otras a través de sinapsis. La señal viaja como "
+            "un impulso eléctrico dentro de la neurona — hasta 120 metros por segundo en "
+            "las fibras más rápidas — y al llegar al final salta a la siguiente neurona "
+            "mediante mensajeros químicos llamados neurotransmisores.</p>"
+            "<h3>Cómo está protegido</h3>"
+            "<p>Tres membranas (las meninges) envuelven el cerebro, y entre ellas circula "
+            "el líquido cefalorraquídeo, que lo amortigua como un cojín líquido dentro "
+            "del cráneo. Además, una \"barrera hematoencefálica\" filtra qué sustancias "
+            "de la sangre pueden entrar al tejido cerebral, protegiéndolo de toxinas.</p>"
+            "<h3>Cuando algo falla</h3>"
+            "<p>Una <b>migraña</b> es un dolor de cabeza intenso ligado a cambios en los "
+            "vasos sanguíneos y la actividad neuronal. La <b>epilepsia</b> ocurre cuando "
+            "grupos de neuronas disparan de forma descontrolada y sincronizada. Un "
+            "<b>ACV (accidente cerebrovascular)</b> sucede cuando se corta el riego "
+            "sanguíneo a una zona del cerebro y esas neuronas empiezan a morir en "
+            "minutos. El <b>Alzheimer</b> y el <b>Parkinson</b> son enfermedades "
+            "neurodegenerativas en las que ciertos grupos de neuronas se van perdiendo "
+            "de forma progresiva con la edad.</p>"
         ),
         "threshold_native": 5000,
         "threshold_below": False,
@@ -277,7 +429,7 @@ ORGAN_META = {
             "Condiciones comunes: migraña, epilepsia; en edad avanzada, Alzheimer y Parkinson.",
         ],
         "diagram_svg": (
-            '<svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">'
+            '<div class="diagram-card diagram-main"><svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">'
             '<path d="M60,140 C55,90 100,50 170,50 C230,50 260,85 255,120 C275,125 280,150 265,165 C270,190 245,200 230,195 C220,220 180,230 155,220 C120,235 80,220 70,190 C45,185 40,155 60,140 Z" fill="#c9a0dc" fill-opacity="0.88" stroke="var(--border)" stroke-width="2"/>'
             '<path d="M78,150 Q95,118 132,113 Q104,140 104,168 Q82,175 78,150 Z" fill="none" stroke="var(--bg)" stroke-width="1.5" opacity="0.5"/>'
             '<text x="150" y="42" font-size="11" text-anchor="middle" fill="var(--text-dim)">Corteza cerebral</text>'
@@ -289,7 +441,18 @@ ORGAN_META = {
             '<line x1="198" y1="232" x2="222" y2="252" stroke="var(--text-dim)" stroke-width="1"/>'
             '<line x1="132" y1="113" x2="132" y2="88" stroke="var(--text-dim)" stroke-width="1"/>'
             '<text x="132" y="78" font-size="10" text-anchor="middle" fill="var(--text-dim)">Cuerpo calloso</text>'
-            '</svg>'
+            '</svg><div class="diagram-card-label">Corteza, cerebelo y tronco encefálico</div></div>'
+            '<div class="diagram-card diagram-inset"><svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">'
+            '<ellipse cx="55" cy="85" rx="24" ry="19" fill="#8f6bb0"/><text x="55" y="89" font-size="9" text-anchor="middle" fill="#fff">1</text>'
+            '<path d="M35,72 L14,58 M32,85 L8,85 M35,98 L14,114 M48,66 L38,48" stroke="#8f6bb0" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+            '<text x="10" y="40" font-size="10" fill="var(--text-dim)">2</text>'
+            '<path d="M79,85 L165,85" stroke="#8f6bb0" stroke-width="3"/>'
+            '<text x="120" y="78" font-size="10" text-anchor="middle" fill="var(--text-dim)">3</text>'
+            '<path d="M165,85 L182,75 M165,85 L182,95" stroke="#8f6bb0" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+            '<circle cx="184" cy="73" r="3" fill="#f2a53c"/><circle cx="190" cy="80" r="3" fill="#f2a53c"/><circle cx="184" cy="97" r="3" fill="#f2a53c"/>'
+            '<path d="M205,60 L225,50 M205,85 L232,85 M205,110 L225,120" stroke="#5a3d78" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+            '<text x="200" y="45" font-size="10" fill="var(--text-dim)">4</text>'
+            '</svg><div class="diagram-card-label">Una sinapsis entre dos neuronas: 1 soma · 2 dendritas · 3 axón · 4 neurotransmisores cruzando el espacio sináptico</div></div>'
         ),
         "initial_theta": 0.6,
         "initial_phi": 1.15,
@@ -390,12 +553,19 @@ _TEMPLATE = r"""<!doctype html>
   .anatomy-panel h2 { font-size: 1.3rem; margin: 0 0 0.3rem; text-transform: capitalize; }
   .anatomy-panel .algo-line { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 1.1rem; }
   .anatomy-panel p { font-size: 0.88rem; line-height: 1.65; color: var(--text); }
+  .anatomy-panel .anatomy-detail h3 { font-size: 0.92rem; margin: 1.15rem 0 0.35rem; color: var(--accent-strong); }
+  .anatomy-panel .anatomy-detail h3:first-child { margin-top: 0; }
+  .anatomy-panel .anatomy-detail p { margin: 0 0 0.15rem; }
   .anatomy-panel .source-box { margin-top: 1.2rem; padding: 0.8rem 1rem; border-radius: 10px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 0.78rem; line-height: 1.55; color: var(--text-dim); }
   .anatomy-panel .source-box b { color: var(--text); }
   .fun-facts-list { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.55rem; }
   .fun-facts-list li { font-size: 0.85rem; line-height: 1.55; color: var(--text); }
-  .anatomy-diagram { display: flex; justify-content: center; padding: 0.4rem 0 0.8rem; }
-  .anatomy-diagram svg { max-width: 300px; width: 100%; height: auto; }
+  .anatomy-diagram { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 1.6rem; padding: 0.4rem 0 0.8rem; }
+  .anatomy-diagram .diagram-card { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .anatomy-diagram .diagram-card svg { width: 100%; height: auto; display: block; }
+  .anatomy-diagram .diagram-main svg { max-width: 290px; }
+  .anatomy-diagram .diagram-inset svg { max-width: 190px; }
+  .anatomy-diagram .diagram-card-label { font-size: 0.72rem; color: var(--text-dim); text-align: center; max-width: 220px; line-height: 1.4; }
   .diagram-caveat { font-size: 0.7rem; color: var(--text-faint); text-align: center; margin: -0.3rem 0 0.8rem; }
 
   /* ---- 3D landmark labels ---- */
@@ -445,8 +615,41 @@ _TEMPLATE = r"""<!doctype html>
   .lab-field input[type="range"] { accent-color: var(--accent); }
   .lab-tick-note { font-size: 0.72rem; color: var(--text-faint); }
   .lab-match { font-size: 0.76rem; color: var(--ok); font-weight: 600; min-height: 1.1em; }
+
+  /* ---- welcome overlay ---- */
+  #welcome-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 12%, var(--bg)) 0%, var(--bg) 70%); transition: opacity 0.4s ease; padding: 1.5rem; box-sizing: border-box; }
+  #welcome-overlay.hidden { opacity: 0; pointer-events: none; }
+  .welcome-card { max-width: 26rem; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem 1.9rem; box-shadow: 0 20px 60px rgba(0,0,0,0.25); text-align: center; }
+  .welcome-card .mark { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); margin: 0 auto 1rem; }
+  .welcome-card h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+  .welcome-card p.sub { margin: 0 0 1.4rem; font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; }
+  .welcome-card input[type="text"] { width: 100%; box-sizing: border-box; padding: 0.65rem 0.8rem; border-radius: 9px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); font-family: inherit; font-size: 0.92rem; margin-bottom: 0.9rem; }
+  .welcome-card input[type="text"]:focus { outline: none; border-color: var(--accent-strong); }
+  .welcome-card .welcome-btn { width: 100%; padding: 0.7rem 0.8rem; border-radius: 9px; border: none; background: var(--accent-strong); color: #fff; font-family: inherit; font-size: 0.9rem; font-weight: 650; cursor: pointer; }
+  .welcome-card .welcome-btn:hover { filter: brightness(1.08); }
+  .welcome-step { display: none; }
+  .welcome-step[data-active="true"] { display: block; }
+  .welcome-greet-name { color: var(--accent-strong); }
+  .welcome-special { margin: 0.7rem 0 1.4rem; padding: 1rem 1.1rem; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--accent-strong); font-size: 0.95rem; line-height: 1.6; color: var(--text); }
 </style>
 <body>
+<div id="welcome-overlay">
+  <div class="welcome-card">
+    <div class="mark"></div>
+    <div class="welcome-step" id="welcome-step-name" data-active="true">
+      <h2>Bienvenido al reconstructor de órganos en 3D</h2>
+      <p class="sub">Reconstrucciones reales de pulmones, corazón, hígado, riñones y cerebro a partir de tomografías reales. ¿Cómo te llamas?</p>
+      <input type="text" id="welcome-name-input" placeholder="Tu nombre" autocomplete="off" maxlength="40"/>
+      <button class="welcome-btn" id="welcome-name-btn">Entrar</button>
+    </div>
+    <div class="welcome-step" id="welcome-step-greet">
+      <h2>¡Bienvenido/a, <span class="welcome-greet-name" id="welcome-greet-name"></span>!</h2>
+      <div id="welcome-special" style="display:none;"></div>
+      <p class="sub">Explora 5 órganos reconstruidos en 3D a partir de datos reales, con cortes, laboratorio de segmentación y más.</p>
+      <button class="welcome-btn" id="welcome-enter-btn">Comenzar</button>
+    </div>
+  </div>
+</div>
 <header>
   <span class="mark"></span>
   <h1>Medical3DReconstruction</h1>
@@ -556,7 +759,7 @@ _TEMPLATE = r"""<!doctype html>
   <div class="anatomy-panel">
     <h2 id="anatomy-title"></h2>
     <p class="algo-line" id="anatomy-algo"></p>
-    <p id="anatomy-text"></p>
+    <div id="anatomy-text" class="anatomy-detail"></div>
 
     <p class="eyebrow" style="margin-top:1.3rem">Diagrama anatómico (esquemático)</p>
     <div class="anatomy-diagram" id="anatomy-diagram"></div>
@@ -703,13 +906,67 @@ _TEMPLATE = r"""<!doctype html>
     root.setAttribute("data-theme", current === "dark" ? "light" : "dark");
   });
 
+  // ---------- welcome screen ----------
+  (function initWelcome() {
+    const overlay = document.getElementById("welcome-overlay");
+    const stepName = document.getElementById("welcome-step-name");
+    const stepGreet = document.getElementById("welcome-step-greet");
+    const nameInput = document.getElementById("welcome-name-input");
+    const nameBtn = document.getElementById("welcome-name-btn");
+    const greetNameEl = document.getElementById("welcome-greet-name");
+    const specialEl = document.getElementById("welcome-special");
+    const enterBtn = document.getElementById("welcome-enter-btn");
+
+    function showGreeting(rawName) {
+      const name = rawName.trim();
+      greetNameEl.textContent = name || "amigo/a";
+      if (name.toLowerCase() === "hillary") {
+        specialEl.textContent = "Sé que serás una gran doctora algún día. Estoy orgulloso de ti, Laly <3";
+        specialEl.style.display = "block";
+      } else {
+        specialEl.style.display = "none";
+      }
+      stepName.setAttribute("data-active", "false");
+      stepGreet.setAttribute("data-active", "true");
+      try { localStorage.setItem("medical3d_visitor_name", name); } catch (e) {}
+    }
+
+    nameBtn.addEventListener("click", () => showGreeting(nameInput.value));
+    nameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") showGreeting(nameInput.value); });
+    enterBtn.addEventListener("click", () => overlay.classList.add("hidden"));
+
+    let savedName = "";
+    try { savedName = localStorage.getItem("medical3d_visitor_name") || ""; } catch (e) {}
+    if (savedName) nameInput.value = savedName;
+    nameInput.focus();
+  })();
+
   /* =========================================================
      3D reconstruction viewer
      ========================================================= */
-  function decodeMesh(meshData) {
+  // Ex-vivo specimens were scanned/mounted in whatever orientation was
+  // physically convenient, not a standardized "patient up" pose. Most organs
+  // don't have an obvious visual "up", so this goes unnoticed — but a brain
+  // clearly does, and this specimen renders smooth vault down / irregular
+  // base up. ORGAN_DISPLAY_FIX applies a proper 180° rotation (not a mirror,
+  // so winding/normals stay valid) about the vertical axis through the
+  // mesh's own center, per organ that needs it, purely for display.
+  const ORGAN_DISPLAY_FIX = { brain: "flipY" };
+  function decodeMesh(meshData, organKey) {
+    const positions = new Float32Array(decodeB64(meshData.positions_b64));
+    const normals = new Float32Array(decodeB64(meshData.normals_b64));
+    if (ORGAN_DISPLAY_FIX[organKey] === "flipY") {
+      const cx = meshData.center[0], cy = meshData.center[1];
+      for (let i = 0; i < positions.length; i += 3) {
+        positions[i] = 2 * cx - positions[i];
+        positions[i + 1] = 2 * cy - positions[i + 1];
+        normals[i] = -normals[i];
+        normals[i + 1] = -normals[i + 1];
+      }
+    }
     return {
-      positions: new Float32Array(decodeB64(meshData.positions_b64)),
-      normals: new Float32Array(decodeB64(meshData.normals_b64)),
+      positions,
+      normals,
       indices: new Uint32Array(decodeB64(meshData.indices_b64)),
       numVertices: meshData.num_vertices,
       numTriangles: meshData.num_triangles,
@@ -1289,7 +1546,7 @@ _TEMPLATE = r"""<!doctype html>
     const data = VIEWER_DATA[key];
     const meta = ORGAN_META[key];
 
-    const mesh = decodeMesh(data.mesh);
+    const mesh = decodeMesh(data.mesh, key);
     currentMesh = mesh;
     currentColor = hexToRgb01(meta.color_hex);
     theta = meta.initial_theta; phi = meta.initial_phi;
@@ -1306,7 +1563,7 @@ _TEMPLATE = r"""<!doctype html>
 
     document.getElementById("anatomy-title").textContent = meta.label;
     document.getElementById("anatomy-algo").textContent = meta.algo;
-    document.getElementById("anatomy-text").textContent = meta.anatomy;
+    document.getElementById("anatomy-text").innerHTML = meta.anatomy;
     document.getElementById("anatomy-source").textContent = meta.source_note;
     document.getElementById("anatomy-caveat").textContent = meta.caveat;
     document.getElementById("anatomy-diagram").innerHTML = meta.diagram_svg;
@@ -1732,7 +1989,7 @@ _TEMPLATE = r"""<!doctype html>
     let cursorX = 0;
     const placed = [];
     for (const key of ORGAN_ORDER) {
-      const mesh = decodeMesh(VIEWER_DATA[key].mesh);
+      const mesh = decodeMesh(VIEWER_DATA[key].mesh, key);
       let r = 1;
       for (let i = 0; i < mesh.positions.length; i += 3) {
         const dx = mesh.positions[i]-mesh.center[0], dy = mesh.positions[i+1]-mesh.center[1], dz = mesh.positions[i+2]-mesh.center[2];
