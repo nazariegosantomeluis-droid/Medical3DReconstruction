@@ -44,6 +44,9 @@ ORGAN_META = {
             "lo que hace que el pulmón sea uno de los órganos más fáciles de segmentar "
             "por umbral en una tomografía computarizada."
         ),
+        "threshold_native": -320,
+        "threshold_below": True,
+        "threshold_label": "-320 HU (aire = menor que el umbral)",
         "initial_theta": 0.6,
         "initial_phi": 1.15,
     },
@@ -75,6 +78,9 @@ ORGAN_META = {
             "fuera del rango fisiológico en vivo es un resultado esperado, no un fallo "
             "del pipeline."
         ),
+        "threshold_native": 27000,
+        "threshold_below": False,
+        "threshold_label": "27000 unidades nativas (tejido = mayor que el umbral)",
         "initial_theta": 0.6,
         "initial_phi": 1.15,
     },
@@ -103,6 +109,9 @@ ORGAN_META = {
             "1000-2500 mL. La reconstrucción de este proyecto usa la misma tomografía "
             "sincrotrón ex-vivo de alta resolución que el corazón y el riñón."
         ),
+        "threshold_native": 18300,
+        "threshold_below": False,
+        "threshold_label": "18300 unidades nativas (tejido = mayor que el umbral)",
         "initial_theta": 0.6,
         "initial_phi": 1.15,
     },
@@ -131,6 +140,9 @@ ORGAN_META = {
             "Este proyecto reconstruye un único riñón ex-vivo de altísima resolución, "
             "donde se distinguen corteza y médula renal."
         ),
+        "threshold_native": 44300,
+        "threshold_below": False,
+        "threshold_label": "44300 unidades nativas (tejido = mayor que el umbral)",
         "initial_theta": 3.14,
         "initial_phi": 1.15,
     },
@@ -162,6 +174,9 @@ ORGAN_META = {
             "en vivo por las mismas razones de fijación/preservación que el resto de "
             "los especímenes ex-vivo de este proyecto."
         ),
+        "threshold_native": 5000,
+        "threshold_below": False,
+        "threshold_label": "5000 unidades nativas (tejido = mayor que el umbral)",
         "initial_theta": 0.6,
         "initial_phi": 1.15,
     },
@@ -214,6 +229,7 @@ _TEMPLATE = r"""<!doctype html>
     }
   }
   * { box-sizing: border-box; }
+  .hidden { display: none; }
   html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-ui); overflow: hidden; }
   body { display: flex; flex-direction: column; }
   header { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1.1rem; background: var(--surface-raised); border-bottom: 1px solid var(--border); flex-shrink: 0; }
@@ -262,6 +278,38 @@ _TEMPLATE = r"""<!doctype html>
   .anatomy-panel p { font-size: 0.88rem; line-height: 1.65; color: var(--text); }
   .anatomy-panel .source-box { margin-top: 1.2rem; padding: 0.8rem 1rem; border-radius: 10px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 0.78rem; line-height: 1.55; color: var(--text-dim); }
   .anatomy-panel .source-box b { color: var(--text); }
+
+  /* ---- view mode / clipping controls ---- */
+  .segmented-row { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .segmented-row button { flex: 1; font-size: 0.72rem; padding: 0.4rem 0.3rem; border: none; background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; border-right: 1px solid var(--border); }
+  .segmented-row button:last-child { border-right: none; }
+  .segmented-row button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); font-weight: 650; }
+  .toggle-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+  .toggle-row input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; }
+  .clip-controls { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.6rem; }
+  .clip-controls[data-enabled="false"] { opacity: 0.4; pointer-events: none; }
+
+  /* ---- laboratorio tab ---- */
+  .lab-panel { padding: 1.2rem 1.6rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.1rem; max-width: 46rem; }
+  .lab-subtabs { display: flex; gap: 0.3rem; }
+  .lab-subtabs button { font-size: 0.76rem; font-weight: 600; padding: 0.4rem 0.85rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .lab-subtabs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); border-color: var(--accent-strong); }
+  .lab-canvas-row { display: flex; gap: 1.2rem; align-items: flex-start; flex-wrap: wrap; }
+  #lab-canvas { image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--border); background: #000; }
+  .lab-stage-caption { flex: 1; min-width: 14rem; }
+  .lab-stage-caption h4 { margin: 0 0 0.4rem; font-size: 0.88rem; }
+  .lab-stage-caption p { margin: 0; font-size: 0.8rem; line-height: 1.55; color: var(--text-dim); }
+  .lab-stepper { display: flex; align-items: center; gap: 0.6rem; }
+  .lab-stepper button { padding: 0.4rem 0.7rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; font-size: 0.8rem; }
+  .lab-stepper button:disabled { opacity: 0.35; cursor: default; }
+  .lab-dots { display: flex; gap: 0.35rem; }
+  .lab-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+  .lab-dots span[data-active="true"] { background: var(--accent); }
+  .lab-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .lab-field .label-row { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-dim); }
+  .lab-field input[type="range"] { accent-color: var(--accent); }
+  .lab-tick-note { font-size: 0.72rem; color: var(--text-faint); }
+  .lab-match { font-size: 0.76rem; color: var(--ok); font-weight: 600; min-height: 1.1em; }
 </style>
 <body>
 <header>
@@ -271,6 +319,7 @@ _TEMPLATE = r"""<!doctype html>
   <div class="tab-switch">
     <button class="tab-btn" id="tab-btn-3d" aria-selected="true">Reconstrucción 3D</button>
     <button class="tab-btn" id="tab-btn-slices" aria-selected="false">Cortes CT</button>
+    <button class="tab-btn" id="tab-btn-lab" aria-selected="false">Laboratorio</button>
     <button class="tab-btn" id="tab-btn-anatomy" aria-selected="false">Anatomía</button>
   </div>
   <span class="spacer"></span>
@@ -282,6 +331,26 @@ _TEMPLATE = r"""<!doctype html>
     <div>
       <p class="eyebrow">Órgano</p>
       <div class="organ-list" id="organ-list"></div>
+    </div>
+    <div>
+      <p class="eyebrow">Modo de vista</p>
+      <div class="segmented-row" id="view-mode-row">
+        <button data-mode="solid" aria-pressed="true">Sólido</button>
+        <button data-mode="xray" aria-pressed="false">Rayos-X</button>
+        <button data-mode="wire" aria-pressed="false">Alambre</button>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">Plano de corte</p>
+      <label class="toggle-row"><input type="checkbox" id="clip-enabled"> Activar corte</label>
+      <div class="clip-controls" id="clip-controls" data-enabled="false">
+        <div class="segmented-row" id="clip-axis-row">
+          <button data-axis="0" aria-pressed="true">X</button>
+          <button data-axis="1" aria-pressed="false">Y</button>
+          <button data-axis="2" aria-pressed="false">Z</button>
+        </div>
+        <input type="range" id="clip-slider" min="0" max="100" value="50">
+      </div>
     </div>
     <div>
       <p class="eyebrow">Métricas de reconstrucción</p>
@@ -352,6 +421,61 @@ _TEMPLATE = r"""<!doctype html>
   </div>
 </main>
 
+<main id="panel-lab" class="hidden">
+  <aside>
+    <div>
+      <p class="eyebrow">Órgano</p>
+      <div class="organ-list" id="organ-list-lab"></div>
+    </div>
+    <div>
+      <p class="eyebrow">Modo</p>
+      <div class="lab-subtabs">
+        <button data-lab-mode="timeline" aria-pressed="true">Línea de tiempo</button>
+        <button data-lab-mode="free" aria-pressed="false">Modo libre</button>
+      </div>
+    </div>
+    <p class="note">
+      Este laboratorio reconstruye, en 2D y sobre el mismo corte real que ves
+      en "Cortes CT", los mismos pasos que el pipeline aplicó de verdad en 3D
+      para este órgano: umbral de intensidad, limpieza morfológica, y
+      relleno de huecos.
+    </p>
+  </aside>
+  <div class="lab-panel">
+    <div id="lab-timeline-view">
+      <div class="lab-canvas-row">
+        <canvas id="lab-canvas"></canvas>
+        <div class="lab-stage-caption">
+          <h4 id="lab-stage-title"></h4>
+          <p id="lab-stage-text"></p>
+        </div>
+      </div>
+      <div class="lab-stepper">
+        <button id="lab-prev">&larr; Anterior</button>
+        <div class="lab-dots" id="lab-dots"></div>
+        <button id="lab-next">Siguiente &rarr;</button>
+      </div>
+    </div>
+    <div id="lab-free-view" class="hidden">
+      <div class="lab-canvas-row">
+        <canvas id="lab-free-canvas"></canvas>
+        <div class="lab-stage-caption">
+          <h4>Arma tu propio pipeline</h4>
+          <p>Ajusta el umbral y activa o desactiva los pasos de limpieza — el mismo corte real, tus propias decisiones.</p>
+          <p class="lab-match" id="lab-free-match"></p>
+        </div>
+      </div>
+      <div class="lab-field">
+        <div class="label-row"><span>Umbral</span><span id="lab-threshold-value"></span></div>
+        <input type="range" id="lab-threshold-slider" min="0" max="255" value="128">
+        <span class="lab-tick-note" id="lab-threshold-real"></span>
+      </div>
+      <label class="toggle-row"><input type="checkbox" id="lab-opening-toggle" checked> Apertura morfológica (quita ruido de la segmentación)</label>
+      <label class="toggle-row"><input type="checkbox" id="lab-cleanup-toggle" checked> Quedarse con la forma más grande y rellenar huecos</label>
+    </div>
+  </div>
+</main>
+
 <script>
   const ORGAN_ORDER = __ORGAN_ORDER_JSON__;
   const ORGAN_META = __ORGAN_META_JSON__;
@@ -372,22 +496,28 @@ _TEMPLATE = r"""<!doctype html>
   // ---------- tabs ----------
   const tabBtn3d = document.getElementById("tab-btn-3d");
   const tabBtnSlices = document.getElementById("tab-btn-slices");
+  const tabBtnLab = document.getElementById("tab-btn-lab");
   const tabBtnAnatomy = document.getElementById("tab-btn-anatomy");
   const panel3d = document.getElementById("panel-3d");
   const panelSlices = document.getElementById("panel-slices");
+  const panelLab = document.getElementById("panel-lab");
   const panelAnatomy = document.getElementById("panel-anatomy");
 
   function activateTab(which) {
     tabBtn3d.setAttribute("aria-selected", String(which === "3d"));
     tabBtnSlices.setAttribute("aria-selected", String(which === "slices"));
+    tabBtnLab.setAttribute("aria-selected", String(which === "lab"));
     tabBtnAnatomy.setAttribute("aria-selected", String(which === "anatomy"));
     panel3d.classList.toggle("hidden", which !== "3d");
     panelSlices.classList.toggle("hidden", which !== "slices");
+    panelLab.classList.toggle("hidden", which !== "lab");
     panelAnatomy.classList.toggle("hidden", which !== "anatomy");
     if (which === "slices") { resizeSliceCanvasDisplay(); drawSlice(); }
+    if (which === "lab") { labRender(); }
   }
   tabBtn3d.addEventListener("click", () => activateTab("3d"));
   tabBtnSlices.addEventListener("click", () => activateTab("slices"));
+  tabBtnLab.addEventListener("click", () => activateTab("lab"));
   tabBtnAnatomy.addEventListener("click", () => activateTab("anatomy"));
 
   // ---------- theme ----------
@@ -414,17 +544,26 @@ _TEMPLATE = r"""<!doctype html>
   const canvas = document.getElementById("gl-canvas");
   const gl = canvas.getContext("webgl", {antialias: true, alpha: false});
 
+  const CLIP_UNIFORMS_FS = `
+    uniform vec3 uClipNormal; uniform float uClipValue; uniform float uClipEnabled;
+    bool clipDiscard(vec3 worldPos) {
+      return uClipEnabled > 0.5 && dot(worldPos, uClipNormal) > uClipValue;
+    }`;
   const VS = `attribute vec3 aPosition; attribute vec3 aNormal;
     uniform mat4 uModelView; uniform mat4 uProjection; uniform mat3 uNormalMatrix;
-    varying vec3 vNormal; varying vec3 vViewPos;
+    varying vec3 vNormal; varying vec3 vViewPos; varying vec3 vWorldPos;
     void main() {
       vec4 vp = uModelView * vec4(aPosition, 1.0);
       vViewPos = vp.xyz;
+      vWorldPos = aPosition;
       vNormal = normalize(uNormalMatrix * aNormal);
       gl_Position = uProjection * vp;
     }`;
-  const FS = `precision highp float; varying vec3 vNormal; varying vec3 vViewPos; uniform vec3 uColor;
+  const FS = `precision highp float; varying vec3 vNormal; varying vec3 vViewPos; varying vec3 vWorldPos;
+    uniform vec3 uColor; uniform float uAlpha;
+    ${CLIP_UNIFORMS_FS}
     void main() {
+      if (clipDiscard(vWorldPos)) discard;
       vec3 N = normalize(vNormal); if (!gl_FrontFacing) N = -N;
       vec3 V = normalize(-vViewPos);
       vec3 keyDir = normalize(vec3(0.55, 0.65, 0.85));
@@ -434,17 +573,35 @@ _TEMPLATE = r"""<!doctype html>
       vec3 halfV = normalize(keyDir + V);
       float spec = pow(max(dot(N, halfV), 0.0), 28.0) * 0.22;
       vec3 color = uColor * (0.32 + key * 0.72 + fill * 0.22) + vec3(spec);
-      gl_FragColor = vec4(color, 1.0);
+      gl_FragColor = vec4(color, uAlpha);
+    }`;
+  const VS_WIRE = `attribute vec3 aPosition;
+    uniform mat4 uModelView; uniform mat4 uProjection;
+    varying vec3 vWorldPos;
+    void main() {
+      vWorldPos = aPosition;
+      gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    }`;
+  const FS_WIRE = `precision highp float; varying vec3 vWorldPos;
+    uniform vec3 uColor; uniform float uAlpha;
+    ${CLIP_UNIFORMS_FS}
+    void main() {
+      if (clipDiscard(vWorldPos)) discard;
+      gl_FragColor = vec4(uColor, uAlpha);
     }`;
   function compile(type, src) {
     const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
     return s;
   }
-  const program = gl.createProgram();
-  gl.attachShader(program, compile(gl.VERTEX_SHADER, VS));
-  gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FS));
-  gl.linkProgram(program);
+  function linkProgram(vsSrc, fsSrc) {
+    const p = gl.createProgram();
+    gl.attachShader(p, compile(gl.VERTEX_SHADER, vsSrc));
+    gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fsSrc));
+    gl.linkProgram(p);
+    return p;
+  }
+  const program = linkProgram(VS, FS);
   gl.useProgram(program);
   const aPosition = gl.getAttribLocation(program, "aPosition");
   const aNormal = gl.getAttribLocation(program, "aNormal");
@@ -452,9 +609,80 @@ _TEMPLATE = r"""<!doctype html>
   const uProjection = gl.getUniformLocation(program, "uProjection");
   const uNormalMatrix = gl.getUniformLocation(program, "uNormalMatrix");
   const uColor = gl.getUniformLocation(program, "uColor");
-  const posBuf = gl.createBuffer(), normBuf = gl.createBuffer(), idxBuf = gl.createBuffer();
+  const uAlpha = gl.getUniformLocation(program, "uAlpha");
+  const uClipNormal = gl.getUniformLocation(program, "uClipNormal");
+  const uClipValue = gl.getUniformLocation(program, "uClipValue");
+  const uClipEnabled = gl.getUniformLocation(program, "uClipEnabled");
+
+  const wireProgram = linkProgram(VS_WIRE, FS_WIRE);
+  const aPositionW = gl.getAttribLocation(wireProgram, "aPosition");
+  const uModelViewW = gl.getUniformLocation(wireProgram, "uModelView");
+  const uProjectionW = gl.getUniformLocation(wireProgram, "uProjection");
+  const uColorW = gl.getUniformLocation(wireProgram, "uColor");
+  const uAlphaW = gl.getUniformLocation(wireProgram, "uAlpha");
+  const uClipNormalW = gl.getUniformLocation(wireProgram, "uClipNormal");
+  const uClipValueW = gl.getUniformLocation(wireProgram, "uClipValue");
+  const uClipEnabledW = gl.getUniformLocation(wireProgram, "uClipEnabled");
+
+  const posBuf = gl.createBuffer(), normBuf = gl.createBuffer(), idxBuf = gl.createBuffer(), edgeBuf = gl.createBuffer();
+  let edgeCount = 0;
   gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK);
   gl.getExtension("OES_element_index_uint");
+
+  // ---------- view mode + clipping plane state ----------
+  let viewMode = "solid"; // "solid" | "xray" | "wire"
+  let clipEnabled = false, clipAxis = 0, clipFraction = 0.5;
+  let meshBoundsMin = [0,0,0], meshBoundsMax = [0,0,0];
+
+  function buildEdgeIndices(indices) {
+    const seen = new Set();
+    const edges = [];
+    function addEdge(a, b) {
+      const lo = Math.min(a, b), hi = Math.max(a, b);
+      const key = lo + "_" + hi;
+      if (seen.has(key)) return;
+      seen.add(key);
+      edges.push(lo, hi);
+    }
+    for (let i = 0; i < indices.length; i += 3) {
+      addEdge(indices[i], indices[i+1]);
+      addEdge(indices[i+1], indices[i+2]);
+      addEdge(indices[i+2], indices[i]);
+    }
+    return new Uint32Array(edges);
+  }
+
+  function clipUniformValues() {
+    const normal = clipAxis === 0 ? [1,0,0] : clipAxis === 1 ? [0,1,0] : [0,0,1];
+    const lo = meshBoundsMin[clipAxis], hi = meshBoundsMax[clipAxis];
+    return {normal, value: lo + (hi - lo) * clipFraction};
+  }
+
+  const viewModeRow = document.getElementById("view-mode-row");
+  viewModeRow.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-mode]");
+    if (!btn) return;
+    viewMode = btn.dataset.mode;
+    for (const b of viewModeRow.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b === btn));
+  });
+
+  const clipEnabledEl = document.getElementById("clip-enabled");
+  const clipControlsEl = document.getElementById("clip-controls");
+  const clipAxisRow = document.getElementById("clip-axis-row");
+  const clipSliderEl = document.getElementById("clip-slider");
+  clipEnabledEl.addEventListener("change", () => {
+    clipEnabled = clipEnabledEl.checked;
+    clipControlsEl.dataset.enabled = String(clipEnabled);
+  });
+  clipAxisRow.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-axis]");
+    if (!btn) return;
+    clipAxis = Number(btn.dataset.axis);
+    for (const b of clipAxisRow.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b === btn));
+  });
+  clipSliderEl.addEventListener("input", () => {
+    clipFraction = Number(clipSliderEl.value) / 100;
+  });
 
   function perspective(fovy, aspect, near, far) {
     const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
@@ -480,9 +708,15 @@ _TEMPLATE = r"""<!doctype html>
   function frameCamera(mesh) {
     boundingRadius = 1;
     const c = mesh.center;
+    meshBoundsMin = [Infinity, Infinity, Infinity];
+    meshBoundsMax = [-Infinity, -Infinity, -Infinity];
     for (let i = 0; i < mesh.positions.length; i += 3) {
-      const d = Math.hypot(mesh.positions[i]-c[0], mesh.positions[i+1]-c[1], mesh.positions[i+2]-c[2]);
+      const x = mesh.positions[i], y = mesh.positions[i+1], z = mesh.positions[i+2];
+      const d = Math.hypot(x-c[0], y-c[1], z-c[2]);
       if (d > boundingRadius) boundingRadius = d;
+      if (x < meshBoundsMin[0]) meshBoundsMin[0] = x; if (x > meshBoundsMax[0]) meshBoundsMax[0] = x;
+      if (y < meshBoundsMin[1]) meshBoundsMin[1] = y; if (y > meshBoundsMax[1]) meshBoundsMax[1] = y;
+      if (z < meshBoundsMin[2]) meshBoundsMin[2] = z; if (z > meshBoundsMax[2]) meshBoundsMax[2] = z;
     }
     radius = boundingRadius * 2.6; targetRadius = radius;
   }
@@ -490,6 +724,9 @@ _TEMPLATE = r"""<!doctype html>
     gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, mesh.positions, gl.STATIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, normBuf); gl.bufferData(gl.ARRAY_BUFFER, mesh.normals, gl.STATIC_DRAW);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, mesh.indices, gl.STATIC_DRAW);
+    const edges = buildEdgeIndices(mesh.indices);
+    edgeCount = edges.length;
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, edgeBuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, edges, gl.STATIC_DRAW);
   }
 
   canvas.addEventListener("pointerdown", e => { dragging = true; autoRotate = false; lastX = e.clientX; lastY = e.clientY; canvas.setPointerCapture(e.pointerId); });
@@ -527,15 +764,44 @@ _TEMPLATE = r"""<!doctype html>
       const eye = [c[0]+radius*Math.sin(phi)*Math.sin(theta), c[1]+radius*Math.cos(phi), c[2]+radius*Math.sin(phi)*Math.cos(theta)];
       const view = lookAt(eye, c, [0,1,0]);
       const proj = perspective(Math.PI/4.2, canvas.width/Math.max(1,canvas.height), Math.max(0.01,boundingRadius*0.02), boundingRadius*20);
-      gl.useProgram(program);
-      gl.uniformMatrix4fv(uModelView, false, view);
-      gl.uniformMatrix4fv(uProjection, false, proj);
-      gl.uniformMatrix3fv(uNormalMatrix, false, normalMat3(view));
-      gl.uniform3fv(uColor, currentColor);
-      gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPosition); gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
-      gl.bindBuffer(gl.ARRAY_BUFFER, normBuf); gl.enableVertexAttribArray(aNormal); gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
-      gl.drawElements(gl.TRIANGLES, currentMesh.indices.length, gl.UNSIGNED_INT, 0);
+      const clip = clipUniformValues();
+
+      if (viewMode === "wire") {
+        gl.useProgram(wireProgram);
+        gl.uniformMatrix4fv(uModelViewW, false, view);
+        gl.uniformMatrix4fv(uProjectionW, false, proj);
+        gl.uniform3fv(uColorW, currentColor);
+        gl.uniform1f(uAlphaW, 1.0);
+        gl.uniform3fv(uClipNormalW, clip.normal);
+        gl.uniform1f(uClipValueW, clip.value);
+        gl.uniform1f(uClipEnabledW, clipEnabled ? 1.0 : 0.0);
+        gl.disable(gl.BLEND); gl.depthMask(true); gl.enable(gl.DEPTH_TEST);
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPositionW); gl.vertexAttribPointer(aPositionW, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, edgeBuf);
+        gl.drawElements(gl.LINES, edgeCount, gl.UNSIGNED_INT, 0);
+      } else {
+        gl.useProgram(program);
+        gl.uniformMatrix4fv(uModelView, false, view);
+        gl.uniformMatrix4fv(uProjection, false, proj);
+        gl.uniformMatrix3fv(uNormalMatrix, false, normalMat3(view));
+        gl.uniform3fv(uColor, currentColor);
+        gl.uniform3fv(uClipNormal, clip.normal);
+        gl.uniform1f(uClipValue, clip.value);
+        gl.uniform1f(uClipEnabled, clipEnabled ? 1.0 : 0.0);
+        if (viewMode === "xray") {
+          gl.uniform1f(uAlpha, 0.32);
+          gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+          gl.depthMask(false); gl.disable(gl.CULL_FACE);
+        } else {
+          gl.uniform1f(uAlpha, 1.0);
+          gl.disable(gl.BLEND); gl.depthMask(true); gl.enable(gl.CULL_FACE);
+        }
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPosition); gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, normBuf); gl.enableVertexAttribArray(aNormal); gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+        gl.drawElements(gl.TRIANGLES, currentMesh.indices.length, gl.UNSIGNED_INT, 0);
+        if (viewMode === "xray") { gl.depthMask(true); gl.enable(gl.CULL_FACE); gl.disable(gl.BLEND); }
+      }
     }
     requestAnimationFrame(render3d);
   }
@@ -607,7 +873,7 @@ _TEMPLATE = r"""<!doctype html>
       "Cortes del volumen preprocesado real que este pipeline realmente segmentó para " + meta.label.toLowerCase() +
       " (mismos datos de origen que la reconstrucción 3D), submuestreado para un archivo más ligero.";
 
-    for (const list of [document.getElementById("organ-list"), document.getElementById("organ-list-slices"), document.getElementById("organ-list-anatomy")]) {
+    for (const list of [document.getElementById("organ-list"), document.getElementById("organ-list-slices"), document.getElementById("organ-list-anatomy"), document.getElementById("organ-list-lab")]) {
       for (const btn of list.querySelectorAll(".organ-btn")) {
         btn.setAttribute("aria-pressed", String(btn.dataset.organ === key));
       }
@@ -615,12 +881,14 @@ _TEMPLATE = r"""<!doctype html>
 
     loadSliceVolume(data.slices);
     if (!panelSlices.classList.contains("hidden")) { resizeSliceCanvasDisplay(); drawSlice(); }
+    labSelectOrgan(key);
+    if (!panelLab.classList.contains("hidden")) labRender();
   }
 
-  for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy"]) {
+  for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy", "organ-list-lab"]) {
     document.getElementById(listId).innerHTML = organListHtml(ORGAN_ORDER[0]);
   }
-  for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy"]) {
+  for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy", "organ-list-lab"]) {
     for (const btn of document.getElementById(listId).querySelectorAll(".organ-btn")) {
       btn.addEventListener("click", () => selectOrgan(btn.dataset.organ));
     }
@@ -724,6 +992,236 @@ _TEMPLATE = r"""<!doctype html>
     huReadoutEl.textContent = `(${px}, ${py})  ${raw}/255  ≈${orig.toFixed(0)}`;
   });
   sliceCanvas.addEventListener("mouseleave", () => { huReadoutEl.textContent = "—"; });
+
+  /* =========================================================
+     Laboratorio: motor de morfología 2D + línea de tiempo + modo libre
+     ========================================================= */
+  function labThreshold(gray, w, h, t, below) {
+    const mask = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) mask[i] = (below ? gray[i] < t : gray[i] > t) ? 1 : 0;
+    return mask;
+  }
+  function labErode(mask, w, h) {
+    const out = new Uint8Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      let all = 1;
+      for (let dy = -1; dy <= 1 && all; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const xx = x + dx, yy = y + dy;
+        if (xx < 0 || yy < 0 || xx >= w || yy >= h || !mask[yy * w + xx]) { all = 0; break; }
+      }
+      out[y * w + x] = all;
+    }
+    return out;
+  }
+  function labDilate(mask, w, h) {
+    const out = new Uint8Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      let any = 0;
+      for (let dy = -1; dy <= 1 && !any; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const xx = x + dx, yy = y + dy;
+        if (xx >= 0 && yy >= 0 && xx < w && yy < h && mask[yy * w + xx]) { any = 1; break; }
+      }
+      out[y * w + x] = any;
+    }
+    return out;
+  }
+  function labOpen(mask, w, h) { return labDilate(labErode(mask, w, h), w, h); }
+  function labClose(mask, w, h) { return labErode(labDilate(mask, w, h), w, h); }
+  function labLargestComponent(mask, w, h) {
+    const labels = new Int32Array(w * h).fill(-1);
+    let bestLabel = -1, bestSize = 0, label = 0;
+    const stack = [];
+    for (let start = 0; start < w * h; start++) {
+      if (!mask[start] || labels[start] !== -1) continue;
+      let size = 0;
+      stack.push(start); labels[start] = label;
+      while (stack.length) {
+        const idx = stack.pop();
+        size++;
+        const x = idx % w, y = (idx / w) | 0;
+        const nbrs = [[x-1,y],[x+1,y],[x,y-1],[x,y+1]];
+        for (const [nx, ny] of nbrs) {
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const nidx = ny * w + nx;
+          if (mask[nidx] && labels[nidx] === -1) { labels[nidx] = label; stack.push(nidx); }
+        }
+      }
+      if (size > bestSize) { bestSize = size; bestLabel = label; }
+      label++;
+    }
+    const out = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) out[i] = labels[i] === bestLabel ? 1 : 0;
+    return out;
+  }
+  function labFillHoles(mask, w, h) {
+    const bg = new Uint8Array(w * h);
+    const stack = [];
+    function seed(idx) { if (!mask[idx] && !bg[idx]) { bg[idx] = 1; stack.push(idx); } }
+    for (let x = 0; x < w; x++) { seed(x); seed((h-1)*w + x); }
+    for (let y = 0; y < h; y++) { seed(y*w); seed(y*w + w - 1); }
+    while (stack.length) {
+      const idx = stack.pop();
+      const x = idx % w, y = (idx / w) | 0;
+      const nbrs = [[x-1,y],[x+1,y],[x,y-1],[x,y+1]];
+      for (const [nx, ny] of nbrs) {
+        if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+        seed(ny * w + nx);
+      }
+    }
+    const out = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) out[i] = (mask[i] || !bg[i]) ? 1 : 0;
+    return out;
+  }
+  function labMaskBoundary(mask, w, h) {
+    const eroded = labErode(mask, w, h);
+    const out = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) out[i] = mask[i] && !eroded[i] ? 1 : 0;
+    return out;
+  }
+
+  // Render helpers: paint a grayscale array, optionally with a binary mask
+  // washed in the accent color and/or a bright contour outline.
+  function labPaintImageData(imgData, gray, w, h, mask, contourOnly) {
+    const data = imgData.data;
+    for (let i = 0; i < w * h; i++) {
+      const g = gray[i];
+      const o = i * 4;
+      if (mask) {
+        if (contourOnly) {
+          if (mask[i]) { data[o]=70; data[o+1]=201; data[o+2]=194; data[o+3]=255; }
+          else { data[o]=g; data[o+1]=g; data[o+2]=g; data[o+3]=255; }
+        } else {
+          // translucent wash over the grayscale background for pure mask stages
+          const inside = mask[i];
+          data[o] = inside ? Math.round(g*0.35 + 70*0.65) : g;
+          data[o+1] = inside ? Math.round(g*0.35 + 201*0.65) : g;
+          data[o+2] = inside ? Math.round(g*0.35 + 194*0.65) : g;
+          data[o+3] = 255;
+        }
+      } else {
+        data[o]=g; data[o+1]=g; data[o+2]=g; data[o+3]=255;
+      }
+    }
+  }
+
+  const labSubtabButtons = document.querySelectorAll(".lab-subtabs button");
+  const labTimelineViewEl = document.getElementById("lab-timeline-view");
+  const labFreeViewEl = document.getElementById("lab-free-view");
+  const labCanvas = document.getElementById("lab-canvas");
+  const labCtx = labCanvas.getContext("2d");
+  const labFreeCanvas = document.getElementById("lab-free-canvas");
+  const labFreeCtx = labFreeCanvas.getContext("2d");
+  const labStageTitleEl = document.getElementById("lab-stage-title");
+  const labStageTextEl = document.getElementById("lab-stage-text");
+  const labDotsEl = document.getElementById("lab-dots");
+  const labPrevBtn = document.getElementById("lab-prev");
+  const labNextBtn = document.getElementById("lab-next");
+  const labThresholdSlider = document.getElementById("lab-threshold-slider");
+  const labThresholdValueEl = document.getElementById("lab-threshold-value");
+  const labThresholdRealEl = document.getElementById("lab-threshold-real");
+  const labOpeningToggle = document.getElementById("lab-opening-toggle");
+  const labCleanupToggle = document.getElementById("lab-cleanup-toggle");
+  const labFreeMatchEl = document.getElementById("lab-free-match");
+
+  let labMode = "timeline";
+  let labStage = 0;
+  let labGray = null, labW = 0, labH = 0;
+  let labThresholdNative = 0, labThresholdBelow = false, labQuantThreshold = 128;
+
+  function labSelectOrgan(key) {
+    const slices = VIEWER_DATA[key].slices;
+    const meta = ORGAN_META[key];
+    const [nz, ny, nx] = slices.shape_zyx;
+    const midZ = Math.floor(nz / 2);
+    // sv.voxels was just decoded by loadSliceVolume() for the "Cortes CT"
+    // tab (called right before this in selectOrgan) — reuse it instead of
+    // decoding the same base64 payload a second time.
+    labGray = sv.voxels.subarray(midZ * ny * nx, (midZ + 1) * ny * nx);
+    labW = nx; labH = ny;
+    labThresholdNative = meta.threshold_native;
+    labThresholdBelow = meta.threshold_below;
+    const frac = (labThresholdNative - slices.value_min) / (slices.value_max - slices.value_min);
+    labQuantThreshold = Math.max(0, Math.min(255, Math.round(frac * 255)));
+    labStage = 0;
+    labThresholdSlider.value = String(labQuantThreshold);
+    labThresholdValueEl.textContent = String(labQuantThreshold);
+    labThresholdRealEl.textContent = "Valor real usado por el pipeline: " + meta.threshold_label;
+    labOpeningToggle.checked = true;
+    labCleanupToggle.checked = true;
+  }
+
+  function labComputeStageMask(stageIdx) {
+    const t = labThreshold(labGray, labW, labH, labQuantThreshold, labThresholdBelow);
+    if (stageIdx <= 0) return null;
+    const opened = labOpen(t, labW, labH);
+    if (stageIdx === 1) return t;
+    if (stageIdx === 2) return opened;
+    const largest = labLargestComponent(opened, labW, labH);
+    if (stageIdx === 3) return largest;
+    return labFillHoles(labClose(largest, labW, labH), labW, labH);
+  }
+
+  const LAB_STAGES = [
+    {title: "0. Corte original", text: "El corte 2D real que este pipeline segmentó — sin ningún procesamiento todavía."},
+    {title: "1. Umbral de intensidad", text: "Se marca como \"posible tejido\" cada píxel que cruza el umbral real de este órgano. Nota el ruido: puntos sueltos que no son tejido de verdad."},
+    {title: "2. Apertura morfológica", text: "Erosiona y luego dilata la máscara — así desaparece el ruido de un solo píxel sin perder la forma principal."},
+    {title: "3. Componente más grande", text: "De todas las regiones que sobrevivieron, se conserva solo la más grande — el resto era ruido residual o artefactos."},
+    {title: "4. Cierre + relleno de huecos (resultado final)", text: "Se cierran pequeños huecos internos y se traza el contorno final — esta silueta es, en esencia, lo que se convierte en la malla 3D."},
+  ];
+
+  function labRenderTimeline() {
+    if (!labGray) return;
+    labCanvas.width = labW; labCanvas.height = labH;
+    const imgData = labCtx.createImageData(labW, labH);
+    const mask = labComputeStageMask(labStage);
+    const isFinal = labStage === LAB_STAGES.length - 1;
+    labPaintImageData(imgData, labGray, labW, labH, mask && isFinal ? labMaskBoundary(mask, labW, labH) : mask, isFinal);
+    labCtx.putImageData(imgData, 0, 0);
+    labStageTitleEl.textContent = LAB_STAGES[labStage].title;
+    labStageTextEl.textContent = LAB_STAGES[labStage].text;
+    labPrevBtn.disabled = labStage === 0;
+    labNextBtn.disabled = labStage === LAB_STAGES.length - 1;
+    labDotsEl.innerHTML = LAB_STAGES.map((_, i) => `<span data-active="${i === labStage}"></span>`).join("");
+  }
+
+  function labRenderFree() {
+    if (!labGray) return;
+    labFreeCanvas.width = labW; labFreeCanvas.height = labH;
+    labQuantThreshold = Number(labThresholdSlider.value);
+    labThresholdValueEl.textContent = String(labQuantThreshold);
+    let mask = labThreshold(labGray, labW, labH, labQuantThreshold, labThresholdBelow);
+    if (labOpeningToggle.checked) mask = labOpen(mask, labW, labH);
+    if (labCleanupToggle.checked) mask = labFillHoles(labClose(labLargestComponent(mask, labW, labH), labW, labH), labW, labH);
+    const imgData = labFreeCtx.createImageData(labW, labH);
+    labPaintImageData(imgData, labGray, labW, labH, mask, false);
+    labFreeCtx.putImageData(imgData, 0, 0);
+
+    const officialQuant = Math.max(0, Math.min(255, Math.round(
+      ((labThresholdNative - VIEWER_DATA[currentOrganKey].slices.value_min) /
+       (VIEWER_DATA[currentOrganKey].slices.value_max - VIEWER_DATA[currentOrganKey].slices.value_min)) * 255
+    )));
+    labFreeMatchEl.textContent = Math.abs(labQuantThreshold - officialQuant) <= 8
+      ? "¡Muy cerca del umbral real que usa el pipeline!" : "";
+  }
+
+  function labRender() {
+    if (labMode === "timeline") labRenderTimeline(); else labRenderFree();
+  }
+
+  for (const btn of labSubtabButtons) {
+    btn.addEventListener("click", () => {
+      labMode = btn.dataset.labMode;
+      for (const b of labSubtabButtons) b.setAttribute("aria-pressed", String(b === btn));
+      labTimelineViewEl.classList.toggle("hidden", labMode !== "timeline");
+      labFreeViewEl.classList.toggle("hidden", labMode !== "free");
+      labRender();
+    });
+  }
+  labPrevBtn.addEventListener("click", () => { labStage = Math.max(0, labStage - 1); labRenderTimeline(); });
+  labNextBtn.addEventListener("click", () => { labStage = Math.min(LAB_STAGES.length - 1, labStage + 1); labRenderTimeline(); });
+  labThresholdSlider.addEventListener("input", labRenderFree);
+  labOpeningToggle.addEventListener("change", labRenderFree);
+  labCleanupToggle.addEventListener("change", labRenderFree);
 
   // ---------- boot ----------
   selectOrgan(ORGAN_ORDER[0]);
