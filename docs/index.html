@@ -2,43 +2,47 @@
 <title>Medical3DReconstruction — Visor</title>
 <style>
   :root {
-    --bg: #0a0e13; --surface: #121820; --surface-raised: #1a222c; --border: #26313d;
-    --text: #eaf0f6; --text-dim: #7e93a7; --text-faint: #4b5c6c;
-    --accent: #46c9c2; --accent-soft: rgba(70,201,194,0.14); --accent-strong: #2f918c;
-    --warn: #d99a3c; --ok: #4fbf78;
-    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", sans-serif;
+    --bg: #161310; --surface: #1e1a15; --surface-raised: #27221a; --border: #3a3225;
+    --text: #f1e9da; --text-dim: #a89a83; --text-faint: #71644f;
+    --accent: #d17d3a; --accent-soft: rgba(209,125,58,0.16); --accent-strong: #b3611f;
+    --accent-ink: #2a1a0d;
+    --warn: #d9a23c; --ok: #7fa15c;
+    --font-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
     --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Consolas", monospace;
   }
   :root[data-theme="light"] {
-    --bg: #eef2f5; --surface: #ffffff; --surface-raised: #f4f7f9; --border: #d7dfe5;
-    --text: #121820; --text-dim: #566878; --text-faint: #94a3b0;
-    --accent: #1f8f88; --accent-soft: rgba(31,143,136,0.10); --accent-strong: #17706b;
+    --bg: #f5efe2; --surface: #fffcf5; --surface-raised: #efe6d2; --border: #ddccab;
+    --text: #251f16; --text-dim: #6b5d47; --text-faint: #a29170;
+    --accent: #a8501f; --accent-soft: rgba(168,80,31,0.11); --accent-strong: #7e3c17;
+    --accent-ink: #fff6ea;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
-      --bg: #eef2f5; --surface: #ffffff; --surface-raised: #f4f7f9; --border: #d7dfe5;
-      --text: #121820; --text-dim: #566878; --text-faint: #94a3b0;
-      --accent: #1f8f88; --accent-soft: rgba(31,143,136,0.10); --accent-strong: #17706b;
+      --bg: #f5efe2; --surface: #fffcf5; --surface-raised: #efe6d2; --border: #ddccab;
+      --text: #251f16; --text-dim: #6b5d47; --text-faint: #a29170;
+      --accent: #a8501f; --accent-soft: rgba(168,80,31,0.11); --accent-strong: #7e3c17;
+      --accent-ink: #fff6ea;
     }
   }
   * { box-sizing: border-box; }
   .hidden { display: none; }
   html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-ui); overflow: hidden; }
   body { display: flex; flex-direction: column; }
-  header { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1.1rem; background: var(--surface-raised); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  header .mark { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-  header h1 { font-size: 0.92rem; margin: 0; font-weight: 650; }
+  header { display: flex; align-items: center; gap: 0.8rem; padding: 0.65rem 1.1rem; background: var(--surface-raised); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  header .mark { width: 22px; height: 22px; flex-shrink: 0; color: var(--accent); }
+  header h1 { font-family: var(--font-serif); font-size: 1.02rem; margin: 0; font-weight: 600; letter-spacing: 0.01em; }
   header .spacer { flex: 1; }
-  .tab-switch { display: flex; gap: 0.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.2rem; }
-  .tab-btn { font-size: 0.76rem; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 6px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .tab-switch { display: flex; gap: 0.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.2rem; }
+  .tab-btn { font-size: 0.76rem; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 4px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; font-family: inherit; }
   .tab-btn[aria-selected="true"] { background: var(--accent-soft); color: var(--text); }
-  .icon-btn-flat { padding: 0.35rem 0.6rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
+  .icon-btn-flat { padding: 0.35rem 0.6rem; border-radius: 5px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
   main { flex: 1; display: grid; grid-template-columns: 300px 1fr; min-height: 0; }
   main.hidden { display: none; }
   aside { border-right: 1px solid var(--border); background: var(--surface); overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 1.1rem; }
   .eyebrow { font-size: 0.66rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 0.5rem; }
   .organ-list { display: flex; flex-direction: column; gap: 0.35rem; }
-  .organ-btn { display: flex; align-items: center; gap: 0.55rem; text-align: left; padding: 0.5rem 0.6rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; }
+  .organ-btn { display: flex; align-items: center; gap: 0.55rem; text-align: left; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; }
   .organ-btn[aria-pressed="true"] { border-color: var(--accent-strong); background: var(--accent-soft); }
   .organ-swatch { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
   .label-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
@@ -48,7 +52,7 @@
   .source-pill.real { background: rgba(79,191,120,0.16); color: var(--ok); }
   .metric-row { display: flex; justify-content: space-between; gap: 0.6rem; padding: 0.28rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
   .metric-row .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  .validation-line { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; padding: 0.5rem 0.6rem; border-radius: 8px; background: var(--surface-raised); border: 1px solid var(--border); }
+  .validation-line { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; padding: 0.5rem 0.6rem; border-radius: 6px; background: var(--surface-raised); border: 1px solid var(--border); }
   .validation-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .validation-dot.pass { background: var(--ok); }
   .validation-dot.fail { background: var(--warn); }
@@ -56,23 +60,23 @@
   .stage { position: relative; background: radial-gradient(ellipse at 50% 38%, color-mix(in srgb, var(--surface-raised) 60%, transparent), var(--bg) 72%); }
   #gl-canvas, #room-canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
   .stage-hud { position: absolute; left: 1rem; bottom: 1rem; font-size: 0.7rem; color: var(--text-faint); font-family: var(--font-mono); }
-  .icon-btn { position: absolute; top: 1rem; right: 1rem; padding: 0.35rem 0.6rem; border-radius: 7px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 78%, transparent); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
+  .icon-btn { position: absolute; top: 1rem; right: 1rem; padding: 0.35rem 0.6rem; border-radius: 5px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 78%, transparent); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
   .slice-stage { position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
   #slice-canvas { image-rendering: pixelated; cursor: crosshair; box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
   .slider-row { display: flex; align-items: center; gap: 0.5rem; }
   .slider-row input[type="range"] { flex: 1; accent-color: var(--accent); }
   .preset-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-  .preset-btn { font-size: 0.7rem; padding: 0.28rem 0.55rem; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .preset-btn { font-size: 0.7rem; padding: 0.28rem 0.55rem; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; }
   .preset-btn[aria-pressed="true"] { border-color: var(--accent-strong); color: var(--text); background: var(--accent-soft); }
-  .hu-readout { position: absolute; left: 1rem; top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: #dce8f2; background: rgba(0,0,0,0.45); padding: 0.25rem 0.5rem; border-radius: 6px; }
+  .hu-readout { position: absolute; left: 1rem; top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: #dce8f2; background: rgba(0,0,0,0.45); padding: 0.25rem 0.5rem; border-radius: 4px; }
   .anatomy-panel { padding: 1.4rem 1.8rem; overflow-y: auto; max-width: 62rem; }
-  .anatomy-panel h2 { font-size: 1.3rem; margin: 0 0 0.3rem; text-transform: capitalize; }
+  .anatomy-panel h2 { font-family: var(--font-serif); font-weight: 600; font-size: 1.5rem; margin: 0 0 0.3rem; text-transform: capitalize; }
   .anatomy-panel .algo-line { font-size: 0.78rem; color: var(--text-dim); margin: 0 0 1.1rem; }
   .anatomy-panel p { font-size: 0.88rem; line-height: 1.65; color: var(--text); }
-  .anatomy-panel .anatomy-detail h3 { font-size: 0.92rem; margin: 1.15rem 0 0.35rem; color: var(--accent-strong); }
+  .anatomy-panel .anatomy-detail h3 { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; margin: 1.15rem 0 0.35rem; color: var(--accent-strong); }
   .anatomy-panel .anatomy-detail h3:first-child { margin-top: 0; }
   .anatomy-panel .anatomy-detail p { margin: 0 0 0.15rem; }
-  .anatomy-panel .source-box { margin-top: 1.2rem; padding: 0.8rem 1rem; border-radius: 10px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 0.78rem; line-height: 1.55; color: var(--text-dim); }
+  .anatomy-panel .source-box { margin-top: 1.2rem; padding: 0.8rem 1rem; border-radius: 7px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 0.78rem; line-height: 1.55; color: var(--text-dim); }
   .anatomy-panel .source-box b { color: var(--text); }
   .fun-facts-list { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.55rem; }
   .fun-facts-list li { font-size: 0.85rem; line-height: 1.55; color: var(--text); }
@@ -101,7 +105,7 @@
   }
 
   /* ---- view mode / clipping controls ---- */
-  .segmented-row { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .segmented-row { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
   .segmented-row button { flex: 1; font-size: 0.72rem; padding: 0.4rem 0.3rem; border: none; background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; border-right: 1px solid var(--border); }
   .segmented-row button:last-child { border-right: none; }
   .segmented-row button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); font-weight: 650; }
@@ -113,15 +117,15 @@
   /* ---- laboratorio tab ---- */
   .lab-panel { padding: 1.2rem 1.6rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.1rem; max-width: 46rem; }
   .lab-subtabs { display: flex; gap: 0.3rem; }
-  .lab-subtabs button { font-size: 0.76rem; font-weight: 600; padding: 0.4rem 0.85rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .lab-subtabs button { font-size: 0.76rem; font-weight: 600; padding: 0.4rem 0.85rem; border-radius: 5px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-dim); cursor: pointer; font-family: inherit; }
   .lab-subtabs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); border-color: var(--accent-strong); }
   .lab-canvas-row { display: flex; gap: 1.2rem; align-items: flex-start; flex-wrap: wrap; }
-  #lab-canvas { image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--border); background: #000; }
+  #lab-canvas { image-rendering: pixelated; border-radius: 6px; border: 1px solid var(--border); background: #000; }
   .lab-stage-caption { flex: 1; min-width: 14rem; }
-  .lab-stage-caption h4 { margin: 0 0 0.4rem; font-size: 0.88rem; }
+  .lab-stage-caption h4 { font-family: var(--font-serif); font-weight: 600; margin: 0 0 0.4rem; font-size: 0.98rem; }
   .lab-stage-caption p { margin: 0; font-size: 0.8rem; line-height: 1.55; color: var(--text-dim); }
   .lab-stepper { display: flex; align-items: center; gap: 0.6rem; }
-  .lab-stepper button { padding: 0.4rem 0.7rem; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; font-size: 0.8rem; }
+  .lab-stepper button { padding: 0.4rem 0.7rem; border-radius: 5px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; font-size: 0.8rem; }
   .lab-stepper button:disabled { opacity: 0.35; cursor: default; }
   .lab-dots { display: flex; gap: 0.35rem; }
   .lab-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
@@ -135,23 +139,23 @@
   /* ---- welcome overlay ---- */
   #welcome-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 12%, var(--bg)) 0%, var(--bg) 70%); transition: opacity 0.4s ease; padding: 1.5rem; box-sizing: border-box; }
   #welcome-overlay.hidden { opacity: 0; pointer-events: none; }
-  .welcome-card { max-width: 26rem; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem 1.9rem; box-shadow: 0 20px 60px rgba(0,0,0,0.25); text-align: center; }
-  .welcome-card .mark { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); margin: 0 auto 1rem; }
-  .welcome-card h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+  .welcome-card { max-width: 26rem; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 2rem 1.9rem; box-shadow: 0 20px 60px rgba(0,0,0,0.25); text-align: center; }
+  .welcome-card .mark { width: 34px; height: 34px; color: var(--accent); display: block; margin: 0 auto 1.1rem; }
+  .welcome-card h2 { font-family: var(--font-serif); font-weight: 600; margin: 0 0 0.5rem; font-size: 1.3rem; }
   .welcome-card p.sub { margin: 0 0 1.4rem; font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; }
-  .welcome-card input[type="text"] { width: 100%; box-sizing: border-box; padding: 0.65rem 0.8rem; border-radius: 9px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); font-family: inherit; font-size: 0.92rem; margin-bottom: 0.9rem; }
+  .welcome-card input[type="text"] { width: 100%; box-sizing: border-box; padding: 0.65rem 0.8rem; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); font-family: inherit; font-size: 0.92rem; margin-bottom: 0.9rem; }
   .welcome-card input[type="text"]:focus { outline: none; border-color: var(--accent-strong); }
-  .welcome-card .welcome-btn { width: 100%; padding: 0.7rem 0.8rem; border-radius: 9px; border: none; background: var(--accent-strong); color: #fff; font-family: inherit; font-size: 0.9rem; font-weight: 650; cursor: pointer; }
+  .welcome-card .welcome-btn { width: 100%; padding: 0.7rem 0.8rem; border-radius: 6px; border: none; background: var(--accent-strong); color: #fff; font-family: inherit; font-size: 0.9rem; font-weight: 650; cursor: pointer; }
   .welcome-card .welcome-btn:hover { filter: brightness(1.08); }
   .welcome-step { display: none; }
   .welcome-step[data-active="true"] { display: block; }
   .welcome-greet-name { color: var(--accent-strong); }
-  .welcome-special { margin: 0.7rem 0 1.4rem; padding: 1rem 1.1rem; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--accent-strong); font-size: 0.95rem; line-height: 1.6; color: var(--text); }
+  .welcome-special { margin: 0.7rem 0 1.4rem; padding: 1rem 1.1rem; border-radius: 9px; background: var(--accent-soft); border: 1px solid var(--accent-strong); font-size: 0.95rem; line-height: 1.6; color: var(--text); }
 </style>
 <body>
 <div id="welcome-overlay">
   <div class="welcome-card">
-    <div class="mark"></div>
+    <svg class="mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8.4" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="13" r="5" stroke="currentColor" stroke-width="1.3" opacity="0.6"/><circle cx="12" cy="13" r="1.6" fill="currentColor"/><path d="M4.2 6 L19.8 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
     <div class="welcome-step" id="welcome-step-name" data-active="true">
       <h2>Bienvenido al reconstructor de órganos en 3D</h2>
       <p class="sub">Reconstrucciones reales de pulmones, corazón, hígado, riñones y cerebro a partir de tomografías reales. ¿Cómo te llamas?</p>
@@ -167,7 +171,7 @@
   </div>
 </div>
 <header>
-  <span class="mark"></span>
+  <svg class="mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8.4" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="13" r="5" stroke="currentColor" stroke-width="1.3" opacity="0.6"/><circle cx="12" cy="13" r="1.6" fill="currentColor"/><path d="M4.2 6 L19.8 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
   <h1>Medical3DReconstruction</h1>
   <span class="spacer"></span>
   <div class="tab-switch">
@@ -186,7 +190,7 @@
     <div>
       <p class="eyebrow">Órgano</p>
       <div class="organ-list" id="organ-list"></div>
-      <label class="toggle-row" style="margin-top:0.6rem"><input type="checkbox" id="heartbeat-toggle"> 🔊 Sonido del latido (solo corazón)</label>
+      <label class="toggle-row" style="margin-top:0.6rem"><input type="checkbox" id="heartbeat-toggle"> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px" xmlns="http://www.w3.org/2000/svg"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><path d="M17 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19.5 5.5a9 9 0 0 1 0 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/></svg> Sonido del latido (solo corazón)</label>
     </div>
     <div>
       <p class="eyebrow">Modo de vista</p>
