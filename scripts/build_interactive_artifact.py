@@ -75,6 +75,22 @@ ORGAN_META = {
             "El pulmón derecho es más grande que el izquierdo porque el corazón ocupa parte del espacio del lado izquierdo del tórax.",
             "Condiciones comunes: asma, bronquitis, neumonía, EPOC (enfermedad pulmonar obstructiva crónica).",
         ],
+        "quiz": [
+            {"q": "¿Cuántas respiraciones por minuto son normales en reposo para un adulto?",
+             "options": ["12–20", "40–60", "2–5", "80–100"], "correct": "12–20",
+             "explain": "En reposo, un adulto respira típicamente entre 12 y 20 veces por minuto."},
+            {"q": "¿Por qué el pulmón derecho tiene tres lóbulos y el izquierdo solo dos?",
+             "options": ["Por el tamaño del hígado", "Porque el corazón ocupa espacio del lado izquierdo del tórax", "Por asimetría genética aleatoria", "Porque el izquierdo deja de crecer antes"],
+             "correct": "Porque el corazón ocupa espacio del lado izquierdo del tórax",
+             "explain": "El corazón se ubica hacia el lado izquierdo del tórax, así que el pulmón izquierdo cede espacio y tiene un lóbulo menos."},
+            {"q": "Si se desdoblara toda la superficie de intercambio alveolar, ¿a qué se parecería en tamaño?",
+             "options": ["Una cancha de tenis", "Una hoja de papel carta", "Una alberca olímpica", "Un campo de fútbol"],
+             "correct": "Una cancha de tenis",
+             "explain": "Los ~300–500 millones de alvéolos suman cerca de 70 m² de superficie — parecido a una cancha de tenis."},
+            {"q": "¿Cuál de estas NO es una enfermedad pulmonar común?",
+             "options": ["Asma", "Neumonía", "Cirrosis", "EPOC"], "correct": "Cirrosis",
+             "explain": "La cirrosis es una enfermedad del hígado, no de los pulmones."},
+        ],
         "diagram_svg": (
             '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
             '<line x1="160" y1="8" x2="160" y2="70" stroke="var(--text-dim)" stroke-width="9"/>'
@@ -172,6 +188,20 @@ ORGAN_META = {
             "Todos los vasos sanguíneos del cuerpo, estirados en línea, medirían más de 100,000 km.",
             "Condiciones comunes: hipertensión arterial, enfermedad coronaria, arritmias, insuficiencia cardiaca.",
         ],
+        "quiz": [
+            {"q": "¿Cuál es la frecuencia cardiaca normal en reposo de un adulto?",
+             "options": ["60–100 lpm", "20–40 lpm", "150–180 lpm", "5–10 lpm"], "correct": "60–100 lpm",
+             "explain": "60–100 latidos por minuto es el rango normal en reposo (deportistas de resistencia pueden bajar de eso)."},
+            {"q": "¿Qué estructura genera el impulso eléctrico natural del corazón?",
+             "options": ["El nodo sinusal", "El diafragma", "La vena porta", "El cerebelo"], "correct": "El nodo sinusal",
+             "explain": "El nodo sinusal, en la aurícula derecha, es el marcapasos natural del corazón."},
+            {"q": "¿Cuántos litros de sangre bombea el corazón por minuto en reposo, aproximadamente?",
+             "options": ["5 litros", "50 litros", "0.5 litros", "20 litros"], "correct": "5 litros",
+             "explain": "En reposo, el corazón bombea alrededor de 5 litros de sangre por minuto."},
+            {"q": "¿Cuántas cámaras tiene el corazón?",
+             "options": ["2", "3", "4", "6"], "correct": "4",
+             "explain": "Dos aurículas arriba y dos ventrículos abajo — cuatro cámaras en total."},
+        ],
         "diagram_svg": (
             '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
             '<rect x="98" y="24" width="20" height="32" rx="6" fill="#8aa0c9"/>'
@@ -258,6 +288,21 @@ ORGAN_META = {
             "Toda la sangre del cuerpo pasa por el hígado aproximadamente cada 2–3 minutos para ser filtrada.",
             "Condiciones comunes: hígado graso, hepatitis, cirrosis.",
         ],
+        "quiz": [
+            {"q": "¿Qué porcentaje de su tejido puede perder el hígado y aun así regenerarse?",
+             "options": ["Hasta 70%", "Hasta 10%", "Hasta 95%", "No se regenera"], "correct": "Hasta 70%",
+             "explain": "El hígado puede recuperar su tamaño funcional incluso tras perder hasta el 70% de su tejido."},
+            {"q": "¿De dónde recibe la mayor parte de su sangre el hígado?",
+             "options": ["La vena porta (desde el intestino)", "El corazón directamente", "Los riñones", "Los pulmones"],
+             "correct": "La vena porta (desde el intestino)",
+             "explain": "Cerca del 75% de la sangre que recibe el hígado llega por la vena porta, desde el intestino."},
+            {"q": "¿Cuántas funciones metabólicas distintas se le atribuyen al hígado?",
+             "options": ["Más de 500", "Cerca de 10", "Exactamente 100", "Menos de 5"], "correct": "Más de 500",
+             "explain": "Se le conocen más de 500 funciones metabólicas distintas."},
+            {"q": "¿En cuántos segmentos independientes dividen los cirujanos al hígado?",
+             "options": ["8", "2", "20", "4"], "correct": "8",
+             "explain": "Los segmentos de Couinaud dividen el hígado en 8 partes, cada una con su propio riego sanguíneo."},
+        ],
         "diagram_svg": (
             '<div class="diagram-card diagram-main"><svg viewBox="-40 0 360 280" xmlns="http://www.w3.org/2000/svg">'
             '<path d="M40,85 C40,62 85,50 145,54 C220,58 280,80 280,132 C280,182 218,212 148,206 C88,201 40,168 40,122 Z" fill="#b9793f" fill-opacity="0.88" stroke="var(--border)" stroke-width="2"/>'
@@ -335,6 +380,21 @@ ORGAN_META = {
             "Cada riñón contiene cerca de un millón de nefronas, sus unidades de filtrado.",
             "Es posible llevar una vida normal con un solo riñón funcional.",
             "Condiciones comunes: cálculos renales (piedras), infecciones urinarias, enfermedad renal crónica.",
+        ],
+        "quiz": [
+            {"q": "¿Cuántos litros de sangre filtran los riñones al día, aproximadamente?",
+             "options": ["180 litros", "18 litros", "1800 litros", "5 litros"], "correct": "180 litros",
+             "explain": "Filtran unos 180 litros de sangre al día, aunque solo producen 1–2 litros de orina."},
+            {"q": "¿Cuántas nefronas tiene aproximadamente cada riñón?",
+             "options": ["Un millón", "Cien", "Mil millones", "Diez mil"], "correct": "Un millón",
+             "explain": "Cada riñón contiene cerca de un millón de nefronas, su unidad de filtrado."},
+            {"q": "¿Es posible vivir con un solo riñón funcional?",
+             "options": ["Sí, con vida normal", "No, es imposible", "Solo unos meses", "Solo en la infancia"],
+             "correct": "Sí, con vida normal",
+             "explain": "Es posible llevar una vida normal con un solo riñón funcional."},
+            {"q": "¿Dónde comienza el filtrado de la sangre dentro de una nefrona?",
+             "options": ["En el glomérulo", "En el uréter", "En la vejiga", "En la vena porta"], "correct": "En el glomérulo",
+             "explain": "El glomérulo, un ovillo de capilares, es donde comienza el filtrado inicial de la sangre."},
         ],
         "diagram_svg": (
             '<div class="diagram-card diagram-main"><svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">'
@@ -427,6 +487,22 @@ ORGAN_META = {
             "Las señales nerviosas pueden viajar hasta 120 metros por segundo.",
             "El propio tejido cerebral no tiene receptores de dolor — por eso algunas cirugías cerebrales se hacen con el paciente consciente.",
             "Condiciones comunes: migraña, epilepsia; en edad avanzada, Alzheimer y Parkinson.",
+        ],
+        "quiz": [
+            {"q": "¿Qué porcentaje de la energía del cuerpo consume el cerebro, aunque es solo ~2% del peso corporal?",
+             "options": ["~20%", "~2%", "~50%", "~5%"], "correct": "~20%",
+             "explain": "El cerebro consume cerca del 20% de la energía total del cuerpo."},
+            {"q": "¿Aproximadamente cuántas neuronas tiene el cerebro humano?",
+             "options": ["86 mil millones", "86 millones", "8.6 mil", "860 mil millones"], "correct": "86 mil millones",
+             "explain": "Se estima que el cerebro humano contiene unos 86 mil millones de neuronas."},
+            {"q": "¿Por qué algunas cirugías cerebrales se hacen con el paciente consciente?",
+             "options": ["El tejido cerebral no tiene receptores de dolor", "Para que el paciente ayude a operar", "La anestesia no funciona en el cerebro", "Es un mito, nunca se hace"],
+             "correct": "El tejido cerebral no tiene receptores de dolor",
+             "explain": "El propio tejido cerebral no tiene receptores de dolor, así que puede operarse sin anestesia general en esa zona."},
+            {"q": "¿Qué estructura controla funciones automáticas como la respiración y el ritmo cardiaco?",
+             "options": ["El tronco encefálico", "El cerebelo", "La corteza cerebral", "El cuerpo calloso"],
+             "correct": "El tronco encefálico",
+             "explain": "El tronco encefálico conecta el cerebro con la médula espinal y regula funciones automáticas vitales."},
         ],
         "diagram_svg": (
             '<div class="diagram-card diagram-main"><svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">'
@@ -619,6 +695,8 @@ _TEMPLATE = r"""<!doctype html>
   .lab-field input[type="range"] { accent-color: var(--accent); }
   .mpr-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.35rem; vertical-align: 1px; }
   .lab-tick-note { font-size: 0.72rem; color: var(--text-faint); }
+  .lab-histogram-wrap { display: flex; flex-direction: column; gap: 0.25rem; }
+  #lab-histogram-canvas { width: 100%; height: 84px; display: block; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-raised); }
   .lab-match { font-size: 0.76rem; color: var(--ok); font-weight: 600; min-height: 1.1em; }
 
   /* ---- welcome overlay ---- */
@@ -636,6 +714,18 @@ _TEMPLATE = r"""<!doctype html>
   .welcome-step[data-active="true"] { display: block; }
   .welcome-greet-name { color: var(--accent-strong); }
   .welcome-special { margin: 0.7rem 0 1.4rem; padding: 1rem 1.1rem; border-radius: 9px; background: var(--accent-soft); border: 1px solid var(--accent-strong); font-size: 0.95rem; line-height: 1.6; color: var(--text); }
+
+  /* ---- trivia ---- */
+  .trivia-panel { padding: 1.4rem 1.8rem; overflow-y: auto; max-width: 38rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .trivia-panel h3 { font-family: var(--font-serif); font-weight: 600; font-size: 1.15rem; margin: 0 0 0.2rem; }
+  .trivia-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .trivia-option-btn { text-align: left; padding: 0.65rem 0.9rem; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; font-size: 0.88rem; }
+  .trivia-option-btn:hover:not(:disabled) { border-color: var(--accent-strong); }
+  .trivia-option-btn:disabled { cursor: default; }
+  .trivia-option-btn[data-state="correct"] { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, var(--surface-raised)); }
+  .trivia-option-btn[data-state="wrong"] { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 18%, var(--surface-raised)); }
+  .trivia-explain { font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; padding: 0.7rem 0.9rem; border-radius: 6px; background: var(--surface-raised); border: 1px solid var(--border); margin: 0; }
+  .trivia-action-btn { width: auto; align-self: flex-start; padding: 0.55rem 1.3rem; margin-top: 0.2rem; }
 </style>
 <body>
 <div id="welcome-overlay">
@@ -665,6 +755,7 @@ _TEMPLATE = r"""<!doctype html>
     <button class="tab-btn" id="tab-btn-lab" aria-selected="false">Laboratorio</button>
     <button class="tab-btn" id="tab-btn-anatomy" aria-selected="false">Anatomía</button>
     <button class="tab-btn" id="tab-btn-room" aria-selected="false">Sala de órganos</button>
+    <button class="tab-btn" id="tab-btn-trivia" aria-selected="false">Trivia</button>
   </div>
   <span class="spacer"></span>
   <button class="icon-btn-flat" id="theme-btn">Tema</button>
@@ -684,6 +775,7 @@ _TEMPLATE = r"""<!doctype html>
         <button data-mode="xray" aria-pressed="false">Rayos-X</button>
         <button data-mode="wire" aria-pressed="false">Alambre</button>
         <button data-mode="mpr" aria-pressed="false">Cortes MPR</button>
+        <button data-mode="fly" aria-pressed="false">Vuelo interior</button>
       </div>
     </div>
     <div id="opacity-row">
@@ -719,6 +811,18 @@ _TEMPLATE = r"""<!doctype html>
       </div>
       <label class="toggle-row" style="margin-top:0.3rem"><input type="checkbox" id="mpr-gradient-toggle"> Campo de orientación (aproximado)</label>
       <p class="diagram-caveat" style="margin:0.3rem 0 0;text-align:left">No es tractografía DTI real — este proyecto no tiene datos de difusión. Son líneas cortas siguiendo el gradiente de intensidad real de este escaneo (dirección de mayor cambio de densidad), coloreadas por eje solo como referencia visual.</p>
+    </div>
+    <div id="fly-section" class="hidden">
+      <p class="eyebrow">Vuelo interior</p>
+      <p class="note">Una cámara en primera persona recorre el interior real del órgano, siguiendo el eje central de la máscara segmentada — no una animación decorativa, es la geometría de este espécimen.</p>
+      <div class="toggle-row" style="gap:0.5rem">
+        <button class="preset-btn" id="fly-play-btn" aria-pressed="true">Pausar</button>
+        <span id="fly-progress-note" class="lab-tick-note"></span>
+      </div>
+      <div class="lab-field" style="margin-top:0.5rem">
+        <div class="label-row"><span>Velocidad</span></div>
+        <input type="range" id="fly-speed-slider" min="20" max="200" value="70">
+      </div>
     </div>
     <div>
       <p class="eyebrow">Métricas de reconstrucción</p>
@@ -848,6 +952,11 @@ _TEMPLATE = r"""<!doctype html>
         <input type="range" id="lab-threshold-slider" min="0" max="255" value="128">
         <span class="lab-tick-note" id="lab-threshold-real"></span>
       </div>
+      <div class="lab-histogram-wrap">
+        <p class="eyebrow" style="margin-bottom:0.3rem">Histograma real de densidades (todo el volumen)</p>
+        <canvas id="lab-histogram-canvas" width="460" height="100"></canvas>
+        <p class="lab-tick-note" id="lab-histogram-note"></p>
+      </div>
       <label class="toggle-row"><input type="checkbox" id="lab-opening-toggle" checked> Apertura morfológica (quita ruido de la segmentación)</label>
       <label class="toggle-row"><input type="checkbox" id="lab-cleanup-toggle" checked> Quedarse con la forma más grande y rellenar huecos</label>
     </div>
@@ -869,6 +978,33 @@ _TEMPLATE = r"""<!doctype html>
     <div class="label-layer" id="room-label-layer"></div>
     <button class="icon-btn" id="room-reset-btn">Restablecer vista</button>
     <div class="stage-hud">arrastra para rotar &middot; desplaza para hacer zoom</div>
+  </div>
+</main>
+
+<main id="panel-trivia" class="hidden" style="grid-template-columns: 300px 1fr;">
+  <aside>
+    <div>
+      <p class="eyebrow">Órgano</p>
+      <div class="organ-list" id="organ-list-trivia"></div>
+    </div>
+    <p class="note">
+      Preguntas de opción múltiple con los mismos datos reales de la
+      pestaña "Anatomía" — para poner a prueba lo que aprendiste.
+    </p>
+  </aside>
+  <div class="trivia-panel">
+    <p class="eyebrow" id="trivia-progress"></p>
+    <div id="trivia-question-card">
+      <h3 id="trivia-question-text"></h3>
+      <div id="trivia-options" class="trivia-options"></div>
+      <p id="trivia-explain" class="trivia-explain hidden"></p>
+      <button id="trivia-next-btn" class="welcome-btn trivia-action-btn hidden">Siguiente &rarr;</button>
+    </div>
+    <div id="trivia-result" class="hidden">
+      <h3 id="trivia-result-title"></h3>
+      <p id="trivia-result-text"></p>
+      <button id="trivia-restart-btn" class="welcome-btn trivia-action-btn">Reintentar</button>
+    </div>
   </div>
 </main>
 
@@ -901,6 +1037,8 @@ _TEMPLATE = r"""<!doctype html>
 
   const tabBtnRoom = document.getElementById("tab-btn-room");
   const panelRoom = document.getElementById("panel-room");
+  const tabBtnTrivia = document.getElementById("tab-btn-trivia");
+  const panelTrivia = document.getElementById("panel-trivia");
 
   function activateTab(which) {
     tabBtn3d.setAttribute("aria-selected", String(which === "3d"));
@@ -908,20 +1046,24 @@ _TEMPLATE = r"""<!doctype html>
     tabBtnLab.setAttribute("aria-selected", String(which === "lab"));
     tabBtnAnatomy.setAttribute("aria-selected", String(which === "anatomy"));
     tabBtnRoom.setAttribute("aria-selected", String(which === "room"));
+    tabBtnTrivia.setAttribute("aria-selected", String(which === "trivia"));
     panel3d.classList.toggle("hidden", which !== "3d");
     panelSlices.classList.toggle("hidden", which !== "slices");
     panelLab.classList.toggle("hidden", which !== "lab");
     panelAnatomy.classList.toggle("hidden", which !== "anatomy");
     panelRoom.classList.toggle("hidden", which !== "room");
+    panelTrivia.classList.toggle("hidden", which !== "trivia");
     if (which === "slices") { resizeSliceCanvasDisplay(); drawSlice(); }
     if (which === "lab") { labRender(); }
     if (which === "room") { buildRoom(); }
+    if (which === "trivia") { initTriviaTabIfNeeded(); }
   }
   tabBtn3d.addEventListener("click", () => activateTab("3d"));
   tabBtnSlices.addEventListener("click", () => activateTab("slices"));
   tabBtnLab.addEventListener("click", () => activateTab("lab"));
   tabBtnAnatomy.addEventListener("click", () => activateTab("anatomy"));
   tabBtnRoom.addEventListener("click", () => activateTab("room"));
+  tabBtnTrivia.addEventListener("click", () => activateTab("trivia"));
 
   // ---------- theme ----------
   document.getElementById("theme-btn").addEventListener("click", () => {
@@ -1199,6 +1341,7 @@ _TEMPLATE = r"""<!doctype html>
   const opacityRowEl = document.getElementById("opacity-row");
   const clipSectionEl = document.getElementById("clip-section");
   const mprSectionEl = document.getElementById("mpr-section");
+  const flySectionEl = document.getElementById("fly-section");
   const viewModeRow = document.getElementById("view-mode-row");
   viewModeRow.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-mode]");
@@ -1208,14 +1351,22 @@ _TEMPLATE = r"""<!doctype html>
     if (viewMode === "xray") setOpacity(35);
     else if (viewMode === "solid") setOpacity(100);
     const isMpr = viewMode === "mpr";
+    const isFly = viewMode === "fly";
     mprSectionEl.classList.toggle("hidden", !isMpr);
-    opacityRowEl.classList.toggle("hidden", isMpr);
-    clipSectionEl.classList.toggle("hidden", isMpr);
-    labelLayerEl.classList.toggle("hidden", isMpr || !labelsVisible);
+    flySectionEl.classList.toggle("hidden", !isFly);
+    opacityRowEl.classList.toggle("hidden", isMpr || isFly);
+    clipSectionEl.classList.toggle("hidden", isMpr || isFly);
+    labelLayerEl.classList.toggle("hidden", isMpr || isFly || !labelsVisible);
     if (isMpr) {
       rebuildMprPlanes();
       if (showGradientField) computeGradientField();
       targetRadius = boundingRadius * 2.1; // a bit closer: more of the scene now, worth framing tighter
+    }
+    if (isFly) {
+      if (!flyPath) computeFlyPath();
+      flyPlaying = true;
+      flyPlayBtn.textContent = "Pausar";
+      flyPlayBtn.setAttribute("aria-pressed", "true");
     }
   });
 
@@ -1567,6 +1718,100 @@ _TEMPLATE = r"""<!doctype html>
     if (showGradientField) computeGradientField();
   });
 
+  // =========================================================
+  // Vuelo interior: a first-person camera auto-flies through the
+  // real interior of the segmented mesh, following the tissue
+  // centroid of each Z-slice of the actual volume — a genuine
+  // (if approximate) central axis of this specimen, not a scripted
+  // decorative path. The mesh is rendered front-face-culled so the
+  // camera, sitting inside a closed surface, sees its interior wall.
+  // =========================================================
+  let flyPath = null, flyT = 0, flyDir = 1, flyPlaying = true;
+  const flyPlayBtn = document.getElementById("fly-play-btn");
+  const flySpeedSlider = document.getElementById("fly-speed-slider");
+  const flyProgressNoteEl = document.getElementById("fly-progress-note");
+
+  function computeFlyPath() {
+    flyPath = null;
+    if (!sv) return;
+    const meta = ORGAN_META[currentOrganKey];
+    const [nz, ny, nx] = sv.shape;
+    const [ox, oy, oz] = sv.origin;
+    const [sx, sy, sz] = sv.spacing;
+    const frac = (meta.threshold_native - sv.valueMin) / (sv.valueMax - sv.valueMin);
+    const quantThreshold = Math.max(0, Math.min(255, Math.round(frac * 255)));
+    const below = meta.threshold_below;
+    const key = currentOrganKey;
+
+    const rawPts = [];
+    for (let z = 0; z < nz; z++) {
+      let sumX = 0, sumY = 0, count = 0;
+      const zOff = z * ny * nx;
+      for (let y = 0; y < ny; y++) {
+        const rowOff = zOff + y * nx;
+        for (let x = 0; x < nx; x++) {
+          const v = sv.voxels[rowOff + x];
+          if (below ? v < quantThreshold : v > quantThreshold) { sumX += x; sumY += y; count++; }
+        }
+      }
+      if (count < 12) continue; // too little real tissue on this slice to trust a centroid
+      const cx = ox + (sumX / count) * sx, cy = oy + (sumY / count) * sy, cz = oz + z * sz;
+      rawPts.push(applyDisplayFixPoint(key, cx, cy, cz));
+    }
+    if (rawPts.length < 3) return;
+    // light 3-point smoothing so the camera doesn't jitter slice-to-slice
+    flyPath = rawPts.map((p, i) => {
+      const a = rawPts[Math.max(0, i - 1)], b = rawPts[Math.min(rawPts.length - 1, i + 1)];
+      return [(a[0] + p[0] + b[0]) / 3, (a[1] + p[1] + b[1]) / 3, (a[2] + p[2] + b[2]) / 3];
+    });
+    flyT = 0; flyDir = 1;
+  }
+
+  function flyEyeLook() {
+    const path = flyPath, n = path.length;
+    const f = flyT * (n - 1);
+    const i0 = Math.max(0, Math.min(n - 2, Math.floor(f)));
+    const frac = f - i0;
+    const p0 = path[i0], p1 = path[i0 + 1];
+    const eye = [p0[0] + (p1[0]-p0[0])*frac, p0[1] + (p1[1]-p0[1])*frac, p0[2] + (p1[2]-p0[2])*frac];
+    const look = path[Math.min(n - 1, i0 + 2)];
+    return { eye, look };
+  }
+
+  function updateFlyProgress() {
+    if (!flyPlaying || !flyPath) return;
+    const fracPerFrame = (Number(flySpeedSlider.value) / 100) * 0.00167;
+    flyT += flyDir * fracPerFrame;
+    if (flyT >= 1) { flyT = 1; flyDir = -1; } else if (flyT <= 0) { flyT = 0; flyDir = 1; }
+    flyProgressNoteEl.textContent = flyDir > 0 ? "recorriendo →" : "← de regreso";
+  }
+
+  function drawFlyInterior(view, proj) {
+    gl.useProgram(program);
+    gl.uniformMatrix4fv(uModelView, false, view);
+    gl.uniformMatrix4fv(uProjection, false, proj);
+    gl.uniformMatrix3fv(uNormalMatrix, false, normalMat3(view));
+    gl.uniform3fv(uColor, currentColor);
+    gl.uniform3fv(uOffset, [0, 0, 0]);
+    gl.uniform3fv(uClipNormal, [1, 0, 0]);
+    gl.uniform1f(uClipValue, 1e9);
+    gl.uniform1f(uClipEnabled, 0.0);
+    gl.uniform1f(uAlpha, 1.0);
+    gl.disable(gl.BLEND); gl.depthMask(true); gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE); gl.cullFace(gl.FRONT); // camera sits inside a closed mesh: show its interior wall
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPosition); gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, normBuf); gl.enableVertexAttribArray(aNormal); gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+    gl.drawElements(gl.TRIANGLES, currentMesh.indices.length, gl.UNSIGNED_INT, 0);
+    gl.cullFace(gl.BACK);
+  }
+
+  flyPlayBtn.addEventListener("click", () => {
+    flyPlaying = !flyPlaying;
+    flyPlayBtn.textContent = flyPlaying ? "Pausar" : "Reanudar";
+    flyPlayBtn.setAttribute("aria-pressed", String(flyPlaying));
+  });
+
   function perspective(fovy, aspect, near, far) {
     const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
     return new Float32Array([f/aspect,0,0,0, 0,f,0,0, 0,0,(far+near)*nf,-1, 0,0,2*far*near*nf,0]);
@@ -1809,12 +2054,23 @@ _TEMPLATE = r"""<!doctype html>
       radius += (targetRadius - radius) * 0.12;
       if (autoRotate) theta += 0.0022;
       const c = currentMesh.center;
-      const eye = [c[0]+radius*Math.sin(phi)*Math.sin(theta), c[1]+radius*Math.cos(phi), c[2]+radius*Math.sin(phi)*Math.cos(theta)];
-      const view = lookAt(eye, c, [0,1,0]);
-      const proj = perspective(Math.PI/4.2, canvas.width/Math.max(1,canvas.height), Math.max(0.01,boundingRadius*0.02), boundingRadius*20);
+      let eye, view, proj;
+      if (viewMode === "fly" && flyPath) {
+        updateFlyProgress();
+        const fl = flyEyeLook();
+        eye = fl.eye;
+        view = lookAt(eye, fl.look, [0, 1, 0]);
+        proj = perspective(Math.PI / 2.3, canvas.width / Math.max(1, canvas.height), Math.max(0.05, boundingRadius * 0.004), boundingRadius * 20);
+      } else {
+        eye = [c[0]+radius*Math.sin(phi)*Math.sin(theta), c[1]+radius*Math.cos(phi), c[2]+radius*Math.sin(phi)*Math.cos(theta)];
+        view = lookAt(eye, c, [0,1,0]);
+        proj = perspective(Math.PI/4.2, canvas.width/Math.max(1,canvas.height), Math.max(0.01,boundingRadius*0.02), boundingRadius*20);
+      }
       const clip = clipUniformValues();
 
-      if (viewMode === "mpr") {
+      if (viewMode === "fly" && flyPath) {
+        drawFlyInterior(view, proj);
+      } else if (viewMode === "mpr") {
         drawMprGhostMesh(view, proj);
         drawMprPlanes(view, proj);
         if (showGradientField) drawGradientField(view, proj);
@@ -1880,7 +2136,7 @@ _TEMPLATE = r"""<!doctype html>
         gl.depthMask(true); gl.enable(gl.CULL_FACE); gl.disable(gl.BLEND);
       }
 
-      if (labelsVisible && viewMode !== "mpr") {
+      if (labelsVisible && viewMode !== "mpr" && viewMode !== "fly") {
         for (let i = 0; i < currentLandmarks.length; i++) {
           const el = labelEls[i];
           if (!el) continue;
@@ -2026,6 +2282,9 @@ _TEMPLATE = r"""<!doctype html>
     mprAxialFrac = 0.5; mprCoronalFrac = 0.5; mprSagittalFrac = 0.5;
     mprAxialSlider.value = "50"; mprCoronalSlider.value = "50"; mprSagittalSlider.value = "50";
     if (viewMode === "mpr") { rebuildMprPlanes(); if (showGradientField) computeGradientField(); }
+
+    flyPath = null; // recomputed lazily next time "Vuelo interior" is entered, or right now if already active
+    if (viewMode === "fly") computeFlyPath();
   }
 
   for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy", "organ-list-lab"]) {
@@ -2265,11 +2524,15 @@ _TEMPLATE = r"""<!doctype html>
   const labOpeningToggle = document.getElementById("lab-opening-toggle");
   const labCleanupToggle = document.getElementById("lab-cleanup-toggle");
   const labFreeMatchEl = document.getElementById("lab-free-match");
+  const labHistogramCanvas = document.getElementById("lab-histogram-canvas");
+  const labHistogramCtx = labHistogramCanvas.getContext("2d");
+  const labHistogramNoteEl = document.getElementById("lab-histogram-note");
 
   let labMode = "timeline";
   let labStage = 0;
   let labGray = null, labW = 0, labH = 0;
   let labThresholdNative = 0, labThresholdBelow = false, labQuantThreshold = 128;
+  let labHistogram = null;
 
   function labSelectOrgan(key) {
     const slices = VIEWER_DATA[key].slices;
@@ -2291,6 +2554,43 @@ _TEMPLATE = r"""<!doctype html>
     labThresholdRealEl.textContent = "Valor real usado por el pipeline: " + meta.threshold_label;
     labOpeningToggle.checked = true;
     labCleanupToggle.checked = true;
+
+    // Real histogram over the whole 3D volume (every voxel this pipeline
+    // actually looked at), not just the one slice shown above — computed
+    // once per organ since it never changes as the threshold slider moves.
+    const hist = new Uint32Array(256);
+    for (let i = 0; i < sv.voxels.length; i++) hist[sv.voxels[i]]++;
+    labHistogram = hist;
+  }
+
+  function drawLabHistogram() {
+    if (!labHistogram) return;
+    const w = labHistogramCanvas.width, h = labHistogramCanvas.height;
+    labHistogramCtx.clearRect(0, 0, w, h);
+    const logs = new Float32Array(256);
+    let maxLog = 0;
+    for (let i = 0; i < 256; i++) { logs[i] = Math.log1p(labHistogram[i]); if (logs[i] > maxLog) maxLog = logs[i]; }
+    const barW = w / 256;
+    const rootStyle = getComputedStyle(document.documentElement);
+    const dimColor = rootStyle.getPropertyValue("--text-faint").trim() || "#888";
+    const accentColor = rootStyle.getPropertyValue("--accent").trim() || "#a5434b";
+    let tissueCount = 0, total = 0;
+    for (let i = 0; i < 256; i++) {
+      const isTissueSide = labThresholdBelow ? i < labQuantThreshold : i > labQuantThreshold;
+      const bh = maxLog > 0 ? (logs[i] / maxLog) * (h - 3) : 0;
+      labHistogramCtx.fillStyle = isTissueSide ? accentColor : dimColor;
+      labHistogramCtx.globalAlpha = isTissueSide ? 0.85 : 0.5;
+      labHistogramCtx.fillRect(i * barW, h - bh, Math.max(1, barW), bh);
+      total += labHistogram[i];
+      if (isTissueSide) tissueCount += labHistogram[i];
+    }
+    labHistogramCtx.globalAlpha = 1;
+    const x = labQuantThreshold * barW;
+    labHistogramCtx.strokeStyle = accentColor;
+    labHistogramCtx.lineWidth = 2;
+    labHistogramCtx.beginPath(); labHistogramCtx.moveTo(x, 0); labHistogramCtx.lineTo(x, h); labHistogramCtx.stroke();
+    const pct = total > 0 ? (100 * tissueCount / total).toFixed(1) : "0";
+    labHistogramNoteEl.textContent = `${pct}% de los vóxeles del volumen caen del lado "tejido" con este umbral (escala vertical logarítmica).`;
   }
 
   function labComputeStageMask(stageIdx) {
@@ -2345,6 +2645,7 @@ _TEMPLATE = r"""<!doctype html>
     )));
     labFreeMatchEl.textContent = Math.abs(labQuantThreshold - officialQuant) <= 8
       ? "¡Muy cerca del umbral real que usa el pipeline!" : "";
+    drawLabHistogram();
   }
 
   function labRender() {
@@ -2543,6 +2844,116 @@ _TEMPLATE = r"""<!doctype html>
     requestAnimationFrame(renderRoom);
   }
   requestAnimationFrame(renderRoom);
+
+  /* =========================================================
+     Trivia: multiple-choice questions drawn straight from the
+     same real fun_facts already shown in Anatomía — no new data,
+     just a different, playful way to check what stuck.
+     ========================================================= */
+  const triviaOrganListEl = document.getElementById("organ-list-trivia");
+  const triviaProgressEl = document.getElementById("trivia-progress");
+  const triviaQuestionCardEl = document.getElementById("trivia-question-card");
+  const triviaQuestionTextEl = document.getElementById("trivia-question-text");
+  const triviaOptionsEl = document.getElementById("trivia-options");
+  const triviaExplainEl = document.getElementById("trivia-explain");
+  const triviaNextBtn = document.getElementById("trivia-next-btn");
+  const triviaResultEl = document.getElementById("trivia-result");
+  const triviaResultTitleEl = document.getElementById("trivia-result-title");
+  const triviaResultTextEl = document.getElementById("trivia-result-text");
+  const triviaRestartBtn = document.getElementById("trivia-restart-btn");
+
+  let triviaInitDone = false;
+  let triviaCurrentKey = ORGAN_ORDER[0];
+  let triviaQuestions = [];
+  let triviaIndex = 0;
+  let triviaScore = 0;
+  let triviaAnswered = false;
+
+  function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function triviaStart(key) {
+    triviaCurrentKey = key;
+    for (const btn of triviaOrganListEl.querySelectorAll(".organ-btn")) {
+      btn.setAttribute("aria-pressed", String(btn.dataset.organ === key));
+    }
+    triviaQuestions = shuffleArray(ORGAN_META[key].quiz);
+    triviaIndex = 0;
+    triviaScore = 0;
+    triviaResultEl.classList.add("hidden");
+    triviaQuestionCardEl.classList.remove("hidden");
+    triviaRenderQuestion();
+  }
+
+  function triviaRenderQuestion() {
+    triviaAnswered = false;
+    const q = triviaQuestions[triviaIndex];
+    triviaProgressEl.textContent = `Pregunta ${triviaIndex + 1} de ${triviaQuestions.length} · Puntaje: ${triviaScore}`;
+    triviaQuestionTextEl.textContent = q.q;
+    triviaOptionsEl.innerHTML = "";
+    for (const opt of shuffleArray(q.options)) {
+      const btn = document.createElement("button");
+      btn.className = "trivia-option-btn";
+      btn.textContent = opt;
+      btn.addEventListener("click", () => triviaSelectOption(opt, btn));
+      triviaOptionsEl.appendChild(btn);
+    }
+    triviaExplainEl.classList.add("hidden");
+    triviaNextBtn.classList.add("hidden");
+  }
+
+  function triviaSelectOption(opt, btn) {
+    if (triviaAnswered) return;
+    triviaAnswered = true;
+    const q = triviaQuestions[triviaIndex];
+    if (opt === q.correct) triviaScore++;
+    for (const b of triviaOptionsEl.querySelectorAll(".trivia-option-btn")) {
+      b.disabled = true;
+      if (b.textContent === q.correct) b.dataset.state = "correct";
+      else if (b === btn) b.dataset.state = "wrong";
+    }
+    triviaExplainEl.textContent = q.explain;
+    triviaExplainEl.classList.remove("hidden");
+    triviaNextBtn.textContent = triviaIndex < triviaQuestions.length - 1 ? "Siguiente →" : "Ver resultado";
+    triviaNextBtn.classList.remove("hidden");
+    triviaProgressEl.textContent = `Pregunta ${triviaIndex + 1} de ${triviaQuestions.length} · Puntaje: ${triviaScore}`;
+  }
+
+  function triviaShowResult() {
+    triviaQuestionCardEl.classList.add("hidden");
+    triviaResultEl.classList.remove("hidden");
+    const total = triviaQuestions.length;
+    const pct = triviaScore / total;
+    triviaResultTitleEl.textContent = `¡Terminaste! ${triviaScore} / ${total}`;
+    triviaResultTextEl.textContent =
+      pct === 1 ? "Perfecto — dominas estos datos." :
+      pct >= 0.75 ? "Muy bien, te sabes casi todo." :
+      pct >= 0.5 ? "Nada mal, pero vale la pena repasar la pestaña Anatomía." :
+      "Dale una vuelta a la pestaña Anatomía y vuelve a intentarlo.";
+  }
+
+  triviaNextBtn.addEventListener("click", () => {
+    triviaIndex++;
+    if (triviaIndex >= triviaQuestions.length) triviaShowResult();
+    else triviaRenderQuestion();
+  });
+  triviaRestartBtn.addEventListener("click", () => triviaStart(triviaCurrentKey));
+
+  function initTriviaTabIfNeeded() {
+    if (triviaInitDone) return;
+    triviaInitDone = true;
+    triviaOrganListEl.innerHTML = organListHtml(triviaCurrentKey);
+    for (const btn of triviaOrganListEl.querySelectorAll(".organ-btn")) {
+      btn.addEventListener("click", () => triviaStart(btn.dataset.organ));
+    }
+    triviaStart(triviaCurrentKey);
+  }
 
   // ---------- boot ----------
   selectOrgan(ORGAN_ORDER[0]);
