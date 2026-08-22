@@ -2,27 +2,27 @@
 <title>Medical3DReconstruction — Visor</title>
 <style>
   :root {
-    --bg: #161310; --surface: #1e1a15; --surface-raised: #27221a; --border: #3a3225;
-    --text: #f1e9da; --text-dim: #a89a83; --text-faint: #71644f;
-    --accent: #d17d3a; --accent-soft: rgba(209,125,58,0.16); --accent-strong: #b3611f;
-    --accent-ink: #2a1a0d;
-    --warn: #d9a23c; --ok: #7fa15c;
+    --bg: #16181c; --surface: #1e2126; --surface-raised: #262a30; --border: #383d45;
+    --text: #e9eaec; --text-dim: #9a9fa6; --text-faint: #656b73;
+    --accent: #a5434b; --accent-soft: rgba(165,67,75,0.18); --accent-strong: #832e35;
+    --accent-ink: #f3e4e2;
+    --warn: #c9974a; --ok: #6f9e6a;
     --font-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
     --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
     --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Consolas", monospace;
   }
   :root[data-theme="light"] {
-    --bg: #f5efe2; --surface: #fffcf5; --surface-raised: #efe6d2; --border: #ddccab;
-    --text: #251f16; --text-dim: #6b5d47; --text-faint: #a29170;
-    --accent: #a8501f; --accent-soft: rgba(168,80,31,0.11); --accent-strong: #7e3c17;
-    --accent-ink: #fff6ea;
+    --bg: #f1efec; --surface: #ffffff; --surface-raised: #e8e5e0; --border: #d3cfc8;
+    --text: #201d1a; --text-dim: #5c574f; --text-faint: #938c80;
+    --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.10); --accent-strong: #6b232b;
+    --accent-ink: #fbeeee;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
-      --bg: #f5efe2; --surface: #fffcf5; --surface-raised: #efe6d2; --border: #ddccab;
-      --text: #251f16; --text-dim: #6b5d47; --text-faint: #a29170;
-      --accent: #a8501f; --accent-soft: rgba(168,80,31,0.11); --accent-strong: #7e3c17;
-      --accent-ink: #fff6ea;
+      --bg: #f1efec; --surface: #ffffff; --surface-raised: #e8e5e0; --border: #d3cfc8;
+      --text: #201d1a; --text-dim: #5c574f; --text-faint: #938c80;
+      --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.10); --accent-strong: #6b232b;
+      --accent-ink: #fbeeee;
     }
   }
   * { box-sizing: border-box; }
@@ -133,6 +133,7 @@
   .lab-field { display: flex; flex-direction: column; gap: 0.35rem; }
   .lab-field .label-row { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--text-dim); }
   .lab-field input[type="range"] { accent-color: var(--accent); }
+  .mpr-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.35rem; vertical-align: 1px; }
   .lab-tick-note { font-size: 0.72rem; color: var(--text-faint); }
   .lab-match { font-size: 0.76rem; color: var(--ok); font-weight: 600; min-height: 1.1em; }
 
@@ -221,15 +222,15 @@
       <p class="eyebrow">Cortes MPR (multiplanar)</p>
       <p class="note">Los 3 planos reales (axial/coronal/sagital) del mismo volumen que ves en "Cortes CT", flotando en 3D como una caja que puedes rotar.</p>
       <div class="lab-field">
-        <div class="label-row"><span>Axial (Z)</span><span id="mpr-axial-value"></span></div>
+        <div class="label-row"><span><span class="mpr-dot" style="background:#5c8fbd"></span>Axial (Z)</span><span id="mpr-axial-value"></span></div>
         <input type="range" id="mpr-axial-slider" min="0" max="100" value="50">
       </div>
       <div class="lab-field">
-        <div class="label-row"><span>Coronal (Y)</span><span id="mpr-coronal-value"></span></div>
+        <div class="label-row"><span><span class="mpr-dot" style="background:#789e61"></span>Coronal (Y)</span><span id="mpr-coronal-value"></span></div>
         <input type="range" id="mpr-coronal-slider" min="0" max="100" value="50">
       </div>
       <div class="lab-field">
-        <div class="label-row"><span>Sagital (X)</span><span id="mpr-sagittal-value"></span></div>
+        <div class="label-row"><span><span class="mpr-dot" style="background:#c76b5c"></span>Sagital (X)</span><span id="mpr-sagittal-value"></span></div>
         <input type="range" id="mpr-sagittal-slider" min="0" max="100" value="50">
       </div>
       <label class="toggle-row" style="margin-top:0.3rem"><input type="checkbox" id="mpr-gradient-toggle"> Campo de orientación (aproximado)</label>
@@ -825,6 +826,24 @@
     }
   }
 
+  // Three mutually perpendicular planes meet along 1-pixel-wide lines; at
+  // grazing angles that seam z-fights (flickers/staircases) because the
+  // depth buffer can't tell the crossing planes apart. A small, distinct
+  // polygonOffset per plane gives their intersection a stable, consistent
+  // winner instead of a coin-flip per pixel — the standard fix for this in
+  // any multiplanar-reconstruction renderer.
+  const MPR_PLANE_ORDER = [
+    ["axial", mprTexAxial, 1],
+    ["coronal", mprTexCoronal, 2],
+    ["sagittal", mprTexSagittal, 3],
+  ];
+  const MPR_PLANE_COLORS = {
+    axial: [0.36, 0.56, 0.74],
+    coronal: [0.47, 0.62, 0.38],
+    sagittal: [0.78, 0.42, 0.36],
+  };
+  const mprBorderPosBuf = gl.createBuffer(), mprBorderColorBuf = gl.createBuffer();
+
   function drawMprPlanes(view, proj) {
     if (!mprPlaneGeo.axial) return;
     gl.useProgram(planeProgram);
@@ -832,9 +851,12 @@
     gl.uniformMatrix4fv(uProjectionP, false, proj);
     gl.disable(gl.CULL_FACE);
     gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
+    gl.enable(gl.POLYGON_OFFSET_FILL);
     gl.activeTexture(gl.TEXTURE0);
     gl.uniform1i(uTextureP, 0);
-    for (const [tex, geo] of [[mprTexAxial, mprPlaneGeo.axial], [mprTexCoronal, mprPlaneGeo.coronal], [mprTexSagittal, mprPlaneGeo.sagittal]]) {
+    for (const [name, tex, offsetUnits] of MPR_PLANE_ORDER) {
+      const geo = mprPlaneGeo[name];
+      gl.polygonOffset(0, offsetUnits);
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.bindBuffer(gl.ARRAY_BUFFER, mprPosBuf);
       gl.bufferData(gl.ARRAY_BUFFER, geo.positions, gl.DYNAMIC_DRAW);
@@ -846,7 +868,38 @@
       gl.vertexAttribPointer(aTexCoordP, 2, gl.FLOAT, false, 0, 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
+    gl.disable(gl.POLYGON_OFFSET_FILL);
     gl.enable(gl.CULL_FACE);
+    drawMprPlaneBorders(view, proj);
+  }
+
+  function drawMprPlaneBorders(view, proj) {
+    gl.useProgram(lineColorProgram);
+    gl.uniformMatrix4fv(uModelViewLC, false, view);
+    gl.uniformMatrix4fv(uProjectionLC, false, proj);
+    gl.uniform1f(uAlphaLC, 0.95);
+    gl.disable(gl.BLEND); gl.depthMask(true); gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(0, -1);
+    for (const name of ["axial", "coronal", "sagittal"]) {
+      const geo = mprPlaneGeo[name];
+      const p = geo.positions;
+      // TRIANGLE_STRIP order is TL,TR,BL,BR; walk the perimeter TL->TR->BR->BL.
+      const loop = new Float32Array([
+        p[0], p[1], p[2], p[3], p[4], p[5], p[9], p[10], p[11], p[6], p[7], p[8],
+      ]);
+      const c = MPR_PLANE_COLORS[name];
+      const colors = new Float32Array([c[0], c[1], c[2], c[0], c[1], c[2], c[0], c[1], c[2], c[0], c[1], c[2]]);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mprBorderPosBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, loop, gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(aPositionLC);
+      gl.vertexAttribPointer(aPositionLC, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mprBorderColorBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, colors, gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(aColorLC);
+      gl.vertexAttribPointer(aColorLC, 3, gl.FLOAT, false, 0, 0);
+      gl.drawArrays(gl.LINE_LOOP, 0, 4);
+    }
+    gl.disable(gl.POLYGON_OFFSET_FILL);
   }
 
   // ---- gradient-orientation field (approximate, NOT tractography) ----
@@ -862,33 +915,64 @@
     const frac = (meta.threshold_native - sv.valueMin) / (sv.valueMax - sv.valueMin);
     const quantThreshold = Math.max(0, Math.min(255, Math.round(frac * 255)));
     const below = meta.threshold_below;
-
-    const strideX = Math.max(1, Math.round(nx / 22));
-    const strideY = Math.max(1, Math.round(ny / 22));
-    const strideZ = Math.max(1, Math.round(nz / 22));
-    const halfLenMm = Math.max(sx, sy, sz) * 1.6;
     const key = currentOrganKey;
 
+    const strideX = Math.max(1, Math.round(nx / 26));
+    const strideY = Math.max(1, Math.round(ny / 26));
+    const strideZ = Math.max(1, Math.round(nz / 26));
+    const stepMm = Math.max(sx, sy, sz) * 0.9;
+    const STEPS = 4; // per direction from the seed, so up to 8 short segments form one flowing streamline
+
+    function isTissueAt(xi, yi, zi) {
+      const v = sv.voxels[zi * ny * nx + yi * nx + xi];
+      return below ? v < quantThreshold : v > quantThreshold;
+    }
+    function gradAt(xi, yi, zi) {
+      const idx = zi * ny * nx + yi * nx + xi;
+      const drx = sv.voxels[idx + 1] - sv.voxels[idx - 1];
+      const dry = sv.voxels[idx + nx] - sv.voxels[idx - nx];
+      const drz = sv.voxels[idx + ny * nx] - sv.voxels[idx - ny * nx];
+      return [drx, dry, drz, Math.hypot(drx, dry, drz)];
+    }
+
+    // Short traced streamlets, not single straight spikes: from each seed,
+    // step a few times each way following the *local* gradient at every
+    // step (recomputed per step, so the path curves with the real data)
+    // instead of one straight segment along the seed's own gradient.
     const positions = [], colors = [];
     for (let z = strideZ; z < nz - strideZ; z += strideZ) {
       for (let y = strideY; y < ny - strideY; y += strideY) {
         for (let x = strideX; x < nx - strideX; x += strideX) {
-          const idx = z * ny * nx + y * nx + x;
-          const v = sv.voxels[idx];
-          if (below ? v >= quantThreshold : v <= quantThreshold) continue;
-          const drx = sv.voxels[idx + 1] - sv.voxels[idx - 1];
-          const dry = sv.voxels[idx + nx] - sv.voxels[idx - nx];
-          const drz = sv.voxels[idx + ny * nx] - sv.voxels[idx - ny * nx];
-          if (Math.hypot(drx, dry, drz) < 14) continue; // near-uniform interior: direction is meaningless noise
-          const gx = drx / (2 * sx), gy = dry / (2 * sy), gz = drz / (2 * sz);
-          const mag = Math.hypot(gx, gy, gz) || 1;
-          const dx = gx / mag, dy = gy / mag, dz = gz / mag;
-          const cx = ox + x * sx, cy = oy + y * sy, cz = oz + z * sz;
-          const p0 = applyDisplayFixPoint(key, cx - dx * halfLenMm, cy - dy * halfLenMm, cz - dz * halfLenMm);
-          const p1 = applyDisplayFixPoint(key, cx + dx * halfLenMm, cy + dy * halfLenMm, cz + dz * halfLenMm);
-          const r = Math.abs(dx), g = Math.abs(dy), b = Math.abs(dz);
-          positions.push(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2]);
-          colors.push(r, g, b, r, g, b);
+          if (!isTissueAt(x, y, z)) continue;
+          const [drx0, dry0, drz0, rawMag0] = gradAt(x, y, z);
+          if (rawMag0 < 14) continue;
+          const gx0 = drx0 / (2 * sx), gy0 = dry0 / (2 * sy), gz0 = drz0 / (2 * sz);
+          const mag0 = Math.hypot(gx0, gy0, gz0) || 1;
+          const r = Math.abs(gx0 / mag0), g = Math.abs(gy0 / mag0), b = Math.abs(gz0 / mag0);
+
+          for (const sign of [1, -1]) {
+            let fx = x, fy = y, fz = z;
+            let prev = [ox + fx * sx, oy + fy * sy, oz + fz * sz];
+            for (let step = 0; step < STEPS; step++) {
+              const xi = Math.max(1, Math.min(nx - 2, Math.round(fx)));
+              const yi = Math.max(1, Math.min(ny - 2, Math.round(fy)));
+              const zi = Math.max(1, Math.min(nz - 2, Math.round(fz)));
+              if (!isTissueAt(xi, yi, zi)) break;
+              const [drx, dry, drz, rawMag] = gradAt(xi, yi, zi);
+              if (rawMag < 8) break;
+              const gx = drx / (2 * sx), gy = dry / (2 * sy), gz = drz / (2 * sz);
+              const mag = Math.hypot(gx, gy, gz) || 1;
+              const dx = sign * gx / mag, dy = sign * gy / mag, dz = sign * gz / mag;
+              const next = [prev[0] + dx * stepMm, prev[1] + dy * stepMm, prev[2] + dz * stepMm];
+              const p0 = applyDisplayFixPoint(key, prev[0], prev[1], prev[2]);
+              const p1 = applyDisplayFixPoint(key, next[0], next[1], next[2]);
+              positions.push(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2]);
+              colors.push(r, g, b, r, g, b);
+              prev = next;
+              fx += dx * stepMm / sx; fy += dy * stepMm / sy; fz += dz * stepMm / sz;
+              if (fx < 1 || fy < 1 || fz < 1 || fx > nx - 2 || fy > ny - 2 || fz > nz - 2) break;
+            }
+          }
         }
       }
     }
@@ -904,8 +988,8 @@
     gl.useProgram(lineColorProgram);
     gl.uniformMatrix4fv(uModelViewLC, false, view);
     gl.uniformMatrix4fv(uProjectionLC, false, proj);
-    gl.uniform1f(uAlphaLC, 0.85);
-    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.uniform1f(uAlphaLC, 0.6);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // additive: crossing strands glow instead of just occluding
     gl.depthMask(false);
     gl.bindBuffer(gl.ARRAY_BUFFER, gradPosBuf);
     gl.enableVertexAttribArray(aPositionLC);
