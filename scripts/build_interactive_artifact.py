@@ -682,13 +682,14 @@ _TEMPLATE = r"""<!doctype html>
         <button data-mode="solid" aria-pressed="true">Sólido</button>
         <button data-mode="xray" aria-pressed="false">Rayos-X</button>
         <button data-mode="wire" aria-pressed="false">Alambre</button>
+        <button data-mode="mpr" aria-pressed="false">Cortes MPR</button>
       </div>
     </div>
-    <div>
+    <div id="opacity-row">
       <div class="label-row"><span class="eyebrow" style="margin:0">Opacidad</span><span id="opacity-value" style="font-size:0.72rem;color:var(--text-dim)">100%</span></div>
       <input type="range" id="opacity-slider" min="5" max="100" value="100">
     </div>
-    <div>
+    <div id="clip-section">
       <p class="eyebrow">Plano de corte</p>
       <label class="toggle-row"><input type="checkbox" id="clip-enabled"> Activar corte</label>
       <div class="clip-controls" id="clip-controls" data-enabled="false">
@@ -699,6 +700,24 @@ _TEMPLATE = r"""<!doctype html>
         </div>
         <input type="range" id="clip-slider" min="0" max="100" value="50">
       </div>
+    </div>
+    <div id="mpr-section" class="hidden">
+      <p class="eyebrow">Cortes MPR (multiplanar)</p>
+      <p class="note">Los 3 planos reales (axial/coronal/sagital) del mismo volumen que ves en "Cortes CT", flotando en 3D como una caja que puedes rotar.</p>
+      <div class="lab-field">
+        <div class="label-row"><span>Axial (Z)</span><span id="mpr-axial-value"></span></div>
+        <input type="range" id="mpr-axial-slider" min="0" max="100" value="50">
+      </div>
+      <div class="lab-field">
+        <div class="label-row"><span>Coronal (Y)</span><span id="mpr-coronal-value"></span></div>
+        <input type="range" id="mpr-coronal-slider" min="0" max="100" value="50">
+      </div>
+      <div class="lab-field">
+        <div class="label-row"><span>Sagital (X)</span><span id="mpr-sagittal-value"></span></div>
+        <input type="range" id="mpr-sagittal-slider" min="0" max="100" value="50">
+      </div>
+      <label class="toggle-row" style="margin-top:0.3rem"><input type="checkbox" id="mpr-gradient-toggle"> Campo de orientación (aproximado)</label>
+      <p class="diagram-caveat" style="margin:0.3rem 0 0;text-align:left">No es tractografía DTI real — este proyecto no tiene datos de difusión. Son líneas cortas siguiendo el gradiente de intensidad real de este escaneo (dirección de mayor cambio de densidad), coloreadas por eje solo como referencia visual.</p>
     </div>
     <div>
       <p class="eyebrow">Métricas de reconstrucción</p>
@@ -1064,6 +1083,41 @@ _TEMPLATE = r"""<!doctype html>
   const uClipValueW = gl.getUniformLocation(wireProgram, "uClipValue");
   const uClipEnabledW = gl.getUniformLocation(wireProgram, "uClipEnabled");
 
+  // ---------- MPR textured plane shader ----------
+  const VS_PLANE = `attribute vec3 aPosition; attribute vec2 aTexCoord;
+    uniform mat4 uModelView; uniform mat4 uProjection;
+    varying vec2 vTexCoord;
+    void main() {
+      vTexCoord = aTexCoord;
+      gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    }`;
+  const FS_PLANE = `precision highp float; varying vec2 vTexCoord;
+    uniform sampler2D uTexture;
+    void main() { gl_FragColor = texture2D(uTexture, vTexCoord); }`;
+  const planeProgram = linkProgram(VS_PLANE, FS_PLANE);
+  const aPositionP = gl.getAttribLocation(planeProgram, "aPosition");
+  const aTexCoordP = gl.getAttribLocation(planeProgram, "aTexCoord");
+  const uModelViewP = gl.getUniformLocation(planeProgram, "uModelView");
+  const uProjectionP = gl.getUniformLocation(planeProgram, "uProjection");
+  const uTextureP = gl.getUniformLocation(planeProgram, "uTexture");
+
+  // ---------- colored line shader (gradient-orientation field) ----------
+  const VS_LINEC = `attribute vec3 aPosition; attribute vec3 aColor;
+    uniform mat4 uModelView; uniform mat4 uProjection;
+    varying vec3 vColor;
+    void main() {
+      vColor = aColor;
+      gl_Position = uProjection * uModelView * vec4(aPosition, 1.0);
+    }`;
+  const FS_LINEC = `precision highp float; varying vec3 vColor; uniform float uAlpha;
+    void main() { gl_FragColor = vec4(vColor, uAlpha); }`;
+  const lineColorProgram = linkProgram(VS_LINEC, FS_LINEC);
+  const aPositionLC = gl.getAttribLocation(lineColorProgram, "aPosition");
+  const aColorLC = gl.getAttribLocation(lineColorProgram, "aColor");
+  const uModelViewLC = gl.getUniformLocation(lineColorProgram, "uModelView");
+  const uProjectionLC = gl.getUniformLocation(lineColorProgram, "uProjection");
+  const uAlphaLC = gl.getUniformLocation(lineColorProgram, "uAlpha");
+
   const posBuf = gl.createBuffer(), normBuf = gl.createBuffer(), idxBuf = gl.createBuffer(), edgeBuf = gl.createBuffer();
   let edgeCount = 0;
   gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK);
@@ -1108,6 +1162,9 @@ _TEMPLATE = r"""<!doctype html>
   }
   opacitySlider.addEventListener("input", () => setOpacity(Number(opacitySlider.value)));
 
+  const opacityRowEl = document.getElementById("opacity-row");
+  const clipSectionEl = document.getElementById("clip-section");
+  const mprSectionEl = document.getElementById("mpr-section");
   const viewModeRow = document.getElementById("view-mode-row");
   viewModeRow.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-mode]");
@@ -1116,6 +1173,12 @@ _TEMPLATE = r"""<!doctype html>
     for (const b of viewModeRow.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b === btn));
     if (viewMode === "xray") setOpacity(35);
     else if (viewMode === "solid") setOpacity(100);
+    const isMpr = viewMode === "mpr";
+    mprSectionEl.classList.toggle("hidden", !isMpr);
+    opacityRowEl.classList.toggle("hidden", isMpr);
+    clipSectionEl.classList.toggle("hidden", isMpr);
+    labelLayerEl.classList.toggle("hidden", isMpr || !labelsVisible);
+    if (isMpr) { rebuildMprPlanes(); if (showGradientField) computeGradientField(); }
   });
 
   const clipEnabledEl = document.getElementById("clip-enabled");
@@ -1134,6 +1197,220 @@ _TEMPLATE = r"""<!doctype html>
   });
   clipSliderEl.addEventListener("input", () => {
     clipFraction = Number(clipSliderEl.value) / 100;
+  });
+
+  // =========================================================
+  // Cortes MPR: the same real slice volume shown as 3 rotatable
+  // orthogonal planes (axial/coronal/sagittal), like a clinical
+  // multiplanar-reconstruction viewer. Optional gradient-orientation
+  // overlay: NOT diffusion tractography (this project has no DTI data)
+  // — short line segments following the real intensity gradient of
+  // the scan, colored by axis only as a visual reference.
+  // =========================================================
+  function applyDisplayFixPoint(key, x, y, z) {
+    if (ORGAN_DISPLAY_FIX[key] === "flipY" && currentMesh) {
+      const cx = currentMesh.center[0], cy = currentMesh.center[1];
+      return [2 * cx - x, 2 * cy - y, z];
+    }
+    return [x, y, z];
+  }
+
+  let mprAxialFrac = 0.5, mprCoronalFrac = 0.5, mprSagittalFrac = 0.5;
+  let showGradientField = false;
+  const mprTexAxial = gl.createTexture(), mprTexCoronal = gl.createTexture(), mprTexSagittal = gl.createTexture();
+  for (const tex of [mprTexAxial, mprTexCoronal, mprTexSagittal]) {
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  }
+  const mprPosBuf = gl.createBuffer(), mprUvBuf = gl.createBuffer();
+  let mprPlaneGeo = { axial: null, coronal: null, sagittal: null };
+
+  function windowedTexel(raw) {
+    const lo = windowLevel - windowWidth / 2, scale = 255 / windowWidth;
+    let val = (raw - lo) * scale;
+    return val < 0 ? 0 : val > 255 ? 255 : val;
+  }
+  function buildAxialTexture(zIndex) {
+    const [nz, ny, nx] = sv.shape;
+    const off = zIndex * ny * nx;
+    const data = new Uint8Array(nx * ny * 4);
+    for (let i = 0; i < nx * ny; i++) {
+      const val = windowedTexel(sv.voxels[off + i]);
+      const o = i * 4; data[o] = val; data[o + 1] = val; data[o + 2] = val; data[o + 3] = 255;
+    }
+    return { data, w: nx, h: ny };
+  }
+  function buildCoronalTexture(yIndex) {
+    const [nz, ny, nx] = sv.shape;
+    const data = new Uint8Array(nx * nz * 4);
+    for (let z = 0; z < nz; z++) {
+      for (let x = 0; x < nx; x++) {
+        const val = windowedTexel(sv.voxels[z * ny * nx + yIndex * nx + x]);
+        const o = (z * nx + x) * 4; data[o] = val; data[o + 1] = val; data[o + 2] = val; data[o + 3] = 255;
+      }
+    }
+    return { data, w: nx, h: nz };
+  }
+  function buildSagittalTexture(xIndex) {
+    const [nz, ny, nx] = sv.shape;
+    const data = new Uint8Array(ny * nz * 4);
+    for (let z = 0; z < nz; z++) {
+      for (let y = 0; y < ny; y++) {
+        const val = windowedTexel(sv.voxels[z * ny * nx + y * nx + xIndex]);
+        const o = (z * ny + y) * 4; data[o] = val; data[o + 1] = val; data[o + 2] = val; data[o + 3] = 255;
+      }
+    }
+    return { data, w: ny, h: nz };
+  }
+
+  function rebuildMprPlanes() {
+    if (!sv) return;
+    const [nz, ny, nx] = sv.shape;
+    const [ox, oy, oz] = sv.origin;
+    const [sx, sy, sz] = sv.spacing;
+    const x0 = ox, x1 = ox + sx * (nx - 1);
+    const y0 = oy, y1 = oy + sy * (ny - 1);
+    const z0 = oz, z1 = oz + sz * (nz - 1);
+
+    const zIndex = Math.max(0, Math.min(nz - 1, Math.round(mprAxialFrac * (nz - 1))));
+    const yIndex = Math.max(0, Math.min(ny - 1, Math.round(mprCoronalFrac * (ny - 1))));
+    const xIndex = Math.max(0, Math.min(nx - 1, Math.round(mprSagittalFrac * (nx - 1))));
+    const zMm = oz + zIndex * sz, yMm = oy + yIndex * sy, xMm = ox + xIndex * sx;
+
+    const key = currentOrganKey;
+    const fix = (p) => applyDisplayFixPoint(key, p[0], p[1], p[2]);
+
+    mprPlaneGeo.axial = {
+      positions: new Float32Array([...fix([x0, y0, zMm]), ...fix([x1, y0, zMm]), ...fix([x0, y1, zMm]), ...fix([x1, y1, zMm])]),
+      uv: new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]),
+      tex: buildAxialTexture(zIndex),
+    };
+    mprPlaneGeo.coronal = {
+      positions: new Float32Array([...fix([x0, yMm, z0]), ...fix([x1, yMm, z0]), ...fix([x0, yMm, z1]), ...fix([x1, yMm, z1])]),
+      uv: new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]),
+      tex: buildCoronalTexture(yIndex),
+    };
+    mprPlaneGeo.sagittal = {
+      positions: new Float32Array([...fix([xMm, y0, z0]), ...fix([xMm, y1, z0]), ...fix([xMm, y0, z1]), ...fix([xMm, y1, z1])]),
+      uv: new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]),
+      tex: buildSagittalTexture(xIndex),
+    };
+
+    document.getElementById("mpr-axial-value").textContent = zMm.toFixed(0) + " mm";
+    document.getElementById("mpr-coronal-value").textContent = yMm.toFixed(0) + " mm";
+    document.getElementById("mpr-sagittal-value").textContent = xMm.toFixed(0) + " mm";
+
+    for (const [tex, geo] of [[mprTexAxial, mprPlaneGeo.axial], [mprTexCoronal, mprPlaneGeo.coronal], [mprTexSagittal, mprPlaneGeo.sagittal]]) {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, geo.tex.w, geo.tex.h, 0, gl.RGBA, gl.UNSIGNED_BYTE, geo.tex.data);
+    }
+  }
+
+  function drawMprPlanes(view, proj) {
+    if (!mprPlaneGeo.axial) return;
+    gl.useProgram(planeProgram);
+    gl.uniformMatrix4fv(uModelViewP, false, view);
+    gl.uniformMatrix4fv(uProjectionP, false, proj);
+    gl.disable(gl.CULL_FACE);
+    gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.uniform1i(uTextureP, 0);
+    for (const [tex, geo] of [[mprTexAxial, mprPlaneGeo.axial], [mprTexCoronal, mprPlaneGeo.coronal], [mprTexSagittal, mprPlaneGeo.sagittal]]) {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mprPosBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, geo.positions, gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(aPositionP);
+      gl.vertexAttribPointer(aPositionP, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mprUvBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, geo.uv, gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(aTexCoordP);
+      gl.vertexAttribPointer(aTexCoordP, 2, gl.FLOAT, false, 0, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    gl.enable(gl.CULL_FACE);
+  }
+
+  // ---- gradient-orientation field (approximate, NOT tractography) ----
+  let gradientLineData = null;
+  const gradPosBuf = gl.createBuffer(), gradColorBuf = gl.createBuffer();
+
+  function computeGradientField() {
+    if (!sv) { gradientLineData = null; return; }
+    const meta = ORGAN_META[currentOrganKey];
+    const [nz, ny, nx] = sv.shape;
+    const [ox, oy, oz] = sv.origin;
+    const [sx, sy, sz] = sv.spacing;
+    const frac = (meta.threshold_native - sv.valueMin) / (sv.valueMax - sv.valueMin);
+    const quantThreshold = Math.max(0, Math.min(255, Math.round(frac * 255)));
+    const below = meta.threshold_below;
+
+    const strideX = Math.max(1, Math.round(nx / 22));
+    const strideY = Math.max(1, Math.round(ny / 22));
+    const strideZ = Math.max(1, Math.round(nz / 22));
+    const halfLenMm = Math.max(sx, sy, sz) * 1.6;
+    const key = currentOrganKey;
+
+    const positions = [], colors = [];
+    for (let z = strideZ; z < nz - strideZ; z += strideZ) {
+      for (let y = strideY; y < ny - strideY; y += strideY) {
+        for (let x = strideX; x < nx - strideX; x += strideX) {
+          const idx = z * ny * nx + y * nx + x;
+          const v = sv.voxels[idx];
+          if (below ? v >= quantThreshold : v <= quantThreshold) continue;
+          const drx = sv.voxels[idx + 1] - sv.voxels[idx - 1];
+          const dry = sv.voxels[idx + nx] - sv.voxels[idx - nx];
+          const drz = sv.voxels[idx + ny * nx] - sv.voxels[idx - ny * nx];
+          if (Math.hypot(drx, dry, drz) < 14) continue; // near-uniform interior: direction is meaningless noise
+          const gx = drx / (2 * sx), gy = dry / (2 * sy), gz = drz / (2 * sz);
+          const mag = Math.hypot(gx, gy, gz) || 1;
+          const dx = gx / mag, dy = gy / mag, dz = gz / mag;
+          const cx = ox + x * sx, cy = oy + y * sy, cz = oz + z * sz;
+          const p0 = applyDisplayFixPoint(key, cx - dx * halfLenMm, cy - dy * halfLenMm, cz - dz * halfLenMm);
+          const p1 = applyDisplayFixPoint(key, cx + dx * halfLenMm, cy + dy * halfLenMm, cz + dz * halfLenMm);
+          const r = Math.abs(dx), g = Math.abs(dy), b = Math.abs(dz);
+          positions.push(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2]);
+          colors.push(r, g, b, r, g, b);
+        }
+      }
+    }
+    gradientLineData = { positions: new Float32Array(positions), colors: new Float32Array(colors), count: positions.length / 3 };
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradPosBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, gradientLineData.positions, gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradColorBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, gradientLineData.colors, gl.DYNAMIC_DRAW);
+  }
+
+  function drawGradientField(view, proj) {
+    if (!gradientLineData || gradientLineData.count === 0) return;
+    gl.useProgram(lineColorProgram);
+    gl.uniformMatrix4fv(uModelViewLC, false, view);
+    gl.uniformMatrix4fv(uProjectionLC, false, proj);
+    gl.uniform1f(uAlphaLC, 0.85);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.depthMask(false);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradPosBuf);
+    gl.enableVertexAttribArray(aPositionLC);
+    gl.vertexAttribPointer(aPositionLC, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradColorBuf);
+    gl.enableVertexAttribArray(aColorLC);
+    gl.vertexAttribPointer(aColorLC, 3, gl.FLOAT, false, 0, 0);
+    gl.drawArrays(gl.LINES, 0, gradientLineData.count);
+    gl.depthMask(true); gl.disable(gl.BLEND);
+  }
+
+  const mprAxialSlider = document.getElementById("mpr-axial-slider");
+  const mprCoronalSlider = document.getElementById("mpr-coronal-slider");
+  const mprSagittalSlider = document.getElementById("mpr-sagittal-slider");
+  const mprGradientToggle = document.getElementById("mpr-gradient-toggle");
+  mprAxialSlider.addEventListener("input", () => { mprAxialFrac = Number(mprAxialSlider.value) / 100; rebuildMprPlanes(); });
+  mprCoronalSlider.addEventListener("input", () => { mprCoronalFrac = Number(mprCoronalSlider.value) / 100; rebuildMprPlanes(); });
+  mprSagittalSlider.addEventListener("input", () => { mprSagittalFrac = Number(mprSagittalSlider.value) / 100; rebuildMprPlanes(); });
+  mprGradientToggle.addEventListener("change", () => {
+    showGradientField = mprGradientToggle.checked;
+    if (showGradientField) computeGradientField();
   });
 
   function perspective(fovy, aspect, near, far) {
@@ -1383,7 +1660,10 @@ _TEMPLATE = r"""<!doctype html>
       const proj = perspective(Math.PI/4.2, canvas.width/Math.max(1,canvas.height), Math.max(0.01,boundingRadius*0.02), boundingRadius*20);
       const clip = clipUniformValues();
 
-      if (viewMode === "wire") {
+      if (viewMode === "mpr") {
+        drawMprPlanes(view, proj);
+        if (showGradientField) drawGradientField(view, proj);
+      } else if (viewMode === "wire") {
         gl.useProgram(wireProgram);
         gl.uniformMatrix4fv(uModelViewW, false, view);
         gl.uniformMatrix4fv(uProjectionW, false, proj);
@@ -1445,7 +1725,7 @@ _TEMPLATE = r"""<!doctype html>
         gl.depthMask(true); gl.enable(gl.CULL_FACE); gl.disable(gl.BLEND);
       }
 
-      if (labelsVisible) {
+      if (labelsVisible && viewMode !== "mpr") {
         for (let i = 0; i < currentLandmarks.length; i++) {
           const el = labelEls[i];
           if (!el) continue;
@@ -1587,6 +1867,10 @@ _TEMPLATE = r"""<!doctype html>
     if (!panelSlices.classList.contains("hidden")) { resizeSliceCanvasDisplay(); drawSlice(); }
     labSelectOrgan(key);
     if (!panelLab.classList.contains("hidden")) labRender();
+
+    mprAxialFrac = 0.5; mprCoronalFrac = 0.5; mprSagittalFrac = 0.5;
+    mprAxialSlider.value = "50"; mprCoronalSlider.value = "50"; mprSagittalSlider.value = "50";
+    if (viewMode === "mpr") { rebuildMprPlanes(); if (showGradientField) computeGradientField(); }
   }
 
   for (const listId of ["organ-list", "organ-list-slices", "organ-list-anatomy", "organ-list-lab"]) {
