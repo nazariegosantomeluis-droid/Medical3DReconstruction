@@ -635,6 +635,39 @@
   const uProjectionLC = gl.getUniformLocation(lineColorProgram, "uProjection");
   const uAlphaLC = gl.getUniformLocation(lineColorProgram, "uAlpha");
 
+  // ---- thick "ribbon" shader for the gradient-orientation field ----
+  // Plain GL_LINES render as near-invisible 1px hairlines in WebGL1 (line
+  // width is unreliable across GPUs). Instead, expand each segment into a
+  // camera-facing quad in the vertex shader: cross(segmentDir, Z-in-view-
+  // space) is always perpendicular to both the segment and the view
+  // direction, so offsetting by it in view space gives a billboard with
+  // no per-frame CPU work and no viewport/aspect uniform needed.
+  const VS_RIBBON = `attribute vec3 aPosition; attribute vec3 aOther; attribute float aSide; attribute vec3 aColor;
+    uniform mat4 uModelView; uniform mat4 uProjection; uniform float uWidth;
+    varying vec3 vColor;
+    void main() {
+      vec4 vp0 = uModelView * vec4(aPosition, 1.0);
+      vec4 vp1 = uModelView * vec4(aOther, 1.0);
+      vec3 dir = vp1.xyz - vp0.xyz;
+      float dl = length(dir);
+      vec3 dirN = dl > 0.0001 ? dir / dl : vec3(1.0, 0.0, 0.0);
+      vec3 perp = normalize(cross(dirN, vec3(0.0, 0.0, 1.0)));
+      vec3 offsetPos = vp0.xyz + perp * aSide * uWidth;
+      vColor = aColor;
+      gl_Position = uProjection * vec4(offsetPos, 1.0);
+    }`;
+  const FS_RIBBON = `precision highp float; varying vec3 vColor; uniform float uAlpha;
+    void main() { gl_FragColor = vec4(vColor, uAlpha); }`;
+  const ribbonProgram = linkProgram(VS_RIBBON, FS_RIBBON);
+  const aPositionR = gl.getAttribLocation(ribbonProgram, "aPosition");
+  const aOtherR = gl.getAttribLocation(ribbonProgram, "aOther");
+  const aSideR = gl.getAttribLocation(ribbonProgram, "aSide");
+  const aColorR = gl.getAttribLocation(ribbonProgram, "aColor");
+  const uModelViewR = gl.getUniformLocation(ribbonProgram, "uModelView");
+  const uProjectionR = gl.getUniformLocation(ribbonProgram, "uProjection");
+  const uWidthR = gl.getUniformLocation(ribbonProgram, "uWidth");
+  const uAlphaR = gl.getUniformLocation(ribbonProgram, "uAlpha");
+
   const posBuf = gl.createBuffer(), normBuf = gl.createBuffer(), idxBuf = gl.createBuffer(), edgeBuf = gl.createBuffer();
   let edgeCount = 0;
   gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK);
@@ -695,7 +728,11 @@
     opacityRowEl.classList.toggle("hidden", isMpr);
     clipSectionEl.classList.toggle("hidden", isMpr);
     labelLayerEl.classList.toggle("hidden", isMpr || !labelsVisible);
-    if (isMpr) { rebuildMprPlanes(); if (showGradientField) computeGradientField(); }
+    if (isMpr) {
+      rebuildMprPlanes();
+      if (showGradientField) computeGradientField();
+      targetRadius = boundingRadius * 2.1; // a bit closer: more of the scene now, worth framing tighter
+    }
   });
 
   const clipEnabledEl = document.getElementById("clip-enabled");
@@ -902,9 +939,42 @@
     gl.disable(gl.POLYGON_OFFSET_FILL);
   }
 
+  // Ghostly translucent mesh drawn around the MPR box for context — the
+  // same layered look as the reference video (the organ's silhouette
+  // visible around the slice planes and fiber-like lines inside it).
+  function drawMprGhostMesh(view, proj) {
+    if (!currentMesh) return;
+    gl.useProgram(program);
+    gl.uniformMatrix4fv(uModelView, false, view);
+    gl.uniformMatrix4fv(uProjection, false, proj);
+    gl.uniformMatrix3fv(uNormalMatrix, false, normalMat3(view));
+    gl.uniform3fv(uColor, currentColor);
+    gl.uniform3fv(uOffset, [0, 0, 0]);
+    gl.uniform3fv(uClipNormal, [1, 0, 0]);
+    gl.uniform1f(uClipValue, 1e9);
+    gl.uniform1f(uClipEnabled, 0.0);
+    gl.uniform1f(uAlpha, 0.15);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.depthMask(false); gl.disable(gl.CULL_FACE); gl.enable(gl.DEPTH_TEST);
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPosition); gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, normBuf); gl.enableVertexAttribArray(aNormal); gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+    gl.drawElements(gl.TRIANGLES, currentMesh.indices.length, gl.UNSIGNED_INT, 0);
+    gl.depthMask(true); gl.enable(gl.CULL_FACE); gl.disable(gl.BLEND);
+  }
+
   // ---- gradient-orientation field (approximate, NOT tractography) ----
   let gradientLineData = null;
-  const gradPosBuf = gl.createBuffer(), gradColorBuf = gl.createBuffer();
+  const gradRibbonBuf = gl.createBuffer();
+  const RIBBON_STRIDE = 10; // px,py,pz, ox,oy,oz, side, r,g,b
+  let gradRibbonWidthMm = 0.5;
+  function pushRibbonSegment(arr, p0, p1, r, g, b) {
+    const verts = [[p0, -1], [p0, 1], [p1, -1], [p0, 1], [p1, 1], [p1, -1]];
+    for (const [p, side] of verts) {
+      const other = p === p0 ? p1 : p0;
+      arr.push(p[0], p[1], p[2], other[0], other[1], other[2], side, r, g, b);
+    }
+  }
 
   function computeGradientField() {
     if (!sv) { gradientLineData = null; return; }
@@ -917,11 +987,12 @@
     const below = meta.threshold_below;
     const key = currentOrganKey;
 
-    const strideX = Math.max(1, Math.round(nx / 26));
-    const strideY = Math.max(1, Math.round(ny / 26));
-    const strideZ = Math.max(1, Math.round(nz / 26));
-    const stepMm = Math.max(sx, sy, sz) * 0.9;
-    const STEPS = 4; // per direction from the seed, so up to 8 short segments form one flowing streamline
+    const strideX = Math.max(1, Math.round(nx / 28));
+    const strideY = Math.max(1, Math.round(ny / 28));
+    const strideZ = Math.max(1, Math.round(nz / 28));
+    const stepMm = Math.max(sx, sy, sz) * 0.75;
+    const STEPS = 6; // per direction from the seed, so up to 12 short segments form one flowing streamline
+    gradRibbonWidthMm = stepMm * 0.16; // thin relative to segment length, or it reads as confetti instead of a strand
 
     function isTissueAt(xi, yi, zi) {
       const v = sv.voxels[zi * ny * nx + yi * nx + xi];
@@ -939,7 +1010,7 @@
     // step a few times each way following the *local* gradient at every
     // step (recomputed per step, so the path curves with the real data)
     // instead of one straight segment along the seed's own gradient.
-    const positions = [], colors = [];
+    const ribbon = [];
     for (let z = strideZ; z < nz - strideZ; z += strideZ) {
       for (let y = strideY; y < ny - strideY; y += strideY) {
         for (let x = strideX; x < nx - strideX; x += strideX) {
@@ -966,8 +1037,7 @@
               const next = [prev[0] + dx * stepMm, prev[1] + dy * stepMm, prev[2] + dz * stepMm];
               const p0 = applyDisplayFixPoint(key, prev[0], prev[1], prev[2]);
               const p1 = applyDisplayFixPoint(key, next[0], next[1], next[2]);
-              positions.push(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2]);
-              colors.push(r, g, b, r, g, b);
+              pushRibbonSegment(ribbon, p0, p1, r, g, b);
               prev = next;
               fx += dx * stepMm / sx; fy += dy * stepMm / sy; fz += dz * stepMm / sz;
               if (fx < 1 || fy < 1 || fz < 1 || fx > nx - 2 || fy > ny - 2 || fz > nz - 2) break;
@@ -976,28 +1046,28 @@
         }
       }
     }
-    gradientLineData = { positions: new Float32Array(positions), colors: new Float32Array(colors), count: positions.length / 3 };
-    gl.bindBuffer(gl.ARRAY_BUFFER, gradPosBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, gradientLineData.positions, gl.DYNAMIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gradColorBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, gradientLineData.colors, gl.DYNAMIC_DRAW);
+    const data = new Float32Array(ribbon);
+    gradientLineData = { data, count: data.length / RIBBON_STRIDE };
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradRibbonBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
   }
 
   function drawGradientField(view, proj) {
     if (!gradientLineData || gradientLineData.count === 0) return;
-    gl.useProgram(lineColorProgram);
-    gl.uniformMatrix4fv(uModelViewLC, false, view);
-    gl.uniformMatrix4fv(uProjectionLC, false, proj);
-    gl.uniform1f(uAlphaLC, 0.6);
+    gl.useProgram(ribbonProgram);
+    gl.uniformMatrix4fv(uModelViewR, false, view);
+    gl.uniformMatrix4fv(uProjectionR, false, proj);
+    gl.uniform1f(uAlphaR, 0.62);
+    gl.uniform1f(uWidthR, gradRibbonWidthMm);
     gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // additive: crossing strands glow instead of just occluding
-    gl.depthMask(false);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gradPosBuf);
-    gl.enableVertexAttribArray(aPositionLC);
-    gl.vertexAttribPointer(aPositionLC, 3, gl.FLOAT, false, 0, 0);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gradColorBuf);
-    gl.enableVertexAttribArray(aColorLC);
-    gl.vertexAttribPointer(aColorLC, 3, gl.FLOAT, false, 0, 0);
-    gl.drawArrays(gl.LINES, 0, gradientLineData.count);
+    gl.depthMask(false); gl.enable(gl.DEPTH_TEST);
+    const stride = RIBBON_STRIDE * 4;
+    gl.bindBuffer(gl.ARRAY_BUFFER, gradRibbonBuf);
+    gl.enableVertexAttribArray(aPositionR); gl.vertexAttribPointer(aPositionR, 3, gl.FLOAT, false, stride, 0);
+    gl.enableVertexAttribArray(aOtherR); gl.vertexAttribPointer(aOtherR, 3, gl.FLOAT, false, stride, 12);
+    gl.enableVertexAttribArray(aSideR); gl.vertexAttribPointer(aSideR, 1, gl.FLOAT, false, stride, 24);
+    gl.enableVertexAttribArray(aColorR); gl.vertexAttribPointer(aColorR, 3, gl.FLOAT, false, stride, 28);
+    gl.drawArrays(gl.TRIANGLES, 0, gradientLineData.count);
     gl.depthMask(true); gl.disable(gl.BLEND);
   }
 
@@ -1261,6 +1331,7 @@
       const clip = clipUniformValues();
 
       if (viewMode === "mpr") {
+        drawMprGhostMesh(view, proj);
         drawMprPlanes(view, proj);
         if (showGradientField) drawGradientField(view, proj);
       } else if (viewMode === "wire") {
