@@ -25,6 +25,7 @@ ORGAN_META = {
     "lungs": {
         "label": "Pulmones",
         "algo": "Umbral + componentes conectados",
+        "study_type": "CT clínica",
         "color_hex": "#e8b4b8",
         "source_note": (
             "Reconstruido a partir de una tomografía de tórax real incluida en el "
@@ -133,6 +134,7 @@ ORGAN_META = {
     "heart": {
         "label": "Corazón",
         "algo": "Umbral + componente conectado (ex-vivo)",
+        "study_type": "Micro-CT sincrotrón (ex-vivo)",
         "color_hex": "#c0392b",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -232,6 +234,7 @@ ORGAN_META = {
     "liver": {
         "label": "Hígado",
         "algo": "Umbral + componente conectado (ex-vivo)",
+        "study_type": "Micro-CT sincrotrón (ex-vivo)",
         "color_hex": "#b9793f",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -328,6 +331,7 @@ ORGAN_META = {
     "kidneys": {
         "label": "Riñones",
         "algo": "Umbral + componente conectado (ex-vivo)",
+        "study_type": "Micro-CT sincrotrón (ex-vivo)",
         "color_hex": "#a8447a",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (K292, resolución "
@@ -428,6 +432,7 @@ ORGAN_META = {
     "brain": {
         "label": "Cerebro",
         "algo": "Umbral + componente conectado (ex-vivo)",
+        "study_type": "Micro-CT sincrotrón (ex-vivo)",
         "color_hex": "#c9a0dc",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -560,28 +565,32 @@ def build(payload: dict) -> str:
 
 _TEMPLATE = r"""<!doctype html>
 <title>Medical3DReconstruction — Visor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #16181c; --surface: #1e2126; --surface-raised: #262a30; --border: #383d45;
-    --text: #e9eaec; --text-dim: #9a9fa6; --text-faint: #656b73;
-    --accent: #a5434b; --accent-soft: rgba(165,67,75,0.18); --accent-strong: #832e35;
+    --bg: #17181a; --surface: #1d1f22; --surface-raised: #26282c; --border: #35373b;
+    --text: #e8e9eb; --text-dim: #9a9da2; --text-faint: #656870;
+    --accent: #a5434b; --accent-soft: rgba(165,67,75,0.16); --accent-strong: #c0525b;
     --accent-ink: #f3e4e2;
-    --warn: #c9974a; --ok: #6f9e6a;
-    --font-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    --warn: #c9974a; --ok: #5da868;
+    --font-ui: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
     --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
-    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Consolas", monospace;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Consolas", monospace;
+    --radius-sm: 3px; --radius-md: 4px; --radius-lg: 6px;
   }
   :root[data-theme="light"] {
-    --bg: #f1efec; --surface: #ffffff; --surface-raised: #e8e5e0; --border: #d3cfc8;
-    --text: #201d1a; --text-dim: #5c574f; --text-faint: #938c80;
-    --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.10); --accent-strong: #6b232b;
+    --bg: #f4f3f1; --surface: #ffffff; --surface-raised: #eceae6; --border: #d7d3cc;
+    --text: #1c1b19; --text-dim: #5c574f; --text-faint: #938c80;
+    --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.09); --accent-strong: #6b232b;
     --accent-ink: #fbeeee;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
-      --bg: #f1efec; --surface: #ffffff; --surface-raised: #e8e5e0; --border: #d3cfc8;
-      --text: #201d1a; --text-dim: #5c574f; --text-faint: #938c80;
-      --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.10); --accent-strong: #6b232b;
+      --bg: #f4f3f1; --surface: #ffffff; --surface-raised: #eceae6; --border: #d7d3cc;
+      --text: #1c1b19; --text-dim: #5c574f; --text-faint: #938c80;
+      --accent: #8c2f39; --accent-soft: rgba(140,47,57,0.09); --accent-strong: #6b232b;
       --accent-ink: #fbeeee;
     }
   }
@@ -589,38 +598,71 @@ _TEMPLATE = r"""<!doctype html>
   .hidden { display: none; }
   html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-ui); overflow: hidden; }
   body { display: flex; flex-direction: column; }
-  header { display: flex; align-items: center; gap: 0.8rem; padding: 0.65rem 1.1rem; background: var(--surface-raised); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  header .mark { width: 22px; height: 22px; flex-shrink: 0; color: var(--accent); }
-  header h1 { font-family: var(--font-serif); font-size: 1.02rem; margin: 0; font-weight: 600; letter-spacing: 0.01em; }
+  header { display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem 1rem; background: var(--surface-raised); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  header .mark { width: 19px; height: 19px; flex-shrink: 0; color: var(--accent); }
+  header h1 { font-family: var(--font-ui); font-size: 0.88rem; margin: 0; font-weight: 650; letter-spacing: -0.01em; white-space: nowrap; }
   header .spacer { flex: 1; }
-  .tab-switch { display: flex; gap: 0.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.2rem; }
-  .tab-btn { font-size: 0.76rem; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 4px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .topbar-divider { width: 1px; align-self: stretch; background: var(--border); margin: 0 0.15rem; }
+  .topbar-study { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+  .topbar-study .study-name { font-size: 0.8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 12rem; }
+  .badge { display: inline-flex; align-items: center; gap: 0.32rem; font-size: 0.66rem; font-weight: 650; letter-spacing: 0.01em; padding: 0.16rem 0.5rem; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); background: var(--surface); white-space: nowrap; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .badge-dot.ok { background: var(--ok); }
+  .badge-dot.warn { background: var(--warn); }
+  .tab-switch { display: flex; gap: 0.15rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.18rem; }
+  .tab-btn { display: inline-flex; align-items: center; gap: 0.32rem; font-size: 0.73rem; font-weight: 600; padding: 0.32rem 0.65rem; border-radius: var(--radius-sm); border: none; background: transparent; color: var(--text-dim); cursor: pointer; font-family: inherit; }
+  .tab-btn svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.85; }
   .tab-btn[aria-selected="true"] { background: var(--accent-soft); color: var(--text); }
-  .icon-btn-flat { padding: 0.35rem 0.6rem; border-radius: 5px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
-  main { flex: 1; display: grid; grid-template-columns: 300px 1fr; min-height: 0; }
+  .icon-btn-flat { padding: 0.32rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.7rem; cursor: pointer; font-family: inherit; }
+  main { flex: 1; display: grid; grid-template-columns: 280px 1fr; min-height: 0; }
   main.hidden { display: none; }
-  aside { border-right: 1px solid var(--border); background: var(--surface); overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 1.1rem; }
-  .eyebrow { font-size: 0.66rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 0.5rem; }
-  .organ-list { display: flex; flex-direction: column; gap: 0.35rem; }
-  .organ-btn { display: flex; align-items: center; gap: 0.55rem; text-align: left; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; }
+  aside { border-right: 1px solid var(--border); background: var(--surface); overflow-y: auto; padding: 0.9rem; display: flex; flex-direction: column; gap: 0; }
+  .panel-group { padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+  .panel-group:first-child { padding-top: 0; }
+  .panel-group:last-child { border-bottom: none; padding-bottom: 0; }
+  .eyebrow { font-size: 0.64rem; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 0.55rem; }
+  .organ-list { display: flex; flex-direction: column; gap: 0.3rem; }
+  .organ-btn { display: flex; align-items: center; gap: 0.5rem; text-align: left; padding: 0.45rem 0.55rem; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; }
   .organ-btn[aria-pressed="true"] { border-color: var(--accent-strong); background: var(--accent-soft); }
-  .organ-swatch { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+  .organ-swatch { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .label-group { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-  .label-group .name { font-size: 0.82rem; font-weight: 650; }
-  .label-group .algo { font-size: 0.68rem; color: var(--text-dim); }
-  .source-pill { font-size: 0.62rem; font-weight: 650; padding: 0.12rem 0.4rem; border-radius: 999px; white-space: nowrap; }
-  .source-pill.real { background: rgba(79,191,120,0.16); color: var(--ok); }
-  .metric-row { display: flex; justify-content: space-between; gap: 0.6rem; padding: 0.28rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
-  .metric-row .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  .validation-line { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; padding: 0.5rem 0.6rem; border-radius: 6px; background: var(--surface-raised); border: 1px solid var(--border); }
-  .validation-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .label-group .name { font-size: 0.8rem; font-weight: 600; }
+  .label-group .algo { font-size: 0.66rem; color: var(--text-dim); }
+  .structure-status { display: flex; align-items: center; gap: 0.3rem; font-size: 0.64rem; font-weight: 650; white-space: nowrap; color: var(--text-faint); }
+  .structure-status .dot { width: 7px; height: 7px; border-radius: 50%; border: 1.4px solid var(--text-faint); flex-shrink: 0; }
+  .organ-btn[aria-pressed="true"] .structure-status { color: var(--ok); }
+  .organ-btn[aria-pressed="true"] .structure-status .dot { background: var(--ok); border-color: var(--ok); }
+  .inspector-row { display: flex; justify-content: space-between; gap: 0.6rem; padding: 0.32rem 0; border-bottom: 1px solid var(--border); font-size: 0.76rem; }
+  .inspector-row .k { color: var(--text-dim); }
+  .inspector-row .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+  .inspector-subhead { font-size: 0.7rem; font-weight: 650; color: var(--text); margin: 0.7rem 0 0.15rem; }
+  .inspector-subhead:first-child { margin-top: 0; }
+  .details-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; padding: 0.5rem 0; cursor: pointer; font-family: inherit; color: var(--text-dim); font-size: 0.68rem; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase; border-top: 1px solid var(--border); margin-top: 0.4rem; }
+  .details-toggle svg { width: 12px; height: 12px; transition: transform 0.12s ease; }
+  .details-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .validation-line { display: flex; align-items: center; gap: 0.4rem; font-size: 0.74rem; padding: 0.45rem 0.55rem; border-radius: var(--radius-md); background: var(--surface-raised); border: 1px solid var(--border); }
+  .validation-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .validation-dot.pass { background: var(--ok); }
   .validation-dot.fail { background: var(--warn); }
-  .note { font-size: 0.72rem; line-height: 1.45; color: var(--text-dim); margin: 0; }
-  .stage { position: relative; background: radial-gradient(ellipse at 50% 38%, color-mix(in srgb, var(--surface-raised) 60%, transparent), var(--bg) 72%); }
+  .note { font-size: 0.71rem; line-height: 1.45; color: var(--text-dim); margin: 0; }
+  .stage { position: relative; background: var(--bg); }
   #gl-canvas, #room-canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
-  .stage-hud { position: absolute; left: 1rem; bottom: 1rem; font-size: 0.7rem; color: var(--text-faint); font-family: var(--font-mono); }
-  .icon-btn { position: absolute; top: 1rem; right: 1rem; padding: 0.35rem 0.6rem; border-radius: 5px; border: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 78%, transparent); color: var(--text-dim); font-size: 0.72rem; cursor: pointer; font-family: inherit; }
+  .stage-hud { position: absolute; left: 0.85rem; bottom: 0.75rem; font-size: 0.68rem; color: var(--text-faint); font-family: var(--font-mono); }
+  .icon-btn { position: absolute; top: 0.85rem; right: 0.85rem; padding: 0.32rem 0.58rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.7rem; cursor: pointer; font-family: inherit; }
+
+  /* ---- viewport toolbar / gizmo ---- */
+  .viewport-toolbar { position: absolute; top: 0.85rem; right: 0.85rem; display: flex; align-items: center; gap: 0.15rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.22rem; }
+  .viewport-toolbar button { display: flex; align-items: center; justify-content: center; min-width: 1.9rem; height: 1.7rem; padding: 0 0.4rem; border: none; background: transparent; border-radius: var(--radius-sm); color: var(--text-dim); font-size: 0.66rem; font-weight: 650; cursor: pointer; font-family: inherit; }
+  .viewport-toolbar button svg { width: 14px; height: 14px; }
+  .viewport-toolbar button:hover { background: var(--surface-raised); color: var(--text); }
+  .viewport-toolbar button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); }
+  .viewport-toolbar .vt-divider { width: 1px; align-self: stretch; margin: 0 0.2rem; background: var(--border); }
+  .axis-gizmo-wrap { position: absolute; left: 0.85rem; top: 0.85rem; width: 64px; height: 64px; pointer-events: none; opacity: 0.85; }
+  .measure-dot { position: absolute; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: var(--accent); border: 1.5px solid #fff; }
+  .measure-label { position: absolute; transform: translate(-50%, -50%); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--accent-strong); color: var(--text); white-space: nowrap; }
+  .export-btn { flex: 1; font-size: 0.72rem; padding: 0.4rem 0.5rem; border: none; background: var(--surface-raised); color: var(--text); cursor: pointer; font-family: inherit; border-right: 1px solid var(--border); }
+  .export-btn:last-child { border-right: none; }
+  .export-btn:hover { background: var(--accent-soft); }
   .slice-stage { position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
   #slice-canvas { image-rendering: pixelated; cursor: crosshair; box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
   .slider-row { display: flex; align-items: center; gap: 0.5rem; }
@@ -653,11 +695,10 @@ _TEMPLATE = r"""<!doctype html>
   .label-layer.hidden { display: none; }
   .landmark-label {
     position: absolute; transform: translate(-50%, -130%);
-    font-size: 0.72rem; font-weight: 650; white-space: nowrap;
-    padding: 0.22rem 0.55rem; border-radius: 999px;
-    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    font-size: 0.71rem; font-weight: 600; white-space: nowrap;
+    padding: 0.2rem 0.5rem; border-radius: var(--radius-sm);
+    background: var(--surface);
     border: 1px solid var(--accent-strong); color: var(--text);
-    backdrop-filter: blur(4px);
   }
   .landmark-label::after {
     content: ""; position: absolute; left: 50%; bottom: -5px; width: 6px; height: 6px;
@@ -700,9 +741,9 @@ _TEMPLATE = r"""<!doctype html>
   .lab-match { font-size: 0.76rem; color: var(--ok); font-weight: 600; min-height: 1.1em; }
 
   /* ---- welcome overlay ---- */
-  #welcome-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 12%, var(--bg)) 0%, var(--bg) 70%); transition: opacity 0.4s ease; padding: 1.5rem; box-sizing: border-box; }
+  #welcome-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: var(--bg); transition: opacity 0.4s ease; padding: 1.5rem; box-sizing: border-box; }
   #welcome-overlay.hidden { opacity: 0; pointer-events: none; }
-  .welcome-card { max-width: 26rem; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 2rem 1.9rem; box-shadow: 0 20px 60px rgba(0,0,0,0.25); text-align: center; }
+  .welcome-card { max-width: 26rem; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem 1.9rem; box-shadow: 0 12px 32px rgba(0,0,0,0.18); text-align: center; }
   .welcome-card .mark { width: 34px; height: 34px; color: var(--accent); display: block; margin: 0 auto 1.1rem; }
   .welcome-card h2 { font-family: var(--font-serif); font-weight: 600; margin: 0 0 0.5rem; font-size: 1.3rem; }
   .welcome-card p.sub { margin: 0 0 1.4rem; font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; }
@@ -726,6 +767,26 @@ _TEMPLATE = r"""<!doctype html>
   .trivia-option-btn[data-state="wrong"] { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 18%, var(--surface-raised)); }
   .trivia-explain { font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; padding: 0.7rem 0.9rem; border-radius: 6px; background: var(--surface-raised); border: 1px solid var(--border); margin: 0; }
   .trivia-action-btn { width: auto; align-self: flex-start; padding: 0.55rem 1.3rem; margin-top: 0.2rem; }
+
+  /* ---- responsive: keep the viewport dominant, shrink chrome first ---- */
+  @media (max-width: 1180px) {
+    .topbar-study .badge:not(:first-of-type) { display: none; }
+  }
+  @media (max-width: 1000px) {
+    header h1 { display: none; }
+    .topbar-study .study-name { max-width: 6rem; }
+  }
+  @media (max-width: 860px) {
+    .tab-label { display: none; }
+    .tab-btn { padding: 0.4rem 0.5rem; }
+    .tab-btn svg { width: 15px; height: 15px; }
+    .topbar-study .badge { display: none; }
+  }
+  @media (max-width: 700px) {
+    main { grid-template-columns: 220px 1fr; }
+    aside { padding: 0.6rem; }
+    .viewport-toolbar button { min-width: 1.6rem; height: 1.5rem; font-size: 0.6rem; padding: 0 0.25rem; }
+  }
 </style>
 <body>
 <div id="welcome-overlay">
@@ -748,14 +809,20 @@ _TEMPLATE = r"""<!doctype html>
 <header>
   <svg class="mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8.4" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="13" r="5" stroke="currentColor" stroke-width="1.3" opacity="0.6"/><circle cx="12" cy="13" r="1.6" fill="currentColor"/><path d="M4.2 6 L19.8 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
   <h1>Medical3DReconstruction</h1>
+  <div class="topbar-divider"></div>
+  <div class="topbar-study">
+    <span class="study-name" id="topbar-study-name"></span>
+    <span class="badge" id="topbar-study-type"></span>
+    <span class="badge" id="topbar-status"><span class="badge-dot ok"></span><span id="topbar-status-text">Listo</span></span>
+  </div>
   <span class="spacer"></span>
   <div class="tab-switch">
-    <button class="tab-btn" id="tab-btn-3d" aria-selected="true">Reconstrucción 3D</button>
-    <button class="tab-btn" id="tab-btn-slices" aria-selected="false">Cortes CT</button>
-    <button class="tab-btn" id="tab-btn-lab" aria-selected="false">Laboratorio</button>
-    <button class="tab-btn" id="tab-btn-anatomy" aria-selected="false">Anatomía</button>
-    <button class="tab-btn" id="tab-btn-room" aria-selected="false">Sala de órganos</button>
-    <button class="tab-btn" id="tab-btn-trivia" aria-selected="false">Trivia</button>
+    <button class="tab-btn" id="tab-btn-3d" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6.5v11L12 22l8-4.5v-11L12 2Z"/><path d="M4 6.5 12 11l8-4.5"/><path d="M12 11v11"/></svg><span class="tab-label">Reconstrucción 3D</span></button>
+    <button class="tab-btn" id="tab-btn-slices" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg><span class="tab-label">Cortes CT</span></button>
+    <button class="tab-btn" id="tab-btn-lab" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6.5L4.5 17a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L15 8.5V2"/><path d="M9 2h6"/><path d="M7.5 14h9"/></svg><span class="tab-label">Laboratorio</span></button>
+    <button class="tab-btn" id="tab-btn-anatomy" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v15.5"/><path d="M6.5 21A2.5 2.5 0 0 1 4 18.5H20V21H6.5Z"/></svg><span class="tab-label">Anatomía</span></button>
+    <button class="tab-btn" id="tab-btn-room" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="tab-label">Sala de órganos</span></button>
+    <button class="tab-btn" id="tab-btn-trivia" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a2.8 2.8 0 1 1 3.9 2.6c-.9.4-1.6 1-1.6 2.1"/><path d="M12 17.5h.01"/></svg><span class="tab-label">Trivia</span></button>
   </div>
   <span class="spacer"></span>
   <button class="icon-btn-flat" id="theme-btn">Tema</button>
@@ -763,13 +830,13 @@ _TEMPLATE = r"""<!doctype html>
 
 <main id="panel-3d">
   <aside>
-    <div>
-      <p class="eyebrow">Órgano</p>
+    <div class="panel-group">
+      <p class="eyebrow">Estructuras</p>
       <div class="organ-list" id="organ-list"></div>
       <label class="toggle-row" style="margin-top:0.6rem"><input type="checkbox" id="heartbeat-toggle"> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px" xmlns="http://www.w3.org/2000/svg"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><path d="M17 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19.5 5.5a9 9 0 0 1 0 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/></svg> Sonido del latido (solo corazón)</label>
     </div>
-    <div>
-      <p class="eyebrow">Modo de vista</p>
+    <div class="panel-group">
+      <p class="eyebrow">Modo de visualización</p>
       <div class="segmented-row" id="view-mode-row">
         <button data-mode="solid" aria-pressed="true">Sólido</button>
         <button data-mode="xray" aria-pressed="false">Rayos-X</button>
@@ -777,72 +844,109 @@ _TEMPLATE = r"""<!doctype html>
         <button data-mode="mpr" aria-pressed="false">Cortes MPR</button>
         <button data-mode="fly" aria-pressed="false">Vuelo interior</button>
       </div>
-    </div>
-    <div id="opacity-row">
-      <div class="label-row"><span class="eyebrow" style="margin:0">Opacidad</span><span id="opacity-value" style="font-size:0.72rem;color:var(--text-dim)">100%</span></div>
-      <input type="range" id="opacity-slider" min="5" max="100" value="100">
-    </div>
-    <div id="clip-section">
-      <p class="eyebrow">Plano de corte</p>
-      <label class="toggle-row"><input type="checkbox" id="clip-enabled"> Activar corte</label>
-      <div class="clip-controls" id="clip-controls" data-enabled="false">
-        <div class="segmented-row" id="clip-axis-row">
-          <button data-axis="0" aria-pressed="true">X</button>
-          <button data-axis="1" aria-pressed="false">Y</button>
-          <button data-axis="2" aria-pressed="false">Z</button>
+      <div id="mpr-section" class="hidden" style="margin-top:0.7rem">
+        <p class="note">Los 3 planos reales (axial/coronal/sagital) del mismo volumen que ves en "Cortes CT", flotando en 3D como una caja que puedes rotar.</p>
+        <div class="lab-field">
+          <div class="label-row"><span><span class="mpr-dot" style="background:#5c8fbd"></span>Axial (Z)</span><span id="mpr-axial-value"></span></div>
+          <input type="range" id="mpr-axial-slider" min="0" max="100" value="50">
         </div>
-        <input type="range" id="clip-slider" min="0" max="100" value="50">
+        <div class="lab-field">
+          <div class="label-row"><span><span class="mpr-dot" style="background:#789e61"></span>Coronal (Y)</span><span id="mpr-coronal-value"></span></div>
+          <input type="range" id="mpr-coronal-slider" min="0" max="100" value="50">
+        </div>
+        <div class="lab-field">
+          <div class="label-row"><span><span class="mpr-dot" style="background:#c76b5c"></span>Sagital (X)</span><span id="mpr-sagittal-value"></span></div>
+          <input type="range" id="mpr-sagittal-slider" min="0" max="100" value="50">
+        </div>
+        <label class="toggle-row" style="margin-top:0.3rem"><input type="checkbox" id="mpr-gradient-toggle"> Campo de orientación (aproximado)</label>
+        <p class="diagram-caveat" style="margin:0.3rem 0 0;text-align:left">No es tractografía DTI real — este proyecto no tiene datos de difusión. Son líneas cortas siguiendo el gradiente de intensidad real de este escaneo (dirección de mayor cambio de densidad), coloreadas por eje solo como referencia visual.</p>
+      </div>
+      <div id="fly-section" class="hidden" style="margin-top:0.7rem">
+        <p class="note">Una cámara en primera persona recorre el interior real del órgano, siguiendo el eje central de la máscara segmentada — no una animación decorativa, es la geometría de este espécimen.</p>
+        <div class="toggle-row" style="gap:0.5rem">
+          <button class="preset-btn" id="fly-play-btn" aria-pressed="true">Pausar</button>
+          <span id="fly-progress-note" class="lab-tick-note"></span>
+        </div>
+        <div class="lab-field" style="margin-top:0.5rem">
+          <div class="label-row"><span>Velocidad</span></div>
+          <input type="range" id="fly-speed-slider" min="20" max="200" value="70">
+        </div>
       </div>
     </div>
-    <div id="mpr-section" class="hidden">
-      <p class="eyebrow">Cortes MPR (multiplanar)</p>
-      <p class="note">Los 3 planos reales (axial/coronal/sagital) del mismo volumen que ves en "Cortes CT", flotando en 3D como una caja que puedes rotar.</p>
-      <div class="lab-field">
-        <div class="label-row"><span><span class="mpr-dot" style="background:#5c8fbd"></span>Axial (Z)</span><span id="mpr-axial-value"></span></div>
-        <input type="range" id="mpr-axial-slider" min="0" max="100" value="50">
+    <div class="panel-group">
+      <p class="eyebrow">Reconstrucción</p>
+      <div id="opacity-row">
+        <div class="label-row"><span style="font-size:0.76rem;color:var(--text-dim)">Opacidad</span><span id="opacity-value" style="font-size:0.72rem;color:var(--text-dim)">100%</span></div>
+        <input type="range" id="opacity-slider" min="5" max="100" value="100">
       </div>
-      <div class="lab-field">
-        <div class="label-row"><span><span class="mpr-dot" style="background:#789e61"></span>Coronal (Y)</span><span id="mpr-coronal-value"></span></div>
-        <input type="range" id="mpr-coronal-slider" min="0" max="100" value="50">
-      </div>
-      <div class="lab-field">
-        <div class="label-row"><span><span class="mpr-dot" style="background:#c76b5c"></span>Sagital (X)</span><span id="mpr-sagittal-value"></span></div>
-        <input type="range" id="mpr-sagittal-slider" min="0" max="100" value="50">
-      </div>
-      <label class="toggle-row" style="margin-top:0.3rem"><input type="checkbox" id="mpr-gradient-toggle"> Campo de orientación (aproximado)</label>
-      <p class="diagram-caveat" style="margin:0.3rem 0 0;text-align:left">No es tractografía DTI real — este proyecto no tiene datos de difusión. Son líneas cortas siguiendo el gradiente de intensidad real de este escaneo (dirección de mayor cambio de densidad), coloreadas por eje solo como referencia visual.</p>
-    </div>
-    <div id="fly-section" class="hidden">
-      <p class="eyebrow">Vuelo interior</p>
-      <p class="note">Una cámara en primera persona recorre el interior real del órgano, siguiendo el eje central de la máscara segmentada — no una animación decorativa, es la geometría de este espécimen.</p>
-      <div class="toggle-row" style="gap:0.5rem">
-        <button class="preset-btn" id="fly-play-btn" aria-pressed="true">Pausar</button>
-        <span id="fly-progress-note" class="lab-tick-note"></span>
-      </div>
-      <div class="lab-field" style="margin-top:0.5rem">
-        <div class="label-row"><span>Velocidad</span></div>
-        <input type="range" id="fly-speed-slider" min="20" max="200" value="70">
+      <div id="clip-section" style="margin-top:0.7rem">
+        <label class="toggle-row"><input type="checkbox" id="clip-enabled"> Clipping (corte virtual)</label>
+        <div class="clip-controls" id="clip-controls" data-enabled="false">
+          <div class="label-row" style="margin-top:0.3rem"><span>Plano</span></div>
+          <div class="segmented-row" id="clip-axis-row">
+            <button data-axis="0" aria-pressed="true">X</button>
+            <button data-axis="1" aria-pressed="false">Y</button>
+            <button data-axis="2" aria-pressed="false">Z</button>
+          </div>
+          <div class="label-row" style="margin-top:0.3rem"><span>Posición</span></div>
+          <input type="range" id="clip-slider" min="0" max="100" value="50">
+        </div>
       </div>
     </div>
-    <div>
-      <p class="eyebrow">Métricas de reconstrucción</p>
+    <div class="panel-group" id="measure-group">
+      <p class="eyebrow">Medición</p>
+      <label class="toggle-row"><input type="checkbox" id="measure-enabled"> Activar herramienta de medición</label>
+      <p class="note" style="margin-top:0.4rem">Con la herramienta activa, haz clic en dos puntos de la superficie del modelo. La distancia se calcula en milímetros reales, sobre las mismas coordenadas de la malla exportada.</p>
+      <div class="inspector-row" id="measure-readout-row" style="display:none">
+        <span class="k">Distancia</span><span class="v" id="measure-readout-value"></span>
+      </div>
+      <button class="preset-btn" id="measure-clear-btn" style="margin-top:0.4rem;display:none">Borrar medición</button>
+    </div>
+    <div class="panel-group">
+      <p class="eyebrow">Anatomy Inspector</p>
+      <p class="inspector-subhead">Malla</p>
       <div id="metrics-panel"></div>
-    </div>
-    <div>
-      <p class="eyebrow">Validación</p>
+      <p class="inspector-subhead">Validación</p>
       <div id="validation-panel"></div>
-    </div>
-    <div>
-      <p class="eyebrow">Fuente de datos</p>
+      <button class="details-toggle" id="details-toggle-btn" aria-expanded="false">Technical details<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div id="technical-details-panel" class="hidden">
+        <div id="technical-details-rows"></div>
+      </div>
+      <p class="inspector-subhead">Fuente de datos</p>
       <p class="note" id="source-note"></p>
       <p class="note" id="caveat-note" style="margin-top:0.5rem"></p>
+    </div>
+    <div class="panel-group">
+      <p class="eyebrow">Exportar</p>
+      <p class="note">Descarga la malla tal como está cargada ahora mismo en el visor (misma geometría que ves, ya decimada para la web).</p>
+      <div class="segmented-row" style="margin-top:0.5rem">
+        <button class="export-btn" id="export-stl-btn">STL</button>
+        <button class="export-btn" id="export-obj-btn">OBJ</button>
+      </div>
+      <p class="lab-tick-note" id="export-status" style="margin-top:0.4rem"></p>
     </div>
   </aside>
   <div class="stage">
     <canvas id="gl-canvas"></canvas>
     <div class="label-layer" id="label-layer"></div>
-    <button class="icon-btn" id="reset-btn">Restablecer vista</button>
-    <button class="icon-btn" id="labels-toggle-btn" style="right: 9.5rem;" aria-pressed="true">Etiquetas: sí</button>
+    <div class="label-layer" id="measure-layer"></div>
+    <div class="axis-gizmo-wrap"><canvas id="axis-gizmo-canvas" width="64" height="64"></canvas></div>
+    <div class="viewport-toolbar" id="viewport-toolbar">
+      <button data-view="front" title="Vista frontal (Anterior)">Ant</button>
+      <button data-view="back" title="Vista posterior">Post</button>
+      <button data-view="left" title="Vista izquierda">Izq</button>
+      <button data-view="right" title="Vista derecha">Der</button>
+      <button data-view="top" title="Vista superior">Sup</button>
+      <button data-view="bottom" title="Vista inferior">Inf</button>
+      <button data-view="iso" title="Vista isométrica">Iso</button>
+      <span class="vt-divider"></span>
+      <button id="fit-btn" title="Encuadrar modelo (Fit)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+      </button>
+      <button id="labels-toggle-btn" aria-pressed="true" title="Mostrar/ocultar etiquetas anatómicas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3H4a1 1 0 0 0-1 1v7a1 1 0 0 0 .3.7l9 9a1 1 0 0 0 1.4 0l7-7a1 1 0 0 0 0-1.4l-9-9A1 1 0 0 0 11 3Z"/><circle cx="7.5" cy="7.5" r="1"/></svg>
+      </button>
+    </div>
     <div class="stage-hud">arrastra para rotar &middot; desplaza para hacer zoom</div>
   </div>
 </main>
@@ -1302,6 +1406,7 @@ _TEMPLATE = r"""<!doctype html>
   // ---------- view mode + clipping plane state ----------
   let viewMode = "solid"; // "solid" | "xray" | "wire"
   let clipEnabled = false, clipAxis = 0, clipFraction = 0.5;
+  let measureEnabled = false, measurePoints = [];
   let meshBoundsMin = [0,0,0], meshBoundsMax = [0,0,0];
 
   function buildEdgeIndices(indices) {
@@ -1357,6 +1462,7 @@ _TEMPLATE = r"""<!doctype html>
     opacityRowEl.classList.toggle("hidden", isMpr || isFly);
     clipSectionEl.classList.toggle("hidden", isMpr || isFly);
     labelLayerEl.classList.toggle("hidden", isMpr || isFly || !labelsVisible);
+    if (isMpr || isFly) { measurePoints = []; updateMeasureReadout(); measureLayerEl.innerHTML = ""; }
     if (isMpr) {
       rebuildMprPlanes();
       if (showGradientField) computeGradientField();
@@ -1993,7 +2099,7 @@ _TEMPLATE = r"""<!doctype html>
   labelsToggleBtn.addEventListener("click", () => {
     labelsVisible = !labelsVisible;
     labelsToggleBtn.setAttribute("aria-pressed", String(labelsVisible));
-    labelsToggleBtn.textContent = "Etiquetas: " + (labelsVisible ? "sí" : "no");
+    labelsToggleBtn.title = "Etiquetas anatómicas: " + (labelsVisible ? "visibles" : "ocultas");
     labelLayerEl.classList.toggle("hidden", !labelsVisible);
   });
 
@@ -2022,7 +2128,10 @@ _TEMPLATE = r"""<!doctype html>
     return [(ndcX*0.5+0.5) * canvas.clientWidth, (1-(ndcY*0.5+0.5)) * canvas.clientHeight];
   }
 
-  canvas.addEventListener("pointerdown", e => { dragging = true; autoRotate = false; lastX = e.clientX; lastY = e.clientY; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener("pointerdown", e => {
+    if (measureEnabled) { handleMeasureClick(e); return; }
+    dragging = true; autoRotate = false; lastX = e.clientX; lastY = e.clientY; canvas.setPointerCapture(e.pointerId);
+  });
   canvas.addEventListener("pointerup", () => dragging = false);
   canvas.addEventListener("pointermove", e => {
     if (!dragging) return;
@@ -2034,11 +2143,229 @@ _TEMPLATE = r"""<!doctype html>
     e.preventDefault();
     targetRadius = Math.max(boundingRadius*1.15, Math.min(boundingRadius*6, targetRadius * Math.pow(1.0012, e.deltaY)));
   }, {passive: false});
-  document.getElementById("reset-btn").addEventListener("click", () => {
+
+  // ---- camera view presets (Front/Back/Left/Right/Top/Bottom/Isometric) ----
+  // theta/phi are spherical angles of the orbit camera around the mesh
+  // center (see the eye computation in render3d): phi is polar angle from
+  // +Y (top), theta is azimuth around Y. These are viewport-relative
+  // camera presets, the same convention any 3D viewer/CAD tool uses —
+  // not a claim about patient-anatomical left/right chirality.
+  const CAMERA_VIEWS = {
+    front:  {theta: 0,            phi: Math.PI / 2},
+    back:   {theta: Math.PI,      phi: Math.PI / 2},
+    right:  {theta: Math.PI / 2,  phi: Math.PI / 2},
+    left:   {theta: -Math.PI / 2, phi: Math.PI / 2},
+    top:    {theta: 0.001,        phi: 0.08},
+    bottom: {theta: 0.001,        phi: Math.PI - 0.08},
+    iso:    {theta: Math.PI / 4,  phi: 1.0},
+  };
+  function setCameraView(name) {
+    const v = CAMERA_VIEWS[name];
+    if (!v) return;
+    theta = v.theta; phi = v.phi; targetRadius = boundingRadius * 2.6;
+    autoRotate = false;
+  }
+  function fitAndReset() {
     const meta = ORGAN_META[currentOrganKey];
     theta = meta.initial_theta; phi = meta.initial_phi; targetRadius = boundingRadius * 2.6;
     autoRotate = !reduceMotion;
+  }
+  document.getElementById("fit-btn").addEventListener("click", fitAndReset);
+  document.getElementById("viewport-toolbar").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-view]");
+    if (!btn) return;
+    setCameraView(btn.dataset.view);
   });
+
+  // ---- axis gizmo: small always-on corner indicator of X/Y/Z orientation ----
+  const gizmoCanvas = document.getElementById("axis-gizmo-canvas");
+  const gizmoCtx = gizmoCanvas.getContext("2d");
+  function drawAxisGizmo(view) {
+    const cx = 32, cy = 32, len = 20;
+    gizmoCtx.clearRect(0, 0, 64, 64);
+    const axes = [
+      {v: [1,0,0], color: "#c76b5c", label: "X"},
+      {v: [0,1,0], color: "#789e61", label: "Y"},
+      {v: [0,0,1], color: "#5c8fbd", label: "Z"},
+    ];
+    const projected = axes.map(a => {
+      const vx = view[0]*a.v[0]+view[4]*a.v[1]+view[8]*a.v[2];
+      const vy = view[1]*a.v[0]+view[5]*a.v[1]+view[9]*a.v[2];
+      const vz = view[2]*a.v[0]+view[6]*a.v[1]+view[10]*a.v[2];
+      return {...a, sx: cx + vx*len, sy: cy - vy*len, z: vz};
+    }).sort((a,b) => a.z - b.z);
+    for (const a of projected) {
+      gizmoCtx.strokeStyle = a.color; gizmoCtx.lineWidth = 2;
+      gizmoCtx.beginPath(); gizmoCtx.moveTo(cx, cy); gizmoCtx.lineTo(a.sx, a.sy); gizmoCtx.stroke();
+      gizmoCtx.fillStyle = a.color;
+      gizmoCtx.beginPath(); gizmoCtx.arc(a.sx, a.sy, 4.5, 0, Math.PI*2); gizmoCtx.fill();
+      gizmoCtx.fillStyle = "#fff"; gizmoCtx.font = "9px sans-serif"; gizmoCtx.textAlign = "center"; gizmoCtx.textBaseline = "middle";
+      gizmoCtx.fillText(a.label, a.sx, a.sy);
+    }
+  }
+
+  // ---- export: serialize the mesh already loaded in the browser to STL/OBJ ----
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+  function meshToStlBlob(mesh) {
+    const triCount = mesh.indices.length / 3;
+    const buf = new ArrayBuffer(84 + triCount * 50);
+    const view = new DataView(buf);
+    const header = "Medical3DReconstruction export";
+    for (let i = 0; i < header.length; i++) view.setUint8(i, header.charCodeAt(i));
+    view.setUint32(80, triCount, true);
+    let off = 84;
+    const p = mesh.positions;
+    for (let t = 0; t < triCount; t++) {
+      const i0 = mesh.indices[t*3] * 3, i1 = mesh.indices[t*3+1] * 3, i2 = mesh.indices[t*3+2] * 3;
+      const ax = p[i0], ay = p[i0+1], az = p[i0+2];
+      const bx = p[i1], by = p[i1+1], bz = p[i1+2];
+      const cx = p[i2], cy = p[i2+1], cz = p[i2+2];
+      const ux = bx-ax, uy = by-ay, uz = bz-az;
+      const vx = cx-ax, vy = cy-ay, vz = cz-az;
+      let nx = uy*vz - uz*vy, ny = uz*vx - ux*vz, nz = ux*vy - uy*vx;
+      const nl = Math.hypot(nx, ny, nz) || 1;
+      nx /= nl; ny /= nl; nz /= nl;
+      view.setFloat32(off, nx, true); view.setFloat32(off+4, ny, true); view.setFloat32(off+8, nz, true);
+      view.setFloat32(off+12, ax, true); view.setFloat32(off+16, ay, true); view.setFloat32(off+20, az, true);
+      view.setFloat32(off+24, bx, true); view.setFloat32(off+28, by, true); view.setFloat32(off+32, bz, true);
+      view.setFloat32(off+36, cx, true); view.setFloat32(off+40, cy, true); view.setFloat32(off+44, cz, true);
+      view.setUint16(off+48, 0, true);
+      off += 50;
+    }
+    return new Blob([buf], {type: "model/stl"});
+  }
+  function meshToObjString(mesh) {
+    const lines = ["# Medical3DReconstruction export", `# ${ORGAN_META[currentOrganKey].label} — ${mesh.numVertices} vértices, ${mesh.numTriangles} triángulos`];
+    const p = mesh.positions, n = mesh.normals;
+    for (let i = 0; i < p.length; i += 3) lines.push(`v ${p[i]} ${p[i+1]} ${p[i+2]}`);
+    for (let i = 0; i < n.length; i += 3) lines.push(`vn ${n[i]} ${n[i+1]} ${n[i+2]}`);
+    for (let t = 0; t < mesh.indices.length; t += 3) {
+      const a = mesh.indices[t]+1, b = mesh.indices[t+1]+1, c = mesh.indices[t+2]+1;
+      lines.push(`f ${a}//${a} ${b}//${b} ${c}//${c}`);
+    }
+    return lines.join("\n");
+  }
+  const exportStatusEl = document.getElementById("export-status");
+  function fmtBytes(n) { return n > 1e6 ? (n/1e6).toFixed(1)+" MB" : (n/1e3).toFixed(0)+" KB"; }
+  document.getElementById("export-stl-btn").addEventListener("click", () => {
+    if (!currentMesh) return;
+    const blob = meshToStlBlob(currentMesh);
+    downloadBlob(blob, `${currentOrganKey}.stl`);
+    exportStatusEl.textContent = `Exportado: ${currentOrganKey}.stl (${fmtBytes(blob.size)})`;
+  });
+  document.getElementById("export-obj-btn").addEventListener("click", () => {
+    if (!currentMesh) return;
+    const text = meshToObjString(currentMesh);
+    const blob = new Blob([text], {type: "text/plain"});
+    downloadBlob(blob, `${currentOrganKey}.obj`);
+    exportStatusEl.textContent = `Exportado: ${currentOrganKey}.obj (${fmtBytes(blob.size)})`;
+  });
+
+  // ---- measurement: point-to-point distance via CPU ray/triangle picking ----
+  // The mesh's own vertex coordinates are already real millimeters (same
+  // space as the "Centroide (mm)"/bounding box readouts), so a distance
+  // between two picked surface points is a real physical measurement, not
+  // an approximation from screen pixels.
+  function rayTriangleHit(ox, oy, oz, dx, dy, dz, v0, v1, v2) {
+    const EPS = 1e-7;
+    const e1x = v1[0]-v0[0], e1y = v1[1]-v0[1], e1z = v1[2]-v0[2];
+    const e2x = v2[0]-v0[0], e2y = v2[1]-v0[1], e2z = v2[2]-v0[2];
+    const hx = dy*e2z - dz*e2y, hy = dz*e2x - dx*e2z, hz = dx*e2y - dy*e2x;
+    const a = e1x*hx + e1y*hy + e1z*hz;
+    if (Math.abs(a) < EPS) return null;
+    const f = 1 / a;
+    const sx = ox-v0[0], sy = oy-v0[1], sz = oz-v0[2];
+    const u = f * (sx*hx + sy*hy + sz*hz);
+    if (u < 0 || u > 1) return null;
+    const qx = sy*e1z - sz*e1y, qy = sz*e1x - sx*e1z, qz = sx*e1y - sy*e1x;
+    const v = f * (dx*qx + dy*qy + dz*qz);
+    if (v < 0 || u+v > 1) return null;
+    const t = f * (e2x*qx + e2y*qy + e2z*qz);
+    return t > EPS ? t : null;
+  }
+  function pickMeshPoint(originArr, dirArr) {
+    if (!currentMesh) return null;
+    const [ox, oy, oz] = originArr, [dx, dy, dz] = dirArr;
+    const p = currentMesh.positions, idx = currentMesh.indices;
+    let bestT = Infinity;
+    const v0 = [0,0,0], v1 = [0,0,0], v2 = [0,0,0];
+    for (let t = 0; t < idx.length; t += 3) {
+      const i0 = idx[t]*3, i1 = idx[t+1]*3, i2 = idx[t+2]*3;
+      v0[0]=p[i0]; v0[1]=p[i0+1]; v0[2]=p[i0+2];
+      v1[0]=p[i1]; v1[1]=p[i1+1]; v1[2]=p[i1+2];
+      v2[0]=p[i2]; v2[1]=p[i2+1]; v2[2]=p[i2+2];
+      const hit = rayTriangleHit(ox,oy,oz, dx,dy,dz, v0,v1,v2);
+      if (hit !== null && hit < bestT) bestT = hit;
+    }
+    if (!isFinite(bestT)) return null;
+    return [ox+dx*bestT, oy+dy*bestT, oz+dz*bestT];
+  }
+  function handleMeasureClick(e) {
+    if (!currentMesh || (viewMode !== "solid" && viewMode !== "xray" && viewMode !== "wire")) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const my = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    const c = currentMesh.center;
+    const eye = [c[0]+radius*Math.sin(phi)*Math.sin(theta), c[1]+radius*Math.cos(phi), c[2]+radius*Math.sin(phi)*Math.cos(theta)];
+    // camera basis, matching lookAt(eye, c, [0,1,0])
+    let zx=eye[0]-c[0], zy=eye[1]-c[1], zz=eye[2]-c[2];
+    let zl=Math.hypot(zx,zy,zz)||1; zx/=zl; zy/=zl; zz/=zl;
+    let xx=1*zz-0*zy, xy=0*zx-0*zz, xz=0*zy-1*zx;
+    let xl=Math.hypot(xx,xy,xz)||1; xx/=xl; xy/=xl; xz/=xl;
+    const yx=zy*xz-zz*xy, yy=zz*xx-zx*xz, yz=zx*xy-zy*xx;
+    const aspect = canvas.width / Math.max(1, canvas.height);
+    const tanHalf = Math.tan((Math.PI/4.2) / 2);
+    const dvx = mx*aspect*tanHalf, dvy = my*tanHalf, dvz = -1;
+    let dirx = dvx*xx + dvy*yx + dvz*zx;
+    let diry = dvx*xy + dvy*yy + dvz*zy;
+    let dirz = dvx*xz + dvy*yz + dvz*zz;
+    const dl = Math.hypot(dirx,diry,dirz)||1; dirx/=dl; diry/=dl; dirz/=dl;
+    const hitPoint = pickMeshPoint(eye, [dirx, diry, dirz]);
+    if (!hitPoint) return;
+    if (measurePoints.length >= 2) measurePoints = [];
+    measurePoints.push(hitPoint);
+    updateMeasureReadout();
+  }
+  const measureLayerEl = document.getElementById("measure-layer");
+  function dist3(a, b) { return Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]); }
+  function updateMeasureOverlay(view, proj) {
+    if (measurePoints.length === 0) { measureLayerEl.innerHTML = ""; return; }
+    const screenPts = measurePoints.map((p) => projectToScreen(p, view, proj));
+    let html = "";
+    if (screenPts[0] && screenPts[1]) {
+      html += `<svg style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><line x1="${screenPts[0][0]}" y1="${screenPts[0][1]}" x2="${screenPts[1][0]}" y2="${screenPts[1][1]}" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/></svg>`;
+    }
+    for (const sp of screenPts) if (sp) html += `<div class="measure-dot" style="left:${sp[0]}px;top:${sp[1]}px"></div>`;
+    if (screenPts[0] && screenPts[1]) {
+      const mx = (screenPts[0][0]+screenPts[1][0])/2, my = (screenPts[0][1]+screenPts[1][1])/2;
+      html += `<div class="measure-label" style="left:${mx}px;top:${my}px">${dist3(measurePoints[0], measurePoints[1]).toFixed(1)} mm</div>`;
+    }
+    measureLayerEl.innerHTML = html;
+  }
+  const measureReadoutRowEl = document.getElementById("measure-readout-row");
+  const measureReadoutValueEl = document.getElementById("measure-readout-value");
+  const measureClearBtn = document.getElementById("measure-clear-btn");
+  function updateMeasureReadout() {
+    if (measurePoints.length === 2) {
+      measureReadoutRowEl.style.display = "";
+      measureReadoutValueEl.textContent = dist3(measurePoints[0], measurePoints[1]).toFixed(1) + " mm";
+      measureClearBtn.style.display = "";
+    } else {
+      measureReadoutRowEl.style.display = "none";
+      measureClearBtn.style.display = measurePoints.length > 0 ? "" : "none";
+    }
+  }
+  document.getElementById("measure-enabled").addEventListener("change", (e) => {
+    measureEnabled = e.target.checked;
+    if (!measureEnabled) { measurePoints = []; updateMeasureReadout(); measureLayerEl.innerHTML = ""; }
+  });
+  measureClearBtn.addEventListener("click", () => { measurePoints = []; updateMeasureReadout(); measureLayerEl.innerHTML = ""; });
 
   function resizeGl() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -2067,6 +2394,8 @@ _TEMPLATE = r"""<!doctype html>
         proj = perspective(Math.PI/4.2, canvas.width/Math.max(1,canvas.height), Math.max(0.01,boundingRadius*0.02), boundingRadius*20);
       }
       const clip = clipUniformValues();
+      drawAxisGizmo(view);
+      updateMeasureOverlay(view, proj);
 
       if (viewMode === "fly" && flyPath) {
         drawFlyInterior(view, proj);
@@ -2160,34 +2489,60 @@ _TEMPLATE = r"""<!doctype html>
   const validationPanelEl = document.getElementById("validation-panel");
   const sourceNoteEl = document.getElementById("source-note");
   const caveatNoteEl = document.getElementById("caveat-note");
+  const detailsToggleBtn = document.getElementById("details-toggle-btn");
+  const technicalDetailsPanelEl = document.getElementById("technical-details-panel");
+  detailsToggleBtn.addEventListener("click", () => {
+    const expanded = detailsToggleBtn.getAttribute("aria-expanded") === "true";
+    detailsToggleBtn.setAttribute("aria-expanded", String(!expanded));
+    technicalDetailsPanelEl.classList.toggle("hidden", expanded);
+  });
+  const topbarStudyNameEl = document.getElementById("topbar-study-name");
+  const topbarStudyTypeEl = document.getElementById("topbar-study-type");
+  const topbarStatusEl = document.getElementById("topbar-status");
+  const topbarStatusTextEl = document.getElementById("topbar-status-text");
+
+  function renderTopbar(key, meta, validation) {
+    topbarStudyNameEl.textContent = meta.label;
+    topbarStudyTypeEl.textContent = meta.study_type;
+    const dot = topbarStatusEl.querySelector(".badge-dot");
+    if (validation.passed) {
+      dot.className = "badge-dot ok";
+      topbarStatusTextEl.textContent = "Reconstrucción lista";
+    } else {
+      dot.className = "badge-dot warn";
+      topbarStatusTextEl.textContent = "Marcado — ver advertencias";
+    }
+  }
 
   function renderMetrics(metrics) {
+    const dims = [0,1,2].map((i) => metrics.bounding_box_max_mm[i] - metrics.bounding_box_min_mm[i]);
     const rows = [
+      ["Tipo", "Órgano"],
+      ["Vértices", fmt(metrics.num_vertices, 0)],
+      ["Triángulos", fmt(metrics.num_triangles, 0)],
+      ["Dimensiones (mm)", dims.map((v) => fmt(v, 0)).join(" × ")],
       ["Volumen", fmt(metrics.volume_ml, 1) + " mL"],
       ["Área de superficie", fmt(metrics.surface_area_mm2, 0) + " mm²"],
       ["Centroide (mm)", metrics.centroid_mm.map((v) => fmt(v, 0)).join(", ")],
-      ["Bounding box mín.", metrics.bounding_box_min_mm.map((v) => fmt(v, 0)).join(", ")],
-      ["Bounding box máx.", metrics.bounding_box_max_mm.map((v) => fmt(v, 0)).join(", ")],
-      ["Vértices", fmt(metrics.num_vertices, 0)],
-      ["Triángulos", fmt(metrics.num_triangles, 0)],
     ];
-    metricsPanelEl.innerHTML = rows.map(([k, v]) => `<div class="metric-row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")
-      + `<p class="note" style="margin-top:0.5rem">Estas cifras describen la malla STL/OBJ/PLY exportada. La vista 3D está decimada para una interacción fluida — misma forma, menos triángulos.</p>`;
+    metricsPanelEl.innerHTML = rows.map(([k, v]) => `<div class="inspector-row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")
+      + `<p class="note" style="margin-top:0.5rem">Esta malla puede exportarse desde la sección "Exportar" más abajo. La vista 3D usa esta misma geometría, decimada para una interacción fluida.</p>`;
   }
   function renderValidation(validation) {
     const cls = validation.passed ? "pass" : "fail";
-    const label = validation.passed ? "Aprobado — malla estanca, volumen plausible" : "Marcado — ver advertencias";
+    const label = validation.passed ? "Listo — malla estanca, volumen plausible" : "Marcado — ver advertencias";
     validationPanelEl.innerHTML = `<div class="validation-line"><span class="validation-dot ${cls}"></span><span>${label}</span></div>`;
   }
 
   function organListHtml(activeKey) {
     return ORGAN_ORDER.map((key) => {
       const meta = ORGAN_META[key];
+      const active = key === activeKey;
       return `
-        <button class="organ-btn" data-organ="${key}" role="tab" aria-pressed="${key === activeKey}">
+        <button class="organ-btn" data-organ="${key}" role="tab" aria-pressed="${active}">
           <span class="organ-swatch" style="background:${meta.color_hex}"></span>
           <span class="label-group"><span class="name">${meta.label}</span><span class="algo">${meta.algo}</span></span>
-          <span class="source-pill real">datos reales</span>
+          <span class="structure-status"><span class="dot"></span>${active ? "Activo" : "En reposo"}</span>
         </button>`;
     }).join("");
   }
@@ -2240,6 +2595,8 @@ _TEMPLATE = r"""<!doctype html>
     if (heartbeatEnabled && key === "heart") scheduleHeartbeat();
     const data = VIEWER_DATA[key];
     const meta = ORGAN_META[key];
+    renderTopbar(key, meta, data.validation);
+    measurePoints = []; updateMeasureReadout(); measureLayerEl.innerHTML = "";
 
     const mesh = decodeMesh(data.mesh, key);
     currentMesh = mesh;
@@ -2352,6 +2709,20 @@ _TEMPLATE = r"""<!doctype html>
     sliceSlider.value = String(Math.floor(snz / 2));
     sliceCanvas.width = snx; sliceCanvas.height = sny;
     imgData = sliceCtx.createImageData(snx, sny);
+    renderTechnicalDetails();
+  }
+
+  const technicalDetailsRowsEl = document.getElementById("technical-details-rows");
+  function renderTechnicalDetails() {
+    if (!sv) return;
+    const [snz, sny, snx] = sv.shape;
+    const rows = [
+      ["Dimensiones del cubo de vista", `${snx} × ${sny} × ${snz}`],
+      ["Espaciado de vóxel (mm)", sv.spacing.map((v) => v.toFixed(2)).join(" × ")],
+      ["Tipo de estudio", ORGAN_META[currentOrganKey].study_type],
+    ];
+    technicalDetailsRowsEl.innerHTML = rows.map(([k, v]) => `<div class="inspector-row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")
+      + `<p class="note" style="margin-top:0.4rem">El cubo de vista es un submuestreo del volumen real, reducido para que el archivo del visor sea liviano — no es la resolución original completa del escaneo.</p>`;
   }
 
   function drawSlice() {
