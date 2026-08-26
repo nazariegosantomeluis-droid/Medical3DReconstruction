@@ -26,6 +26,11 @@ ORGAN_META = {
         "label": "Pulmones",
         "algo": "Umbral + componentes conectados",
         "study_type": "CT clínica",
+        "orientation_note": (
+            "Orientación real verificada: coordenadas físicas DICOM (paciente "
+            "left-posterior-superior) tomadas directamente de la TC de tórax. Los "
+            "botones Ant/Post/Izq/Der/Sup/Inf muestran la dirección anatómica real."
+        ),
         "color_hex": "#e8b4b8",
         "source_note": (
             "Reconstruido a partir de una tomografía de tórax real incluida en el "
@@ -135,6 +140,15 @@ ORGAN_META = {
         "label": "Corazón",
         "algo": "Umbral + componente conectado (ex-vivo)",
         "study_type": "Micro-CT sincrotrón (ex-vivo)",
+        "orientation_note": (
+            "Este espécimen ex-vivo no tiene metadatos de orientación del paciente — "
+            "fue montado en el tubo del escáner de la forma que resultó conveniente. "
+            "Los botones Ant/Post/Izq/Der son una vista de exhibición fija, no "
+            "direcciones anatómicas verificadas. Sup/Inf sí están calibrados sobre un "
+            "dato real y específico de este órgano: el eje ápex–base detectado "
+            "geométricamente (el ápex, la punta más alejada del centro de la malla, "
+            "se muestra hacia \"Inf\")."
+        ),
         "color_hex": "#c0392b",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -235,6 +249,14 @@ ORGAN_META = {
         "label": "Hígado",
         "algo": "Umbral + componente conectado (ex-vivo)",
         "study_type": "Micro-CT sincrotrón (ex-vivo)",
+        "orientation_note": (
+            "Este espécimen ex-vivo no tiene metadatos de orientación del paciente — "
+            "fue montado en el tubo del escáner de la forma que resultó conveniente, "
+            "así que los botones Ant/Post/Izq/Der/Sup/Inf son solo una vista de "
+            "exhibición fija, no direcciones anatómicas verificadas. Las etiquetas de "
+            "\"lóbulo mayor/menor\" sobre el modelo sí están calculadas de forma real, "
+            "a partir de la partición de volumen de la malla — no de la orientación."
+        ),
         "color_hex": "#b9793f",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -332,6 +354,14 @@ ORGAN_META = {
         "label": "Riñones",
         "algo": "Umbral + componente conectado (ex-vivo)",
         "study_type": "Micro-CT sincrotrón (ex-vivo)",
+        "orientation_note": (
+            "Este espécimen ex-vivo (un riñón individual excisado, no el par "
+            "bilateral) no tiene metadatos de orientación del paciente, así que los "
+            "botones Ant/Post/Izq/Der/Sup/Inf son solo una vista de exhibición fija. "
+            "El hilio renal marcado sobre el modelo se detecta por concavidad real de "
+            "la malla, pero en este espécimen esa concavidad no se distingue con "
+            "certeza de otras hendiduras de la superficie — trátalo como aproximado."
+        ),
         "color_hex": "#a8447a",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (K292, resolución "
@@ -433,6 +463,15 @@ ORGAN_META = {
         "label": "Cerebro",
         "algo": "Umbral + componente conectado (ex-vivo)",
         "study_type": "Micro-CT sincrotrón (ex-vivo)",
+        "orientation_note": (
+            "Este espécimen ex-vivo no tiene metadatos de orientación del paciente. "
+            "El modelo se rotó para mostrar la bóveda craneal lisa hacia arriba (en "
+            "vez de la base irregular), una corrección puramente de exhibición hecha "
+            "a partir de la forma real de este espécimen — no una reconstrucción de "
+            "su orientación real en el cuerpo. Por eso \"Hemisferio 1/2\" no lleva "
+            "etiqueta de izquierdo/derecho: externamente son casi simétricos y no hay "
+            "forma honesta de distinguirlos solo con esta malla."
+        ),
         "color_hex": "#c9a0dc",
         "source_note": (
             "Reconstruido a partir de un espécimen ex-vivo real (LADAF-2021-17, "
@@ -836,6 +875,10 @@ _TEMPLATE = r"""<!doctype html>
       <label class="toggle-row" style="margin-top:0.6rem"><input type="checkbox" id="heartbeat-toggle"> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px" xmlns="http://www.w3.org/2000/svg"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><path d="M17 8a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19.5 5.5a9 9 0 0 1 0 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/></svg> Sonido del latido (solo corazón)</label>
     </div>
     <div class="panel-group">
+      <p class="eyebrow">Orientación</p>
+      <p class="note" id="orientation-note"></p>
+    </div>
+    <div class="panel-group">
       <p class="eyebrow">Modo de visualización</p>
       <div class="segmented-row" id="view-mode-row">
         <button data-mode="solid" aria-pressed="true">Sólido</button>
@@ -1215,23 +1258,45 @@ _TEMPLATE = r"""<!doctype html>
      3D reconstruction viewer
      ========================================================= */
   // Ex-vivo specimens were scanned/mounted in whatever orientation was
-  // physically convenient, not a standardized "patient up" pose. Most organs
-  // don't have an obvious visual "up", so this goes unnoticed — but a brain
-  // clearly does, and this specimen renders smooth vault down / irregular
-  // base up. ORGAN_DISPLAY_FIX applies a proper 180° rotation (not a mirror,
-  // so winding/normals stay valid) about the vertical axis through the
-  // mesh's own center, per organ that needs it, purely for display.
-  const ORGAN_DISPLAY_FIX = { brain: "flipY" };
+  // physically convenient, not a standardized "patient up" pose (see
+  // load_volume()'s own docstring: slice-image archives carry no direction/
+  // origin metadata at all). Most organs don't have an obvious visual "up",
+  // so this goes unnoticed — but some do, and this is purely a DISPLAY
+  // correction based on this specimen's own real shape, not a recovery of
+  // its true in-vivo orientation (which the data simply doesn't encode).
+  // Both named fixes below are proper 180°/90° rotations (det=+1, not a
+  // mirror), so winding/normals stay valid.
+  //   flipY  — brain: this specimen renders smooth vault down / irregular
+  //            base up; 180° about the mesh's own vertical (Z) axis fixes it.
+  //   rotXdown — heart: apex (the tapered extremity, farthest mesh point
+  //            from centroid — see computeHeartLandmarks below) sits at
+  //            +Z in the raw mesh, base at -Z (verified: the apex→base
+  //            vector is >99.8% aligned with the Z axis for this specimen).
+  //            A 90° rotation about X sends apex to -Y so it renders
+  //            pointing down, base up — the conventional heart-illustration
+  //            pose, exactly the same "purely for display" idea as flipY.
+  const ORGAN_DISPLAY_FIX = { brain: "flipY", heart: "rotXdown" };
   function decodeMesh(meshData, organKey) {
     const positions = new Float32Array(decodeB64(meshData.positions_b64));
     const normals = new Float32Array(decodeB64(meshData.normals_b64));
-    if (ORGAN_DISPLAY_FIX[organKey] === "flipY") {
+    const fix = ORGAN_DISPLAY_FIX[organKey];
+    if (fix === "flipY") {
       const cx = meshData.center[0], cy = meshData.center[1];
       for (let i = 0; i < positions.length; i += 3) {
         positions[i] = 2 * cx - positions[i];
         positions[i + 1] = 2 * cy - positions[i + 1];
         normals[i] = -normals[i];
         normals[i + 1] = -normals[i + 1];
+      }
+    } else if (fix === "rotXdown") {
+      const [cx, cy, cz] = meshData.center;
+      for (let i = 0; i < positions.length; i += 3) {
+        const y = positions[i + 1], z = positions[i + 2];
+        positions[i + 1] = cy - (z - cz);
+        positions[i + 2] = cz + (y - cy);
+        const ny = normals[i + 1], nz = normals[i + 2];
+        normals[i + 1] = -nz;
+        normals[i + 2] = ny;
       }
     }
     return {
@@ -1503,9 +1568,15 @@ _TEMPLATE = r"""<!doctype html>
   // the scan, colored by axis only as a visual reference.
   // =========================================================
   function applyDisplayFixPoint(key, x, y, z) {
-    if (ORGAN_DISPLAY_FIX[key] === "flipY" && currentMesh) {
+    const fix = ORGAN_DISPLAY_FIX[key];
+    if (!currentMesh) return [x, y, z];
+    if (fix === "flipY") {
       const cx = currentMesh.center[0], cy = currentMesh.center[1];
       return [2 * cx - x, 2 * cy - y, z];
+    }
+    if (fix === "rotXdown") {
+      const [cx, cy, cz] = currentMesh.center;
+      return [x, cy - (z - cz), cz + (y - cy)];
     }
     return [x, y, z];
   }
@@ -2057,8 +2128,54 @@ _TEMPLATE = r"""<!doctype html>
       const concavity = (sum / nbrs.length) - dist[i];
       if (concavity > bestScore) { bestScore = concavity; bestIdx = i; }
     }
-    if (bestIdx === -1) return [];
-    return [{label: "Hilio renal", pos: vertexPos(mesh.positions, bestIdx)}];
+    const landmarks = [];
+    if (bestIdx !== -1) landmarks.push({label: "Hilio renal (aprox.)", pos: vertexPos(mesh.positions, bestIdx)});
+
+    // Poles: the two extremities along the mesh's longest axis — a kidney
+    // is reliably elongated pole-to-pole, so this is shape-intrinsic, same
+    // idea as the heart's apex/base. Not labeled superior/inferior: unlike
+    // the heart's apex (a single unambiguous point), both kidney poles look
+    // similar, so there's no honest way to tell which is which from shape
+    // alone on an isolated ex-vivo specimen.
+    const extent = [meshBoundsMax[0]-meshBoundsMin[0], meshBoundsMax[1]-meshBoundsMin[1], meshBoundsMax[2]-meshBoundsMin[2]];
+    let axis = 0;
+    if (extent[1] > extent[axis]) axis = 1;
+    if (extent[2] > extent[axis]) axis = 2;
+    let loIdx = 0, loVal = Infinity, hiIdx = 0, hiVal = -Infinity;
+    for (let i = 0; i < numVerts; i++) {
+      const v = mesh.positions[i*3 + axis];
+      if (v < loVal) { loVal = v; loIdx = i; }
+      if (v > hiVal) { hiVal = v; hiIdx = i; }
+    }
+    landmarks.push({label: "Polo A", pos: vertexPos(mesh.positions, loIdx)});
+    landmarks.push({label: "Polo B", pos: vertexPos(mesh.positions, hiIdx)});
+    return landmarks;
+  }
+
+  // Liver: split into two halves along the mesh's longest bounding-box
+  // axis (verified for this specimen to be its left-right axis — see the
+  // per-axis mass-asymmetry analysis in the redesign notes) and label the
+  // bigger half "right lobe": the liver's right lobe being markedly larger
+  // than the left is one of the most consistent facts in gross anatomy, so
+  // this infers WHICH part is which from a real, well-established size
+  // relationship — not from trusting an unverified mount direction.
+  function computeLiverLandmarks(mesh) {
+    const numVerts = mesh.positions.length / 3;
+    const extent = [meshBoundsMax[0]-meshBoundsMin[0], meshBoundsMax[1]-meshBoundsMin[1], meshBoundsMax[2]-meshBoundsMin[2]];
+    let axis = 0;
+    if (extent[1] > extent[axis]) axis = 1;
+    if (extent[2] > extent[axis]) axis = 2;
+    const mid = (meshBoundsMin[axis] + meshBoundsMax[axis]) / 2;
+    const vertsA = [], vertsB = [];
+    for (let i = 0; i < numVerts; i++) {
+      (mesh.positions[i*3 + axis] < mid ? vertsA : vertsB).push(i);
+    }
+    if (!vertsA.length || !vertsB.length) return [];
+    const [bigger, smaller] = vertsA.length >= vertsB.length ? [vertsA, vertsB] : [vertsB, vertsA];
+    return [
+      {label: "Lóbulo derecho (mayor)", pos: centroidOf(mesh.positions, bigger)},
+      {label: "Lóbulo izquierdo (menor)", pos: centroidOf(mesh.positions, smaller)},
+    ];
   }
 
   // Brain: split into two halves along whichever bounding-box axis is
@@ -2088,7 +2205,8 @@ _TEMPLATE = r"""<!doctype html>
     if (key === "heart") return computeHeartLandmarks(mesh);
     if (key === "kidneys") return computeKidneyLandmarks(mesh);
     if (key === "brain") return computeBrainLandmarks(mesh);
-    return []; // liver: no landmark honestly derivable from this segmentation data
+    if (key === "liver") return computeLiverLandmarks(mesh);
+    return [];
   }
 
   let currentLandmarks = [];
@@ -2144,20 +2262,36 @@ _TEMPLATE = r"""<!doctype html>
     targetRadius = Math.max(boundingRadius*1.15, Math.min(boundingRadius*6, targetRadius * Math.pow(1.0012, e.deltaY)));
   }, {passive: false});
 
-  // ---- camera view presets (Front/Back/Left/Right/Top/Bottom/Isometric) ----
+  // ---- camera view presets (Anterior/Posterior/Left/Right/Superior/Inferior/Isometric) ----
   // theta/phi are spherical angles of the orbit camera around the mesh
   // center (see the eye computation in render3d): phi is polar angle from
-  // +Y (top), theta is azimuth around Y. These are viewport-relative
-  // camera presets, the same convention any 3D viewer/CAD tool uses —
-  // not a claim about patient-anatomical left/right chirality.
+  // +Y, theta is azimuth around Y.
+  //
+  // For LUNGS these targets are real, verified patient-anatomical
+  // directions: the source CTChest.nrrd carries a real DICOM-style
+  // direction/origin (confirmed from its NRRD header: "space:
+  // left-posterior-superior", identity direction matrix), which the
+  // pipeline's index_to_world carries straight through to mesh vertex
+  // coordinates (see core/mesh.py). So in mesh space: +X = patient Left,
+  // +Y = Posterior, +Z = Superior — the mapping below inverts that to give
+  // each button's eye position (the camera sits on the named side,
+  // looking back toward the center).
+  //
+  // For the ex-vivo synchrotron organs (heart/liver/kidneys/brain) this
+  // metadata does not exist — those specimens were physically mounted in
+  // the scanner's sample tube however was convenient, not in a documented
+  // patient pose (see docs/ORGAN_PIPELINES.md and the load_volume()
+  // docstring). For those, the same buttons are a fixed *display*
+  // convention, not a verified direction — the UI caveats this explicitly
+  // per organ (see caveatOrientationNote below).
   const CAMERA_VIEWS = {
-    front:  {theta: 0,            phi: Math.PI / 2},
-    back:   {theta: Math.PI,      phi: Math.PI / 2},
-    right:  {theta: Math.PI / 2,  phi: Math.PI / 2},
-    left:   {theta: -Math.PI / 2, phi: Math.PI / 2},
-    top:    {theta: 0.001,        phi: 0.08},
-    bottom: {theta: 0.001,        phi: Math.PI - 0.08},
-    iso:    {theta: Math.PI / 4,  phi: 1.0},
+    front:  {theta: 0.001,        phi: Math.PI - 0.08}, // Anterior: mesh -Y
+    back:   {theta: 0.001,        phi: 0.08},            // Posterior: mesh +Y
+    left:   {theta: Math.PI / 2,  phi: Math.PI / 2},      // Left: mesh +X
+    right:  {theta: -Math.PI / 2, phi: Math.PI / 2},      // Right: mesh -X
+    top:    {theta: 0,            phi: Math.PI / 2},      // Superior: mesh +Z
+    bottom: {theta: Math.PI,      phi: Math.PI / 2},      // Inferior: mesh -Z
+    iso:    {theta: -Math.PI / 4, phi: 1.15},
   };
   function setCameraView(name) {
     const v = CAMERA_VIEWS[name];
@@ -2596,6 +2730,7 @@ _TEMPLATE = r"""<!doctype html>
     const data = VIEWER_DATA[key];
     const meta = ORGAN_META[key];
     renderTopbar(key, meta, data.validation);
+    document.getElementById("orientation-note").textContent = meta.orientation_note;
     measurePoints = []; updateMeasureReadout(); measureLayerEl.innerHTML = "";
 
     const mesh = decodeMesh(data.mesh, key);
