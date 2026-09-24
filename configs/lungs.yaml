@@ -1,0 +1,42 @@
+# Lung segmentation config.
+#
+# Lungs are the easiest of the four organs to segment classically: aerated
+# lung parenchyma sits at roughly -900 to -500 HU, dramatically separated
+# from every surrounding soft tissue (> -100 HU). A single global threshold
+# plus connected-component analysis is the textbook approach (Hu, Hoffman &
+# Reinhardt, 2001) and is what earned the lung pipeline's reference Dice of
+# 0.862 in prior project work — the failure mode is not the threshold, it's
+# leakage through the trachea/bronchi and juxtapleural nodules being
+# excluded, both handled in postprocessing below.
+
+organ: lungs
+modality: CT
+
+# --- preprocessing ---
+denoise_sigma_mm: 0.8
+resample_isotropic: true
+isotropic_spacing_mm: 1.0
+
+# --- segmentation ---
+# Per-slice body silhouette threshold: separates patient tissue/skin from
+# the scanner's background air so the airway can't leak the lung air
+# component out to the image border.
+body_threshold_hu: -500
+
+# Voxels below this HU are considered air-equivalent (lung parenchyma or
+# background air). -320 HU sits well above aerated lung (-900..-500) and
+# well below any soft tissue, so it is robust to normal noise/dose variation.
+air_threshold_hu: -320
+
+# --- postprocessing ---
+# Keep the two largest air components inside the body (left + right lung).
+# The trachea/main bronchi form a separate, much smaller component and are
+# excluded by size ranking rather than an explicit airway-removal step.
+num_components: 2
+min_component_voxels: 1500
+morphological_closing_radius_mm: 2.0
+
+# --- mesh ---
+mesh_smoothing_sigma: 1.0
+mesh_taubin_iterations: 15
+mesh_decimate_target_fraction: 0.4
