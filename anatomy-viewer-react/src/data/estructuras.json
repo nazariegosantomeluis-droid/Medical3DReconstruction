@@ -1,0 +1,209 @@
+[
+  {
+    "id": "corazon",
+    "nombre": "Corazón",
+    "meshNames": ["corazon", "heart", "mesh_corazon"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "venas_cavas",
+    "nombre": "Venas cavas",
+    "meshNames": ["venas_cavas", "vena_cava", "vena_cava_superior", "vena_cava_inferior", "venacava"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "aorta",
+    "nombre": "Aorta",
+    "meshNames": ["aorta", "arteria_aorta"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "arterias_pulmonares",
+    "nombre": "Arterias pulmonares",
+    "meshNames": ["arterias_pulmonares", "arteria_pulmonar", "pulmonary_artery"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "venas_pulmonares",
+    "nombre": "Venas pulmonares",
+    "meshNames": ["venas_pulmonares", "vena_pulmonar", "pulmonary_vein"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "auricula_derecha",
+    "nombre": "Aurícula derecha",
+    "meshNames": ["auricula_derecha", "aurícula_derecha", "right_atrium"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "auricula_izquierda",
+    "nombre": "Aurícula izquierda",
+    "meshNames": ["auricula_izquierda", "aurícula_izquierda", "left_atrium"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "ventriculo_derecho",
+    "nombre": "Ventrículo derecho",
+    "meshNames": ["ventriculo_derecho", "ventrículo_derecho", "right_ventricle"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "ventriculo_izquierdo",
+    "nombre": "Ventrículo izquierdo",
+    "meshNames": ["ventriculo_izquierdo", "ventrículo_izquierdo", "left_ventricle"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "valvula_aortica",
+    "nombre": "Válvula aórtica",
+    "meshNames": ["valvula_aortica", "válvula_aórtica", "aortic_valve"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "valvula_pulmonar",
+    "nombre": "Válvula pulmonar",
+    "meshNames": ["valvula_pulmonar", "válvula_pulmonar", "pulmonary_valve"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "valvula_bicuspide",
+    "nombre": "Válvula bicúspide (mitral)",
+    "meshNames": ["valvula_bicuspide", "válvula_bicúspide", "valvula_mitral", "mitral_valve"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "valvula_tricuspide",
+    "nombre": "Válvula tricúspide",
+    "meshNames": ["valvula_tricuspide", "válvula_tricúspide", "tricuspid_valve"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "pericardio",
+    "nombre": "Pericardio",
+    "meshNames": ["pericardio", "pericardium"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "arterias_coronarias",
+    "nombre": "Arterias coronarias",
+    "meshNames": ["arterias_coronarias", "arteria_coronaria", "coronary_artery", "coronary_arteries"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "venas_coronarias",
+    "nombre": "Venas coronarias",
+    "meshNames": ["venas_coronarias", "vena_coronaria", "coronary_vein", "coronary_veins"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "nariz",
+    "nombre": "Nariz",
+    "meshNames": ["nariz", "nose", "cavidad_nasal", "nasal_cavity"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "laringe",
+    "nombre": "Laringe",
+    "meshNames": ["laringe", "larynx"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "traquea",
+    "nombre": "Tráquea",
+    "meshNames": ["traquea", "tráquea", "trachea"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "bronquios",
+    "nombre": "Bronquios",
+    "meshNames": ["bronquios", "bronchi", "bronchus"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "bronquiolos",
+    "nombre": "Bronquiolos",
+    "meshNames": ["bronquiolos", "bronchioles"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "alveolos",
+    "nombre": "Alveolos",
+    "meshNames": ["alveolos", "alvéolos", "alveoli"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  },
+  {
+    "id": "pulmones",
+    "nombre": "Pulmones",
+    "meshNames": ["pulmones", "pulmon", "pulmón", "lungs", "lung"],
+    "conocimientoPrevio": "",
+    "conocimientoNuevo": "",
+    "aplicacionClinica": "",
+    "imagenUrl": ""
+  }
+]
