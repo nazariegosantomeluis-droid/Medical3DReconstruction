@@ -50,15 +50,13 @@ anatómicos reales**:
   ~15 ramas en una sola pieza — y exporta un único `.glb` con un nodo por
   estructura, ya nombrado exactamente como lo espera
   `src/data/estructuras.json`.
-- 5 de las 23 estructuras (`corazon`, `pericardio`, `nariz`, `bronquiolos`,
-  `alveolos`) **no tienen malla propia**: el corazón es la suma de sus
-  partes (no existe un "Heart" único en el dataset), el pericardio y la
-  nariz no están modelados en este atlas, y bronquiolos/alveolos son
-  microscópicos — ningún atlas anatómico macro los representa como malla
-  3D. Estas 5 quedan como nodos "solo concepto": tienen su ficha en el
-  Cuadro de Conocimiento y aparecen en el mapa de conexiones, pero no se
-  puede hacer clic en ellas en el visor 3D (marcadas `sinMalla: true` en
-  `estructuras.json`).
+- 4 de las 23 estructuras (`pericardio`, `nariz`, `bronquiolos`,
+  `alveolos`) **no tienen malla propia**: el pericardio y la nariz no
+  están modelados en este atlas, y bronquiolos/alveolos son microscópicos
+  — ningún atlas anatómico macro los representa como malla 3D. Quedan
+  como nodos "solo concepto": tienen su ficha en el Cuadro de Conocimiento
+  y aparecen en el mapa de conexiones, pero no se puede hacer clic en
+  ellas en el visor 3D (marcadas `sinMalla: true` en `estructuras.json`).
 
 Para regenerar o ajustar el `.glb` (corre esto desde dentro de
 `anatomy-viewer-react/`, donde ya viven `build_corazon_segmentado.py` y
@@ -86,6 +84,29 @@ así sabes qué `id` o alias agregar. También puedes activar el botón
 **"Modo Debug"** (arriba a la derecha) para ver, sin necesidad de abrir el
 modelo en ningún programa externo, el inventario completo de nombres de
 malla apenas carga el archivo.
+
+### `corazon`: un cuerpo real distinto, no "sin malla"
+
+`corazon` sí tiene malla propia: la del corazón completo, reconstruido a
+partir de un espécimen ex-vivo real (micro-CT sincrotrón, LADAF-2021-17)
+por el pipeline Python de este mismo repositorio — ya visible en
+`docs/index.html`, el visor original. `extract_heart_mesh.py` la saca de
+ahí, y `merge_real_heart.py` la agrega a `corazon-segmentado.glb` como una
+19ª pieza.
+
+Pero ese espécimen y el atlas BodyParts3D son **dos cuerpos reales
+distintos que no comparten coordenadas** — superponerlos haría que las
+válvulas y cámaras del atlas parezcan encajar dentro de este corazón
+específico, cuando en realidad son de otra persona. Por eso cada una vive
+en su propio nodo-grupo dentro del `.glb` (`grupo_especimen_real` /
+`grupo_atlas_bodyparts3d`, ver `src/constants/modelGroups.js`), y el
+visor solo muestra uno a la vez: seleccionar `corazon` cambia al
+espécimen completo y reencuadra la cámara a él; seleccionar cualquier
+otra estructura vuelve al grupo del atlas. Esto es automático — no hace
+falta ninguna acción extra al generar el `.glb`, siempre que
+`merge_real_heart.py` se corra sobre el archivo que ya tiene las 18
+piezas del atlas (lee `docs/index.html`, así que ese archivo debe existir
+y tener datos reales de corazón).
 
 ## 4. Completar el contenido educativo y el mapa de conexiones
 
@@ -118,11 +139,18 @@ Cada entrada de `src/data/estructuras.json` tiene esta forma:
   panel (el mapa de conexiones clínicas). Al hacer clic en un chip, el
   panel salta a esa estructura y, si tiene malla real cargada, también se
   resalta en el visor 3D aunque el cursor nunca haya pasado por ahí.
-- `sinMalla` (opcional): `true` en las 5 estructuras sin pieza propia
+- `grupo` (opcional): `"atlas_bodyparts3d"` o `"especimen_real"` — a cuál
+  de los dos especímenes reales del `.glb` pertenece esta malla (ver
+  sección 3). Seleccionar una estructura con `grupo` distinto al que está
+  visible cambia el grupo activo y reencuadra la cámara a él.
+- `sinMalla` (opcional): `true` en las 4 estructuras sin pieza propia
   (ver sección 3) — el chip se muestra con borde punteado y sigue siendo
   navegable, solo que no resalta nada en 3D.
 - `notaSinMalla` (opcional): el texto que explica por qué esa estructura
   no tiene malla, mostrado arriba del Cuadro de Conocimiento.
+- `notaEspecimen` (opcional): igual que `notaSinMalla`, pero para aclarar
+  que una estructura viene de un espécimen real distinto a las demás (lo
+  usa `corazon`).
 - `conocimientoPrevio`, `conocimientoNuevo`, `aplicacionClinica`: los tres
   bloques de texto del Cuadro de Conocimiento. Van vacíos a propósito —
   complétalos con tu propio contenido de estudio.
