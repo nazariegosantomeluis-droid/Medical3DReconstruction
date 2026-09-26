@@ -1,4 +1,4 @@
-export default function InfoPanel({ structure, meshName, onClose }) {
+export default function InfoPanel({ structure, meshName, allStructures, onClose, onSelectRelated }) {
   const nombre = structure?.nombre ?? meshName;
 
   return (
@@ -40,9 +40,21 @@ export default function InfoPanel({ structure, meshName, onClose }) {
             />
           ) : null}
 
+          {structure.notaSinMalla ? (
+            <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              {structure.notaSinMalla}
+            </p>
+          ) : null}
+
           <Seccion titulo="Lo que sabía previamente" texto={structure.conocimientoPrevio} />
           <Seccion titulo="Lo que sé después de estudiar" texto={structure.conocimientoNuevo} />
           <Seccion titulo="Aplicación clínica" texto={structure.aplicacionClinica} />
+
+          <ConexionesClinicas
+            structure={structure}
+            allStructures={allStructures}
+            onSelectRelated={onSelectRelated}
+          />
         </div>
       )}
     </aside>
@@ -56,6 +68,44 @@ function Seccion({ titulo, texto }) {
       <p className="text-sm leading-relaxed text-slate-700">
         {texto || <span className="italic text-slate-400">Pendiente de completar.</span>}
       </p>
+    </div>
+  );
+}
+
+// El "mapa de conexiones clínicas": en vez de una ficha aislada, cada
+// estructura enlaza a las que están anatómica o fisiológicamente conectadas
+// a ella, para que el estudio se parezca más a navegar un grafo que a leer
+// una tarjeta suelta. Un chip sin malla propia (p. ej. "Corazón" como nodo
+// resumen) sigue siendo navegable, solo que no resalta nada en el modelo 3D.
+function ConexionesClinicas({ structure, allStructures, onSelectRelated }) {
+  const relacionadas = (structure.relacionadas ?? [])
+    .map((id) => allStructures?.find((s) => s.id === id))
+    .filter(Boolean);
+
+  if (relacionadas.length === 0) return null;
+
+  return (
+    <div className="border-t border-slate-100 pt-4">
+      <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-sky-600">
+        Estructuras relacionadas
+      </h3>
+      <div className="flex flex-wrap gap-1.5">
+        {relacionadas.map((rel) => (
+          <button
+            key={rel.id}
+            type="button"
+            onClick={() => onSelectRelated(rel.id)}
+            title={rel.sinMalla ? "Esta estructura aún no tiene malla 3D propia" : undefined}
+            className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+              rel.sinMalla
+                ? "border-dashed border-slate-300 text-slate-500 hover:bg-slate-50"
+                : "border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100"
+            }`}
+          >
+            {rel.nombre}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

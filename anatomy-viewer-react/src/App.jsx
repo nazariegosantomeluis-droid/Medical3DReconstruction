@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Scene from "./components/Scene";
 import InfoPanel from "./components/InfoPanel";
 import DebugPanel from "./components/DebugPanel";
+import StructureIndex from "./components/StructureIndex";
 import ModelErrorBoundary from "./components/ModelErrorBoundary";
 import estructuras from "./data/estructuras.json";
 import { findStructureByMeshName } from "./utils/matchStructure";
@@ -13,16 +14,22 @@ import { findStructureByMeshName } from "./utils/matchStructure";
 const MODEL_URL = `${import.meta.env.BASE_URL}models/corazon-segmentado.glb`;
 
 export default function App() {
-  const [selectedMesh, setSelectedMesh] = useState(null);
   const [hoveredMesh, setHoveredMesh] = useState(null);
   const [meshInventory, setMeshInventory] = useState([]);
 
-  // Modo Debug: mientras el modelo no venga limpio ni separado a mano en
-  // Blender, esto es lo que permite descubrir los nombres crudos de cada
-  // malla (node_3, Object_14...) directamente desde el navegador. Empieza
-  // activo porque es justo lo que se necesita al recibir un modelo nuevo.
-  const [debugMode, setDebugMode] = useState(true);
+  // Modo Debug: reporta el nombre crudo de cualquier malla bajo el cursor o
+  // clickeada, sin abrir el Cuadro de Conocimiento — solo para diagnosticar
+  // un .glb nuevo. Apagado por defecto: la experiencia normal es el mapa de
+  // conexiones de abajo.
+  const [debugMode, setDebugMode] = useState(false);
   const [debugSelectedMesh, setDebugSelectedMesh] = useState(null);
+
+  // Selección real (no-debug): o una estructura conocida (selectedId), o una
+  // malla cruda que no matcheó ninguna estructura (unmatchedMesh) — nunca
+  // las dos a la vez.
+  const [selectedId, setSelectedId] = useState(null);
+  const [unmatchedMesh, setUnmatchedMesh] = useState(null);
+  const [forcedHighlight, setForcedHighlight] = useState(null);
 
   const handleHoverChange = useCallback((meshName) => {
     setHoveredMesh(meshName);
@@ -32,6 +39,21 @@ export default function App() {
     setMeshInventory(inventory);
   }, []);
 
+  // De cada malla real del modelo cargado, a qué id de estructura
+  // corresponde — resuelto una sola vez por inventario para no tener que
+  // re-adivinar en cada clic de chip. Es lo que permite que saltar a una
+  // estructura relacionada también la resalte en el visor 3D.
+  const structureIdToMeshName = useMemo(() => {
+    const map = {};
+    for (const { name } of meshInventory) {
+      const structure = findStructureByMeshName(name, estructuras);
+      if (structure && !(structure.id in map)) {
+        map[structure.id] = name;
+      }
+    }
+    return map;
+  }, [meshInventory]);
+
   const handleSelect = useCallback(
     (meshName) => {
       if (debugMode) {
@@ -40,16 +62,36 @@ export default function App() {
         setDebugSelectedMesh(meshName);
         return;
       }
-      setSelectedMesh(meshName);
+      const structure = findStructureByMeshName(meshName, estructuras);
+      setForcedHighlight(null);
+      if (structure) {
+        setSelectedId(structure.id);
+        setUnmatchedMesh(null);
+      } else {
+        setSelectedId(null);
+        setUnmatchedMesh(meshName);
+      }
     },
     [debugMode]
   );
 
-  const handleClose = useCallback(() => setSelectedMesh(null), []);
+  const handleSelectRelated = useCallback(
+    (id) => {
+      setSelectedId(id);
+      setUnmatchedMesh(null);
+      setForcedHighlight(structureIdToMeshName[id] ?? null);
+    },
+    [structureIdToMeshName]
+  );
 
-  const selectedStructure = selectedMesh
-    ? findStructureByMeshName(selectedMesh, estructuras)
-    : null;
+  const handleClose = useCallback(() => {
+    setSelectedId(null);
+    setUnmatchedMesh(null);
+    setForcedHighlight(null);
+  }, []);
+
+  const selectedStructure = selectedId ? estructuras.find((s) => s.id === selectedId) ?? null : null;
+  const panelOpen = !debugMode && Boolean(selectedStructure || unmatchedMesh);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-slate-900">
@@ -78,12 +120,15 @@ export default function App() {
         </button>
       </header>
 
+      {!debugMode ? <StructureIndex structures={estructuras} onSelect={handleSelectRelated} /> : null}
+
       <ModelErrorBoundary fallback={<NoModelFallback />}>
         <Scene
           modelUrl={MODEL_URL}
           onSelect={handleSelect}
           onHoverChange={handleHoverChange}
           onMeshNames={handleMeshNames}
+          forcedHighlightName={forcedHighlight}
         />
       </ModelErrorBoundary>
 
@@ -95,8 +140,21 @@ export default function App() {
         />
       ) : null}
 
-      {!debugMode && selectedMesh ? (
-        <InfoPanel structure={selectedStructure} meshName={selectedMesh} onClose={handleClose} />
+      {panelOpen ? (
+        <InfoPanel
+          structure={selectedStructure}
+          meshName={unmatchedMesh}
+          allStructures={estructuras}
+          onClose={handleClose}
+          onSelectRelated={handleSelectRelated}
+        />
+      ) : null}
+
+      {meshInventory.length > 0 ? (
+        <footer className="pointer-events-none absolute bottom-2 right-3 z-10 max-w-xs text-right text-[0.62rem] leading-snug text-slate-500">
+          Modelo anatómico: BodyParts3D/Anatomography, © Database Center for Life Science (DBCLS) —
+          CC BY-SA 2.1 Japan.
+        </footer>
       ) : null}
     </div>
   );

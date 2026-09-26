@@ -17,55 +17,77 @@ Abre la URL que imprime Vite (por defecto `http://localhost:5173`).
 
 ## 2. Colocar tu modelo 3D
 
-1. Copia tu archivo `.glb` (o `.gltf` + sus texturas/bin) dentro de
-   `public/models/`. Por ejemplo: `public/models/sistema-cardiorrespiratorio.glb`.
-2. Abre `src/App.jsx` y actualiza la constante `MODEL_URL` con el nombre de
-   tu archivo:
+1. Copia tu archivo `.glb` dentro de `public/models/`, con el nombre
+   `corazon-segmentado.glb` (o cambia la constante `MODEL_URL` en
+   `src/App.jsx` si prefieres otro nombre).
+2. Recarga la página. Si el archivo no existe o no carga, el visor muestra
+   un aviso claro ("Todavía no hay un modelo 3D cargado") en vez de una
+   pantalla en blanco — no es un bug, es que falta el paso 1.
 
-   ```js
-   const MODEL_URL = "/models/sistema-cardiorrespiratorio.glb";
-   ```
+Todo lo que pongas en `public/` se sirve tal cual desde la raíz del sitio,
+así que un archivo en `public/models/x.glb` se referencia como
+`/models/x.glb` (o `<BASE_URL>models/x.glb` si el sitio vive en una subruta,
+que es justo lo que hace `MODEL_URL` en `App.jsx`).
 
-   Todo lo que pongas en `public/` se sirve tal cual desde la raíz (`/`), así
-   que un archivo en `public/models/x.glb` se referencia como `/models/x.glb`.
-
-No hace falta ningún registro adicional: `Model.jsx` recorre el modelo
-completo con `useGLTF` y detecta clics/hover sobre cualquier malla que
-tenga, sin importar cuántas sean.
-
-## 3. Por qué el modelo tiene que estar separado por piezas
+## 3. Cómo se consiguió un modelo ya separado por piezas (sin Blender)
 
 El código identifica cada estructura por el **nombre de la malla**
-(`mesh.name`, el nombre del objeto tal como quedó en el archivo `.glb`). Si
-tu corazón es un solo bloque sólido, todo el corazón se resaltará y
-seleccionará como una sola pieza — no podrás distinguir la aorta de la
-aurícula derecha.
+(`mesh.name`). Un modelo escaneado/fotogrametría (como el que se probó
+primero) suele venir como una sola malla fusionada — click en cualquier
+parte selecciona "todo el corazón" y no se puede distinguir la aorta de la
+aurícula derecha. La solución no fue separar eso a mano en Blender, sino
+usar una fuente que **ya viene separada por estructura, con nombres
+anatómicos reales**:
 
-Para separar un modelo descargado como una sola malla:
+- Fuente: [BodyParts3D / Anatomography 4.3](https://github.com/olivercase/body_parts_3d_api),
+  © Database Center for Life Science (DBCLS), licencia **CC BY-SA 2.1
+  Japan** (si publicas el `.glb` resultante, debes mantener esta
+  atribución y licencia para el modelo).
+- `scripts/build_corazon_segmentado.py` (en la raíz de este visor) fusiona
+  ~106 mallas `.obj` de ese dataset en las 23 estructuras pedidas —
+  por ejemplo, la "Aorta" se arma uniendo `Ascending aorta` + `Arch of
+  aorta` + `Descending aorta`, y las "Arterias coronarias" fusionan sus
+  ~15 ramas en una sola pieza — y exporta un único `.glb` con un nodo por
+  estructura, ya nombrado exactamente como lo espera
+  `src/data/estructuras.json`.
+- 5 de las 23 estructuras (`corazon`, `pericardio`, `nariz`, `bronquiolos`,
+  `alveolos`) **no tienen malla propia**: el corazón es la suma de sus
+  partes (no existe un "Heart" único en el dataset), el pericardio y la
+  nariz no están modelados en este atlas, y bronquiolos/alveolos son
+  microscópicos — ningún atlas anatómico macro los representa como malla
+  3D. Estas 5 quedan como nodos "solo concepto": tienen su ficha en el
+  Cuadro de Conocimiento y aparecen en el mapa de conexiones, pero no se
+  puede hacer clic en ellas en el visor 3D (marcadas `sinMalla: true` en
+  `estructuras.json`).
 
-1. Impórtalo en **Blender**.
-2. Selecciona la malla, entra en modo Edición (`Tab`), y usa
-   `Mesh → Separate → By Loose Parts` (si las piezas ya están desconectadas
-   entre sí en la geometría) o separa manualmente selecciones de caras con
-   `P → Selection`.
-3. Renombra cada pieza resultante desde el Outliner (doble clic sobre el
-   nombre) usando los mismos `id` que ya están en
-   `src/data/estructuras.json` (p. ej. `corazon`, `aorta`,
-   `auricula_derecha`, `valvula_mitral`...). No es obligatorio que coincida
-   carácter por carácter: `src/utils/matchStructure.js` normaliza acentos,
-   mayúsculas y guiones antes de comparar, y también revisa la lista
-   `meshNames` de cada estructura por si prefieres dejar los nombres en
-   inglés o como los trae el modelo original.
-4. Si el modelo es pesado, aplica un modificador **Decimate** antes de
-   exportar, y usa **Shade Smooth** si se ve poligonal.
-5. Exporta con `File → Export → glTF 2.0 (.glb)`, con la opción de mantener
-   los nombres de los objetos activada (viene así por defecto).
+Para regenerar o ajustar el `.glb` (corre esto desde dentro de
+`anatomy-viewer-react/`, donde ya viven `build_corazon_segmentado.py` y
+`lfs_include_pattern.txt`):
+
+```bash
+git clone https://github.com/olivercase/body_parts_3d_api.git
+cp build_corazon_segmentado.py lfs_include_pattern.txt body_parts_3d_api/
+cd body_parts_3d_api
+git lfs install
+git lfs pull --include="$(cat lfs_include_pattern.txt)"   # solo las ~106 piezas necesarias
+pip install trimesh numpy
+python3 build_corazon_segmentado.py
+cp corazon-segmentado.glb ../public/models/
+```
+
+`lfs_include_pattern.txt` y `build_corazon_segmentado.py` describen
+exactamente qué IDs de malla (`FJ####`) entran en cada una de las 18
+estructuras con malla, vía expresiones regulares sobre el nombre
+anatómico oficial (columna `name` de `MANIFEST.csv` en ese repositorio).
 
 Si haces clic sobre una malla cuyo nombre no está en `estructuras.json`, el
 panel lateral igual se abre y te muestra el nombre exacto de esa malla —
-así sabes qué `id` o alias agregar.
+así sabes qué `id` o alias agregar. También puedes activar el botón
+**"Modo Debug"** (arriba a la derecha) para ver, sin necesidad de abrir el
+modelo en ningún programa externo, el inventario completo de nombres de
+malla apenas carga el archivo.
 
-## 4. Completar el contenido educativo
+## 4. Completar el contenido educativo y el mapa de conexiones
 
 Cada entrada de `src/data/estructuras.json` tiene esta forma:
 
@@ -74,6 +96,8 @@ Cada entrada de `src/data/estructuras.json` tiene esta forma:
   "id": "aorta",
   "nombre": "Aorta",
   "meshNames": ["aorta", "arteria_aorta"],
+  "sistema": "cardiovascular",
+  "relacionadas": ["ventriculo_izquierdo", "valvula_aortica", "arterias_coronarias"],
   "conocimientoPrevio": "",
   "conocimientoNuevo": "",
   "aplicacionClinica": "",
@@ -81,11 +105,24 @@ Cada entrada de `src/data/estructuras.json` tiene esta forma:
 }
 ```
 
-- `id`: identificador interno, usado como primer criterio de coincidencia
-  con el nombre de la malla.
+- `id`: identificador interno; también el `node_name` que trae el `.glb`
+  generado por `build_corazon_segmentado.py`.
 - `nombre`: lo que se muestra como título del panel.
 - `meshNames`: alias adicionales para cuando el nombre real de la malla no
-  coincide con `id` (útil si no vas a renombrar mallas en Blender).
+  coincide con `id` (`src/utils/matchStructure.js` normaliza acentos,
+  mayúsculas y guiones antes de comparar).
+- `sistema`: `"cardiovascular"` o `"respiratorio"` — agrupa el índice
+  lateral ("Ver todas las estructuras").
+- `relacionadas`: ids de otras estructuras conectadas anatómica o
+  fisiológicamente — son los chips de "Estructuras relacionadas" del
+  panel (el mapa de conexiones clínicas). Al hacer clic en un chip, el
+  panel salta a esa estructura y, si tiene malla real cargada, también se
+  resalta en el visor 3D aunque el cursor nunca haya pasado por ahí.
+- `sinMalla` (opcional): `true` en las 5 estructuras sin pieza propia
+  (ver sección 3) — el chip se muestra con borde punteado y sigue siendo
+  navegable, solo que no resalta nada en 3D.
+- `notaSinMalla` (opcional): el texto que explica por qué esa estructura
+  no tiene malla, mostrado arriba del Cuadro de Conocimiento.
 - `conocimientoPrevio`, `conocimientoNuevo`, `aplicacionClinica`: los tres
   bloques de texto del Cuadro de Conocimiento. Van vacíos a propósito —
   complétalos con tu propio contenido de estudio.
@@ -97,7 +134,9 @@ aorta, arterias pulmonares, venas pulmonares, aurícula derecha, aurícula
 izquierda, ventrículo derecho, ventrículo izquierdo, válvula aórtica,
 válvula pulmonar, válvula bicúspide (mitral), válvula tricúspide,
 pericardio, arterias coronarias, venas coronarias, nariz, laringe,
-tráquea, bronquios, bronquiolos, alveolos y pulmones.
+tráquea, bronquios, bronquiolos, alveolos y pulmones — con `relacionadas`
+ya completado para las 23. Los tres campos de contenido de estudio quedan
+vacíos para que los llenes tú.
 
 ## 5. Estructura del proyecto
 
@@ -110,17 +149,20 @@ anatomy-viewer-react/
 ├── public/
 │   └── models/            ← coloca aquí tu .glb
 └── src/
-    ├── App.jsx            ← estado (estructura seleccionada/hover) + layout
+    ├── App.jsx                  ← estado (selección/hover/debug) + layout
     ├── main.jsx
-    ├── index.css          ← directivas de Tailwind
+    ├── index.css                ← directivas de Tailwind
     ├── components/
-    │   ├── Scene.jsx      ← Canvas, luces, OrbitControls
-    │   ├── Model.jsx      ← carga del .glb, raycasting, resaltado hover
-    │   └── InfoPanel.jsx  ← panel lateral (Cuadro de Conocimiento)
+    │   ├── Scene.jsx            ← Canvas, luces, OrbitControls
+    │   ├── Model.jsx            ← carga del .glb, raycasting, resaltado hover/forzado
+    │   ├── InfoPanel.jsx        ← Cuadro de Conocimiento + mapa de conexiones
+    │   ├── StructureIndex.jsx   ← índice "Ver todas las estructuras"
+    │   ├── DebugPanel.jsx       ← inventario de mallas del Modo Debug
+    │   └── ModelErrorBoundary.jsx  ← aviso claro si el .glb no carga
     ├── data/
     │   └── estructuras.json
     └── utils/
-        └── matchStructure.js  ← empareja mesh.name con una entrada del JSON
+        └── matchStructure.js    ← empareja mesh.name con una entrada del JSON
 ```
 
 ## 6. Compilar para producción

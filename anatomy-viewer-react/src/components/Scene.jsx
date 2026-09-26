@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Center } from "@react-three/drei";
 import Model from "./Model";
 
-export default function Scene({ modelUrl, onSelect, onHoverChange, onMeshNames }) {
+export default function Scene({ modelUrl, onSelect, onHoverChange, onMeshNames, forcedHighlightName }) {
   return (
     <Canvas camera={{ position: [0, 1.2, 3.4], fov: 45 }} shadows>
       <ambientLight intensity={0.6} />
@@ -23,6 +23,7 @@ export default function Scene({ modelUrl, onSelect, onHoverChange, onMeshNames }
             onSelect={onSelect}
             onHoverChange={onHoverChange}
             onMeshNames={onMeshNames}
+            forcedHighlightName={forcedHighlightName}
           />
         </Center>
       </Suspense>

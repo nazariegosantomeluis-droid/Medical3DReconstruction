@@ -6,7 +6,7 @@ const HIGHLIGHT_COLOR = new THREE.Color("#38bdf8");
 const HIGHLIGHT_INTENSITY = 0.65;
 const CLICK_DRAG_THRESHOLD_PX = 6;
 
-export default function Model({ url, onSelect, onHoverChange, onMeshNames }) {
+export default function Model({ url, onSelect, onHoverChange, onMeshNames, forcedHighlightName }) {
   const { scene } = useGLTF(url);
   const originalEmissive = useRef(new Map());
   const pointerDownAt = useRef(null);
@@ -33,12 +33,18 @@ export default function Model({ url, onSelect, onHoverChange, onMeshNames }) {
     onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
   }, [scene, onMeshNames]);
 
+  // El hover manda mientras el puntero está encima; en cuanto se va, cae de
+  // vuelta al resaltado "forzado" (si lo hay) que llega desde un clic en un
+  // chip de "estructuras relacionadas" — así saltar a otra pieza del mapa de
+  // conexiones también se ve, aunque el cursor nunca haya pasado por ahí.
+  const activeHighlight = hoveredName ?? forcedHighlightName ?? null;
+
   useEffect(() => {
     scene.traverse((child) => {
       if (!child.isMesh || !child.material?.emissive) return;
       const original = originalEmissive.current.get(child.uuid);
       if (!original) return;
-      if (child.name === hoveredName) {
+      if (child.name === activeHighlight) {
         child.material.emissive.set(HIGHLIGHT_COLOR);
         child.material.emissiveIntensity = HIGHLIGHT_INTENSITY;
       } else {
@@ -46,7 +52,7 @@ export default function Model({ url, onSelect, onHoverChange, onMeshNames }) {
         child.material.emissiveIntensity = original.intensity;
       }
     });
-  }, [hoveredName, scene]);
+  }, [activeHighlight, scene]);
 
   const handlePointerDown = (event) => {
     pointerDownAt.current = { x: event.clientX, y: event.clientY };

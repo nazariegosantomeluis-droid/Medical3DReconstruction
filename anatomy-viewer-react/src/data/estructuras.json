@@ -2,208 +2,442 @@
   {
     "id": "corazon",
     "nombre": "Corazón",
-    "meshNames": ["corazon", "heart", "mesh_corazon"],
+    "meshNames": [
+      "corazon",
+      "heart",
+      "mesh_corazon"
+    ],
+    "sinMalla": true,
+    "relacionadas": [
+      "auricula_derecha",
+      "auricula_izquierda",
+      "ventriculo_derecho",
+      "ventriculo_izquierdo",
+      "pericardio"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "El corazón no tiene una malla propia: es la suma de sus cámaras, válvulas y grandes vasos. Explóralo por sus partes."
   },
   {
     "id": "venas_cavas",
     "nombre": "Venas cavas",
-    "meshNames": ["venas_cavas", "vena_cava", "vena_cava_superior", "vena_cava_inferior", "venacava"],
+    "meshNames": [
+      "venas_cavas",
+      "vena_cava",
+      "vena_cava_superior",
+      "vena_cava_inferior",
+      "venacava"
+    ],
+    "relacionadas": [
+      "auricula_derecha",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "aorta",
     "nombre": "Aorta",
-    "meshNames": ["aorta", "arteria_aorta"],
+    "meshNames": [
+      "aorta",
+      "arteria_aorta"
+    ],
+    "relacionadas": [
+      "ventriculo_izquierdo",
+      "valvula_aortica",
+      "arterias_coronarias"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "arterias_pulmonares",
     "nombre": "Arterias pulmonares",
-    "meshNames": ["arterias_pulmonares", "arteria_pulmonar", "pulmonary_artery"],
+    "meshNames": [
+      "arterias_pulmonares",
+      "arteria_pulmonar",
+      "pulmonary_artery"
+    ],
+    "relacionadas": [
+      "ventriculo_derecho",
+      "valvula_pulmonar",
+      "pulmones"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "venas_pulmonares",
     "nombre": "Venas pulmonares",
-    "meshNames": ["venas_pulmonares", "vena_pulmonar", "pulmonary_vein"],
+    "meshNames": [
+      "venas_pulmonares",
+      "vena_pulmonar",
+      "pulmonary_vein"
+    ],
+    "relacionadas": [
+      "auricula_izquierda",
+      "pulmones"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "auricula_derecha",
     "nombre": "Aurícula derecha",
-    "meshNames": ["auricula_derecha", "aurícula_derecha", "right_atrium"],
+    "meshNames": [
+      "auricula_derecha",
+      "aurícula_derecha",
+      "right_atrium"
+    ],
+    "relacionadas": [
+      "venas_cavas",
+      "valvula_tricuspide",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "auricula_izquierda",
     "nombre": "Aurícula izquierda",
-    "meshNames": ["auricula_izquierda", "aurícula_izquierda", "left_atrium"],
+    "meshNames": [
+      "auricula_izquierda",
+      "aurícula_izquierda",
+      "left_atrium"
+    ],
+    "relacionadas": [
+      "venas_pulmonares",
+      "valvula_bicuspide",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "ventriculo_derecho",
     "nombre": "Ventrículo derecho",
-    "meshNames": ["ventriculo_derecho", "ventrículo_derecho", "right_ventricle"],
+    "meshNames": [
+      "ventriculo_derecho",
+      "ventrículo_derecho",
+      "right_ventricle"
+    ],
+    "relacionadas": [
+      "valvula_tricuspide",
+      "valvula_pulmonar",
+      "arterias_pulmonares",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "ventriculo_izquierdo",
     "nombre": "Ventrículo izquierdo",
-    "meshNames": ["ventriculo_izquierdo", "ventrículo_izquierdo", "left_ventricle"],
+    "meshNames": [
+      "ventriculo_izquierdo",
+      "ventrículo_izquierdo",
+      "left_ventricle"
+    ],
+    "relacionadas": [
+      "valvula_bicuspide",
+      "valvula_aortica",
+      "aorta",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "valvula_aortica",
     "nombre": "Válvula aórtica",
-    "meshNames": ["valvula_aortica", "válvula_aórtica", "aortic_valve"],
+    "meshNames": [
+      "valvula_aortica",
+      "válvula_aórtica",
+      "aortic_valve"
+    ],
+    "relacionadas": [
+      "ventriculo_izquierdo",
+      "aorta"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "valvula_pulmonar",
     "nombre": "Válvula pulmonar",
-    "meshNames": ["valvula_pulmonar", "válvula_pulmonar", "pulmonary_valve"],
+    "meshNames": [
+      "valvula_pulmonar",
+      "válvula_pulmonar",
+      "pulmonary_valve"
+    ],
+    "relacionadas": [
+      "ventriculo_derecho",
+      "arterias_pulmonares"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "valvula_bicuspide",
     "nombre": "Válvula bicúspide (mitral)",
-    "meshNames": ["valvula_bicuspide", "válvula_bicúspide", "valvula_mitral", "mitral_valve"],
+    "meshNames": [
+      "valvula_bicuspide",
+      "válvula_bicúspide",
+      "valvula_mitral",
+      "mitral_valve"
+    ],
+    "relacionadas": [
+      "auricula_izquierda",
+      "ventriculo_izquierdo"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "valvula_tricuspide",
     "nombre": "Válvula tricúspide",
-    "meshNames": ["valvula_tricuspide", "válvula_tricúspide", "tricuspid_valve"],
+    "meshNames": [
+      "valvula_tricuspide",
+      "válvula_tricúspide",
+      "tricuspid_valve"
+    ],
+    "relacionadas": [
+      "auricula_derecha",
+      "ventriculo_derecho"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "pericardio",
     "nombre": "Pericardio",
-    "meshNames": ["pericardio", "pericardium"],
+    "meshNames": [
+      "pericardio",
+      "pericardium"
+    ],
+    "sinMalla": true,
+    "relacionadas": [
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "La membrana del pericardio no está modelada como malla en este atlas anatómico."
   },
   {
     "id": "arterias_coronarias",
     "nombre": "Arterias coronarias",
-    "meshNames": ["arterias_coronarias", "arteria_coronaria", "coronary_artery", "coronary_arteries"],
+    "meshNames": [
+      "arterias_coronarias",
+      "arteria_coronaria",
+      "coronary_artery",
+      "coronary_arteries"
+    ],
+    "relacionadas": [
+      "aorta",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "venas_coronarias",
     "nombre": "Venas coronarias",
-    "meshNames": ["venas_coronarias", "vena_coronaria", "coronary_vein", "coronary_veins"],
+    "meshNames": [
+      "venas_coronarias",
+      "vena_coronaria",
+      "coronary_vein",
+      "coronary_veins"
+    ],
+    "relacionadas": [
+      "auricula_derecha",
+      "corazon"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "cardiovascular"
   },
   {
     "id": "nariz",
     "nombre": "Nariz",
-    "meshNames": ["nariz", "nose", "cavidad_nasal", "nasal_cavity"],
+    "meshNames": [
+      "nariz",
+      "nose",
+      "cavidad_nasal",
+      "nasal_cavity"
+    ],
+    "sinMalla": true,
+    "relacionadas": [
+      "laringe",
+      "traquea"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "La nariz no está modelada como malla en este atlas anatómico."
   },
   {
     "id": "laringe",
     "nombre": "Laringe",
-    "meshNames": ["laringe", "larynx"],
+    "meshNames": [
+      "laringe",
+      "larynx"
+    ],
+    "relacionadas": [
+      "nariz",
+      "traquea"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio"
   },
   {
     "id": "traquea",
     "nombre": "Tráquea",
-    "meshNames": ["traquea", "tráquea", "trachea"],
+    "meshNames": [
+      "traquea",
+      "tráquea",
+      "trachea"
+    ],
+    "relacionadas": [
+      "laringe",
+      "bronquios"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio"
   },
   {
     "id": "bronquios",
     "nombre": "Bronquios",
-    "meshNames": ["bronquios", "bronchi", "bronchus"],
+    "meshNames": [
+      "bronquios",
+      "bronchi",
+      "bronchus"
+    ],
+    "relacionadas": [
+      "traquea",
+      "bronquiolos",
+      "pulmones"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio"
   },
   {
     "id": "bronquiolos",
     "nombre": "Bronquiolos",
-    "meshNames": ["bronquiolos", "bronchioles"],
+    "meshNames": [
+      "bronquiolos",
+      "bronchioles"
+    ],
+    "sinMalla": true,
+    "relacionadas": [
+      "bronquios",
+      "alveolos"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "Los bronquiolos son estructuras microscópicas: ningún atlas anatómico macro los representa como malla 3D."
   },
   {
     "id": "alveolos",
     "nombre": "Alveolos",
-    "meshNames": ["alveolos", "alvéolos", "alveoli"],
+    "meshNames": [
+      "alveolos",
+      "alvéolos",
+      "alveoli"
+    ],
+    "sinMalla": true,
+    "relacionadas": [
+      "bronquiolos",
+      "pulmones"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "Los alvéolos son estructuras microscópicas: ningún atlas anatómico macro los representa como malla 3D."
   },
   {
     "id": "pulmones",
     "nombre": "Pulmones",
-    "meshNames": ["pulmones", "pulmon", "pulmón", "lungs", "lung"],
+    "meshNames": [
+      "pulmones",
+      "pulmon",
+      "pulmón",
+      "lungs",
+      "lung"
+    ],
+    "relacionadas": [
+      "bronquios",
+      "arterias_pulmonares",
+      "venas_pulmonares",
+      "alveolos"
+    ],
     "conocimientoPrevio": "",
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
-    "imagenUrl": ""
+    "imagenUrl": "",
+    "sistema": "respiratorio"
   }
 ]
