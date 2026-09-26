@@ -6,6 +6,12 @@ import StructureIndex from "./components/StructureIndex";
 import ModelErrorBoundary from "./components/ModelErrorBoundary";
 import estructuras from "./data/estructuras.json";
 import { findStructureByMeshName } from "./utils/matchStructure";
+import { GROUP_NODE_NAMES, DEFAULT_GROUP } from "./constants/modelGroups";
+
+const GROUP_LABELS = {
+  atlas_bodyparts3d: "Piezas internas (atlas BodyParts3D)",
+  especimen_real: "Corazón completo (espécimen real)",
+};
 
 // Cambia esto por el nombre real de tu archivo dentro de public/models/.
 // Se arma sobre BASE_URL (en vez de un "/models/..." fijo) para que el
@@ -30,6 +36,12 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [unmatchedMesh, setUnmatchedMesh] = useState(null);
   const [forcedHighlight, setForcedHighlight] = useState(null);
+
+  // El .glb trae dos especímenes reales que no comparten coordenadas: el
+  // corazón completo (ex-vivo) y las piezas internas del atlas BodyParts3D.
+  // Solo uno está visible a la vez; seleccionar una estructura del otro
+  // grupo cambia esto y hace que la cámara se reencuadre a él (ver Model.jsx).
+  const [activeGroup, setActiveGroup] = useState(DEFAULT_GROUP);
 
   const handleHoverChange = useCallback((meshName) => {
     setHoveredMesh(meshName);
@@ -67,6 +79,9 @@ export default function App() {
       if (structure) {
         setSelectedId(structure.id);
         setUnmatchedMesh(null);
+        // Un clic directo en 3D solo puede pasar sobre el grupo que ya está
+        // visible, así que el grupo activo no cambia aquí — sí puede
+        // cambiar al saltar por un chip (ver handleSelectRelated).
       } else {
         setSelectedId(null);
         setUnmatchedMesh(meshName);
@@ -80,6 +95,11 @@ export default function App() {
       setSelectedId(id);
       setUnmatchedMesh(null);
       setForcedHighlight(structureIdToMeshName[id] ?? null);
+
+      const structure = estructuras.find((s) => s.id === id);
+      if (structure?.grupo) {
+        setActiveGroup(structure.grupo);
+      }
     },
     [structureIdToMeshName]
   );
@@ -107,17 +127,24 @@ export default function App() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setDebugMode((prev) => !prev)}
-          className={`pointer-events-auto rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
-            debugMode
-              ? "border-amber-400 bg-amber-500 text-slate-900 hover:bg-amber-400"
-              : "border-slate-600 bg-slate-800 text-slate-200 hover:bg-slate-700"
-          }`}
-        >
-          {debugMode ? "Modo Debug: ACTIVO" : "Modo Debug: inactivo"}
-        </button>
+        <div className="pointer-events-auto flex items-center gap-2">
+          {!debugMode ? (
+            <span className="rounded-md border border-slate-700 bg-slate-800/90 px-3 py-1.5 text-xs text-slate-300">
+              Viendo: {GROUP_LABELS[activeGroup]}
+            </span>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => setDebugMode((prev) => !prev)}
+            className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
+              debugMode
+                ? "border-amber-400 bg-amber-500 text-slate-900 hover:bg-amber-400"
+                : "border-slate-600 bg-slate-800 text-slate-200 hover:bg-slate-700"
+            }`}
+          >
+            {debugMode ? "Modo Debug: ACTIVO" : "Modo Debug: inactivo"}
+          </button>
+        </div>
       </header>
 
       {!debugMode ? <StructureIndex structures={estructuras} onSelect={handleSelectRelated} /> : null}
@@ -129,6 +156,7 @@ export default function App() {
           onHoverChange={handleHoverChange}
           onMeshNames={handleMeshNames}
           forcedHighlightName={forcedHighlight}
+          activeGroupNodeName={GROUP_NODE_NAMES[activeGroup]}
         />
       </ModelErrorBoundary>
 
@@ -152,8 +180,9 @@ export default function App() {
 
       {meshInventory.length > 0 ? (
         <footer className="pointer-events-none absolute bottom-2 right-3 z-10 max-w-xs text-right text-[0.62rem] leading-snug text-slate-500">
-          Modelo anatómico: BodyParts3D/Anatomography, © Database Center for Life Science (DBCLS) —
-          CC BY-SA 2.1 Japan.
+          Piezas internas: BodyParts3D/Anatomography, © Database Center for Life Science (DBCLS) —
+          CC BY-SA 2.1 Japan. Corazón completo: espécimen ex-vivo real (LADAF-2021-17, micro-CT
+          sincrotrón).
         </footer>
       ) : null}
     </div>

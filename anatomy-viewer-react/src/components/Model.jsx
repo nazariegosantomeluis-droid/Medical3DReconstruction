@@ -1,14 +1,71 @@
 import { useEffect, useRef, useState } from "react";
+import { useThree } from "@react-three/fiber";
 import { useGLTF, useCursor } from "@react-three/drei";
 import * as THREE from "three";
+import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
 const HIGHLIGHT_COLOR = new THREE.Color("#38bdf8");
 const HIGHLIGHT_INTENSITY = 0.65;
 const CLICK_DRAG_THRESHOLD_PX = 6;
+const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 
-export default function Model({ url, onSelect, onHoverChange, onMeshNames, forcedHighlightName }) {
+function findGroupName(object) {
+  let node = object;
+  while (node) {
+    if (KNOWN_GROUP_NAMES.has(node.name)) return node.name;
+    node = node.parent;
+  }
+  return null;
+}
+
+// Encuadra la cámara a lo que esté visible ahora mismo, no al modelo
+// completo — necesario porque solo un grupo (el corazón real o las piezas
+// del atlas) está visible a la vez, y cada uno vive en su propia escala/
+// posición dentro del archivo.
+function fitCameraToVisible(camera, controls, root) {
+  const box = new THREE.Box3();
+  let any = false;
+  root.traverse((child) => {
+    if (child.isMesh && child.visible) {
+      box.expandByObject(child);
+      any = true;
+    }
+  });
+  if (!any) return;
+
+  const center = new THREE.Vector3();
+  const size = new THREE.Vector3();
+  box.getCenter(center);
+  box.getSize(size);
+  const maxDim = Math.max(size.x, size.y, size.z, 0.001);
+  const fov = (camera.fov * Math.PI) / 180;
+  const distance = ((maxDim / 2) / Math.tan(fov / 2)) * 1.7;
+  const direction = new THREE.Vector3(0.55, 0.4, 1).normalize();
+
+  camera.position.copy(center.clone().addScaledVector(direction, distance));
+  camera.near = Math.max(distance / 100, 0.01);
+  camera.far = distance * 100;
+  camera.updateProjectionMatrix();
+
+  if (controls) {
+    controls.target.copy(center);
+    controls.update();
+  }
+}
+
+export default function Model({
+  url,
+  onSelect,
+  onHoverChange,
+  onMeshNames,
+  forcedHighlightName,
+  activeGroupNodeName,
+  controlsRef,
+}) {
   const { scene } = useGLTF(url);
+  const { camera } = useThree();
   const originalEmissive = useRef(new Map());
+  const meshGroups = useRef(new Map());
   const pointerDownAt = useRef(null);
   const [hoveredName, setHoveredName] = useState(null);
 
@@ -18,7 +75,9 @@ export default function Model({ url, onSelect, onHoverChange, onMeshNames, force
   // resaltar solo la que está bajo el cursor sin afectar a las demás.
   // De paso, este es el único recorrido garantizado del árbol completo del
   // modelo, así que aquí mismo se arma el inventario de nombres crudos que
-  // usa el Modo Debug — sin esto habría que pasar mesh por mesh a mano.
+  // usa el Modo Debug, y a qué grupo (especimen real / atlas) pertenece
+  // cada malla, caminando hacia arriba hasta encontrar un nodo-grupo
+  // conocido — sin esto habría que pasar mesh por mesh a mano.
   useEffect(() => {
     const counts = new Map();
     scene.traverse((child) => {
@@ -28,10 +87,26 @@ export default function Model({ url, onSelect, onHoverChange, onMeshNames, force
         color: child.material.emissive ? child.material.emissive.clone() : null,
         intensity: child.material.emissiveIntensity ?? 0,
       });
+      meshGroups.current.set(child.uuid, findGroupName(child));
       counts.set(child.name, (counts.get(child.name) ?? 0) + 1);
     });
     onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
   }, [scene, onMeshNames]);
+
+  // El .glb trae dos especímenes reales que no comparten coordenadas (ver
+  // notaEspecimen en estructuras.json): mostrarlos a la vez los haría ver
+  // superpuestos sin sentido, como si fueran un solo cuerpo. Solo el grupo
+  // activo queda visible, y la cámara se reencuadra a él cada vez que
+  // cambia — así seleccionar "Corazón" enfoca el espécimen completo, y
+  // seleccionar "Válvula mitral" enfoca el grupo de piezas del atlas.
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (!child.isMesh) return;
+      const group = meshGroups.current.get(child.uuid);
+      child.visible = !group || group === activeGroupNodeName;
+    });
+    fitCameraToVisible(camera, controlsRef?.current, scene);
+  }, [activeGroupNodeName, scene, camera, controlsRef]);
 
   // El hover manda mientras el puntero está encima; en cuanto se va, cae de
   // vuelta al resaltado "forzado" (si lo hay) que llega desde un clic en un

@@ -46,6 +46,12 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
             </p>
           ) : null}
 
+          {structure.notaEspecimen ? (
+            <p className="rounded-md border border-sky-200 bg-sky-50 px-3 py-2 text-xs text-sky-800">
+              {structure.notaEspecimen}
+            </p>
+          ) : null}
+
           <Seccion titulo="Lo que sabía previamente" texto={structure.conocimientoPrevio} />
           <Seccion titulo="Lo que sé después de estudiar" texto={structure.conocimientoNuevo} />
           <Seccion titulo="Aplicación clínica" texto={structure.aplicacionClinica} />

@@ -7,7 +7,6 @@
       "heart",
       "mesh_corazon"
     ],
-    "sinMalla": true,
     "relacionadas": [
       "auricula_derecha",
       "auricula_izquierda",
@@ -20,7 +19,8 @@
     "aplicacionClinica": "",
     "imagenUrl": "",
     "sistema": "cardiovascular",
-    "notaSinMalla": "El corazón no tiene una malla propia: es la suma de sus cámaras, válvulas y grandes vasos. Explóralo por sus partes."
+    "grupo": "especimen_real",
+    "notaEspecimen": "Esta es la malla completa de un corazón real, reconstruida a partir de un espécimen ex-vivo (micro-CT sincrotrón, LADAF-2021-17) — un cuerpo real distinto al del atlas BodyParts3D que arma las piezas internas. Por eso el visor cambia de encuadre entre este corazón completo y el grupo de piezas internas: son dos especímenes reales que no comparten coordenadas, y mostrarlos superpuestos daría una falsa sensación de que encajan entre sí."
   },
   {
     "id": "venas_cavas",
@@ -40,7 +40,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "aorta",
@@ -58,7 +59,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "arterias_pulmonares",
@@ -77,7 +79,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "venas_pulmonares",
@@ -95,7 +98,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "auricula_derecha",
@@ -114,7 +118,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "auricula_izquierda",
@@ -133,7 +138,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "ventriculo_derecho",
@@ -153,7 +159,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "ventriculo_izquierdo",
@@ -173,7 +180,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "valvula_aortica",
@@ -191,7 +199,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "valvula_pulmonar",
@@ -209,7 +218,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "valvula_bicuspide",
@@ -228,7 +238,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "valvula_tricuspide",
@@ -246,7 +257,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "pericardio",
@@ -283,7 +295,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "venas_coronarias",
@@ -302,7 +315,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "cardiovascular"
+    "sistema": "cardiovascular",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "nariz",
@@ -340,7 +354,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "respiratorio"
+    "sistema": "respiratorio",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "traquea",
@@ -358,7 +373,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "respiratorio"
+    "sistema": "respiratorio",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "bronquios",
@@ -377,7 +393,8 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "respiratorio"
+    "sistema": "respiratorio",
+    "grupo": "atlas_bodyparts3d"
   },
   {
     "id": "bronquiolos",
@@ -438,6 +455,7 @@
     "conocimientoNuevo": "",
     "aplicacionClinica": "",
     "imagenUrl": "",
-    "sistema": "respiratorio"
+    "sistema": "respiratorio",
+    "grupo": "atlas_bodyparts3d"
   }
 ]
