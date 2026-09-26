@@ -6,7 +6,7 @@ const HIGHLIGHT_COLOR = new THREE.Color("#38bdf8");
 const HIGHLIGHT_INTENSITY = 0.65;
 const CLICK_DRAG_THRESHOLD_PX = 6;
 
-export default function Model({ url, onSelect, onHoverChange }) {
+export default function Model({ url, onSelect, onHoverChange, onMeshNames }) {
   const { scene } = useGLTF(url);
   const originalEmissive = useRef(new Map());
   const pointerDownAt = useRef(null);
@@ -16,7 +16,11 @@ export default function Model({ url, onSelect, onHoverChange }) {
 
   // Cada malla necesita su propio material (no compartido) para poder
   // resaltar solo la que está bajo el cursor sin afectar a las demás.
+  // De paso, este es el único recorrido garantizado del árbol completo del
+  // modelo, así que aquí mismo se arma el inventario de nombres crudos que
+  // usa el Modo Debug — sin esto habría que pasar mesh por mesh a mano.
   useEffect(() => {
+    const counts = new Map();
     scene.traverse((child) => {
       if (!child.isMesh) return;
       child.material = child.material.clone();
@@ -24,8 +28,10 @@ export default function Model({ url, onSelect, onHoverChange }) {
         color: child.material.emissive ? child.material.emissive.clone() : null,
         intensity: child.material.emissiveIntensity ?? 0,
       });
+      counts.set(child.name, (counts.get(child.name) ?? 0) + 1);
     });
-  }, [scene]);
+    onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
+  }, [scene, onMeshNames]);
 
   useEffect(() => {
     scene.traverse((child) => {
