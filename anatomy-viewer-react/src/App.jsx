@@ -109,6 +109,15 @@ export default function App() {
   // Nombre de malla real de lo seleccionado, para que Model.jsx sepa cuál
   // dejar visible y ocultar las demás del grupo activo.
   const selectedMeshName = selectedId ? structureIdToMeshName[selectedId] ?? null : unmatchedMesh;
+  // Mallas de las estructuras "relacionadas" (mismo mapa de conexiones
+  // clínicas del panel) — Model.jsx las deja muy tenues en vez de ocultarlas,
+  // como contexto anatómico alrededor de la seleccionada.
+  const relatedMeshNames = useMemo(() => {
+    if (!selectedStructure?.relacionadas) return [];
+    return selectedStructure.relacionadas
+      .map((id) => structureIdToMeshName[id])
+      .filter(Boolean);
+  }, [selectedStructure, structureIdToMeshName]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-bg font-sans text-ink">
@@ -136,6 +145,7 @@ export default function App() {
             onHoverChange={handleHoverChange}
             onMeshNames={handleMeshNames}
             selectedMeshName={selectedMeshName}
+            relatedMeshNames={relatedMeshNames}
             activeGroupNodeName={GROUP_NODE_NAMES[activeGroup]}
           />
         </ModelErrorBoundary>

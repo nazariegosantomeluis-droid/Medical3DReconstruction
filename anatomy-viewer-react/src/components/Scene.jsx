@@ -9,6 +9,7 @@ export default function Scene({
   onHoverChange,
   onMeshNames,
   selectedMeshName,
+  relatedMeshNames,
   activeGroupNodeName,
 }) {
   // Model necesita esta referencia para mover la cámara y actualizar el
@@ -39,6 +40,7 @@ export default function Scene({
           onHoverChange={onHoverChange}
           onMeshNames={onMeshNames}
           selectedMeshName={selectedMeshName}
+          relatedMeshNames={relatedMeshNames}
           activeGroupNodeName={activeGroupNodeName}
           controlsRef={controlsRef}
         />

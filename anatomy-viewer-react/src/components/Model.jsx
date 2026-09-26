@@ -5,11 +5,16 @@ import * as THREE from "three";
 import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
 // Un resaltado sutil, solo para el hover en vivo — la pieza seleccionada ya
-// se distingue de sobra por ser la única visible (ver más abajo).
+// se distingue de sobra por ser la única opaca (ver más abajo).
 const HIGHLIGHT_COLOR = new THREE.Color("#fbbf24");
 const HIGHLIGHT_INTENSITY = 0.28;
 const CLICK_DRAG_THRESHOLD_PX = 6;
 const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
+
+// Qué tan tenues quedan las estructuras relacionadas con la seleccionada:
+// deben leerse como contexto anatómico, no como piezas propias — bastante
+// transparentes, casi un fantasma, no una versión "aguada" del color real.
+const RELATED_OPACITY = 0.12;
 
 function findGroupName(object) {
   let node = object;
@@ -61,6 +66,7 @@ export default function Model({
   onHoverChange,
   onMeshNames,
   selectedMeshName,
+  relatedMeshNames,
   activeGroupNodeName,
   controlsRef,
 }) {
@@ -99,19 +105,42 @@ export default function Model({
   // especímenes reales que no comparten coordenadas — solo el grupo activo
   // se muestra, nunca los dos a la vez (ver notaEspecimen en
   // estructuras.json); y (2) al seleccionar una estructura (panel abierto
-  // para ella), el resto de las piezas del grupo activo se OCULTAN por
-  // completo — no semitransparentes, para que no quede ruido visual — y la
-  // cámara se acerca solo a la seleccionada. Sin selección, vuelve a verse
-  // todo el grupo activo.
+  // para ella), esta queda opaca, sus relacionadas (mapa de conexiones
+  // clínicas) quedan muy tenues como contexto anatómico, y el resto del
+  // grupo activo se OCULTA por completo para que no quede ruido visual — la
+  // cámara se acerca a lo que queda visible. Sin selección, vuelve a verse
+  // todo el grupo activo, opaco.
   useEffect(() => {
+    const relatedSet = new Set(relatedMeshNames ?? []);
     scene.traverse((child) => {
       if (!child.isMesh) return;
       const group = meshGroups.current.get(child.uuid);
       const inActiveGroup = !group || group === activeGroupNodeName;
-      child.visible = inActiveGroup && (!selectedMeshName || child.name === selectedMeshName);
+
+      if (!inActiveGroup) {
+        child.visible = false;
+        return;
+      }
+
+      const isSelected = child.name === selectedMeshName;
+      const isRelated = relatedSet.has(child.name);
+
+      if (!selectedMeshName || isSelected) {
+        child.visible = true;
+        child.material.transparent = false;
+        child.material.opacity = 1;
+        child.material.depthWrite = true;
+      } else if (isRelated) {
+        child.visible = true;
+        child.material.transparent = true;
+        child.material.opacity = RELATED_OPACITY;
+        child.material.depthWrite = false;
+      } else {
+        child.visible = false;
+      }
     });
     fitCameraToVisible(camera, controlsRef?.current, scene);
-  }, [activeGroupNodeName, selectedMeshName, scene, camera, controlsRef]);
+  }, [activeGroupNodeName, selectedMeshName, relatedMeshNames, scene, camera, controlsRef]);
 
   // Solo el hover en vivo tiñe con emissive — es una señal momentánea
   // mientras el cursor está encima. La pieza "seleccionada" (panel abierto)
