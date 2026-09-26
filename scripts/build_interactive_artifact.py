@@ -1064,6 +1064,7 @@ def build(payload: dict) -> str:
 
 _TEMPLATE = r"""<!doctype html>
 <html lang="es">
+<meta charset="UTF-8">
 <title>Medical3DReconstruction — Visor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1145,6 +1146,10 @@ _TEMPLATE = r"""<!doctype html>
   .tab-btn svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.85; }
   .tab-btn[aria-selected="true"] { background: var(--accent-soft); color: var(--text); }
   .icon-btn-flat { padding: 0.32rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.7rem; cursor: pointer; font-family: inherit; }
+  /* Enlace al visor React de conexiones clínicas (proyecto aparte, en /anatomy-viewer/) — con color de acento para que se note que no es una pestaña más de este mismo SPA, sino que te saca a otra página. */
+  .icon-btn-flat.external-link { display: inline-flex; align-items: center; gap: 0.32rem; text-decoration: none; border-color: var(--accent-strong); color: var(--accent-strong); }
+  .icon-btn-flat.external-link:hover { background: var(--accent-soft); }
+  .icon-btn-flat.external-link svg { width: 11px; height: 11px; flex-shrink: 0; }
 
   /* ---- layout de dos columnas: barra lateral (aside) + área principal ---- */
   main { flex: 1; display: grid; grid-template-columns: 280px 1fr; min-height: 0; }
@@ -1368,6 +1373,7 @@ _TEMPLATE = r"""<!doctype html>
     .tab-btn { padding: 0.4rem 0.5rem; }
     .tab-btn svg { width: 15px; height: 15px; }
     .topbar-study .badge { display: none; }
+    .external-link-label { display: none; }
   }
   @media (max-width: 700px) {
     main { grid-template-columns: 220px 1fr; }
@@ -1425,6 +1431,13 @@ _TEMPLATE = r"""<!doctype html>
     <button class="tab-btn" id="tab-btn-trivia" role="tab" aria-selected="false" aria-controls="panel-trivia" aria-label="Trivia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a2.8 2.8 0 1 1 3.9 2.6c-.9.4-1.6 1-1.6 2.1"/><path d="M12 17.5h.01"/></svg><span class="tab-label">Trivia</span></button>
   </div>
   <span class="spacer"></span>
+  <a
+    class="icon-btn-flat external-link"
+    href="./anatomy-viewer/"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Visor React del corazón segmentado, con mapa de conexiones clínicas — abre en otra pestaña"
+  ><span class="external-link-label">Mapa de conexiones clínicas</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
   <button class="icon-btn-flat" id="theme-btn">Tema</button>
 </header>
 
