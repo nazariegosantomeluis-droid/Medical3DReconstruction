@@ -3,7 +3,7 @@ export default function DebugPanel({ hoveredMesh, selectedMesh, meshInventory })
     <aside
       role="complementary"
       aria-label="Panel de depuración de mallas"
-      className="fixed bottom-4 left-4 z-20 flex max-h-[70vh] w-80 flex-col overflow-hidden
+      className="absolute bottom-4 left-4 z-20 flex max-h-[70vh] w-80 flex-col overflow-hidden
                  rounded-lg border border-amber-500/40 bg-slate-950/95 shadow-2xl"
     >
       <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2">

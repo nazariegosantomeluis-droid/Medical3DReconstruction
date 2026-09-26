@@ -37,6 +37,14 @@ def decode_heart_mesh():
     indices = np.frombuffer(base64.b64decode(mesh_data["indices_b64"]), dtype=np.uint32).reshape(-1, 3)
 
     mesh = trimesh.Trimesh(vertices=positions, faces=indices, process=False)
+    # Esta malla SI es una superficie cerrada real (marching cubes sobre un
+    # volumen CT completo), asi que a diferencia de las piezas recortadas de
+    # BodyParts3D, aqui el suavizado geometrico es seguro.
+    mesh.merge_vertices()
+    if mesh.is_watertight:
+        trimesh.smoothing.filter_taubin(mesh, lamb=0.5, nu=0.53, iterations=10)
+    mesh._cache.delete("vertex_normals")
+    mesh.vertex_normals
     # material PBR explicito, no color por vertice: sin esto el gltf exporta
     # con metallicFactor=1 por defecto, que se ve casi negro sin mapa de
     # entorno (ver build_corazon_segmentado.py para la explicacion completa).

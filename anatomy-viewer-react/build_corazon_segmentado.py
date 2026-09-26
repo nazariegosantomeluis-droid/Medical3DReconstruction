@@ -6,7 +6,7 @@ Corre esto DESPUES de:
     cd body_parts_3d_api
     git lfs install
     git lfs pull --include="<pega aqui el contenido de lfs_include_pattern.txt>"
-    pip install trimesh numpy
+    pip install trimesh numpy scipy networkx
     python3 build_corazon_segmentado.py
 
 No requiere Blender ni ningun editor 3D: solo junta mallas .obj ya
@@ -107,6 +107,41 @@ COLORS = {
 MATERIAL_METALLIC = 0.0
 MATERIAL_ROUGHNESS = 0.55
 
+MIN_COMPONENT_FACES = 20  # fragmentos mas chicos que esto son ruido de reconstruccion, no anatomia
+
+
+def clean_and_smooth(mesh):
+    """Descarta fragmentos diminutos (ruido) y suaviza donde es seguro.
+
+    Cada pieza de BodyParts3D es un recorte de un atlas continuo -- queda
+    con bordes abiertos donde se separo de la estructura vecina (no es
+    watertight). Suavizar (Taubin) un borde abierto lo distorsiona en picos
+    largos -- probado empiricamente sobre el arbol bronquial y los grandes
+    vasos. Por eso el suavizado geometrico solo se aplica a componentes que
+    SI son superficies cerradas; el resto solo recibe normales suaves por
+    vertice (no mueve ningun vertice, cero riesgo de deformar la anatomia,
+    pero igual resuelve el aspecto "tosco" de las normales planas).
+    """
+    components = mesh.split(only_watertight=False)
+    if len(components) == 0:
+        components = [mesh]
+
+    kept = [c for c in components if len(c.faces) >= MIN_COMPONENT_FACES]
+    if not kept:
+        kept = list(components)
+
+    for part in kept:
+        if len(part.vertices) < 4:
+            continue
+        part.merge_vertices()
+        if part.is_watertight:
+            trimesh.smoothing.filter_taubin(part, lamb=0.5, nu=0.53, iterations=10)
+
+    merged = trimesh.util.concatenate(kept) if len(kept) > 1 else kept[0]
+    merged._cache.delete("vertex_normals")
+    merged.vertex_normals  # fuerza el calculo antes de exportar
+    return merged
+
 
 def load_manifest():
     rows = []
@@ -175,6 +210,7 @@ def main():
             continue
 
         merged = trimesh.util.concatenate(pieces) if len(pieces) > 1 else pieces[0]
+        merged = clean_and_smooth(merged)
 
         color = COLORS.get(sid, (200, 200, 200, 255))
         merged.visual = trimesh.visual.TextureVisuals(

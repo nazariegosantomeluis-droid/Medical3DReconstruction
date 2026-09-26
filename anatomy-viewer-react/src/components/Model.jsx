@@ -4,14 +4,11 @@ import { useGLTF, useCursor } from "@react-three/drei";
 import * as THREE from "three";
 import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
-// Un resaltado sutil: ahora que la pieza seleccionada ya se distingue por
-// quedar opaca mientras el resto se vuelve transparente, un tinte fuerte
-// solo tapaba el color anatómico real (todo se veía celeste). Esto es un
-// brillo tenue, no una repintada.
+// Un resaltado sutil, solo para el hover en vivo — la pieza seleccionada ya
+// se distingue de sobra por ser la única visible (ver más abajo).
 const HIGHLIGHT_COLOR = new THREE.Color("#fbbf24");
 const HIGHLIGHT_INTENSITY = 0.28;
 const CLICK_DRAG_THRESHOLD_PX = 6;
-const GHOST_OPACITY = 0.12;
 const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 
 function findGroupName(object) {
@@ -98,39 +95,23 @@ export default function Model({
     onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
   }, [scene, onMeshNames]);
 
-  // El .glb trae dos especímenes reales que no comparten coordenadas (ver
-  // notaEspecimen en estructuras.json): mostrarlos a la vez los haría ver
-  // superpuestos sin sentido, como si fueran un solo cuerpo. Solo el grupo
-  // activo queda visible, y la cámara se reencuadra a él cada vez que
-  // cambia — así seleccionar "Corazón" enfoca el espécimen completo, y
-  // seleccionar "Válvula mitral" enfoca el grupo de piezas del atlas.
+  // Qué se ve ahora mismo, en un solo lugar: (1) el .glb trae dos
+  // especímenes reales que no comparten coordenadas — solo el grupo activo
+  // se muestra, nunca los dos a la vez (ver notaEspecimen en
+  // estructuras.json); y (2) al seleccionar una estructura (panel abierto
+  // para ella), el resto de las piezas del grupo activo se OCULTAN por
+  // completo — no semitransparentes, para que no quede ruido visual — y la
+  // cámara se acerca solo a la seleccionada. Sin selección, vuelve a verse
+  // todo el grupo activo.
   useEffect(() => {
     scene.traverse((child) => {
       if (!child.isMesh) return;
       const group = meshGroups.current.get(child.uuid);
-      child.visible = !group || group === activeGroupNodeName;
+      const inActiveGroup = !group || group === activeGroupNodeName;
+      child.visible = inActiveGroup && (!selectedMeshName || child.name === selectedMeshName);
     });
     fitCameraToVisible(camera, controlsRef?.current, scene);
-  }, [activeGroupNodeName, scene, camera, controlsRef]);
-
-  // Al seleccionar una estructura (panel abierto para ella), el resto de
-  // las piezas del grupo activo se vuelven casi transparentes — así se ve
-  // dónde queda dentro del conjunto en vez de taparla con las demás. Sin
-  // selección, todo vuelve a su opacidad normal.
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (!child.isMesh || !child.material) return;
-      const group = meshGroups.current.get(child.uuid);
-      const inActiveGroup = !group || group === activeGroupNodeName;
-      if (!inActiveGroup) return;
-
-      const isGhosted = Boolean(selectedMeshName) && child.name !== selectedMeshName;
-      child.material.transparent = isGhosted;
-      child.material.opacity = isGhosted ? GHOST_OPACITY : 1;
-      child.material.depthWrite = !isGhosted;
-      child.material.needsUpdate = true;
-    });
-  }, [selectedMeshName, activeGroupNodeName, scene]);
+  }, [activeGroupNodeName, selectedMeshName, scene, camera, controlsRef]);
 
   // Solo el hover en vivo tiñe con emissive — es una señal momentánea
   // mientras el cursor está encima. La pieza "seleccionada" (panel abierto)
