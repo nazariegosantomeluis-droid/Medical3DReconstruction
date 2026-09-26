@@ -1,3 +1,6 @@
 node_modules/
 dist/
 .vite/
+
+# Intermedio reproducible de extract_heart_mesh.py (ver merge_real_heart.py)
+heart_mesh.json
