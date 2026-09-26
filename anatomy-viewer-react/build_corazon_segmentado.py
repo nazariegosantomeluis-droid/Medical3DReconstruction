@@ -24,7 +24,9 @@ import glob
 import os
 import re
 
+import numpy as np
 import trimesh
+from trimesh.smoothing import laplacian_calculation
 
 MANIFEST = "MANIFEST.csv"
 MESHES_DIR = "meshes"
@@ -108,6 +110,35 @@ MATERIAL_METALLIC = 0.0
 MATERIAL_ROUGHNESS = 0.55
 
 MIN_COMPONENT_FACES = 20  # fragmentos mas chicos que esto son ruido de reconstruccion, no anatomia
+
+# Sombreado por curvatura (AO aproximado) + micro-ruido: sin esto un color
+# plano por estructura tapa por completo pliegues, crestas y musculos
+# papilares que la malla ya tiene -- esto no inventa geometria, solo la
+# revela via COLOR_0 (que gltf multiplica contra baseColorFactor).
+AO_STRENGTH = 0.42       # cuanto contraste le da la curvatura (0-1)
+AO_FLOOR = 0.55          # que tan oscuro puede llegar a ponerse un pliegue
+AO_CEILING = 1.18        # que tan brillante puede llegar a ponerse una cresta
+NOISE_AMPLITUDE = 0.05   # micro-variacion aleatoria, rompe el aspecto "plastico"
+
+
+def compute_shading_colors(mesh, seed):
+    laplacian = laplacian_calculation(mesh)
+    neighbor_avg = laplacian.dot(mesh.vertices)
+    curvature = np.einsum("ij,ij->i", mesh.vertices - neighbor_avg, mesh.vertex_normals)
+
+    lo, hi = np.percentile(curvature, [2, 98])
+    span = max(hi - lo, 1e-6)
+    normalized = np.clip((curvature - lo) / span * 2 - 1, -1, 1)  # -1..1
+
+    shading = 1.0 + normalized * AO_STRENGTH
+
+    rng = np.random.default_rng(seed)
+    noise = 1.0 + (rng.random(len(mesh.vertices)) - 0.5) * 2 * NOISE_AMPLITUDE
+    shading = np.clip(shading * noise, AO_FLOOR, AO_CEILING)
+
+    gray = np.clip(shading * 255, 0, 255).astype(np.uint8)
+    alpha = np.full_like(gray, 255)
+    return np.stack([gray, gray, gray, alpha], axis=1)
 
 
 def clean_and_smooth(mesh):
@@ -213,14 +244,16 @@ def main():
         merged = clean_and_smooth(merged)
 
         color = COLORS.get(sid, (200, 200, 200, 255))
-        merged.visual = trimesh.visual.TextureVisuals(
-            material=trimesh.visual.material.PBRMaterial(
-                baseColorFactor=[c / 255.0 for c in color],
-                metallicFactor=MATERIAL_METALLIC,
-                roughnessFactor=MATERIAL_ROUGHNESS,
-                doubleSided=True,
-            )
+        base_material = trimesh.visual.material.PBRMaterial(
+            baseColorFactor=[c / 255.0 for c in color],
+            metallicFactor=MATERIAL_METALLIC,
+            roughnessFactor=MATERIAL_ROUGHNESS,
+            doubleSided=True,
         )
+        shading_colors = compute_shading_colors(merged, seed=abs(hash(sid)) % (2**32))
+        visuals = trimesh.visual.color.ColorVisuals(merged, vertex_colors=shading_colors)
+        visuals.material = base_material
+        merged.visual = visuals
 
         scene.add_geometry(merged, node_name=sid, geom_name=sid)
         summary.append(f"{sid}: {len(pieces)} piezas fusionadas, {len(merged.vertices)} vertices")

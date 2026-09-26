@@ -15,6 +15,7 @@ import os
 
 import numpy as np
 import trimesh
+from trimesh.smoothing import laplacian_calculation
 
 _HERE = os.path.dirname(__file__)
 ATLAS_PATH = os.path.join(_HERE, "public", "models", "corazon-segmentado.glb")
@@ -27,6 +28,34 @@ GROUP_REAL = "grupo_especimen_real"
 HEART_COLOR = (168, 66, 58, 255)  # musculo cardiaco real, no el rojo de acento de la UI
 MATERIAL_METALLIC = 0.0
 MATERIAL_ROUGHNESS = 0.55
+
+# Mismo sombreado por curvatura + micro-ruido que build_corazon_segmentado.py
+# (ver ese archivo para la explicacion completa) -- revela crestas y surcos
+# reales del especimen ex-vivo que un color plano tapaba por completo.
+AO_STRENGTH = 0.42
+AO_FLOOR = 0.55
+AO_CEILING = 1.18
+NOISE_AMPLITUDE = 0.05
+
+
+def compute_shading_colors(mesh, seed):
+    laplacian = laplacian_calculation(mesh)
+    neighbor_avg = laplacian.dot(mesh.vertices)
+    curvature = np.einsum("ij,ij->i", mesh.vertices - neighbor_avg, mesh.vertex_normals)
+
+    lo, hi = np.percentile(curvature, [2, 98])
+    span = max(hi - lo, 1e-6)
+    normalized = np.clip((curvature - lo) / span * 2 - 1, -1, 1)
+
+    shading = 1.0 + normalized * AO_STRENGTH
+
+    rng = np.random.default_rng(seed)
+    noise = 1.0 + (rng.random(len(mesh.vertices)) - 0.5) * 2 * NOISE_AMPLITUDE
+    shading = np.clip(shading * noise, AO_FLOOR, AO_CEILING)
+
+    gray = np.clip(shading * 255, 0, 255).astype(np.uint8)
+    alpha = np.full_like(gray, 255)
+    return np.stack([gray, gray, gray, alpha], axis=1)
 
 
 def decode_heart_mesh():
@@ -45,17 +74,22 @@ def decode_heart_mesh():
         trimesh.smoothing.filter_taubin(mesh, lamb=0.5, nu=0.53, iterations=10)
     mesh._cache.delete("vertex_normals")
     mesh.vertex_normals
-    # material PBR explicito, no color por vertice: sin esto el gltf exporta
-    # con metallicFactor=1 por defecto, que se ve casi negro sin mapa de
-    # entorno (ver build_corazon_segmentado.py para la explicacion completa).
-    mesh.visual = trimesh.visual.TextureVisuals(
-        material=trimesh.visual.material.PBRMaterial(
-            baseColorFactor=[c / 255.0 for c in HEART_COLOR],
-            metallicFactor=MATERIAL_METALLIC,
-            roughnessFactor=MATERIAL_ROUGHNESS,
-            doubleSided=True,
-        )
+    # material PBR explicito, no color por vertice puro: sin esto el gltf
+    # exporta con metallicFactor=1 por defecto, que se ve casi negro sin mapa
+    # de entorno (ver build_corazon_segmentado.py para la explicacion
+    # completa). El sombreado por curvatura se agrega ADEMAS, como COLOR_0,
+    # que gltf multiplica contra baseColorFactor -- revela pliegues y
+    # musculos papilares reales sin tocar el color anatomico base.
+    base_material = trimesh.visual.material.PBRMaterial(
+        baseColorFactor=[c / 255.0 for c in HEART_COLOR],
+        metallicFactor=MATERIAL_METALLIC,
+        roughnessFactor=MATERIAL_ROUGHNESS,
+        doubleSided=True,
     )
+    shading_colors = compute_shading_colors(mesh, seed=abs(hash("corazon")) % (2**32))
+    visuals = trimesh.visual.color.ColorVisuals(mesh, vertex_colors=shading_colors)
+    visuals.material = base_material
+    mesh.visual = visuals
     return mesh
 
 
