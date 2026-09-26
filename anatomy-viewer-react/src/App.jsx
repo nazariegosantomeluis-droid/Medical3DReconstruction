@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import Scene from "./components/Scene";
 import InfoPanel from "./components/InfoPanel";
 import DebugPanel from "./components/DebugPanel";
+import ModelErrorBoundary from "./components/ModelErrorBoundary";
 import estructuras from "./data/estructuras.json";
 import { findStructureByMeshName } from "./utils/matchStructure";
 
@@ -9,7 +10,7 @@ import { findStructureByMeshName } from "./utils/matchStructure";
 // Se arma sobre BASE_URL (en vez de un "/models/..." fijo) para que el
 // modelo se siga encontrando cuando el sitio se publique bajo una subruta,
 // como /anatomy-viewer/, y no solo en la raíz del dominio.
-const MODEL_URL = `${import.meta.env.BASE_URL}models/human_heart.glb`;
+const MODEL_URL = `${import.meta.env.BASE_URL}models/corazon-segmentado.glb`;
 
 export default function App() {
   const [selectedMesh, setSelectedMesh] = useState(null);
@@ -77,12 +78,14 @@ export default function App() {
         </button>
       </header>
 
-      <Scene
-        modelUrl={MODEL_URL}
-        onSelect={handleSelect}
-        onHoverChange={handleHoverChange}
-        onMeshNames={handleMeshNames}
-      />
+      <ModelErrorBoundary fallback={<NoModelFallback />}>
+        <Scene
+          modelUrl={MODEL_URL}
+          onSelect={handleSelect}
+          onHoverChange={handleHoverChange}
+          onMeshNames={handleMeshNames}
+        />
+      </ModelErrorBoundary>
 
       {debugMode ? (
         <DebugPanel
@@ -95,6 +98,22 @@ export default function App() {
       {!debugMode && selectedMesh ? (
         <InfoPanel structure={selectedStructure} meshName={selectedMesh} onClose={handleClose} />
       ) : null}
+    </div>
+  );
+}
+
+function NoModelFallback() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-slate-900 p-6">
+      <div className="max-w-sm rounded-lg border border-slate-700 bg-slate-800/80 p-5 text-center">
+        <p className="text-sm font-semibold text-slate-100">Todavía no hay un modelo 3D cargado</p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-400">
+          Coloca tu archivo <code className="rounded bg-slate-900 px-1 py-0.5">.glb</code> en{" "}
+          <code className="rounded bg-slate-900 px-1 py-0.5">public/models/</code> y actualiza la
+          constante <code className="rounded bg-slate-900 px-1 py-0.5">MODEL_URL</code> en{" "}
+          <code className="rounded bg-slate-900 px-1 py-0.5">App.jsx</code> con su nombre real.
+        </p>
+      </div>
     </div>
   );
 }
