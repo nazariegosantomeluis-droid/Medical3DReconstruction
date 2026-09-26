@@ -4,9 +4,14 @@ import { useGLTF, useCursor } from "@react-three/drei";
 import * as THREE from "three";
 import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
-const HIGHLIGHT_COLOR = new THREE.Color("#38bdf8");
-const HIGHLIGHT_INTENSITY = 0.65;
+// Un resaltado sutil: ahora que la pieza seleccionada ya se distingue por
+// quedar opaca mientras el resto se vuelve transparente, un tinte fuerte
+// solo tapaba el color anatómico real (todo se veía celeste). Esto es un
+// brillo tenue, no una repintada.
+const HIGHLIGHT_COLOR = new THREE.Color("#fbbf24");
+const HIGHLIGHT_INTENSITY = 0.28;
 const CLICK_DRAG_THRESHOLD_PX = 6;
+const GHOST_OPACITY = 0.12;
 const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 
 function findGroupName(object) {
@@ -58,7 +63,7 @@ export default function Model({
   onSelect,
   onHoverChange,
   onMeshNames,
-  forcedHighlightName,
+  selectedMeshName,
   activeGroupNodeName,
   controlsRef,
 }) {
@@ -108,18 +113,36 @@ export default function Model({
     fitCameraToVisible(camera, controlsRef?.current, scene);
   }, [activeGroupNodeName, scene, camera, controlsRef]);
 
-  // El hover manda mientras el puntero está encima; en cuanto se va, cae de
-  // vuelta al resaltado "forzado" (si lo hay) que llega desde un clic en un
-  // chip de "estructuras relacionadas" — así saltar a otra pieza del mapa de
-  // conexiones también se ve, aunque el cursor nunca haya pasado por ahí.
-  const activeHighlight = hoveredName ?? forcedHighlightName ?? null;
+  // Al seleccionar una estructura (panel abierto para ella), el resto de
+  // las piezas del grupo activo se vuelven casi transparentes — así se ve
+  // dónde queda dentro del conjunto en vez de taparla con las demás. Sin
+  // selección, todo vuelve a su opacidad normal.
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (!child.isMesh || !child.material) return;
+      const group = meshGroups.current.get(child.uuid);
+      const inActiveGroup = !group || group === activeGroupNodeName;
+      if (!inActiveGroup) return;
 
+      const isGhosted = Boolean(selectedMeshName) && child.name !== selectedMeshName;
+      child.material.transparent = isGhosted;
+      child.material.opacity = isGhosted ? GHOST_OPACITY : 1;
+      child.material.depthWrite = !isGhosted;
+      child.material.needsUpdate = true;
+    });
+  }, [selectedMeshName, activeGroupNodeName, scene]);
+
+  // Solo el hover en vivo tiñe con emissive — es una señal momentánea
+  // mientras el cursor está encima. La pieza "seleccionada" (panel abierto)
+  // ya se distingue de sobra por quedar opaca mientras el resto se
+  // transparenta arriba; sumarle también un tinte de color persistente
+  // solo tapaba su color anatómico real.
   useEffect(() => {
     scene.traverse((child) => {
       if (!child.isMesh || !child.material?.emissive) return;
       const original = originalEmissive.current.get(child.uuid);
       if (!original) return;
-      if (child.name === activeHighlight) {
+      if (child.name === hoveredName) {
         child.material.emissive.set(HIGHLIGHT_COLOR);
         child.material.emissiveIntensity = HIGHLIGHT_INTENSITY;
       } else {
@@ -127,7 +150,7 @@ export default function Model({
         child.material.emissiveIntensity = original.intensity;
       }
     });
-  }, [activeHighlight, scene]);
+  }, [hoveredName, scene]);
 
   const handlePointerDown = (event) => {
     pointerDownAt.current = { x: event.clientX, y: event.clientY };

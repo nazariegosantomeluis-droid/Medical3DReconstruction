@@ -35,7 +35,6 @@ export default function App() {
   // las dos a la vez.
   const [selectedId, setSelectedId] = useState(null);
   const [unmatchedMesh, setUnmatchedMesh] = useState(null);
-  const [forcedHighlight, setForcedHighlight] = useState(null);
 
   // El .glb trae dos especímenes reales que no comparten coordenadas: el
   // corazón completo (ex-vivo) y las piezas internas del atlas BodyParts3D.
@@ -75,7 +74,6 @@ export default function App() {
         return;
       }
       const structure = findStructureByMeshName(meshName, estructuras);
-      setForcedHighlight(null);
       if (structure) {
         setSelectedId(structure.id);
         setUnmatchedMesh(null);
@@ -90,28 +88,26 @@ export default function App() {
     [debugMode]
   );
 
-  const handleSelectRelated = useCallback(
-    (id) => {
-      setSelectedId(id);
-      setUnmatchedMesh(null);
-      setForcedHighlight(structureIdToMeshName[id] ?? null);
+  const handleSelectRelated = useCallback((id) => {
+    setSelectedId(id);
+    setUnmatchedMesh(null);
 
-      const structure = estructuras.find((s) => s.id === id);
-      if (structure?.grupo) {
-        setActiveGroup(structure.grupo);
-      }
-    },
-    [structureIdToMeshName]
-  );
+    const structure = estructuras.find((s) => s.id === id);
+    if (structure?.grupo) {
+      setActiveGroup(structure.grupo);
+    }
+  }, []);
 
   const handleClose = useCallback(() => {
     setSelectedId(null);
     setUnmatchedMesh(null);
-    setForcedHighlight(null);
   }, []);
 
   const selectedStructure = selectedId ? estructuras.find((s) => s.id === selectedId) ?? null : null;
   const panelOpen = !debugMode && Boolean(selectedStructure || unmatchedMesh);
+  // Nombre de malla real de lo seleccionado, para que Model.jsx sepa cuál
+  // dejar opaca y volver transparentes las demás del grupo activo.
+  const selectedMeshName = selectedId ? structureIdToMeshName[selectedId] ?? null : unmatchedMesh;
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-slate-900">
@@ -155,7 +151,7 @@ export default function App() {
           onSelect={handleSelect}
           onHoverChange={handleHoverChange}
           onMeshNames={handleMeshNames}
-          forcedHighlightName={forcedHighlight}
+          selectedMeshName={selectedMeshName}
           activeGroupNodeName={GROUP_NODE_NAMES[activeGroup]}
         />
       </ModelErrorBoundary>

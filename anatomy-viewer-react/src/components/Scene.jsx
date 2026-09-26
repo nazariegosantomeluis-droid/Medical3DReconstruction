@@ -8,7 +8,7 @@ export default function Scene({
   onSelect,
   onHoverChange,
   onMeshNames,
-  forcedHighlightName,
+  selectedMeshName,
   activeGroupNodeName,
 }) {
   // Model necesita esta referencia para mover la cámara y actualizar el
@@ -18,15 +18,19 @@ export default function Scene({
 
   return (
     <Canvas camera={{ position: [0, 1.2, 3.4], fov: 45 }} shadows>
-      <ambientLight intensity={0.6} />
+      {/* La luz hemisférica (cielo/suelo) rellena las sombras con un rebote
+          de color en vez de negro puro — sin ella, un tejido con roughness
+          moderado bajo solo 2 luces direccionales se ve plano y apagado. */}
+      <hemisphereLight args={["#dfe6f5", "#3a2a26", 0.55]} />
+      <ambientLight intensity={0.35} />
       <directionalLight
         position={[3, 5, 2]}
-        intensity={1.2}
+        intensity={1.3}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
-      <directionalLight position={[-4, -2, -3]} intensity={0.35} />
+      <directionalLight position={[-4, -2, -3]} intensity={0.5} />
 
       <Suspense fallback={null}>
         <Model
@@ -34,7 +38,7 @@ export default function Scene({
           onSelect={onSelect}
           onHoverChange={onHoverChange}
           onMeshNames={onMeshNames}
-          forcedHighlightName={forcedHighlightName}
+          selectedMeshName={selectedMeshName}
           activeGroupNodeName={activeGroupNodeName}
           controlsRef={controlsRef}
         />

@@ -24,7 +24,6 @@ import glob
 import os
 import re
 
-import numpy as np
 import trimesh
 
 MANIFEST = "MANIFEST.csv"
@@ -74,27 +73,39 @@ HUB_ONLY = ["corazon", "pericardio", "nariz", "bronquiolos", "alveolos"]
 
 # Color base por estructura (RGBA 0-255) solo para que el modelo se lea
 # visualmente sin depender de materiales del .obj original (BodyParts3D no
-# trae color propio). Aproximado, no clinico.
+# trae color propio). Convencion confirmada en modelos anatomicos 3D reales:
+# lado izquierdo/oxigenado = rojos y rosas, lado derecho/desoxigenado =
+# azules y morados, arterias = rojo, venas = azul, valvulas = marfil
+# (tejido membranoso), via aerea = amarillo-tostado (cartilago), pulmon =
+# rosa-gris (tejido sano). Aproximado, no clinico.
 COLORS = {
-    "venas_cavas": (90, 110, 190, 255),
-    "aorta": (200, 60, 70, 255),
-    "arterias_pulmonares": (150, 70, 190, 255),
-    "venas_pulmonares": (90, 140, 200, 255),
-    "auricula_derecha": (190, 110, 120, 255),
-    "auricula_izquierda": (190, 90, 100, 255),
-    "ventriculo_derecho": (170, 70, 80, 255),
-    "ventriculo_izquierdo": (150, 40, 50, 255),
-    "valvula_aortica": (230, 210, 160, 255),
-    "valvula_pulmonar": (220, 200, 150, 255),
-    "valvula_bicuspide": (225, 205, 155, 255),
-    "valvula_tricuspide": (235, 215, 165, 255),
-    "arterias_coronarias": (210, 40, 50, 255),
-    "venas_coronarias": (60, 90, 180, 255),
-    "laringe": (225, 220, 210, 255),
-    "traquea": (215, 210, 200, 255),
-    "bronquios": (200, 190, 180, 255),
-    "pulmones": (225, 190, 195, 255),
+    "venas_cavas": (120, 156, 190, 255),        # sistemica desoxigenada -> azul claro
+    "aorta": (176, 48, 42, 255),                 # arterial, oxigenada -> rojo
+    "arterias_pulmonares": (52, 74, 110, 255),   # desoxigenada -> azul oscuro
+    "venas_pulmonares": (222, 140, 148, 255),    # oxigenada -> rosa
+    "auricula_derecha": (135, 172, 205, 255),    # lado derecho -> azul claro
+    "auricula_izquierda": (216, 132, 140, 255),  # lado izquierdo -> rosa
+    "ventriculo_derecho": (124, 100, 148, 255),  # lado derecho -> morado
+    "ventriculo_izquierdo": (208, 116, 100, 255),# lado izquierdo -> salmon
+    "valvula_aortica": (232, 222, 200, 255),     # tejido membranoso -> marfil
+    "valvula_pulmonar": (232, 222, 200, 255),
+    "valvula_bicuspide": (232, 222, 200, 255),
+    "valvula_tricuspide": (232, 222, 200, 255),
+    "arterias_coronarias": (176, 64, 56, 255),   # arteria -> rojo
+    "venas_coronarias": (72, 92, 122, 255),      # vena -> azul oscuro
+    "laringe": (206, 186, 140, 255),             # cartilago -> amarillo-tostado
+    "traquea": (208, 182, 120, 255),
+    "bronquios": (196, 172, 110, 255),
+    "pulmones": (206, 164, 158, 255),            # tejido sano -> rosa-gris
 }
+
+# metallicFactor=0 es lo importante: sin esto, un mesh con solo color por
+# vertice (sin material PBR explicito) exporta con metallicFactor=1 por
+# defecto (el default del spec gltf), que bajo luces simples (sin mapa de
+# entorno) se ve casi negro sin importar el color. roughness moderado da
+# un aspecto organico, ni espejo ni tiza.
+MATERIAL_METALLIC = 0.0
+MATERIAL_ROUGHNESS = 0.55
 
 
 def load_manifest():
@@ -166,8 +177,13 @@ def main():
         merged = trimesh.util.concatenate(pieces) if len(pieces) > 1 else pieces[0]
 
         color = COLORS.get(sid, (200, 200, 200, 255))
-        merged.visual = trimesh.visual.ColorVisuals(
-            merged, vertex_colors=np.tile(color, (merged.vertices.shape[0], 1))
+        merged.visual = trimesh.visual.TextureVisuals(
+            material=trimesh.visual.material.PBRMaterial(
+                baseColorFactor=[c / 255.0 for c in color],
+                metallicFactor=MATERIAL_METALLIC,
+                roughnessFactor=MATERIAL_ROUGHNESS,
+                doubleSided=True,
+            )
         )
 
         scene.add_geometry(merged, node_name=sid, geom_name=sid)

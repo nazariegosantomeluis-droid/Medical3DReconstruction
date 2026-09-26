@@ -24,7 +24,9 @@ OUT_PATH = ATLAS_PATH  # overwrite in place
 GROUP_ATLAS = "grupo_atlas_bodyparts3d"
 GROUP_REAL = "grupo_especimen_real"
 
-HEART_COLOR = (192, 57, 43, 255)  # #c0392b, el mismo rojo del visor original
+HEART_COLOR = (168, 66, 58, 255)  # musculo cardiaco real, no el rojo de acento de la UI
+MATERIAL_METALLIC = 0.0
+MATERIAL_ROUGHNESS = 0.55
 
 
 def decode_heart_mesh():
@@ -35,8 +37,16 @@ def decode_heart_mesh():
     indices = np.frombuffer(base64.b64decode(mesh_data["indices_b64"]), dtype=np.uint32).reshape(-1, 3)
 
     mesh = trimesh.Trimesh(vertices=positions, faces=indices, process=False)
-    mesh.visual = trimesh.visual.ColorVisuals(
-        mesh, vertex_colors=np.tile(HEART_COLOR, (mesh.vertices.shape[0], 1))
+    # material PBR explicito, no color por vertice: sin esto el gltf exporta
+    # con metallicFactor=1 por defecto, que se ve casi negro sin mapa de
+    # entorno (ver build_corazon_segmentado.py para la explicacion completa).
+    mesh.visual = trimesh.visual.TextureVisuals(
+        material=trimesh.visual.material.PBRMaterial(
+            baseColorFactor=[c / 255.0 for c in HEART_COLOR],
+            metallicFactor=MATERIAL_METALLIC,
+            roughnessFactor=MATERIAL_ROUGHNESS,
+            doubleSided=True,
+        )
     )
     return mesh
 

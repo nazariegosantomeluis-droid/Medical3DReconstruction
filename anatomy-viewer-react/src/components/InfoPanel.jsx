@@ -52,9 +52,7 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
             </p>
           ) : null}
 
-          <Seccion titulo="Lo que sabía previamente" texto={structure.conocimientoPrevio} />
-          <Seccion titulo="Lo que sé después de estudiar" texto={structure.conocimientoNuevo} />
-          <Seccion titulo="Aplicación clínica" texto={structure.aplicacionClinica} />
+          <CuadroDeConocimiento structure={structure} />
 
           <ConexionesClinicas
             structure={structure}
@@ -67,10 +65,28 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
   );
 }
 
+// Su propio apartado, con nombre y borde propios — no son solo párrafos
+// sueltos debajo del título de la estructura, son el "Cuadro de
+// Conocimiento": previo / nuevo / aplicación clínica, como bloque.
+function CuadroDeConocimiento({ structure }) {
+  return (
+    <div className="rounded-lg border border-slate-200 bg-slate-50/60 p-4">
+      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+        Cuadro de Conocimiento
+      </h3>
+      <div className="space-y-4">
+        <Seccion titulo="Lo que sabía previamente" texto={structure.conocimientoPrevio} />
+        <Seccion titulo="Lo que sé después de estudiar" texto={structure.conocimientoNuevo} />
+        <Seccion titulo="Aplicación clínica" texto={structure.aplicacionClinica} />
+      </div>
+    </div>
+  );
+}
+
 function Seccion({ titulo, texto }) {
   return (
     <div>
-      <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-sky-600">{titulo}</h3>
+      <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-sky-600">{titulo}</h4>
       <p className="text-sm leading-relaxed text-slate-700">
         {texto || <span className="italic text-slate-400">Pendiente de completar.</span>}
       </p>
