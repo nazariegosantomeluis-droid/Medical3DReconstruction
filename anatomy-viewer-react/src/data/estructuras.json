@@ -14,9 +14,53 @@
       "ventriculo_izquierdo",
       "pericardio"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es el órgano que bombea la sangre a todo el cuerpo, que se encuentra en el pecho un poco hacia la izquierda y que tiene cuatro cavidades.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y morfología",
+        "texto": "Se localiza en el mediastino medio, dentro del pericardio, con aproximadamente dos tercios de su masa a la izquierda de la línea media. Tiene forma de cono truncado. La base es posterior y está formada principalmente por la aurícula izquierda, motivo por el cual se relaciona con el esófago. El vértice (ápex) se dirige hacia adelante, abajo y a la izquierda, y se localiza en el 5.º espacio intercostal izquierdo sobre la línea medioclavicular, sitio donde se palpa el choque de la punta. La cara esternocostal corresponde sobre todo al ventrículo derecho y la cara diafragmática (inferior) al ventrículo izquierdo. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Capas de la pared",
+        "texto": "De la más interna a la más externa: endocardio, miocardio y epicardio. El endocardio es un endotelio con tejido conectivo subendotelial; es la capa que está en contacto con la sangre y recubre las válvulas. El miocardio es la capa muscular y la más gruesa. El epicardio corresponde a la lámina visceral del pericardio seroso y contiene grasa y los vasos coronarios. El pericardio no forma parte de la pared, sino que es el saco que envuelve al corazón. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Músculo cardiaco",
+        "texto": "Es músculo estriado, igual que el esquelético, pero de control involuntario. Sus fibras se ramifican y se unen mediante discos intercalares, que contienen uniones comunicantes (gap) de muy baja resistencia eléctrica. Gracias a ellas los iones pasan con facilidad de una célula a otra y el miocardio funciona como un sincitio: el potencial de acción se propaga de célula a célula sin que el sistema de conducción tenga que llegar a cada miocito. Existen dos sincitios, auricular y ventricular, separados por el tejido fibroso que rodea los orificios valvulares; normalmente la única vía de paso entre ambos es el haz AV. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Miofilamentos",
+        "texto": "Las miofibrillas están formadas por sarcómeros, que se extienden de una línea Z a la siguiente. Las proteínas contráctiles son la actina (filamento delgado) y la miosina (filamento grueso, cuyas cabezas tienen actividad ATPasa). El filamento delgado también contiene tropomiosina y troponina (I, C y T), que regulan la interacción entre ambos. La α-actinina es una proteína estructural de la línea Z y la tubulina forma microtúbulos, por lo que ninguna es contráctil. Cuando el Ca2+ se une a la troponina C, la tropomiosina se desplaza, quedan expuestos los sitios activos de la actina, las cabezas de miosina se unen a ellos y, con la energía del ATP, producen el deslizamiento de los filamentos y el acortamiento del sarcómero. (Guyton, caps. 6 y 9)"
+      },
+      {
+        "titulo": "Potencial de membrana en reposo",
+        "texto": "En el miocito ventricular es de -85 a -90 mV. Se debe principalmente al gradiente de concentración de K+ (alto en el interior y bajo en el exterior, mantenido por la bomba Na+/K+-ATPasa, que saca 3 Na+ por cada 2 K+ que introduce) y a la alta permeabilidad de la membrana al K+ a través de los canales de fuga de potasio. Al salir el K+ a favor de su gradiente quedan cargas negativas en el interior, y el potencial se aproxima al potencial de equilibrio del K+ (cerca de -94 mV según la ecuación de Nernst). La contribución del Na+ es pequeña, porque en reposo la permeabilidad al K+ es unas 100 veces mayor. (Guyton, caps. 4 y 5)"
+      },
+      {
+        "titulo": "Potencial de acción del miocito",
+        "texto": "Fase 0 (despolarización): al alcanzar el umbral se abren los canales rápidos de Na+ y el potencial sube hasta unos +20 mV. Fase 1: repolarización inicial breve por salida de K+. Fase 2 (meseta, de unos 0,2 s): se abren los canales lentos de Ca2+ tipo L y disminuye la permeabilidad al K+. Fase 3: se cierran los canales de Ca2+, aumenta la salida de K+ y la célula se repolariza. Fase 4: potencial de reposo. Por la meseta, el potencial cardiaco dura de 3 a 15 veces más que el del músculo esquelético y el periodo refractario es largo (0,25 a 0,30 s en el ventrículo y unos 0,15 s en la aurícula), lo que impide la contracción tetánica. (Guyton, caps. 9 y 10)"
+      },
+      {
+        "titulo": "Acoplamiento excitación-contracción",
+        "texto": "La entrada de Na+ en la fase 0 no activa directamente a los sarcómeros. El potencial de acción se propaga por los túbulos T y, durante la meseta, entra Ca2+ desde el líquido extracelular por los canales tipo L. Este Ca2+ activa los receptores de rianodina del retículo sarcoplásmico, que liberan una cantidad mucho mayor de Ca2+ al citoplasma (liberación de calcio inducida por calcio). Ese calcio se une a la troponina C y desencadena la contracción. En la relajación, el Ca2+ regresa al retículo por la bomba SERCA y sale de la célula por el intercambiador Na+/Ca2+. Por esta razón la fuerza de contracción del corazón depende en gran medida del Ca2+ extracelular. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Ciclo cardiaco y regulación",
+        "texto": "A una frecuencia de 72 lpm cada ciclo dura alrededor de 0,83 s. Valores normales: volumen telediastólico 110-120 mL, volumen sistólico 70 mL, volumen telesistólico 40-50 mL y fracción de eyección cercana al 60 %. El gasto cardiaco en reposo es de unos 5 L/min y en ejercicio intenso puede aumentar de 4 a 7 veces. La regulación intrínseca se explica por el mecanismo de Frank-Starling: mientras más se distiende el ventrículo durante el llenado, mayor es su fuerza de contracción. La regulación extrínseca depende del sistema nervioso autónomo: el simpático puede elevar la frecuencia a 180-200 lpm y duplicar la fuerza de contracción, mientras que el vago la disminuye. (Guyton, caps. 9 y 20)"
+      },
+      {
+        "titulo": "Efecto de iones y temperatura",
+        "texto": "El exceso de K+ extracelular dilata y debilita al corazón, enlentece la frecuencia y puede bloquear la conducción AV. El exceso de Ca2+ produce contracciones espásticas y su déficit, flacidez. La fiebre aumenta la frecuencia cardiaca y la hipotermia la disminuye. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Inervación y dolor referido",
+        "texto": "El plexo cardiaco recibe fibras simpáticas de los segmentos T1 a T4-T5 y fibras parasimpáticas del nervio vago. Las fibras aferentes del dolor acompañan a las simpáticas hasta los segmentos T1-T4, que también reciben información del brazo y de la pared torácica; por eso el dolor de la isquemia miocárdica se percibe en el pecho y en el brazo izquierdo. (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Insuficiencia cardiaca",
+      "texto": "Es el síndrome en el que el corazón no logra bombear la sangre que el organismo necesita. Se manifiesta con disnea de esfuerzo, ortopnea, disnea paroxística nocturna, fatiga y edema. La Sociedad Europea de Cardiología la clasifica según la fracción de eyección: reducida (40 % o menos), levemente reducida (41 a 49 %) y preservada (50 % o más). El diagnóstico se apoya en los péptidos natriuréticos (BNP o NT-proBNP) y en el ecocardiograma. En la forma con fracción de eyección reducida el tratamiento de base incluye cuatro grupos de fármacos: IECA o ARNI, betabloqueador, antagonista de mineralocorticoides e inhibidor de SGLT2. Desde el punto de vista fisiológico, la disminución del gasto activa al simpático y al sistema renina-angiotensina-aldosterona, que retienen sal y agua y explican el edema. (Guyton, cap. 22; Guía ESC 2021 de insuficiencia cardiaca)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "especimen_real",
@@ -36,9 +80,33 @@
       "auricula_derecha",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que son venas grandes que regresan al corazón la sangre sin oxígeno del cuerpo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Vena cava superior",
+        "texto": "Drena todas las estructuras situadas por encima del diafragma, excepto los pulmones y el corazón. Se forma por la unión de las venas braquiocefálicas derecha e izquierda a nivel del borde inferior del 1.er cartílago costal derecho y desemboca en la aurícula derecha a nivel del 3.er cartílago costal. Se ubica en el lado derecho del mediastino superior, anterolateral a la tráquea y posterolateral a la aorta ascendente. Su mitad inferior se encuentra en el mediastino medio y forma el límite posterior del seno transverso del pericardio. La vena ácigos se arquea sobre la raíz del pulmón derecho y desemboca en ella. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Vena cava inferior",
+        "texto": "Es la vena de mayor calibre del cuerpo. Se forma por delante de L5 por la unión de las venas ilíacas comunes, asciende a la derecha de la aorta y recibe, entre otras, las venas renales y hepáticas. Atraviesa el diafragma por el orificio de la vena cava, en el centro tendinoso, a nivel de T8, y tras un trayecto torácico muy corto desemboca en la porción inferior de la aurícula derecha. En su desembocadura presenta la válvula de la vena cava inferior, que es rudimentaria en el adulto y en el feto dirige la sangre hacia el agujero oval. (Moore, caps. 4 y 5)"
+      },
+      {
+        "titulo": "Sistema ácigos",
+        "texto": "El sistema venoso ácigos comunica el territorio de la VCS con el de la VCI. Cuando una de las cavas se obstruye, esta vía funciona como circulación colateral para que la sangre regrese al corazón. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Fisiología del retorno venoso",
+        "texto": "Las venas son vasos de capacitancia: alrededor del 64 % del volumen sanguíneo se encuentra en las venas sistémicas, y la estimulación simpática puede contraerlas para aumentar el retorno al corazón, por ejemplo durante una hemorragia. La presión de la aurícula derecha (presión venosa central) es normalmente cercana a 0 mmHg. El retorno venoso depende de la diferencia entre la presión media de llenado sistémico (unos 7 mmHg) y la presión de la aurícula derecha; si esta última aumenta, el retorno disminuye. Durante la inspiración la presión intratorácica baja y el retorno venoso aumenta (bomba respiratoria). (Guyton, caps. 14, 15 y 20)"
+      },
+      {
+        "titulo": "Pulso venoso",
+        "texto": "Las variaciones de presión de la aurícula derecha se transmiten a las cavas y a la vena yugular: onda a (contracción auricular), onda c (abombamiento de la válvula tricúspide hacia la aurícula al inicio de la sístole) y onda v (llenado auricular con la tricúspide cerrada). (Guyton, cap. 9)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Síndrome de vena cava superior y catéter venoso central",
+      "texto": "La obstrucción de la VCS, generalmente por cáncer de pulmón o linfoma, impide el retorno venoso de la mitad superior del cuerpo. El paciente presenta edema de cara, cuello y miembros superiores, cianosis facial, venas distendidas en cuello y tórax por la circulación colateral (en parte a través del sistema ácigos) y disnea. Además, esta región tiene importancia práctica porque la punta de un catéter venoso central se coloca en la porción distal de la VCS o en la unión con la aurícula derecha, para medir la presión venosa central y administrar fármacos. (Moore, cap. 4; Guyton, cap. 15)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -55,9 +123,37 @@
       "valvula_aortica",
       "arterias_coronarias"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la arteria más grande del cuerpo y que sale del corazón con sangre oxigenada.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Aorta ascendente",
+        "texto": "Mide alrededor de 5 cm, inicia en el orificio aórtico del ventrículo izquierdo y es intrapericárdica. En su raíz se encuentran los senos aórticos (de Valsalva); del seno derecho nace la arteria coronaria derecha y del izquierdo la coronaria izquierda. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Arco aórtico",
+        "texto": "Comienza por detrás de la 2.ª articulación esternocostal derecha, a nivel del ángulo esternal; se curva hacia arriba, atrás y a la izquierda y termina a la izquierda de T4. Sus ramas, en orden, son el tronco braquiocefálico, la arteria carótida común izquierda y la arteria subclavia izquierda. El ligamento arterioso lo une con el tronco pulmonar y el nervio laríngeo recurrente izquierdo pasa por debajo de él. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Aorta descendente",
+        "texto": "La porción torácica recorre el mediastino posterior y da origen a las arterias bronquiales, esofágicas, intercostales posteriores (3.ª a 11.ª) y subcostales. Atraviesa el hiato aórtico del diafragma a nivel de T12 y continúa como aorta abdominal, de la que salen el tronco celíaco, la mesentérica superior, las renales, las gonadales y la mesentérica inferior. Se bifurca en las arterias ilíacas comunes a nivel de L4. (Moore, caps. 4 y 5)"
+      },
+      {
+        "titulo": "Histología",
+        "texto": "Es una arteria elástica. Su túnica íntima es de endotelio; la túnica media está formada por numerosas láminas elásticas fenestradas alternadas con músculo liso; la adventicia contiene los vasa vasorum, que irrigan la parte externa de la pared. (Ross y Pawlina, cap. 13)"
+      },
+      {
+        "titulo": "Función de la pared elástica",
+        "texto": "Durante la sístole la aorta se distiende y almacena energía; en la diástole recupera su forma y continúa impulsando la sangre, de modo que el flujo hacia los tejidos es continuo a pesar de que el corazón expulsa la sangre de manera intermitente. La presión normal es de 120/80 mmHg, con una presión de pulso de 40 mmHg. La onda de pulso viaja por la aorta a 3-5 m/s, mucho más rápido que la propia sangre. El cierre de la válvula aórtica produce la incisura en la curva de presión aórtica. Con el envejecimiento la aorta se vuelve más rígida y la presión de pulso aumenta. (Guyton, cap. 15)"
+      },
+      {
+        "titulo": "Barorreceptores",
+        "texto": "En la pared del arco aórtico existen receptores de estiramiento cuyas señales viajan por el nervio vago hacia el núcleo del tracto solitario, en el bulbo raquídeo. Ante un aumento de la presión arterial se inhibe la actividad simpática y se estimula la vagal, lo que reduce la frecuencia cardiaca y produce vasodilatación. Es el mecanismo más rápido de control de la presión arterial. (Guyton, cap. 18)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Disección aórtica",
+      "texto": "Se produce por un desgarro de la íntima que permite que la sangre penetre entre las capas de la pared y forme una falsa luz. El dolor es súbito, intenso, de tipo desgarrante e irradiado a la espalda; puede haber una diferencia de presión mayor de 20 mmHg entre ambos brazos, ausencia de pulsos e insuficiencia aórtica aguda. Según la clasificación de Stanford, el tipo A afecta la aorta ascendente y requiere cirugía urgente, mientras que el tipo B se limita a la aorta descendente y suele tratarse con fármacos o endoprótesis. El principal factor de riesgo es la hipertensión arterial; también se asocia con síndrome de Marfan y válvula aórtica bicúspide. El diagnóstico se confirma con angiotomografía. (Moore, cap. 4; Guía ACC/AHA 2022 de enfermedad aórtica)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -75,9 +171,41 @@
       "valvula_pulmonar",
       "pulmones"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Pensaba que todas las arterias llevaban sangre oxigenada; sabía que algo salía del corazón hacia los pulmones.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Tronco pulmonar",
+        "texto": "Se origina en el cono arterioso del ventrículo derecho, que es la cámara que expulsa la sangre hacia la circulación pulmonar, después de la válvula pulmonar. Mide alrededor de 5 cm, es intrapericárdico y asciende a la izquierda de la aorta ascendente. En la concavidad del arco aórtico, a nivel del ángulo esternal (T4-T5), se divide en las arterias pulmonares derecha e izquierda. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Arterias pulmonares derecha e izquierda",
+        "texto": "La derecha es más larga; pasa por debajo del arco aórtico y por detrás de la aorta ascendente y de la VCS hasta llegar al hilio derecho. La izquierda es más corta y, en el hilio, se sitúa por encima del bronquio principal izquierdo. Dentro del pulmón cada arteria acompaña a su bronquio, de modo que hay una arteria para cada segmento broncopulmonar; las venas, en cambio, corren entre los segmentos. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Contenido",
+        "texto": "Transportan sangre desoxigenada del ventrículo derecho a los capilares alveolares. Se les considera arterias porque salen del corazón, independientemente del contenido de oxígeno. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Presiones y características de la pared",
+        "texto": "La circulación pulmonar es de baja presión: sistólica de 25 mmHg, diastólica de 8 y media de 15; la presión capilar pulmonar es de unos 7 mmHg. La pared del tronco pulmonar tiene aproximadamente un tercio del grosor de la de la aorta, y las arterias pulmonares son cortas, de gran diámetro y muy distensibles (alrededor de 7 mL/mmHg). En los pulmones hay unos 450 mL de sangre, cerca del 9 % del volumen total. (Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Respuesta al ejercicio",
+        "texto": "Durante el ejercicio el flujo pulmonar puede aumentar de 4 a 7 veces con un incremento mínimo de la presión arterial pulmonar, porque se abren capilares que estaban cerrados y los capilares ya abiertos se distienden. Esto evita que la presión capilar suba lo suficiente para producir edema. (Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Vasoconstricción hipóxica",
+        "texto": "A diferencia de la circulación sistémica, cuando la PO2 alveolar disminuye por debajo del 70 % de lo normal (unos 73 mmHg), las arterias adyacentes se contraen y la sangre se redistribuye hacia alveolos mejor ventilados. Además, el flujo varía con la gravedad, lo que se describe con las zonas 1, 2 y 3 de West. (Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Origen embriológico",
+        "texto": "En la vida fetal el conducto arterioso desvía la sangre del tronco pulmonar hacia la aorta, ya que los pulmones no participan en el intercambio gaseoso. Después del nacimiento se cierra y se transforma en el ligamento arterioso. (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Tromboembolia pulmonar (TEP)",
+      "texto": "Un trombo, generalmente procedente de las venas profundas de los miembros inferiores, viaja por la VCI, atraviesa la aurícula y el ventrículo derechos y se aloja en las arterias pulmonares. El cuadro típico incluye disnea de inicio súbito, dolor pleurítico, taquicardia e hipoxemia; si la obstrucción es masiva se produce falla aguda del ventrículo derecho, choque y muerte. La guía de la ESC recomienda estimar la probabilidad clínica con las escalas de Wells o Ginebra, solicitar dímero D cuando la probabilidad no es alta y confirmar el diagnóstico con angiotomografía pulmonar. En relación con esta circulación, la hipertensión pulmonar se define actualmente como una presión arterial pulmonar media mayor de 20 mmHg medida por cateterismo. (Guyton, cap. 39; Guía ESC 2019 de TEP; Guía ESC/ERS 2022 de hipertensión pulmonar)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -94,9 +222,33 @@
       "auricula_izquierda",
       "pulmones"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "No las conocía bien; creía que todas las venas llevaban sangre sin oxígeno.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Anatomía",
+        "texto": "Normalmente son cuatro, dos por cada pulmón (superior e inferior); la vena del lóbulo medio drena en la superior derecha. Corren entre los segmentos broncopulmonares, salen por el hilio y desembocan en la pared posterior de la aurícula izquierda. No poseen válvulas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Contenido",
+        "texto": "Transportan sangre oxigenada: al salir del capilar pulmonar la PO2 es de unos 104 mmHg. Antes de llegar a la aorta se mezcla con una pequeña cantidad de sangre de la circulación bronquial que no se oxigenó (alrededor del 2 % del gasto cardiaco, el llamado cortocircuito fisiológico), por lo que la PO2 de la sangre arterial sistémica es de unos 95 mmHg. (Guyton, caps. 40 y 41)"
+      },
+      {
+        "titulo": "Presiones",
+        "texto": "En las venas pulmonares y la aurícula izquierda la presión media es de aproximadamente 2 mmHg. La presión de enclavamiento pulmonar, que se obtiene al avanzar un catéter hasta una rama pequeña de la arteria pulmonar, es de unos 5 mmHg y se utiliza para estimar la presión de la aurícula izquierda. (Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Margen de seguridad contra el edema",
+        "texto": "Para que se forme edema pulmonar, la presión capilar debe superar unos 28 mmHg, que corresponde a la presión coloidosmótica del plasma. Como la presión normal es de 7 mmHg, existe un margen de seguridad agudo de unos 21 mmHg. En la hipertensión venosa pulmonar crónica los linfáticos se adaptan y el pulmón puede tolerar presiones de 40 a 45 mmHg. (Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Manguitos musculares",
+        "texto": "El miocardio auricular se extiende algunos centímetros dentro de las venas pulmonares, y en esta zona pueden originarse descargas eléctricas anormales. (Haïssaguerre et al., NEJM 1998)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Fibrilación auricular y edema pulmonar",
+      "texto": "En 1998, Haïssaguerre y colaboradores demostraron que la mayoría de los episodios de fibrilación auricular paroxística se inician en focos ectópicos localizados en las venas pulmonares. Por ello, la ablación con catéter tiene como objetivo aislar eléctricamente las venas pulmonares, procedimiento que se realiza dentro de la aurícula izquierda y que la guía europea de 2024 recomienda en pacientes seleccionados. Por otra parte, cuando falla el ventrículo izquierdo o existe estenosis mitral, la presión en las venas pulmonares aumenta, el líquido pasa al intersticio y a los alveolos, y se produce edema pulmonar agudo con disnea y estertores. (Haïssaguerre et al., NEJM 1998; Guía ESC 2024 de fibrilación auricular; Guyton, cap. 39)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -114,9 +266,29 @@
       "valvula_tricuspide",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es una de las cámaras de arriba del corazón y que recibe la sangre del cuerpo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Anatomía",
+        "texto": "Forma el borde derecho del corazón y recibe la VCS, la VCI y el seno coronario, que trae la sangre venosa del propio corazón. En su interior se distinguen una porción posterior lisa (seno de las venas cavas) y una porción anterior rugosa con músculos pectíneos, que incluye la orejuela derecha. Ambas están separadas por la cresta terminal, que por fuera corresponde al surco terminal. El orificio del seno coronario se ubica entre el orificio auriculoventricular derecho y el de la VCI. En el tabique interauricular se encuentra la fosa oval, vestigio del agujero oval fetal. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Nodo sinusal",
+        "texto": "Se localiza en la unión de la VCS con la aurícula derecha, cerca del extremo superior del surco terminal y por debajo del epicardio. Mide aproximadamente 3 mm de ancho, 15 mm de largo y 1 mm de grosor. Sus fibras casi no tienen filamentos contráctiles y son más delgadas (3-5 µm) que las fibras auriculares (10-15 µm). Está irrigado por la rama del nodo sinoauricular, que en cerca del 60 % de las personas procede de la coronaria derecha. (Moore, cap. 4; Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Presiones y función de bomba",
+        "texto": "La presión media es cercana a 0 mmHg y durante la contracción auricular aumenta de 4 a 6 mmHg (onda a). Las aurículas funcionan como bombas de cebado: alrededor del 80 % de la sangre pasa directamente al ventrículo antes de la contracción auricular, que aporta el 20 % restante. Por ello, la pérdida de la contracción auricular, como ocurre en la fibrilación auricular, suele pasar inadvertida en reposo, pero limita la capacidad durante el ejercicio. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Función endocrina",
+        "texto": "Cuando la pared auricular se distiende por un aumento del volumen sanguíneo, libera péptido natriurético auricular, que incrementa la excreción renal de sodio y agua. (Guyton, cap. 30)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Comunicación interauricular y foramen oval permeable",
+      "texto": "Cuando el tabique interauricular no se cierra por completo (la forma más frecuente es la comunicación interauricular tipo ostium secundum, en la región de la fosa oval), la sangre pasa de la aurícula izquierda a la derecha porque la presión es mayor del lado izquierdo. Esto sobrecarga las cavidades derechas y aumenta el flujo pulmonar. A la auscultación se encuentra un soplo sistólico en foco pulmonar, debido al hiperflujo, y un desdoblamiento amplio y fijo del segundo ruido. El foramen oval permeable está presente en aproximadamente uno de cada cuatro adultos y puede permitir una embolia paradójica, en la que un trombo venoso pasa a la circulación sistémica y provoca un infarto cerebral. El cierre puede realizarse con un dispositivo percutáneo o mediante cirugía. (Moore, cap. 4; Guyton, cap. 23; Guía ESC 2020 de cardiopatías congénitas del adulto)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -134,9 +306,25 @@
       "valvula_bicuspide",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la cámara superior izquierda y que recibe la sangre que viene de los pulmones.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Anatomía",
+        "texto": "Forma la mayor parte de la base del corazón, es decir, su cara posterior. Recibe las cuatro venas pulmonares en su pared, que es mayormente lisa. La orejuela izquierda es tubular, contiene músculos pectíneos y forma la parte superior del borde izquierdo, por encima del tronco pulmonar. Su pared es ligeramente más gruesa que la de la aurícula derecha. Se comunica con el ventrículo izquierdo a través del orificio mitral. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Relación con el esófago",
+        "texto": "La pared posterior de la aurícula izquierda está separada del esófago únicamente por el pericardio, a nivel del seno oblicuo. Esta relación explica tres situaciones clínicas: la excelente visualización de la aurícula y su orejuela en el ecocardiograma transesofágico, la compresión esofágica cuando la aurícula se dilata (por ejemplo en la estenosis mitral) y la posibilidad de formar una fístula atrioesofágica si la pared posterior se perfora durante un procedimiento de ablación. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Presiones y funciones",
+        "texto": "La presión media es de unos 2 mmHg y durante la contracción auricular se eleva de 7 a 8 mmHg (onda a). Cumple tres funciones: reservorio, al almacenar sangre mientras el ventrículo está en sístole; conducto, al permitir el paso de sangre al inicio de la diástole; y bomba, al completar el llenado ventricular al final de la diástole. (Guyton, caps. 9 y 39)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Ablación de fibrilación auricular, fístula atrioesofágica y trombos en la orejuela",
+      "texto": "En la ablación de fibrilación auricular el catéter se introduce por la vena femoral, asciende por la VCI hasta la aurícula derecha y pasa a la aurícula izquierda mediante una punción del tabique interauricular (punción transeptal). Ahí se aplica energía de radiofrecuencia (calor) o crioenergía alrededor de las venas pulmonares. Debido a que la pared posterior de la aurícula izquierda está en contacto con el esófago, una complicación poco frecuente pero muy grave es la fístula atrioesofágica, razón por la cual se monitoriza la temperatura esofágica durante el procedimiento. Asimismo, en la fibrilación auricular la sangre se estanca en la orejuela izquierda, donde se forma alrededor del 90 % de los trombos en la fibrilación no valvular; estos pueden embolizar al cerebro, por lo que se calcula el riesgo con la escala CHA2DS2-VA y se indica anticoagulación. (Moore, cap. 4; Guía ESC 2024 de fibrilación auricular; Blackshear y Odell, 1996)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -155,9 +343,25 @@
       "arterias_pulmonares",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la cámara inferior derecha y que manda la sangre a los pulmones.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Anatomía",
+        "texto": "Forma la mayor parte de la cara anterior del corazón, una pequeña porción de la cara diafragmática y casi todo el borde inferior. Es la cavidad que expulsa la sangre hacia la circulación pulmonar a través del tronco pulmonar. La cresta supraventricular separa la porción de entrada, con trabéculas carnosas, de la porción de salida lisa, denominada cono arterioso o infundíbulo. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Músculos papilares y trabécula septomarginal",
+        "texto": "Posee tres músculos papilares (anterior, que es el mayor, posterior y septal), unidos por cuerdas tendinosas a las valvas de la tricúspide. La trabécula septomarginal (banda moderadora) se extiende del tabique interventricular a la base del músculo papilar anterior y conduce la rama derecha del haz AV, lo que permite que dicho músculo se contraiga en el momento adecuado. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Forma, mecánica y presiones",
+        "texto": "En un corte transversal tiene forma de media luna que rodea al ventrículo izquierdo. Su pared es más delgada y su contracción, semejante a la de un fuelle, permite mover grandes volúmenes con baja presión. La presión sistólica es de unos 25 mmHg y la diastólica de 0 a 1 mmHg. Expulsa el mismo volumen que el ventrículo izquierdo, pero contra una resistencia mucho menor. Ambos ventrículos comparten el tabique, por lo que la dilatación de uno puede alterar el funcionamiento del otro. (Moore, cap. 4; Guyton, caps. 9 y 39)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Cor pulmonale e infarto del ventrículo derecho",
+      "texto": "Cuando el ventrículo derecho falla a causa de hipertensión pulmonar (por ejemplo, en la EPOC con hipoxia crónica que contrae las arterias pulmonares), la sangre se acumula en el sistema venoso sistémico y aparecen ingurgitación yugular, hepatomegalia congestiva, ascitis y edema de miembros inferiores. En un infarto inferior por oclusión proximal de la coronaria derecha también puede afectarse el ventrículo derecho; en ese caso se registran derivaciones derechas (V4R) y se evitan los nitratos, ya que el paciente depende de la precarga y puede presentar hipotensión grave. (Guyton, cap. 22; Guía ESC 2023 de síndromes coronarios agudos)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -176,12 +380,78 @@
       "aorta",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la cámara más fuerte del corazón y que manda la sangre a todo el cuerpo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Anatomía",
+        "texto": "Forma el vértice, casi toda la cara y el borde izquierdos y la mayor parte de la cara diafragmática. Su pared es dos a tres veces más gruesa que la del ventrículo derecho y su cavidad es cónica y más larga. Tiene dos músculos papilares grandes (anterior y posterior) unidos a la válvula mitral, y una porción de salida lisa llamada vestíbulo aórtico. La parte superior y posterior del tabique interventricular es delgada y membranosa, y es el sitio más frecuente de las comunicaciones interventriculares. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Fases del ciclo ventricular",
+        "texto": "1) Contracción isovolumétrica: tras el cierre de la mitral, el ventrículo se contrae con todas las válvulas cerradas y la presión sube hasta unos 80 mmHg (0,02-0,03 s). 2) Eyección: se abre la válvula aórtica y en el primer tercio de este periodo sale cerca del 70 % del volumen sistólico. 3) Relajación isovolumétrica: se cierra la válvula aórtica y la presión desciende con todas las válvulas cerradas (0,03-0,06 s). 4) Llenado: se abre la mitral y ocurren el llenado rápido, la diástasis y finalmente la contracción auricular. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Valores y conceptos hemodinámicos",
+        "texto": "Presión sistólica de 120 mmHg; volumen telediastólico de 110-120 mL, sistólico de 70 mL y telesistólico de 40-50 mL; fracción de eyección cercana al 60 %. La precarga corresponde al grado de distensión del músculo al final de la diástole y la poscarga a la presión contra la que debe expulsar la sangre, que equivale a la presión aórtica. Según la ley de Laplace, un aumento del radio o de la presión eleva la tensión de la pared y el consumo de oxígeno. (Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Trabajo y eficiencia",
+        "texto": "El área encerrada por el diagrama presión-volumen representa el trabajo sistólico externo. La eficiencia máxima de la contracción del corazón normal, es decir, la proporción de energía química que se convierte en trabajo, es de un 20 a 25 %; el resto se transforma en calor. (Guyton, cap. 9)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Hipertrofia ventricular izquierda",
+      "texto": "La hipertensión arterial crónica y la estenosis aórtica aumentan la poscarga, y el ventrículo izquierdo responde con un engrosamiento de su pared (hipertrofia concéntrica). En el electrocardiograma se observan complejos QRS de alto voltaje en las derivaciones izquierdas y desviación del eje hacia la izquierda; uno de los criterios utilizados es el de Sokolow-Lyon (onda S en V1 más onda R en V5 o V6 igual o mayor de 35 mm). El diagnóstico se confirma con ecocardiograma. La hipertrofia aumenta el riesgo de insuficiencia cardiaca con fracción de eyección preservada, arritmias e isquemia, porque hay más masa muscular que irrigar. El control adecuado de la presión arterial puede revertirla parcialmente. (Guyton, cap. 12; Guía ESH 2023 de hipertensión)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
+  },
+  {
+    "id": "valvulas_cardiacas_generalidades",
+    "nombre": "Válvulas cardiacas (generalidades)",
+    "sinMalla": true,
+    "relacionadas": [
+      "valvula_aortica",
+      "valvula_pulmonar",
+      "valvula_bicuspide",
+      "valvula_tricuspide",
+      "corazon"
+    ],
+    "conocimientoPrevio": "Sabía que son como \"puertitas\" que se abren y cierran para que la sangre no se regrese.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Función",
+        "texto": "Garantizan que el flujo sanguíneo sea unidireccional: aurícula derecha, tricúspide, ventrículo derecho, válvula pulmonar, pulmones, aurícula izquierda, mitral, ventrículo izquierdo, válvula aórtica y aorta. Cuando una válvula no cierra bien, la sangre regresa a la cavidad que se encuentra antes de ella. Así, la regurgitación del ventrículo izquierdo a la aurícula izquierda indica insuficiencia mitral; del ventrículo derecho a la aurícula derecha, insuficiencia tricuspídea; de la aorta al ventrículo izquierdo, insuficiencia aórtica; y de la arteria pulmonar al ventrículo derecho, insuficiencia pulmonar. (Moore, cap. 4; Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Esqueleto fibroso",
+        "texto": "Está formado por cuatro anillos fibrosos que rodean los orificios valvulares, los trígonos fibrosos derecho e izquierdo y las porciones membranosas de los tabiques. Mantiene abiertos los orificios, sirve de anclaje a las valvas y actúa como aislante eléctrico, de modo que el impulso sólo puede pasar de las aurículas a los ventrículos por el haz de His. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Válvulas auriculoventriculares y semilunares",
+        "texto": "La tricúspide y la mitral poseen cuerdas tendinosas y músculos papilares. Los músculos papilares no cierran la válvula: se contraen junto con la pared ventricular y evitan que las valvas se eviertan hacia la aurícula durante la sístole. La aórtica y la pulmonar tienen tres valvas cóncavas, sin cuerdas tendinosas; sus orificios son más pequeños, por lo que la sangre sale a mayor velocidad, se cierran de manera más brusca y sufren mayor desgaste mecánico. (Moore, cap. 4; Guyton, cap. 9)"
+      },
+      {
+        "titulo": "Estado de las válvulas en el ciclo",
+        "texto": "Todas se abren y cierran de forma pasiva por diferencias de presión. Durante la eyección (sístole) están abiertas la aórtica y la pulmonar y cerradas la mitral y la tricúspide. Durante el llenado (diástole) están abiertas la mitral y la tricúspide y cerradas las semilunares. En las fases de contracción y relajación isovolumétricas las cuatro están cerradas. El cierre de las auriculoventriculares produce el primer ruido y el de las semilunares, el segundo. (Guyton, caps. 9 y 23)"
+      },
+      {
+        "titulo": "Estenosis e insuficiencia",
+        "texto": "En la estenosis la válvula no se abre adecuadamente y la cavidad previa sufre una sobrecarga de presión; en la insuficiencia la válvula no cierra bien, la sangre regresa y se produce una sobrecarga de volumen. Ambas originan flujo turbulento y soplos. Las áreas valvulares normales son de 3-4 cm² para la aórtica y 4-6 cm² para la mitral; la estenosis aórtica es grave con un área igual o menor de 1,0 cm² y la mitral con un área igual o menor de 1,5 cm². (Guyton, cap. 23; Guía ACC/AHA 2020 de valvulopatías)"
+      },
+      {
+        "titulo": "Histología",
+        "texto": "Las valvas son pliegues de endocardio con un núcleo de tejido conectivo denso que se continúa con los anillos fibrosos. Normalmente no tienen vasos sanguíneos y se nutren por difusión desde la sangre que las rodea. (Ross y Pawlina, cap. 13)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Fiebre reumática",
+      "texto": "Tras una faringitis por estreptococo del grupo A no tratada, los anticuerpos dirigidos contra la bacteria reaccionan de forma cruzada con tejidos del corazón y dañan principalmente las válvulas mitral y aórtica, que quedan fibrosas y calcificadas, con estenosis, insuficiencia o ambas. El diagnóstico de la fase aguda se basa en los criterios de Jones, revisados por la American Heart Association en 2015, y la prevención consiste en tratar la faringitis estreptocócica con penicilina. (Guyton, cap. 23; AHA 2015, criterios de Jones)"
+    },
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "Este es un tema de fisiología general de las válvulas cardiacas, no una estructura con malla 3D propia: revísalo desde cualquiera de las cuatro válvulas."
   },
   {
     "id": "valvula_aortica",
@@ -195,9 +465,29 @@
       "ventriculo_izquierdo",
       "aorta"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la \"compuerta\" que hay entre el corazón y la aorta.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y estructura",
+        "texto": "Se ubica entre el ventrículo izquierdo y la aorta ascendente, por detrás del lado izquierdo del esternón a nivel del 3.er espacio intercostal. Tiene tres valvas semilunares: derecha, izquierda y posterior. Por detrás de ellas se encuentran los senos aórticos; del seno derecho nace la coronaria derecha y del izquierdo la coronaria izquierda, por lo que la valva posterior se denomina no coronaria. Cada valva tiene un nódulo en el centro de su borde libre y dos lúnulas laterales. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Apertura y cierre",
+        "texto": "Se abre durante la sístole, cuando la presión del ventrículo izquierdo supera los 80 mmHg (presión diastólica de la aorta), y así comienza la eyección. Se cierra al inicio de la diástole: el pequeño reflujo que provoca su cierre llena los senos aórticos, favorece el llenado de las coronarias y genera la incisura en la curva de presión aórtica y el componente A2 del segundo ruido. (Guyton, caps. 9 y 23)"
+      },
+      {
+        "titulo": "Auscultación",
+        "texto": "El foco aórtico se encuentra en el 2.º espacio intercostal derecho, junto al esternón. Los soplos aórticos se irradian hacia las carótidas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Alteraciones",
+        "texto": "La estenosis aórtica produce un soplo sistólico, ya que la obstrucción se presenta durante la eyección. La insuficiencia aórtica permite el regreso de sangre de la aorta al ventrículo en la diástole, por lo que origina un soplo diastólico de tono alto y aspirativo, con aumento de la presión de pulso. (Guyton, cap. 23)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Estenosis aórtica",
+      "texto": "En adultos mayores suele deberse a calcificación degenerativa y en personas más jóvenes a una válvula bicúspide congénita, presente en el 1-2 % de la población. El ventrículo izquierdo se hipertrofia para vencer la obstrucción. La tríada clásica es angina, síncope y disnea de esfuerzo; una vez que aparecen los síntomas, la supervivencia sin tratamiento es corta. A la exploración se ausculta un soplo sistólico eyectivo rudo en foco aórtico, irradiado a carótidas, y el pulso es pequeño y tardío (parvus et tardus). Se considera grave cuando la velocidad máxima es de 4 m/s o más, el gradiente medio de 40 mmHg o más, o el área de 1,0 cm² o menos. El tratamiento es el reemplazo valvular quirúrgico o percutáneo (TAVI). (Guyton, cap. 23; Guía ACC/AHA 2020 de valvulopatías)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -214,9 +504,29 @@
       "ventriculo_derecho",
       "arterias_pulmonares"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "No sabía que hubiera una válvula a la salida del corazón hacia los pulmones.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y estructura",
+        "texto": "Se encuentra en el vértice del cono arterioso del ventrículo derecho, en la entrada del tronco pulmonar, por detrás del extremo medial del 3.er cartílago costal izquierdo. Es la válvula más anterior y superior de las cuatro. Tiene tres valvas semilunares (anterior, derecha e izquierda) y carece de cuerdas tendinosas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Funcionamiento",
+        "texto": "Se abre en la sístole cuando la presión del ventrículo derecho supera la presión diastólica de la arteria pulmonar (unos 8 mmHg) y se cierra al inicio de la diástole, produciendo el componente P2 del segundo ruido. En la inspiración aumenta el retorno venoso al corazón derecho, la sístole del ventrículo derecho se prolonga y P2 se escucha ligeramente después de A2; este fenómeno se conoce como desdoblamiento fisiológico del segundo ruido. (Guyton, caps. 9 y 23)"
+      },
+      {
+        "titulo": "Auscultación",
+        "texto": "El foco pulmonar se localiza en el 2.º espacio intercostal izquierdo, junto al esternón. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Consecuencias de la estenosis",
+        "texto": "Cuando la válvula pulmonar está estrecha, pasa menos sangre del ventrículo derecho a la arteria pulmonar y, por lo tanto, el flujo sanguíneo pulmonar disminuye. El ventrículo derecho debe generar presiones mucho más altas y se hipertrofia, y la presión de la aurícula derecha también aumenta. (Guyton, cap. 23)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Estenosis pulmonar grave y tetralogía de Fallot",
+      "texto": "En el recién nacido con estenosis pulmonar grave (crítica) llega muy poca sangre a los pulmones, es decir, el flujo pulmonar está disminuido. La presión de la aurícula derecha aumenta y la sangre desoxigenada pasa a la aurícula izquierda a través del foramen oval (cortocircuito de derecha a izquierda), lo que produce cianosis. Muchos de estos pacientes dependen del conducto arterioso para que llegue sangre al pulmón, por lo que se administra prostaglandina E1 para mantenerlo abierto hasta realizar una valvuloplastia con balón. En la tetralogía de Fallot (estenosis pulmonar, comunicación interventricular, aorta cabalgante e hipertrofia del ventrículo derecho) ocurre algo similar: el flujo pulmonar está reducido y parte de la sangre desoxigenada pasa directamente a la aorta. (Guyton, cap. 23; Guía ESC 2020 de cardiopatías congénitas del adulto)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -234,9 +544,25 @@
       "auricula_izquierda",
       "ventriculo_izquierdo"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que hay una válvula entre las cámaras izquierdas, pero no por qué se llama \"mitral\".",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y estructura",
+        "texto": "Se localiza entre la aurícula y el ventrículo izquierdos, por detrás del esternón a nivel del 4.º cartílago costal izquierdo. Es la única válvula con dos valvas, anterior y posterior, de ahí el nombre de bicúspide; se llama mitral por su semejanza con la mitra de un obispo. La valva anterior está en continuidad fibrosa con la válvula aórtica. Las cuerdas tendinosas la unen a los músculos papilares anterior y posterior del ventrículo izquierdo, y cada músculo papilar envía cuerdas a ambas valvas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Funcionamiento",
+        "texto": "Permanece abierta durante la diástole, cuando la sangre pasa de la aurícula al ventrículo, y se cierra al inicio de la sístole, cuando la presión ventricular supera a la auricular. Su cierre es el componente principal del primer ruido, ya que las presiones del lado izquierdo son mayores. Si no cierra correctamente durante la sístole, la sangre regresa del ventrículo izquierdo a la aurícula izquierda, lo que se conoce como insuficiencia o regurgitación mitral. (Guyton, caps. 9 y 23)"
+      },
+      {
+        "titulo": "Auscultación y área",
+        "texto": "El foco mitral se ubica en el ápex (5.º espacio intercostal izquierdo, línea medioclavicular), y los soplos mitrales se irradian hacia la axila. El área valvular normal es de 4-6 cm². (Moore, cap. 4; Guía ACC/AHA 2020 de valvulopatías)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Insuficiencia y estenosis mitral",
+      "texto": "La insuficiencia mitral puede deberse a prolapso, rotura de cuerdas tendinosas, dilatación del anillo o lesión de un músculo papilar por un infarto. Se ausculta un soplo holosistólico en el ápex irradiado a la axila; la aurícula izquierda recibe un volumen adicional en cada latido, se dilata y puede presentarse edema pulmonar. La estenosis mitral es casi siempre secuela de fiebre reumática. La aurícula izquierda se dilata, lo que favorece la fibrilación auricular y la formación de trombos, y el aumento de presión se transmite a las venas pulmonares, con disnea, edema y hemoptisis; con el tiempo se desarrolla hipertensión pulmonar. A la auscultación hay un primer ruido intenso, chasquido de apertura y soplo diastólico retumbante en el ápex, que se escucha mejor en decúbito lateral izquierdo. Se considera grave cuando el área es igual o menor de 1,5 cm². (Guyton, cap. 23; Guía ACC/AHA 2020 de valvulopatías)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -253,9 +579,25 @@
       "auricula_derecha",
       "ventriculo_derecho"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es la válvula del lado derecho, entre la aurícula y el ventrículo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y estructura",
+        "texto": "Se encuentra entre la aurícula y el ventrículo derechos, por detrás de la mitad derecha del esternón a nivel del 4.º espacio intercostal. Tiene tres valvas (anterior, posterior y septal) que se unen mediante cuerdas tendinosas a los tres músculos papilares del ventrículo derecho. Cada músculo papilar envía cuerdas a las valvas adyacentes, lo que impide que se separen o se eviertan durante la sístole. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Funcionamiento",
+        "texto": "Está abierta durante la diástole y cerrada durante la sístole, lo que impide el reflujo de sangre del ventrículo derecho a la aurícula derecha. Su cierre también forma parte del primer ruido. La regurgitación del ventrículo derecho a la aurícula derecha indica disfunción de esta válvula. (Guyton, caps. 9 y 23)"
+      },
+      {
+        "titulo": "Auscultación",
+        "texto": "El foco tricuspídeo se ubica en el borde esternal izquierdo inferior, a nivel del 4.º-5.º espacio intercostal. (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Endocarditis e insuficiencia tricuspídea",
+      "texto": "La endocarditis infecciosa de la válvula tricúspide es característica de las personas que se inyectan drogas por vía intravenosa y con frecuencia es causada por Staphylococcus aureus. Fragmentos de la vegetación se desprenden y llegan a los pulmones como émbolos sépticos, que producen nódulos o abscesos múltiples. El diagnóstico se basa en los criterios de Duke modificados, que combinan hemocultivos y ecocardiograma. La insuficiencia tricuspídea produce un soplo holosistólico en el borde esternal izquierdo inferior que aumenta con la inspiración (signo de Rivero-Carvallo), ondas v prominentes en el pulso yugular y hepatomegalia pulsátil. (Guyton, cap. 23; Guía ESC 2023 de endocarditis)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -271,9 +613,29 @@
     "relacionadas": [
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es una especie de bolsa que envuelve al corazón.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Pericardio fibroso",
+        "texto": "Es la capa externa, gruesa y poco distensible. Por arriba se continúa con la adventicia de los grandes vasos, por abajo está fusionado con el centro tendinoso del diafragma y por delante se une al esternón mediante los ligamentos esternopericárdicos. Fija el corazón en su posición y evita su distensión excesiva. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Pericardio seroso",
+        "texto": "Está formado por dos láminas: la parietal, que tapiza la cara interna del pericardio fibroso, y la visceral, que corresponde al epicardio. Entre ambas se encuentra la cavidad pericárdica, un espacio virtual con una pequeña cantidad de líquido (normalmente de 10 a 50 mL) que permite que el corazón se mueva sin fricción. (Moore, cap. 4; Guía ESC 2015 de enfermedades del pericardio)"
+      },
+      {
+        "titulo": "Senos pericárdicos",
+        "texto": "El seno transverso se encuentra por detrás de la aorta ascendente y del tronco pulmonar y por delante de la VCS; en la cirugía cardiaca se utiliza para colocar una pinza o una ligadura alrededor de estos vasos. El seno oblicuo es un fondo de saco situado por detrás de la aurícula izquierda, entre las venas pulmonares, y es la estructura que separa a la aurícula izquierda del esófago. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Irrigación e inervación",
+        "texto": "Recibe irrigación de las arterias pericardiofrénicas, ramas de la torácica interna. Está inervado por los nervios frénicos (C3-C5), por lo que el dolor de origen pericárdico puede referirse al cuello y al hombro. (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Pericarditis y taponamiento cardiaco",
+      "texto": "La pericarditis es la inflamación del pericardio y en la mayoría de los casos es de origen viral. Su diagnóstico requiere al menos dos de los siguientes cuatro criterios: dolor torácico que aumenta con la respiración y mejora al sentarse e inclinarse hacia adelante, frote pericárdico, elevación difusa del segmento ST con descenso del PR, y derrame pericárdico. El taponamiento cardiaco ocurre cuando se acumula líquido o sangre con rapidez en la cavidad pericárdica; como el pericardio fibroso no se distiende, el corazón queda comprimido y no puede llenarse. Se presenta la tríada de Beck (hipotensión, ingurgitación yugular y ruidos cardiacos apagados) y pulso paradójico, es decir, un descenso de la presión sistólica mayor de 10 mmHg durante la inspiración. El tratamiento es la pericardiocentesis urgente, generalmente por vía subxifoidea. El taponamiento también es una de las complicaciones de la perforación cardiaca durante una ablación. (Moore, cap. 4; Guía ESC 2015 de enfermedades del pericardio)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "notaSinMalla": "La membrana del pericardio no está modelada como malla en este atlas anatómico."
@@ -291,9 +653,37 @@
       "aorta",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que el corazón tiene sus propias arterias y que, si se tapan, da un infarto.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Arteria coronaria derecha (ACD)",
+        "texto": "Nace del seno aórtico derecho y recorre el surco coronario derecho. Sus ramas principales son la rama del nodo sinoauricular (en aproximadamente el 60 % de las personas), la marginal derecha, la rama del nodo auriculoventricular (en cerca del 80 %) y, en la mayoría de los casos, la interventricular posterior o descendente posterior. Irriga la aurícula derecha, la mayor parte del ventrículo derecho, la cara diafragmática (inferior) del ventrículo izquierdo, el tercio posterior del tabique interventricular y, en la mayoría de las personas, los nodos SA y AV. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Arteria coronaria izquierda (ACI)",
+        "texto": "Nace del seno aórtico izquierdo, pasa entre la orejuela izquierda y el tronco pulmonar y se divide en dos ramas. La interventricular anterior o descendente anterior desciende por el surco interventricular anterior hasta el vértice y da ramas diagonales y septales. La circunfleja sigue el surco coronario hacia la cara posterior y da la rama marginal izquierda. La ACI irriga la aurícula izquierda, la mayor parte del ventrículo izquierdo, parte del ventrículo derecho, los dos tercios anteriores del tabique interventricular (incluido el haz de His) y, en cerca del 40 % de las personas, el nodo SA. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Dominancia coronaria",
+        "texto": "La dominancia se define por la arteria que da origen a la descendente posterior. La dominancia derecha, en la que la descendente posterior procede de la coronaria derecha, se presenta en aproximadamente el 67 % de las personas; en la dominancia izquierda procede de la circunfleja. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Territorios de irrigación y correlación electrocardiográfica",
+        "texto": "Pared anterior del ventrículo izquierdo, vértice y dos tercios anteriores del tabique: descendente anterior (derivaciones V1-V4). Pared lateral: circunfleja (I, aVL, V5 y V6). Cara inferior o diafragmática: descendente posterior, que en la mayoría de los casos es rama de la coronaria derecha (II, III y aVF). Ventrículo derecho: coronaria derecha. De esta forma, un infarto de la pared anterior se relaciona con la oclusión de la descendente anterior y uno de la cara inferior, con la descendente posterior o la coronaria derecha. (Moore, cap. 4; Guyton, cap. 12)"
+      },
+      {
+        "titulo": "Flujo coronario",
+        "texto": "En reposo es de unos 70 mL/min por cada 100 g de tejido cardiaco, es decir, alrededor de 225 mL/min, que representan el 4-5 % del gasto cardiaco. Durante la sístole el músculo del ventrículo izquierdo comprime sus propios vasos y el flujo disminuye de manera importante, por lo que la perfusión de este ventrículo ocurre principalmente en la diástole. Por ello la taquicardia, que acorta la diástole, es perjudicial en la cardiopatía isquémica. La región subendocárdica es la más vulnerable a la isquemia. (Guyton, cap. 21)"
+      },
+      {
+        "titulo": "Regulación y circulación colateral",
+        "texto": "El flujo coronario se ajusta casi por completo a las necesidades metabólicas del miocardio. Cuando disminuye el oxígeno se libera adenosina, uno de los principales vasodilatadores coronarios. Existen pequeñas anastomosis entre las arterias coronarias; cuando una obstrucción se desarrolla lentamente, estas colaterales se dilatan y pueden proteger al miocardio, mientras que en una oclusión súbita no tienen tiempo de desarrollarse. (Guyton, cap. 21)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Infarto agudo de miocardio",
+      "texto": "La rotura de una placa de ateroma desencadena la formación de un trombo que ocluye la arteria coronaria, y el miocardio que dependía de ella se necrosa. Las arterias afectadas con mayor frecuencia son la descendente anterior (40-50 %), la coronaria derecha (30-40 %) y la circunfleja (15-20 %). El cuadro típico es un dolor opresivo retroesternal irradiado al brazo izquierdo, cuello o mandíbula, acompañado de diaforesis y náusea. La cuarta definición universal del infarto requiere un aumento o descenso de troponina con al menos un valor por encima del percentil 99, junto con evidencia clínica de isquemia. En el infarto con elevación del ST, la ESC recomienda angioplastia primaria lo antes posible, idealmente en menos de 120 minutos desde el diagnóstico; en la enfermedad de varios vasos puede indicarse cirugía de revascularización (bypass). Las principales causas de muerte tras un infarto son la disminución del gasto cardiaco, la congestión pulmonar, la fibrilación ventricular y, con menor frecuencia, la rotura de la pared. Factores de riesgo: tabaquismo, diabetes, hipertensión, obesidad, sedentarismo y dislipidemia. (Moore, cap. 4; Guyton, cap. 21; 4.ª Definición universal del infarto, 2018; Guía ESC 2023 de síndromes coronarios agudos)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
@@ -311,12 +701,177 @@
       "auricula_derecha",
       "corazon"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "No sabía que el corazón tuviera venas propias ni a dónde regresaba su sangre.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Seno coronario",
+        "texto": "Es la vena principal del corazón. Recorre la porción posterior del surco coronario de izquierda a derecha y desemboca en la aurícula derecha entre el orificio de la VCI y el orificio auriculoventricular derecho, donde presenta una pequeña válvula. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Tributarias del seno coronario",
+        "texto": "La vena cardiaca magna es la principal: se origina cerca del vértice, asciende junto a la descendente anterior y después acompaña a la circunfleja. La vena cardiaca media acompaña a la descendente posterior y la vena cardiaca menor a la marginal derecha. También drenan al seno la vena posterior del ventrículo izquierdo y la vena oblicua de la aurícula izquierda (de Marshall), resto embrionario de la VCS izquierda. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Venas que no drenan al seno coronario",
+        "texto": "Las venas cardiacas anteriores drenan la pared anterior del ventrículo derecho directamente en la aurícula derecha. Las venas cardiacas mínimas (de Tebesio) son vasos pequeños que se abren directamente en todas las cavidades, sobre todo en las aurículas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Proporción del drenaje y saturación",
+        "texto": "Alrededor del 75 % del flujo coronario regresa por el seno coronario, principalmente la sangre del ventrículo izquierdo; la mayor parte de la sangre venosa del ventrículo derecho regresa por las venas cardiacas anteriores. La sangre del seno coronario tiene muy poco oxígeno, porque el miocardio extrae una gran proporción del oxígeno que recibe incluso en reposo. (Guyton, cap. 21)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Terapia de resincronización cardiaca y cardioplegia retrógrada",
+      "texto": "En la insuficiencia cardiaca con fracción de eyección reducida y bloqueo de rama izquierda los ventrículos se contraen de forma asincrónica. En la terapia de resincronización se introduce un electrodo a través del seno coronario hasta una vena lateral del ventrículo izquierdo, para estimular ambos ventrículos al mismo tiempo; esto mejora los síntomas y la supervivencia. En cirugía cardiaca, la solución cardiopléjica que protege al miocardio puede administrarse de forma retrógrada a través del seno coronario cuando las arterias coronarias están muy obstruidas. (Moore, cap. 4; Guía ESC 2021 de estimulación cardiaca)"
+    },
     "imagenUrl": "",
     "sistema": "cardiovascular",
     "grupo": "atlas_bodyparts3d"
+  },
+  {
+    "id": "ruidos_cardiacos",
+    "nombre": "Ruidos cardiacos",
+    "sinMalla": true,
+    "relacionadas": [
+      "valvulas_cardiacas_generalidades",
+      "corazon"
+    ],
+    "conocimientoPrevio": "Sabía que el corazón hace \"lub-dub\" y que se escucha con el estetoscopio.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Origen",
+        "texto": "Los ruidos no se deben al choque de las valvas entre sí, sino a la vibración de las valvas tensas inmediatamente después de su cierre, junto con la de la sangre, las paredes cardiacas y los grandes vasos. (Guyton, cap. 23)"
+      },
+      {
+        "titulo": "Primer ruido (R1)",
+        "texto": "Corresponde al cierre de las válvulas mitral y tricúspide al inicio de la sístole. Es de tono grave y duración relativamente larga (unos 0,14 s) y se escucha mejor en el ápex. Marca el inicio de la sístole y coincide aproximadamente con el complejo QRS. (Guyton, cap. 23)"
+      },
+      {
+        "titulo": "Segundo ruido (R2)",
+        "texto": "Corresponde al cierre de las válvulas aórtica y pulmonar al inicio de la diástole. Es más agudo y breve (unos 0,11 s), debido a que estas válvulas están más tensas. Se escucha mejor en la base y coincide con el final de la onda T. Durante la inspiración se desdobla en sus componentes A2 y P2. (Guyton, cap. 23)"
+      },
+      {
+        "titulo": "Tercer y cuarto ruidos",
+        "texto": "El tercer ruido ocurre al inicio del tercio medio de la diástole, por la entrada rápida de sangre al ventrículo, y puede ser normal en niños y adultos jóvenes. El cuarto ruido o ruido auricular se produce al final de la diástole por la contracción auricular; es de muy baja frecuencia y rara vez se escucha en personas sanas. (Guyton, cap. 23)"
+      },
+      {
+        "titulo": "Relación con el ciclo cardiaco",
+        "texto": "El periodo entre R1 y R2 corresponde a la sístole (mitral y tricúspide cerradas, aórtica y pulmonar abiertas durante la eyección), y el periodo entre R2 y el siguiente R1 a la diástole (semilunares cerradas y auriculoventriculares abiertas). Por esta razón los soplos de estenosis aórtica e insuficiencia mitral son sistólicos, mientras que los de estenosis mitral e insuficiencia aórtica son diastólicos. (Guyton, cap. 23)"
+      },
+      {
+        "titulo": "Focos de auscultación e intensidad de los soplos",
+        "texto": "Aórtico (2.º espacio intercostal derecho), pulmonar (2.º espacio intercostal izquierdo), tricuspídeo (borde esternal izquierdo inferior) y mitral (ápex). No coinciden exactamente con la posición anatómica de las válvulas, sino con el sitio donde mejor se transmite el sonido de cada una. La intensidad de los soplos se gradúa de I a VI; a partir del grado IV se acompañan de frémito palpable. (Moore, cap. 4; Guyton, cap. 23)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Ritmo de galope y soplos",
+      "texto": "La presencia de un tercer ruido en un adulto mayor de 40 años sugiere sobrecarga de volumen o disfunción del ventrículo izquierdo, como en la insuficiencia cardiaca, y da lugar al llamado ritmo de galope. Un cuarto ruido audible indica un ventrículo rígido, como en la hipertrofia por hipertensión o estenosis aórtica y en la isquemia. Los soplos diastólicos casi siempre son patológicos. Ante un soplo que sugiere enfermedad valvular, la guía ACC/AHA recomienda realizar un ecocardiograma transtorácico. (Guyton, cap. 23; Guía ACC/AHA 2020 de valvulopatías)"
+    },
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "Los ruidos cardiacos son un fenómeno acústico (el cierre de las válvulas), no una estructura con malla 3D propia."
+  },
+  {
+    "id": "sistema_conduccion_electrica",
+    "nombre": "Sistema de conducción eléctrica",
+    "sinMalla": true,
+    "relacionadas": [
+      "corazon",
+      "ondas_ekg"
+    ],
+    "conocimientoPrevio": "Sabía que el corazón late gracias a impulsos eléctricos y que existen los marcapasos.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Origen del automatismo",
+        "texto": "Las células del nodo sinusal alcanzan el potencial umbral por sí mismas, sin necesidad de un estímulo externo. Su potencial de reposo es menos negativo (-55 a -60 mV, frente a -85 a -90 mV del músculo ventricular) porque su membrana permite una entrada constante de Na+ (corriente de marcapasos o corriente If, a través de canales HCN). Durante la fase 4 el potencial asciende de manera gradual hasta llegar al umbral, cercano a -40 mV. (Guyton, cap. 10; Klabunde, Cardiovascular Physiology Concepts)"
+      },
+      {
+        "titulo": "Despolarización de la célula marcapasos",
+        "texto": "Con un potencial de reposo de -55 a -60 mV, los canales rápidos de Na+ permanecen inactivados. Por eso, en las células marcapasos la fase de despolarización se debe a la entrada de Ca2+ por los canales lentos tipo L, y el ascenso del potencial es más lento que en el músculo ventricular, donde la fase 0 depende del Na+. Posteriormente se abren canales de K+, el potasio sale, la célula se repolariza e incluso se hiperpolariza brevemente, y el ciclo se repite de 70 a 80 veces por minuto. (Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Vías internodales y haz interauricular",
+        "texto": "Conducen el impulso a través de las aurículas a una velocidad de alrededor de 1 m/s (el músculo auricular común conduce a 0,3 m/s) hacia el nodo AV, y el haz interauricular anterior (de Bachmann) lo lleva a la aurícula izquierda. El impulso llega al nodo AV unos 0,03 s después de originarse en el nodo sinusal. (Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Nodo auriculoventricular",
+        "texto": "Se localiza en la porción posteroinferior del tabique interauricular, cerca del orificio del seno coronario. Retrasa el impulso unos 0,09 s, y la porción penetrante del haz AV agrega 0,04 s, de modo que el retraso total desde el nodo sinusal hasta los ventrículos es de 0,16 s. La conducción es lenta porque sus células tienen pocas uniones comunicantes. Este retraso permite que las aurículas terminen de vaciarse antes de que comience la contracción ventricular y además protege a los ventrículos de frecuencias auriculares muy altas. (Moore, cap. 4; Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Haz de His, ramas y fibras de Purkinje",
+        "texto": "El haz de His atraviesa el esqueleto fibroso y constituye la única conexión eléctrica normal entre aurículas y ventrículos; conduce sólo en sentido anterógrado. Se divide en las ramas derecha e izquierda, que descienden bajo el endocardio del tabique. Las fibras de Purkinje conducen a 1,5-4 m/s, unas 6 veces más rápido que el músculo ventricular y unas 150 veces más rápido que el nodo AV, de modo que todo el ventrículo se activa en aproximadamente 0,06 s y la contracción progresa del vértice hacia la base. (Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Propagación en el miocardio",
+        "texto": "El sistema de conducción no contacta con cada miocito. El impulso llega a las fibras de Purkinje y desde ahí se transmite de célula a célula a través de las uniones comunicantes de los discos intercalares, ya que el miocardio funciona como un sincitio eléctrico. (Guyton, caps. 9 y 10)"
+      },
+      {
+        "titulo": "Jerarquía de marcapasos y control autónomo",
+        "texto": "Las frecuencias intrínsecas son de 70-80 lpm en el nodo sinusal, 40-60 lpm en el nodo AV y 15-40 lpm en las fibras de Purkinje. El nodo sinusal controla el ritmo porque descarga antes que los demás. La acetilcolina liberada por el vago aumenta la permeabilidad al K+, hiperpolariza el nodo sinusal hasta -65 a -75 mV y reduce la frecuencia, además de enlentecer la conducción AV. La noradrenalina simpática, a través de receptores β1, aumenta la permeabilidad a Na+ y Ca2+, eleva la frecuencia, acelera la conducción y aumenta la fuerza de contracción. (Guyton, cap. 10)"
+      },
+      {
+        "titulo": "Arritmias",
+        "texto": "Cuando una región distinta del nodo sinusal descarga con mayor frecuencia se forma un marcapasos ectópico, que puede originar extrasístoles o taquicardias. La fibrilación ventricular se explica por el mecanismo de reentrada o movimiento circular, en el que el impulso recorre el miocardio sin extinguirse; produce contracciones desorganizadas, el gasto cardiaco cae a cero y requiere desfibrilación inmediata. (Guyton, cap. 13)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Bloqueos auriculoventriculares y marcapasos",
+      "texto": "En el bloqueo de primer grado el intervalo PR es mayor de 0,20 s, pero todos los impulsos llegan a los ventrículos. En el de segundo grado algunos impulsos no se conducen: en el tipo Mobitz I (Wenckebach) el PR se alarga progresivamente hasta que falta un QRS, y en el Mobitz II falta un QRS sin alargamiento previo del PR, lo que lo hace más peligroso. En el de tercer grado o completo, aurículas y ventrículos se contraen de manera independiente y, tras una pausa, un marcapasos de escape ventricular toma el control a 15-40 lpm; durante esa pausa el paciente puede perder el conocimiento (síndrome de Stokes-Adams). La guía de la ESC indica marcapasos definitivo en el bloqueo de tercer grado y en el Mobitz II aun en ausencia de síntomas. (Guyton, cap. 13; Guía ESC 2021 de estimulación cardiaca)"
+    },
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "El sistema de conducción eléctrica es un tema fisiológico, no una estructura con malla 3D propia en este atlas."
+  },
+  {
+    "id": "ondas_ekg",
+    "nombre": "Ondas normales del EKG",
+    "sinMalla": true,
+    "relacionadas": [
+      "sistema_conduccion_electrica",
+      "corazon"
+    ],
+    "conocimientoPrevio": "Sabía que el electrocardiograma es la gráfica de \"picos\" que muestra los latidos del corazón.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Definición",
+        "texto": "El electrocardiograma registra, desde la superficie corporal, las corrientes eléctricas que genera el corazón al despolarizarse y repolarizarse. Sólo se registra voltaje cuando una parte del músculo está despolarizada y otra no; cuando todo el músculo está en reposo o completamente despolarizado, el trazo es isoeléctrico. El electrocardiograma refleja la actividad eléctrica y no la contracción, aunque cada onda precede al evento mecánico correspondiente. (Guyton, cap. 11)"
+      },
+      {
+        "titulo": "Derivaciones y eje",
+        "texto": "Se utilizan 12 derivaciones: tres bipolares de extremidades (I, II y III), que forman el triángulo de Einthoven y cumplen la ley de Einthoven (I + III = II); tres aumentadas (aVR, aVL y aVF), y seis precordiales (V1 a V6), que exploran el plano horizontal. El eje eléctrico medio del QRS es de aproximadamente +59°, con un rango normal de +20 a +100°. La hipertrofia del ventrículo izquierdo desvía el eje hacia la izquierda y la del derecho hacia la derecha. (Guyton, caps. 11 y 12)"
+      },
+      {
+        "titulo": "Calibración del papel",
+        "texto": "A una velocidad de 25 mm/s, cada cuadro pequeño (1 mm) equivale a 0,04 s y cada cuadro grande (5 mm) a 0,20 s. En el eje vertical, 10 mm equivalen a 1 mV. (Guyton, cap. 11)"
+      },
+      {
+        "titulo": "Onda P",
+        "texto": "Representa la despolarización de las aurículas, es decir, la fase 0 de los miocitos auriculares, y precede a su contracción. Su voltaje es de 0,1-0,3 mV y su duración menor de 0,12 s. (Guyton, cap. 11)"
+      },
+      {
+        "titulo": "Complejo QRS",
+        "texto": "Representa la despolarización de los ventrículos (fase 0 de los miocitos ventriculares) y precede a su contracción. Su voltaje es de aproximadamente 1-1,5 mV y su duración menor de 0,10-0,12 s. La repolarización auricular ocurre al mismo tiempo y queda oculta dentro del QRS. Un QRS de 0,12 s o más sugiere un bloqueo de rama. (Guyton, caps. 11 y 12)"
+      },
+      {
+        "titulo": "Segmento ST y onda T",
+        "texto": "El segmento ST es isoeléctrico porque todo el ventrículo se encuentra despolarizado; corresponde a la fase de meseta. La onda T representa la repolarización ventricular (fase 3) y tiene un voltaje de 0,2-0,3 mV. Es positiva, igual que el QRS, porque las últimas fibras en despolarizarse, las del epicardio y la base, son las primeras en repolarizarse. (Guyton, cap. 11)"
+      },
+      {
+        "titulo": "Intervalo PR y segmento PR",
+        "texto": "El intervalo PR va del inicio de la onda P al inicio del QRS; incluye la despolarización auricular y el retraso en el nodo AV, y su valor normal es de 0,12-0,20 s (Guyton reporta 0,16 s). El segmento PR va del final de la onda P al inicio del QRS y corresponde al paso del impulso por el nodo AV, el haz de His y sus ramas, es decir, al retraso en la conducción. Se observa isoeléctrico porque estas estructuras tienen muy poca masa y su actividad no alcanza a registrarse en la superficie. (Guyton, cap. 11)"
+      },
+      {
+        "titulo": "Intervalo QT y frecuencia cardiaca",
+        "texto": "El intervalo QT va del inicio del QRS al final de la onda T, mide aproximadamente 0,35 s y representa la sístole eléctrica ventricular. Como varía con la frecuencia cardiaca, se utiliza un valor corregido (QTc). La frecuencia se calcula dividiendo 300 entre el número de cuadros grandes entre dos ondas R, o 1500 entre el número de cuadros pequeños. (Guyton, cap. 11)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Infarto con elevación del ST y alteraciones del potasio",
+      "texto": "El músculo lesionado no se repolariza por completo y genera una corriente de lesión que desplaza el segmento ST. De acuerdo con la cuarta definición universal, una elevación del ST es significativa cuando es de 1 mm o más en dos derivaciones contiguas, excepto en V2-V3, donde se requieren 2 mm o más en hombres de 40 años o más, 2,5 mm en hombres menores de 40 años y 1,5 mm en mujeres. La localización indica la arteria afectada: V1-V4 corresponde a la descendente anterior (pared anterior); II, III y aVF a la descendente posterior o coronaria derecha (cara inferior); I, aVL, V5 y V6 a la circunfleja (pared lateral). Posteriormente aparecen ondas Q patológicas. En la hiperpotasemia la onda T se vuelve alta y picuda, y en la hipopotasemia se aplana y aparece la onda U. (Guyton, cap. 12; 4.ª Definición universal del infarto, 2018)"
+    },
+    "imagenUrl": "",
+    "sistema": "cardiovascular",
+    "notaSinMalla": "El electrocardiograma es un registro eléctrico de superficie, no una estructura con malla 3D propia."
   },
   {
     "id": "nariz",
@@ -332,9 +887,41 @@
       "laringe",
       "traquea"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que por la nariz respiramos y olemos, y que los vellos atrapan el polvo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Nariz externa",
+        "texto": "Presenta raíz, dorso, vértice y alas que rodean las narinas. Su esqueleto óseo está formado por los huesos nasales, las apófisis frontales de los maxilares y la porción nasal del hueso frontal; el esqueleto cartilaginoso, por los cartílagos laterales, alares mayores y menores y el cartílago del tabique. (Moore, cap. 8)"
+      },
+      {
+        "titulo": "Tabique nasal",
+        "texto": "Divide la cavidad en dos mitades. Está formado por la lámina perpendicular del etmoides en la parte superior, el vómer en la parte posteroinferior y el cartílago septal en la parte anterior. (Moore, cap. 8)"
+      },
+      {
+        "titulo": "Cornetes y meatos",
+        "texto": "La pared lateral presenta tres cornetes: el superior y el medio, que forman parte del etmoides, y el inferior, que es un hueso independiente. Debajo de cada uno se encuentra un meato. En el meato superior drenan las celdillas etmoidales posteriores; en el medio, el seno frontal, el seno maxilar y las celdillas etmoidales anteriores y medias, a través del hiato semilunar; en el inferior, el conducto nasolagrimal, lo que explica la rinorrea durante el llanto. El seno esfenoidal drena en el receso esfenoetmoidal. (Moore, cap. 8)"
+      },
+      {
+        "titulo": "Mucosa",
+        "texto": "Los dos tercios inferiores corresponden al área respiratoria, con epitelio cilíndrico pseudoestratificado ciliado, células caliciformes y un plexo venoso abundante que calienta el aire. El techo y el cornete superior forman el área olfatoria; los axones de sus neuronas atraviesan la lámina cribosa del etmoides y constituyen el nervio olfatorio (NC I). (Moore, cap. 8)"
+      },
+      {
+        "titulo": "Irrigación",
+        "texto": "Recibe sangre de las arterias esfenopalatina (rama de la maxilar), etmoidales anterior y posterior (ramas de la oftálmica), palatina mayor, labial superior y ramas nasales laterales de la facial. Varias de ellas se anastomosan en la región anteroinferior del tabique, conocida como área de Kiesselbach. (Moore, cap. 8)"
+      },
+      {
+        "titulo": "Acondicionamiento del aire",
+        "texto": "Los cornetes y el tabique ofrecen una superficie de unos 160 cm², por lo que el aire se calienta casi a la temperatura corporal y se humidifica casi por completo antes de llegar a la tráquea. Las partículas mayores de 6 µm quedan atrapadas en el moco por precipitación turbulenta y las de 1-5 µm se depositan en los bronquiolos pequeños. Cuando una persona respira a través de una traqueostomía se pierde esta función, y el aire frío y seco favorece la formación de costras e infecciones pulmonares. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Reflejo del estornudo",
+        "texto": "Es similar al de la tos, pero se origina por irritación de la mucosa nasal; la señal viaja por el nervio trigémino al bulbo y la úvula desciende para que el aire salga con fuerza por la nariz y elimine el material extraño. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Epistaxis",
+      "texto": "La gran mayoría de los sangrados nasales son anteriores y se originan en el área de Kiesselbach, una zona expuesta a la sequedad del aire, a los traumatismos digitales y a las infecciones. Las epistaxis posteriores, de origen en la arteria esfenopalatina, son menos frecuentes pero más abundantes y se presentan sobre todo en adultos mayores con hipertensión o con tratamiento anticoagulante. El manejo inicial consiste en comprimir firmemente las alas nasales durante al menos 5 minutos con la cabeza inclinada hacia adelante; si el sangrado persiste se utilizan vasoconstrictores tópicos, cauterización o taponamiento. (Moore, cap. 8; Guía AAO-HNS 2020 de epistaxis)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "notaSinMalla": "La nariz no está modelada como malla en este atlas anatómico."
@@ -350,9 +937,37 @@
       "nariz",
       "traquea"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que en la laringe están las cuerdas vocales y que la \"manzana de Adán\" forma parte de ella.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y función",
+        "texto": "Se extiende desde la entrada de la laringe hasta el borde inferior del cartílago cricoides y, en el adulto, se sitúa frente a las vértebras C3-C6. Participa en la fonación y funciona como esfínter que protege la vía aérea durante la deglución. (Moore, cap. 9)"
+      },
+      {
+        "titulo": "Esqueleto",
+        "texto": "Está formado por nueve cartílagos. Los impares son el tiroides, cuyas láminas se unen por delante y forman la prominencia laríngea o \"manzana de Adán\"; el cricoides, con forma de anillo de sello, único anillo cartilaginoso completo de la vía aérea, a nivel de C6; y la epiglotis, de cartílago elástico. Los pares son los aritenoides, que presentan una apófisis vocal donde se inserta el ligamento vocal y una apófisis muscular, los corniculados y los cuneiformes. (Moore, cap. 9)"
+      },
+      {
+        "titulo": "Cavidad laríngea",
+        "texto": "Se divide en vestíbulo, por encima de los pliegues vestibulares o cuerdas vocales falsas; ventrículo laríngeo; y cavidad infraglótica. Los pliegues vocales, formados por el ligamento vocal y el músculo vocal, delimitan la rima glótica, que es la porción más estrecha de la vía aérea en el adulto. (Moore, cap. 9)"
+      },
+      {
+        "titulo": "Músculos intrínsecos",
+        "texto": "El cricotiroideo tensa las cuerdas vocales y eleva el tono de la voz. El cricoaritenoideo posterior es el único que abre la glotis. El cricoaritenoideo lateral y los aritenoideos transverso y oblicuo la cierran. El tiroaritenoideo y el músculo vocal relajan las cuerdas y ajustan su tensión. (Moore, cap. 9)"
+      },
+      {
+        "titulo": "Inervación",
+        "texto": "Procede del nervio vago. El nervio laríngeo superior se divide en una rama interna, sensitiva para la mucosa situada por encima de las cuerdas vocales, y una rama externa, que inerva al músculo cricotiroideo. El nervio laríngeo recurrente inerva todos los demás músculos intrínsecos y la mucosa situada por debajo de las cuerdas. El recurrente izquierdo rodea el arco aórtico y el derecho la arteria subclavia. (Moore, cap. 9)"
+      },
+      {
+        "titulo": "Reflejo de la tos",
+        "texto": "Los receptores de la laringe y la carina son los más sensibles. Se produce una inspiración de unos 2,5 L, la epiglotis y las cuerdas vocales se cierran, los músculos espiratorios elevan la presión pulmonar a 100 mmHg o más y, al abrirse súbitamente la glotis, el aire sale a una velocidad de 120-160 km/h y arrastra el material extraño. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Lesión del nervio laríngeo recurrente y vía aérea de urgencia",
+      "texto": "El nervio laríngeo recurrente puede lesionarse durante una tiroidectomía, porque pasa junto a la arteria tiroidea inferior, o por cáncer de tiroides o de pulmón y por aneurismas del arco aórtico en el caso del izquierdo. La lesión unilateral produce disfonía; la bilateral puede dejar ambas cuerdas vocales cerca de la línea media, con estridor y obstrucción de la vía aérea. Cuando existe una obstrucción de la vía aérea superior y no es posible intubar, se realiza una cricotirotomía a través de la membrana cricotiroidea, situada entre los cartílagos tiroides y cricoides. (Moore, cap. 9)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "grupo": "atlas_bodyparts3d"
@@ -369,9 +984,33 @@
       "laringe",
       "bronquios"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que es el tubo por donde el aire baja a los pulmones y que tiene anillos.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación",
+        "texto": "Es un tubo fibrocartilaginoso que se extiende desde el borde inferior del cricoides (C6) hasta el ángulo esternal (T4-T5), donde se bifurca en los bronquios principales. En el interior de la bifurcación se encuentra la carina, una cresta cartilaginosa de orientación sagital. (Moore, caps. 4 y 9)"
+      },
+      {
+        "titulo": "Estructura",
+        "texto": "Tiene de 16 a 20 anillos de cartílago hialino en forma de C, abiertos en su parte posterior; en esa región el músculo traqueal, de tipo liso, une los extremos de los anillos y permite que el esófago se expanda durante la deglución. Los anillos mantienen la tráquea permeable de manera permanente. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Relaciones",
+        "texto": "Por detrás se encuentra el esófago, y en el surco traqueoesofágico izquierdo transcurre el nervio laríngeo recurrente. Por delante, en el cuello, se ubica el istmo de la glándula tiroides (a nivel de los anillos 2 a 4); en el tórax, el tronco braquiocefálico y, a la izquierda, el arco aórtico. (Moore, caps. 4 y 9)"
+      },
+      {
+        "titulo": "Mecanismo mucociliar",
+        "texto": "Su epitelio es cilíndrico pseudoestratificado ciliado con células caliciformes. El moco atrapa partículas y los cilios baten entre 10 y 20 veces por segundo en dirección a la faringe, desplazando el moco algunos milímetros por minuto; finalmente se deglute o se expectora. El tabaquismo altera este mecanismo. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Espacio muerto",
+        "texto": "Forma parte de la zona de conducción, que junto con la nariz, la faringe, los bronquios y los bronquiolos terminales ocupa unos 150 mL de aire que entra y sale sin participar en el intercambio gaseoso. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Intubación, traqueostomía y estenosis traqueal",
+      "texto": "Durante la intubación endotraqueal la punta del tubo debe quedar algunos centímetros por encima de la carina; si se introduce demasiado suele desviarse al bronquio principal derecho y ventilar un solo pulmón. La traqueostomía se realiza a través de los primeros anillos traqueales en pacientes que requieren ventilación prolongada o que tienen obstrucción de la vía aérea superior; como se pierde la función de la nariz, el aire debe humidificarse. La presión prolongada del globo del tubo sobre la mucosa puede ocasionar estenosis traqueal. En la broncoscopia, una carina ensanchada o deformada puede indicar crecimiento de los ganglios traqueobronquiales, por ejemplo en el cáncer de pulmón. (Moore, caps. 4 y 9; Guyton, cap. 38)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "grupo": "atlas_bodyparts3d"
@@ -389,9 +1028,37 @@
       "bronquiolos",
       "pulmones"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que la tráquea se divide en dos bronquios, uno para cada pulmón.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Bronquios principales",
+        "texto": "El derecho es más ancho, más corto y más vertical, y antes de entrar al hilio da origen al bronquio lobar superior. El izquierdo es más largo, pasa por debajo del arco aórtico y por delante del esófago y de la aorta torácica. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Ramificación",
+        "texto": "Los bronquios principales se dividen en bronquios lobares (tres en el pulmón derecho y dos en el izquierdo) y éstos en bronquios segmentarios, uno para cada segmento broncopulmonar (alrededor de 10 en el pulmón derecho y de 8 a 10 en el izquierdo). Cada segmento tiene forma piramidal, cuenta con su propio bronquio y su propia arteria y puede extirparse quirúrgicamente sin afectar a los demás. En total, la vía aérea se divide de 20 a 25 veces antes de llegar a los alveolos. (Moore, cap. 4; Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Pared",
+        "texto": "En la tráquea los anillos de cartílago rodean aproximadamente cinco sextas partes de la circunferencia; en los bronquios el cartílago forma placas curvas que disminuyen progresivamente. La pared contiene además músculo liso, glándulas y epitelio ciliado. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Resistencia al flujo aéreo",
+        "texto": "En condiciones normales la mayor resistencia no se encuentra en los bronquiolos pequeños, sino en algunos bronquiolos grandes y en los bronquios cercanos a la tráquea, ya que son relativamente pocos; los bronquiolos pequeños son millones y están dispuestos en paralelo. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Control del calibre",
+        "texto": "La inervación simpática directa es escasa; la dilatación bronquial se debe principalmente a la adrenalina circulante que actúa sobre receptores β-adrenérgicos. Las fibras parasimpáticas del vago liberan acetilcolina y producen una constricción moderada, efecto que bloquea la atropina. En las reacciones alérgicas, los mastocitos liberan histamina y leucotrienos, que causan una broncoconstricción intensa. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Irrigación",
+        "texto": "Las arterias bronquiales, ramas de la aorta torácica, nutren los bronquios, el tejido de sostén del pulmón y la pleura visceral. (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Aspiración de cuerpo extraño y bronquitis crónica",
+      "texto": "Por ser más ancho, corto y vertical, el bronquio principal derecho es el sitio donde con mayor frecuencia se alojan los cuerpos extraños aspirados y donde se desvía un tubo endotraqueal introducido en exceso. En decúbito supino suele afectarse el segmento superior del lóbulo inferior derecho. Se presenta tos súbita, sibilancias unilaterales y atelectasia, y el objeto se extrae por broncoscopia. En la bronquitis crónica del fumador, que forma parte de la EPOC, existe hipersecreción de moco y alteración ciliar, con tos productiva la mayoría de los días durante al menos tres meses en dos años consecutivos. (Moore, cap. 4; Informe GOLD 2025)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "grupo": "atlas_bodyparts3d"
@@ -408,9 +1075,29 @@
       "bronquios",
       "alveolos"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "No sabía que existían; creía que los bronquios llegaban directo a los alveolos.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Definición",
+        "texto": "Son vías aéreas de menos de 1,5 mm de diámetro que carecen de cartílago y glándulas; su pared está formada principalmente por músculo liso. No se colapsan por la rigidez de su pared, sino porque la misma presión transpulmonar que expande los alveolos los mantiene abiertos. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Tipos",
+        "texto": "El bronquiolo terminal es el último segmento de la zona de conducción. Los bronquiolos respiratorios ya presentan alveolos en su pared y marcan el inicio de la zona respiratoria. A continuación se encuentran los conductos alveolares, los atrios y los sacos alveolares. El conjunto que depende de un bronquiolo respiratorio constituye la unidad respiratoria o lobulillo respiratorio. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Epitelio",
+        "texto": "Cambia de cilíndrico ciliado a cúbico simple y aparecen las células club (antes llamadas células de Clara), que secretan proteínas protectoras, metabolizan sustancias inhaladas y funcionan como células madre del epitelio bronquiolar. (Ross y Pawlina, cap. 19)"
+      },
+      {
+        "titulo": "Control y espacio muerto",
+        "texto": "Por su abundante músculo liso se contraen con facilidad ante la acetilcolina, la histamina y los leucotrienos, y se dilatan con la adrenalina (receptores β2). Todas las vías situadas antes del bronquiolo respiratorio forman el espacio muerto anatómico, de unos 150 mL. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Asma",
+      "texto": "Es una enfermedad inflamatoria crónica con broncoconstricción reversible, edema de la mucosa y moco espeso, que afecta sobre todo a bronquios pequeños y bronquiolos. Según la ley de Poiseuille, la resistencia varía con la cuarta potencia del radio, por lo que una constricción pequeña aumenta mucho la resistencia. Se presentan sibilancias, disnea, tos nocturna y espiración prolongada; durante la espiración los bronquiolos se cierran y el aire queda atrapado. En la espirometría la obstrucción mejora con el broncodilatador (aumento del FEV1 mayor de 12 % y de 200 mL). La GINA recomienda que todo adulto o adolescente con asma reciba un corticoide inhalado y que el tratamiento de rescate preferido sea budesonida-formoterol en lugar de salbutamol solo. En lactantes es frecuente la bronquiolitis por virus sincitial respiratorio. (Guyton, cap. 38; GINA 2024)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "notaSinMalla": "Los bronquiolos son estructuras microscópicas: ningún atlas anatómico macro los representa como malla 3D."
@@ -428,12 +1115,75 @@
       "bronquiolos",
       "pulmones"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que son como \"bolsitas\" al final de los pulmones donde el oxígeno pasa a la sangre.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Número y tamaño",
+        "texto": "Existen alrededor de 300 millones de alveolos en ambos pulmones, cada uno con un diámetro de aproximadamente 0,2 mm. Sus paredes son extremadamente delgadas y entre ellos hay una red capilar tan densa que la sangre forma prácticamente una lámina continua. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Células",
+        "texto": "Los neumocitos tipo I son células planas que cubren cerca del 95 % de la superficie alveolar, forman la barrera de intercambio y no se dividen. Los neumocitos tipo II son cúbicos, cubren sólo el 5 % de la superficie, producen surfactante, que almacenan en cuerpos lamelares, y pueden dividirse para reemplazar a los tipo I dañados. Los macrófagos alveolares fagocitan partículas y bacterias. Los poros alveolares (de Kohn) comunican alveolos vecinos y permiten la ventilación colateral. (Ross y Pawlina, cap. 19; Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Tensión superficial y surfactante",
+        "texto": "El líquido que recubre el alveolo tiende a contraerse y a colapsarlo. El surfactante, compuesto por dipalmitoilfosfatidilcolina, apoproteínas y calcio, disminuye la tensión superficial: el agua pura tiene 72 dinas/cm, el líquido alveolar sin surfactante 50 dinas/cm y con surfactante entre 5 y 30 dinas/cm. La tensión superficial representa aproximadamente dos tercios de las fuerzas elásticas totales del pulmón. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Ley de Laplace",
+        "texto": "La presión de colapso es igual a dos veces la tensión superficial dividida entre el radio. En un alveolo de 100 µm con surfactante normal, esta presión es de unos 4 cmH2O; sin surfactante sería de unos 18 cmH2O. Los alveolos más pequeños tienen mayor tendencia al colapso, lo que explica la importancia del surfactante en el recién nacido. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Desarrollo",
+        "texto": "El surfactante comienza a secretarse entre el sexto y el séptimo mes de gestación. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Síndrome de dificultad respiratoria del recién nacido",
+      "texto": "En los prematuros la cantidad de surfactante es insuficiente, los alveolos se colapsan al final de cada espiración y se forman membranas hialinas. El recién nacido presenta taquipnea, quejido espiratorio, aleteo nasal, retracciones y cianosis desde las primeras horas de vida; la radiografía muestra un patrón en vidrio esmerilado con broncograma aéreo. El consenso europeo recomienda administrar corticoides a la madre ante el riesgo de parto prematuro, ya que aceleran la producción de surfactante; iniciar presión positiva continua (CPAP) desde el nacimiento, y aplicar surfactante por vía intratraqueal si aumentan las necesidades de oxígeno. (Guyton, cap. 38; Consenso europeo de SDR 2022)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "notaSinMalla": "Los alvéolos son estructuras microscópicas: ningún atlas anatómico macro los representa como malla 3D."
+  },
+  {
+    "id": "membrana_respiratoria",
+    "nombre": "Membrana respiratoria",
+    "sinMalla": true,
+    "relacionadas": [
+      "alveolos",
+      "pulmones"
+    ],
+    "conocimientoPrevio": "Sabía que el oxígeno pasa del pulmón a la sangre, pero no que tuviera que atravesar una membrana con varias capas.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Definición",
+        "texto": "Es la barrera entre el aire y la sangre a través de la cual difunden los gases. Se encuentra en todas las porciones terminales del pulmón y no sólo en los alveolos. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Capas",
+        "texto": "1) Capa de líquido con surfactante que recubre el alveolo. 2) Epitelio alveolar (neumocitos tipo I). 3) Membrana basal epitelial. 4) Espacio intersticial. 5) Membrana basal capilar, que en muchas zonas está fusionada con la epitelial. 6) Endotelio capilar. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Dimensiones",
+        "texto": "A pesar de tener seis capas, su grosor promedio es de 0,6 µm y en algunas zonas de sólo 0,2 µm. El área total es de unos 70 m², equivalente al piso de una habitación de 7,5 × 9 m. En los capilares pulmonares hay en cada momento sólo 60-140 mL de sangre distribuidos en esta superficie. El diámetro capilar es de unos 5 µm, por lo que el eritrocito debe deformarse y su membrana entra en contacto con la pared capilar. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Factores que determinan la difusión",
+        "texto": "La velocidad de difusión aumenta con el área de la membrana, con la diferencia de presión parcial y con el coeficiente de difusión del gas, que depende de su solubilidad y es inversamente proporcional a la raíz cuadrada de su peso molecular; disminuye al aumentar el grosor de la membrana. El CO2 difunde unas 20 veces más rápido que el O2. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Capacidad de difusión",
+        "texto": "Para el O2 es de 21 mL/min/mmHg en reposo y puede llegar a 65 durante el ejercicio, gracias a la apertura de capilares y a una mejor relación ventilación/perfusión. Para el CO2 es de 400-450 mL/min/mmHg en reposo y de 1200-1300 en ejercicio. En el laboratorio se mide con monóxido de carbono (DLCO). (Guyton, cap. 40)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Fibrosis pulmonar, edema y enfisema",
+      "texto": "El edema pulmonar y la fibrosis pulmonar aumentan el grosor de la membrana, mientras que el enfisema destruye las paredes alveolares y reduce el área de intercambio. En todos los casos disminuye la DLCO y aparece hipoxemia, primero con el ejercicio. Como el CO2 difunde con mucha mayor facilidad, la PaCO2 suele mantenerse normal o incluso disminuida, de modo que el paciente presenta hipoxemia sin retención de CO2. (Guyton, caps. 40 y 43; Estándar ERS/ATS 2017 de DLCO)"
+    },
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "La membrana respiratoria es una barrera microscópica (seis capas) entre el alveolo y el capilar: ningún atlas anatómico macro la representa como malla 3D."
   },
   {
     "id": "pulmones",
@@ -451,11 +1201,206 @@
       "venas_pulmonares",
       "alveolos"
     ],
-    "conocimientoPrevio": "",
-    "conocimientoNuevo": "",
-    "aplicacionClinica": "",
+    "conocimientoPrevio": "Sabía que tenemos dos pulmones que se inflan al respirar y que el tabaco los daña.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Ubicación y forma",
+        "texto": "Se encuentran a cada lado del mediastino, recubiertos por la pleura visceral. El vértice asciende por encima de la primera costilla hacia la raíz del cuello y la base descansa sobre el diafragma. Presentan caras costal, mediastínica (donde se encuentran el hilio y la impresión cardiaca) y diafragmática. El pulmón derecho es más corto y ancho, porque el hígado eleva la cúpula diafragmática derecha, y el izquierdo es más estrecho por la presencia del corazón. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Lóbulos",
+        "texto": "El pulmón derecho tiene tres lóbulos (superior, medio e inferior) separados por las fisuras oblicua y horizontal. El izquierdo tiene dos lóbulos (superior e inferior) separados por la fisura oblicua, además de la escotadura cardiaca y la língula, que equivale al lóbulo medio. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Hilio",
+        "texto": "Por él pasan el bronquio principal, la arteria pulmonar, las venas pulmonares, los vasos bronquiales, los linfáticos y el plexo pulmonar, con fibras vagales y simpáticas. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Doble circulación",
+        "texto": "La circulación pulmonar es de baja presión y recibe todo el gasto cardiaco para el intercambio gaseoso. La circulación bronquial procede de la aorta y nutre los bronquios y el tejido de sostén, con alrededor del 1-2 % del gasto cardiaco. (Moore, cap. 4; Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Músculos respiratorios",
+        "texto": "En reposo, la inspiración depende casi por completo del diafragma, con ayuda de los intercostales externos; en la inspiración forzada participan además los esternocleidomastoideos, los serratos anteriores y los escalenos. La espiración en reposo es pasiva y se debe al retroceso elástico; la espiración forzada utiliza los rectos abdominales y los intercostales internos. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Presiones y distensibilidad",
+        "texto": "La presión pleural es de -5 cmH2O al inicio de la inspiración y de -7,5 cmH2O al final. La presión alveolar es de -1 cmH2O durante la inspiración, suficiente para que entre medio litro de aire en 2 segundos, y de +1 cmH2O durante la espiración. La distensibilidad de ambos pulmones es de unos 200 mL por cada cmH2O de presión transpulmonar. En reposo, la respiración consume sólo el 3-5 % de la energía total del organismo. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Control de la respiración",
+        "texto": "El grupo respiratorio dorsal del bulbo genera el ritmo inspiratorio básico; el grupo ventral participa sobre todo en la respiración forzada y el centro neumotáxico de la protuberancia limita la duración de la inspiración. Los quimiorreceptores centrales del bulbo responden al aumento de CO2 a través de los cambios de H+ en el líquido cefalorraquídeo, y constituyen el principal estímulo de la ventilación. Los quimiorreceptores periféricos (cuerpos carotídeos y aórticos) responden sobre todo a la disminución de la PO2 arterial, especialmente por debajo de 60 mmHg. (Guyton, cap. 42)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Neumonía adquirida en la comunidad",
+      "texto": "Es una infección del parénquima pulmonar, causada con mayor frecuencia por Streptococcus pneumoniae, que llena los alveolos de exudado (consolidación); la zona afectada se perfunde pero no se ventila. Se manifiesta con fiebre, tos productiva, dolor pleurítico y disnea; a la exploración hay matidez, estertores crepitantes, aumento de las vibraciones vocales y soplo tubario, y la radiografía muestra una opacidad lobar con broncograma aéreo. El conocimiento de los lóbulos permite localizarla: el lóbulo medio se ausculta en la cara anterior del hemitórax derecho y los lóbulos inferiores en la región posterior. La escala CURB-65 (confusión, urea, frecuencia respiratoria de 30 o más, presión arterial baja y edad de 65 años o más) ayuda a decidir la hospitalización. (Moore, cap. 4; Guía ATS/IDSA 2019; Lim et al., Thorax 2003)"
+    },
     "imagenUrl": "",
     "sistema": "respiratorio",
     "grupo": "atlas_bodyparts3d"
+  },
+  {
+    "id": "pleura",
+    "nombre": "Pleura",
+    "sinMalla": true,
+    "relacionadas": [
+      "pulmones"
+    ],
+    "conocimientoPrevio": "Sabía que es una capa que cubre los pulmones, pero no que tuviera dos hojas.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Pleura visceral",
+        "texto": "Recubre íntimamente la superficie del pulmón y se introduce en las fisuras. Recibe inervación autónoma y es insensible al dolor. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Pleura parietal",
+        "texto": "Tapiza la cavidad pulmonar y se divide en porciones costal, mediastínica, diafragmática y cervical (cúpula pleural). La cúpula asciende de 2 a 3 cm por encima del tercio medial de la clavícula y está reforzada por la membrana suprapleural; por ello, una punción en la base del cuello puede ocasionar un neumotórax. La porción costal y la periferia de la diafragmática están inervadas por los nervios intercostales, y la mediastínica y el centro de la diafragmática por el nervio frénico, lo que explica el dolor referido al cuello y al hombro. Es muy sensible al dolor. (Moore, cap. 4)"
+      },
+      {
+        "titulo": "Cavidad pleural",
+        "texto": "Es un espacio virtual entre ambas hojas, con una pequeña cantidad de líquido que lubrica y mantiene el pulmón unido a la pared torácica. En la raíz del pulmón las dos hojas se continúan y forman el ligamento pulmonar. (Moore, cap. 4; Guyton, cap. 39)"
+      },
+      {
+        "titulo": "Presión pleural negativa",
+        "texto": "Los linfáticos drenan de forma continua el líquido pleural, lo que genera una presión negativa. Para mantener los pulmones expandidos se requiere una presión de al menos -4 mmHg, y la presión real es de aproximadamente -7 mmHg (equivalente a -5 cmH2O al final de una espiración normal). Si esta presión se pierde, el pulmón se colapsa por su retroceso elástico. (Guyton, caps. 38 y 39)"
+      },
+      {
+        "titulo": "Recesos y líneas de reflexión",
+        "texto": "Los recesos costodiafragmático, que es el punto más bajo y donde se acumula el líquido, y costomediastínico permiten la expansión del pulmón durante la inspiración profunda. La pleura parietal llega a la costilla 8 en la línea medioclavicular, a la 10 en la línea axilar media y a la 12 junto a la columna; el borde inferior del pulmón se encuentra unas dos costillas más arriba (6, 8 y 10). (Moore, cap. 4)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Neumotórax y derrame pleural",
+      "texto": "El neumotórax es la entrada de aire en la cavidad pleural, que puede ser espontánea (en jóvenes altos y delgados, por rotura de bulas), traumática o secundaria a procedimientos. Al perderse la presión negativa el pulmón se colapsa y se presentan dolor súbito, disnea, hiperresonancia y abolición del murmullo vesicular. En el neumotórax a tensión la tráquea se desvía hacia el lado contrario y hay ingurgitación yugular e hipotensión, por lo que requiere descompresión inmediata. En el derrame pleural hay matidez y abolición del murmullo; los criterios de Light (cociente de proteínas pleura/suero mayor de 0,5, cociente de LDH pleura/suero mayor de 0,6 o LDH pleural mayor de dos tercios del límite superior normal) permiten distinguir un exudado de un trasudado. En la toracocentesis la aguja se introduce por el borde superior de la costilla inferior del espacio intercostal, para no lesionar el paquete vasculonervioso que corre por el borde inferior de cada costilla. (Moore, cap. 4; Guía BTS 2023; Light et al., 1972)"
+    },
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "La pleura no está modelada como malla en este atlas anatómico."
+  },
+  {
+    "id": "intercambio_gaseoso_pulmonar",
+    "nombre": "Intercambio gaseoso pulmonar",
+    "sinMalla": true,
+    "relacionadas": [
+      "alveolos",
+      "membrana_respiratoria",
+      "pulmones"
+    ],
+    "conocimientoPrevio": "Sabía que inhalamos oxígeno y exhalamos dióxido de carbono.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Principio físico",
+        "texto": "Los gases se desplazan por difusión pasiva, de la zona de mayor a la de menor presión parcial, sin transporte activo. La presión parcial de un gas es proporcional a su concentración: en el aire al nivel del mar (760 mmHg) el O2 aporta unos 159 mmHg y el N2 unos 597 mmHg. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Del aire al alveolo",
+        "texto": "Al entrar en las vías respiratorias el aire se humidifica (el vapor de agua ejerce 47 mmHg) y la PO2 desciende a 149 mmHg. En el alveolo se mezcla con el aire residual y alcanza una PO2 de 104 mmHg y una PCO2 de 40 mmHg. Cada respiración renueva sólo unos 350 mL de los 2300 mL de la capacidad residual funcional (alrededor de una séptima parte), por lo que la composición del aire alveolar cambia lentamente y se evitan variaciones bruscas en los gases sanguíneos. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Difusión del oxígeno",
+        "texto": "La sangre venosa llega al capilar pulmonar con una PO2 de 40 mmHg; con un gradiente inicial de 64 mmHg, el O2 pasa a la sangre. El equilibrio con el aire alveolar se alcanza en el primer tercio del recorrido capilar, que dura unos 0,8 s en reposo, lo que deja un margen amplio para el ejercicio, cuando la sangre circula con mayor rapidez. (Guyton, caps. 40 y 41)"
+      },
+      {
+        "titulo": "Difusión del dióxido de carbono",
+        "texto": "La sangre llega con una PCO2 de 45 mmHg y el alveolo tiene 40 mmHg. Aunque el gradiente es de sólo 5 mmHg, resulta suficiente porque el CO2 difunde unas 20 veces más rápido que el O2. (Guyton, caps. 40 y 41)"
+      },
+      {
+        "titulo": "Relación ventilación/perfusión",
+        "texto": "La ventilación alveolar es de 4,2 L/min y el flujo sanguíneo pulmonar de 5 L/min, con una relación V/Q cercana a 0,8. Cuando V/Q es igual a cero (alveolo perfundido pero no ventilado) se produce un cortocircuito y la sangre sale sin oxigenarse; cuando V/Q tiende a infinito (alveolo ventilado pero no perfundido) se produce espacio muerto. En posición de pie, el vértice pulmonar tiene una relación V/Q alta y la base una relación baja. (Guyton, cap. 40)"
+      },
+      {
+        "titulo": "Espacio muerto fisiológico",
+        "texto": "Corresponde al espacio muerto anatómico más los alveolos ventilados pero no perfundidos. En una persona sana ambos son casi iguales; en enfermedades pulmonares el espacio muerto fisiológico puede ser hasta 10 veces mayor que el anatómico. (Guyton, cap. 38)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Gasometría arterial e hipoxemia",
+      "texto": "La gasometría arterial mide la PaO2 (normal de 80-100 mmHg al nivel del mar), la PaCO2 (35-45 mmHg) y el pH, y permite calcular el gradiente alveolo-arterial de oxígeno. Las causas de hipoxemia son la hipoventilación (con gradiente normal y PaCO2 elevada), la alteración de la relación V/Q (la más frecuente, como en la neumonía, la EPOC o la TEP), el cortocircuito (que no mejora con oxígeno), los trastornos de la difusión y la disminución de la PO2 inspirada (altitud). En la neumonía y el edema pulmonar, los alveolos ocupados por líquido se comportan como un cortocircuito (V/Q igual a cero). (Guyton, caps. 40 y 43)"
+    },
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "Este es un tema de fisiología (difusión de gases), no una estructura con malla 3D propia."
+  },
+  {
+    "id": "intercambio_gaseoso_sistemico",
+    "nombre": "Intercambio gaseoso sistémico (tisular)",
+    "sinMalla": true,
+    "relacionadas": [
+      "intercambio_gaseoso_pulmonar",
+      "corazon"
+    ],
+    "conocimientoPrevio": "Sabía que la sangre lleva el oxígeno a todas las células del cuerpo.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Gradientes en los tejidos",
+        "texto": "La sangre arterial llega al capilar sistémico con una PO2 de 95 mmHg; el líquido intersticial tiene 40 mmHg y el interior celular unos 23 mmHg en promedio (con un rango de 5 a 40). Las células requieren sólo 1-3 mmHg para mantener su metabolismo, por lo que existe un amplio margen de seguridad. El CO2 sigue el sentido opuesto: 46 mmHg en la célula, 45 mmHg en el intersticio y 40 mmHg en la sangre arterial. (Guyton, cap. 41)"
+      },
+      {
+        "titulo": "Transporte de oxígeno",
+        "texto": "El 97 % del oxígeno viaja unido a la hemoglobina y el 3 % disuelto en el plasma. Cada gramo de hemoglobina puede unirse a 1,34 mL de O2; con 15 g/dL, la sangre transporta unos 20 mL de O2 por cada 100 mL. La saturación es del 97 % en la sangre arterial y del 75 % en la venosa, de modo que en reposo cada 100 mL de sangre ceden unos 5 mL de O2 (coeficiente de utilización del 25 %). Durante el ejercicio intenso pueden ceder hasta 15 mL y el coeficiente aumenta al 75-85 %. (Guyton, cap. 41)"
+      },
+      {
+        "titulo": "Curva de disociación de la hemoglobina",
+        "texto": "Tiene forma sigmoidea. En su porción superior, que corresponde a la PO2 alta del pulmón, es casi plana, por lo que una disminución moderada de la PO2 apenas modifica la saturación. En su porción inferior, que corresponde a la PO2 baja de los tejidos, es muy pronunciada, de modo que una pequeña disminución de la PO2 libera una gran cantidad de oxígeno. De esta forma la hemoglobina mantiene la PO2 tisular cerca de 40 mmHg. (Guyton, cap. 41)"
+      },
+      {
+        "titulo": "Efecto Bohr",
+        "texto": "El aumento de CO2, de H+, de temperatura y de 2,3-bifosfoglicerato desplaza la curva hacia la derecha, lo que favorece la liberación de oxígeno en los tejidos con mayor actividad metabólica. (Guyton, cap. 41)"
+      },
+      {
+        "titulo": "Transporte de dióxido de carbono",
+        "texto": "Cada 100 mL de sangre llevan unos 4 mL de CO2 desde los tejidos hasta el pulmón. Alrededor del 70 % se transporta como bicarbonato: la anhidrasa carbónica del eritrocito convierte el CO2 y el agua en ácido carbónico, que se disocia en H+ y HCO3-; el bicarbonato sale al plasma en intercambio por cloruro (desplazamiento del cloruro). Entre el 20 y el 30 % viaja unido a la hemoglobina como carbaminohemoglobina y cerca del 7 % disuelto. Según el efecto Haldane, la unión del O2 a la hemoglobina en el pulmón favorece la liberación del CO2. (Guyton, cap. 41)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Intoxicación por monóxido de carbono",
+      "texto": "El monóxido de carbono se une a la hemoglobina en el mismo sitio que el oxígeno, pero con una afinidad unas 250 veces mayor; una PCO alveolar de sólo 0,6 mmHg, que corresponde a menos de una milésima parte del aire, puede resultar mortal. La PaO2 puede ser normal, aunque el contenido y la entrega de oxígeno estén muy disminuidos. Además, el pulsioxímetro convencional puede mostrar una saturación falsamente normal porque no distingue la carboxihemoglobina, por lo que se requiere cooximetría. Los síntomas incluyen cefalea, náusea, confusión y coma, y la intoxicación es típica en espacios cerrados con braseros o calentadores. El tratamiento es oxígeno al 100 % y, en los casos graves, oxígeno hiperbárico. (Guyton, cap. 41)"
+    },
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "Este es un tema de fisiología (transporte e intercambio de gases en los tejidos), no una estructura con malla 3D propia."
+  },
+  {
+    "id": "volumenes_capacidades_pulmonares",
+    "nombre": "Volúmenes y capacidades pulmonares",
+    "sinMalla": true,
+    "relacionadas": [
+      "pulmones"
+    ],
+    "conocimientoPrevio": "Sabía que los pulmones tienen cierta \"capacidad\" de aire y que los deportistas suelen tener más.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Volúmenes pulmonares",
+        "texto": "Volumen corriente (VC): unos 500 mL, cantidad de aire que se moviliza en cada respiración normal. Volumen de reserva inspiratoria (VRI): unos 3000 mL, aire adicional que puede inspirarse después de una inspiración normal. Volumen de reserva espiratoria (VRE): unos 1100 mL, aire adicional que puede espirarse de manera forzada después de una espiración normal. Volumen residual (VR): unos 1200 mL, aire que permanece en los pulmones después de una espiración forzada máxima. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Capacidades pulmonares",
+        "texto": "Son la suma de dos o más volúmenes. Capacidad inspiratoria: VC + VRI = 3500 mL. Capacidad residual funcional (CRF): VRE + VR = 2300 mL, que es el aire que queda al final de una espiración normal y amortigua los cambios en la composición del gas alveolar. Capacidad vital: VRI + VC + VRE = 4600 mL. Capacidad pulmonar total: CV + VR = 5800 mL. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Variaciones",
+        "texto": "En las mujeres todos los volúmenes y capacidades son un 20-25 % menores, y son mayores en personas de mayor talla y en atletas. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Medición",
+        "texto": "La espirometría mide los volúmenes de aire que entran y salen de los pulmones. El volumen residual, la CRF y la capacidad pulmonar total no pueden medirse con espirometría simple, por lo que se utilizan la dilución de helio o la pletismografía corporal. La prueba debe cumplir criterios de calidad internacionales, con al menos tres maniobras aceptables y repetibles. (Guyton, cap. 38; Estándar ATS/ERS 2019 de espirometría)"
+      },
+      {
+        "titulo": "Ventilación minuto y ventilación alveolar",
+        "texto": "El volumen respiratorio minuto es el producto del volumen corriente por la frecuencia respiratoria: 500 mL × 12 = 6 L/min. La ventilación alveolar descuenta el espacio muerto: (500 - 150) × 12 = 4,2 L/min. Por este motivo, una respiración lenta y profunda ventila mejor los alveolos que una respiración rápida y superficial. (Guyton, cap. 38)"
+      },
+      {
+        "titulo": "Volumen espiratorio forzado",
+        "texto": "En una persona sana el volumen espirado en el primer segundo de una espiración forzada (FEV1) es de aproximadamente el 80 % de la capacidad vital forzada (FVC). (Guyton, cap. 43)"
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Espirometría: patrón obstructivo y restrictivo",
+      "texto": "En el patrón obstructivo, característico del asma y la EPOC, el FEV1 disminuye en mayor proporción que la FVC; la GOLD define obstrucción como un cociente FEV1/FVC posbroncodilatador menor de 0,70. Además, el volumen residual y la CRF aumentan por atrapamiento aéreo, lo que produce el tórax en tonel. En el patrón restrictivo, presente en la fibrosis pulmonar, las deformidades torácicas, las enfermedades neuromusculares y la obesidad, disminuyen la capacidad vital y la capacidad pulmonar total, con un cociente FEV1/FVC normal o elevado; la restricción se confirma con una capacidad pulmonar total por debajo del límite inferior normal. La prueba con broncodilatador ayuda a diferenciar el asma de la EPOC. (Guyton, caps. 38 y 43; Informe GOLD 2025; ERS/ATS 2022)"
+    },
+    "imagenUrl": "",
+    "sistema": "respiratorio",
+    "notaSinMalla": "Los volúmenes y capacidades pulmonares son valores fisiológicos medidos por espirometría, no una estructura con malla 3D propia."
   }
 ]

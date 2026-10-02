@@ -1,7 +1,10 @@
 // Lista siempre visible en la barra lateral, no un desplegable flotante —
-// es el punto de entrada explícito a las 23 estructuras, incluidas las 4
-// sin malla propia que de otro modo solo se alcanzarían de rebote desde un
-// chip de "estructuras relacionadas".
+// es el punto de entrada explícito a las 32 estructuras y temas del Cuadro
+// de Conocimiento, incluidos los que no tienen malla propia (estructuras
+// microscópicas/no modeladas y temas de fisiología general, como el
+// sistema de conducción eléctrica o los volúmenes pulmonares) que de otro
+// modo solo se alcanzarían de rebote desde un chip de "estructuras
+// relacionadas".
 export default function StructureIndex({ structures, selectedId, onSelect }) {
   const porSistema = structures.reduce((acc, s) => {
     (acc[s.sistema] ??= []).push(s);

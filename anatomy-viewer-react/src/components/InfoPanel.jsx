@@ -76,24 +76,74 @@ function CuadroDeConocimiento({ structure }) {
       <h3 className="mb-3 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint">
         Cuadro de Conocimiento
       </h3>
-      <div className="space-y-4">
-        <Seccion titulo="Lo que sabía previamente" texto={structure.conocimientoPrevio} />
-        <Seccion titulo="Lo que sé después de estudiar" texto={structure.conocimientoNuevo} />
-        <Seccion titulo="Aplicación clínica" texto={structure.aplicacionClinica} />
+      <div className="space-y-5">
+        <Seccion titulo="Lo que sabía previamente">
+          <ParrafoSimple texto={structure.conocimientoPrevio} />
+        </Seccion>
+
+        <Seccion titulo="Lo que sé después de estudiar">
+          <Subsecciones items={structure.conocimientoNuevo} />
+        </Seccion>
+
+        <Seccion titulo="Aplicación clínica">
+          <CasoClinico caso={structure.aplicacionClinica} />
+        </Seccion>
       </div>
     </div>
   );
 }
 
-function Seccion({ titulo, texto }) {
+function Seccion({ titulo, children }) {
   return (
     <div>
-      <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-strong">
+      <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-accent-strong">
         {titulo}
       </h4>
-      <p className="text-sm leading-relaxed text-ink-dim">
-        {texto || <span className="italic text-ink-faint">Pendiente de completar.</span>}
-      </p>
+      {children}
+    </div>
+  );
+}
+
+function ParrafoSimple({ texto }) {
+  if (!texto) {
+    return <p className="text-sm italic leading-relaxed text-ink-faint">Pendiente de completar.</p>;
+  }
+  return <p className="text-sm leading-relaxed text-ink-dim">{texto}</p>;
+}
+
+// El apartado "nuevo" viene como una lista de subtemas (p. ej. "Ubicación y
+// morfología", "Capas de la pared"...) — cada uno con su propio encabezado,
+// tal como está estructurado el Cuadro de Conocimiento original, en vez de
+// aplastarlos en un solo párrafo corrido.
+function Subsecciones({ items }) {
+  if (!items || items.length === 0) {
+    return <p className="text-sm italic leading-relaxed text-ink-faint">Pendiente de completar.</p>;
+  }
+  return (
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <p key={i} className="text-sm leading-relaxed text-ink-dim">
+          {item.titulo ? <span className="font-semibold text-ink">{item.titulo}: </span> : null}
+          {item.texto}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+// La aplicación clínica es un caso con nombre propio (p. ej. "Insuficiencia
+// cardiaca") seguido de su explicación — el título merece distinguirse del
+// cuerpo, no quedar fundido con la primera oración.
+function CasoClinico({ caso }) {
+  if (!caso || (!caso.titulo && !caso.texto)) {
+    return <p className="text-sm italic leading-relaxed text-ink-faint">Pendiente de completar.</p>;
+  }
+  return (
+    <div className="rounded-md border border-warn/25 bg-warn/5 p-3">
+      {caso.titulo ? (
+        <p className="mb-1 text-sm font-semibold text-ink">{caso.titulo}</p>
+      ) : null}
+      <p className="text-sm leading-relaxed text-ink-dim">{caso.texto}</p>
     </div>
   );
 }
