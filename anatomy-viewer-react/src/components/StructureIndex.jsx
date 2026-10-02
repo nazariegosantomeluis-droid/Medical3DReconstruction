@@ -1,3 +1,10 @@
+import { motion } from "framer-motion";
+
+const SISTEMA_LABELS = {
+  respiratorio: "Sistema respiratorio",
+  cardiovascular: "Sistema cardiovascular",
+};
+
 // Lista siempre visible en la barra lateral, no un desplegable flotante —
 // es el punto de entrada explícito a las 32 estructuras y temas del Cuadro
 // de Conocimiento, incluidos los que no tienen malla propia (estructuras
@@ -12,38 +19,44 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
   }, {});
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {Object.entries(porSistema).map(([sistema, items]) => (
         <div key={sistema}>
-          <p className="mb-1.5 px-1 text-[0.68rem] font-semibold uppercase tracking-wider text-ink-faint">
-            {sistema === "respiratorio" ? "Sistema respiratorio" : "Sistema cardiovascular"}
+          <p className="mb-1.5 flex items-center gap-1.5 px-1 text-[0.68rem] font-semibold uppercase tracking-wider text-ink-faint">
+            <SistemaIcon sistema={sistema} />
+            {SISTEMA_LABELS[sistema] ?? sistema}
           </p>
           <ul className="space-y-0.5">
             {items.map((s) => {
               const active = s.id === selectedId;
               return (
-                <li key={s.id}>
+                <li key={s.id} className="relative">
                   <button
                     type="button"
                     onClick={() => onSelect(s.id)}
                     aria-pressed={active}
-                    className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-[0.82rem] transition ${
-                      active
-                        ? "bg-accent-soft text-ink"
-                        : "text-ink-dim hover:bg-surface-raised hover:text-ink"
+                    className={`relative flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-[0.82rem] transition-colors ${
+                      active ? "text-ink" : "text-ink-dim hover:bg-surface-raised hover:text-ink"
                     }`}
                   >
-                    <span className="flex items-center gap-2">
+                    {active ? (
+                      <motion.span
+                        layoutId="structure-index-active"
+                        className="absolute inset-0 rounded-md bg-accent-soft ring-1 ring-inset ring-accent/30"
+                        transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                      />
+                    ) : null}
+                    <span className="relative flex items-center gap-2">
                       <span
-                        className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                          active ? "bg-accent-strong" : "bg-border"
+                        className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
+                          active ? "bg-accent-strong shadow-glow-accent-sm" : "bg-border"
                         }`}
                         aria-hidden="true"
                       />
                       {s.nombre}
                     </span>
                     {s.sinMalla ? (
-                      <span className="shrink-0 text-[0.62rem] text-ink-faint">sin malla</span>
+                      <span className="relative shrink-0 text-[0.62rem] text-ink-faint">sin malla</span>
                     ) : null}
                   </button>
                 </li>
@@ -53,5 +66,26 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function SistemaIcon({ sistema }) {
+  if (sistema === "respiratorio") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+        <path d="M12 3v7" strokeLinecap="round" />
+        <path d="M12 10c-1.5 0-2.5 1.4-2.5 3.2 0 2.6-1.2 4.3-3 4.3-1.8 0-2.5-1.4-2.5-2.8" strokeLinecap="round" />
+        <path d="M12 10c1.5 0 2.5 1.4 2.5 3.2 0 2.6 1.2 4.3 3 4.3 1.8 0 2.5-1.4 2.5-2.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <path
+        d="M12 20.2s-7.5-4.6-9.6-9.1C1.1 7.9 2.7 4.8 5.8 4.2c2-.4 3.9.6 5 2.3 1.1-1.7 3-2.7 5-2.3 3.1.6 4.7 3.7 3.4 6.9-2.1 4.5-9.2 9.1-9.2 9.1Z"
+        strokeLinejoin="round"
+      />
+      <path d="M4.5 11h3l1.5-2.5L11 13l1.5-4 1.5 2h4.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }

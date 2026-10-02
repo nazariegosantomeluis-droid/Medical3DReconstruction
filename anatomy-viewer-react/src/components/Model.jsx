@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useCursor } from "@react-three/drei";
 import * as THREE from "three";
 import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
 // Un resaltado sutil, solo para el hover en vivo — la pieza seleccionada ya
-// se distingue de sobra por ser la única opaca (ver más abajo).
+// se distingue de sobra por ser la única opaca (ver más abajo). La
+// intensidad "respira" en vez de quedar fija (ver useFrame del hover).
 const HIGHLIGHT_COLOR = new THREE.Color("#fbbf24");
-const HIGHLIGHT_INTENSITY = 0.28;
+const HIGHLIGHT_INTENSITY = 0.3;
+const HIGHLIGHT_PULSE_SPEED = 3.2;
+const HIGHLIGHT_PULSE_DEPTH = 0.4;
 const CLICK_DRAG_THRESHOLD_PX = 6;
 const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 
@@ -15,6 +18,11 @@ const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 // deben leerse como contexto anatómico, no como piezas propias — bastante
 // transparentes, casi un fantasma, no una versión "aguada" del color real.
 const RELATED_OPACITY = 0.12;
+
+// Qué tan rápido la cámara "planea" hacia el nuevo encuadre en vez de
+// saltar de golpe — más alto = más rápido. Independiente del framerate
+// porque se aplica como 1 - lerpSpeed^delta, no como una fracción fija.
+const CAMERA_GLIDE_SPEED = 3.2;
 
 function findGroupName(object) {
   let node = object;
@@ -25,11 +33,12 @@ function findGroupName(object) {
   return null;
 }
 
-// Encuadra la cámara a lo que esté visible ahora mismo, no al modelo
-// completo — necesario porque solo un grupo (el corazón real o las piezas
-// del atlas) está visible a la vez, y cada uno vive en su propia escala/
-// posición dentro del archivo.
-function fitCameraToVisible(camera, controls, root) {
+// Calcula a dónde DEBERÍA apuntar la cámara para encuadrar lo visible ahora
+// mismo, sin moverla todavía — el useFrame de más abajo la desliza hasta
+// ahí con una animación suave en vez de saltar de golpe, que es lo que
+// hace que cambiar de estructura se sienta como una transición de cámara
+// de verdad y no un corte brusco.
+function computeFrameForVisible(camera, root) {
   const box = new THREE.Box3();
   let any = false;
   root.traverse((child) => {
@@ -38,7 +47,7 @@ function fitCameraToVisible(camera, controls, root) {
       any = true;
     }
   });
-  if (!any) return;
+  if (!any) return null;
 
   const center = new THREE.Vector3();
   const size = new THREE.Vector3();
@@ -49,15 +58,12 @@ function fitCameraToVisible(camera, controls, root) {
   const distance = ((maxDim / 2) / Math.tan(fov / 2)) * 1.7;
   const direction = new THREE.Vector3(0.55, 0.4, 1).normalize();
 
-  camera.position.copy(center.clone().addScaledVector(direction, distance));
-  camera.near = Math.max(distance / 100, 0.01);
-  camera.far = distance * 100;
-  camera.updateProjectionMatrix();
-
-  if (controls) {
-    controls.target.copy(center);
-    controls.update();
-  }
+  return {
+    position: center.clone().addScaledVector(direction, distance),
+    target: center,
+    near: Math.max(distance / 100, 0.01),
+    far: distance * 100,
+  };
 }
 
 export default function Model({
@@ -75,9 +81,54 @@ export default function Model({
   const originalEmissive = useRef(new Map());
   const meshGroups = useRef(new Map());
   const pointerDownAt = useRef(null);
+  const hoveredMeshRef = useRef(null);
+  const cameraGoalRef = useRef(null);
   const [hoveredName, setHoveredName] = useState(null);
 
   useCursor(Boolean(hoveredName));
+
+  // Desliza la cámara hacia el encuadre objetivo (calculado más abajo cada
+  // vez que cambia la selección/grupo) en vez de saltar de golpe, y hace
+  // "respirar" el resalte ámbar de la malla bajo el cursor. No se llama a
+  // controls.update() aquí: drei's <OrbitControls> ya lo hace en todos los
+  // frames (prioridad -1, antes de este hook) — llamarlo otra vez
+  // duplicaría el incremento de autoRotate y el amortiguamiento.
+  //
+  // Importante: una vez que la cámara LLEGA al objetivo, se suelta
+  // (cameraGoalRef pasa a null) en vez de seguir tirando de ella hacia ese
+  // punto fijo para siempre. Si no se soltara, pelearía cada frame contra
+  // el autoRotate de OrbitControls (que sí mueve camera.position en órbita
+  // continuamente) y el resultado es un enganche errático, no una órbita
+  // suave — se descubrió exactamente así, visualmente, al probar la
+  // rotación automática en reposo.
+  useFrame((state, delta) => {
+    const goal = cameraGoalRef.current;
+    if (goal) {
+      const alpha = 1 - Math.exp(-CAMERA_GLIDE_SPEED * delta);
+      camera.position.lerp(goal.position, alpha);
+      const controls = controlsRef?.current;
+      if (controls) {
+        controls.target.lerp(goal.target, alpha);
+      }
+      camera.near = goal.near;
+      camera.far = goal.far;
+      camera.updateProjectionMatrix();
+
+      const framingDistance = goal.position.distanceTo(goal.target) || 1;
+      const epsilon = framingDistance * 0.004;
+      const posDone = camera.position.distanceTo(goal.position) < epsilon;
+      const targetDone = !controls || controls.target.distanceTo(goal.target) < epsilon;
+      if (posDone && targetDone) {
+        cameraGoalRef.current = null;
+      }
+    }
+
+    const hoveredMesh = hoveredMeshRef.current;
+    if (hoveredMesh?.material?.emissive) {
+      const wave = 1 - HIGHLIGHT_PULSE_DEPTH * (0.5 + 0.5 * Math.sin(state.clock.elapsedTime * HIGHLIGHT_PULSE_SPEED));
+      hoveredMesh.material.emissiveIntensity = HIGHLIGHT_INTENSITY * wave;
+    }
+  });
 
   // Cada malla necesita su propio material (no compartido) para poder
   // resaltar solo la que está bajo el cursor sin afectar a las demás.
@@ -139,7 +190,7 @@ export default function Model({
         child.visible = false;
       }
     });
-    fitCameraToVisible(camera, controlsRef?.current, scene);
+    cameraGoalRef.current = computeFrameForVisible(camera, scene);
   }, [activeGroupNodeName, selectedMeshName, relatedMeshNames, scene, camera, controlsRef]);
 
   // Solo el hover en vivo tiñe con emissive — es una señal momentánea
@@ -185,12 +236,14 @@ export default function Model({
 
   const handlePointerOver = (event) => {
     event.stopPropagation();
+    hoveredMeshRef.current = event.object;
     setHoveredName(event.object.name);
     onHoverChange?.(event.object.name);
   };
 
   const handlePointerOut = (event) => {
     event.stopPropagation();
+    hoveredMeshRef.current = null;
     setHoveredName(null);
     onHoverChange?.(null);
   };

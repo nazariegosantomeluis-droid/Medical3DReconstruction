@@ -1,15 +1,21 @@
+import { motion } from "framer-motion";
+
 export default function InfoPanel({ structure, meshName, allStructures, onClose, onSelectRelated }) {
   const nombre = structure?.nombre ?? meshName;
 
   return (
-    <aside
+    <motion.aside
       role="dialog"
       aria-label={`Información de ${nombre}`}
-      className="fixed top-0 right-0 z-20 h-full w-full overflow-y-auto border-l
-                 border-border bg-surface shadow-2xl sm:w-[26rem]"
+      initial={{ x: 32, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 32, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 340, damping: 34 }}
+      className="glass-panel fixed top-0 right-0 z-20 h-full w-full overflow-y-auto border-l
+                 border-white/5 shadow-glass sm:w-[26rem]"
     >
-      <div className="flex items-center justify-between border-b border-border bg-surface-raised px-6 py-4">
-        <h2 className="text-lg font-semibold text-ink">{nombre}</h2>
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/5 bg-surface-raised/80 px-6 py-4 backdrop-blur">
+        <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{nombre}</h2>
         <button
           type="button"
           onClick={onClose}
@@ -33,7 +39,13 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
           dentro de <code className="rounded bg-surface-raised px-1 py-0.5 text-ink">meshNames</code>.
         </div>
       ) : (
-        <div className="space-y-6 p-6">
+        <motion.div
+          key={structure.id}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="space-y-6 p-6"
+        >
           {structure.imagenUrl ? (
             <img
               src={structure.imagenUrl}
@@ -61,9 +73,9 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
             allStructures={allStructures}
             onSelectRelated={onSelectRelated}
           />
-        </div>
+        </motion.div>
       )}
-    </aside>
+    </motion.aside>
   );
 }
 
@@ -72,9 +84,11 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
 // Conocimiento": previo / nuevo / aplicación clínica, como bloque.
 function CuadroDeConocimiento({ structure }) {
   return (
-    <div className="rounded-lg border border-border bg-surface-raised/60 p-4">
-      <h3 className="mb-3 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint">
+    <div className="rounded-xl border border-border bg-surface-raised/60 p-4 shadow-glass">
+      <h3 className="mb-3 flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint">
+        <span className="h-px flex-1 bg-gradient-to-r from-accent/60 to-transparent" aria-hidden="true" />
         Cuadro de Conocimiento
+        <span className="h-px flex-1 bg-gradient-to-l from-accent/60 to-transparent" aria-hidden="true" />
       </h3>
       <div className="space-y-5">
         <Seccion titulo="Lo que sabía previamente">
@@ -167,19 +181,21 @@ function ConexionesClinicas({ structure, allStructures, onSelectRelated }) {
       </h3>
       <div className="flex flex-wrap gap-1.5">
         {relacionadas.map((rel) => (
-          <button
+          <motion.button
             key={rel.id}
             type="button"
             onClick={() => onSelectRelated(rel.id)}
             title={rel.sinMalla ? "Esta estructura aún no tiene malla 3D propia" : undefined}
-            className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+            whileHover={{ scale: 1.05, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
               rel.sinMalla
                 ? "border-dashed border-border text-ink-faint hover:bg-surface-raised"
-                : "border-accent/30 bg-accent-soft text-accent-ink hover:bg-accent/25"
+                : "border-accent/30 bg-accent-soft text-accent-ink shadow-glow-accent-sm hover:bg-accent/25"
             }`}
           >
             {rel.nombre}
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>

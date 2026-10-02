@@ -1,10 +1,16 @@
+import { motion } from "framer-motion";
+
 export default function DebugPanel({ hoveredMesh, selectedMesh, meshInventory }) {
   return (
-    <aside
+    <motion.aside
       role="complementary"
       aria-label="Panel de depuración de mallas"
-      className="absolute bottom-4 left-4 z-20 flex max-h-[70vh] w-80 flex-col overflow-hidden
-                 rounded-lg border border-amber-500/40 bg-slate-950/95 shadow-2xl"
+      initial={{ y: 16, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 16, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 360, damping: 30 }}
+      className="glass-panel absolute bottom-4 left-4 z-20 flex max-h-[70vh] w-80 flex-col overflow-hidden
+                 rounded-lg border border-amber-500/40 shadow-glass"
     >
       <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2">
         <p className="text-xs font-semibold uppercase tracking-wide text-amber-400">
@@ -35,7 +41,7 @@ export default function DebugPanel({ hoveredMesh, selectedMesh, meshInventory })
           );
         })}
       </ul>
-    </aside>
+    </motion.aside>
   );
 }
 

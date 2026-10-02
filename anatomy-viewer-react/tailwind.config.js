@@ -25,6 +25,32 @@ export default {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         serif: ["ui-serif", "Georgia", "serif"],
         mono: ["IBM Plex Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+        display: ["Space Grotesk", "Inter", "ui-sans-serif", "sans-serif"],
+      },
+      boxShadow: {
+        "glow-accent": "0 0 50px -12px rgba(192,82,91,0.5)",
+        "glow-accent-sm": "0 0 20px -6px rgba(192,82,91,0.55)",
+        glass: "0 8px 32px -8px rgba(0,0,0,0.45)",
+      },
+      keyframes: {
+        "pulse-slow": {
+          "0%, 100%": { opacity: 0.55, transform: "scale(1)" },
+          "50%": { opacity: 0.9, transform: "scale(1.06)" },
+        },
+        drift: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "50%": { transform: "translate(3%, -4%)" },
+        },
+        "fade-in-up": {
+          "0%": { opacity: 0, transform: "translateY(6px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "pulse-slow": "pulse-slow 5s ease-in-out infinite",
+        drift: "drift 16s ease-in-out infinite",
+        "drift-slow": "drift 24s ease-in-out infinite reverse",
+        "fade-in-up": "fade-in-up 0.4s ease-out both",
       },
     },
   },
