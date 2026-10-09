@@ -13,10 +13,12 @@ import { GROUP_NODE_NAMES, DEFAULT_GROUP } from "./constants/modelGroups";
 const GROUP_LABELS = {
   atlas_bodyparts3d: "Piezas internas",
   especimen_real: "Corazón completo",
+  reconstruccion_propia: "Mi reconstrucción",
 };
 const GROUP_SUBLABELS = {
   atlas_bodyparts3d: "Atlas BodyParts3D",
   especimen_real: "Espécimen ex-vivo real",
+  reconstruccion_propia: "TC real · pipeline propio",
 };
 
 // Cambia esto por el nombre real de tu archivo dentro de public/models/.
@@ -24,6 +26,19 @@ const GROUP_SUBLABELS = {
 // modelo se siga encontrando cuando el sitio se publique bajo una subruta,
 // como /anatomy-viewer/, y no solo en la raíz del dominio.
 const MODEL_URL = `${import.meta.env.BASE_URL}models/corazon-segmentado.glb`;
+
+// Deep-link para el código QR del Cuadro de Conocimiento: visitar
+// /anatomy-viewer/?ver=mi-reconstruccion abre directo el panel del pulmón
+// propio con el grupo correcto activo, sin que quien escanea el QR tenga
+// que saber en qué botón hacer clic.
+const DEEP_LINK_PARAM = "ver";
+const DEEP_LINK_OWN_RECONSTRUCTION = "mi-reconstruccion";
+const OWN_RECONSTRUCTION_ID = "pulmon_reconstruccion_propia";
+
+function readDeepLinkTarget() {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get(DEEP_LINK_PARAM);
+}
 
 export default function App() {
   const [hoveredMesh, setHoveredMesh] = useState(null);
@@ -36,17 +51,33 @@ export default function App() {
   const [debugMode, setDebugMode] = useState(false);
   const [debugSelectedMesh, setDebugSelectedMesh] = useState(null);
 
+  // Por debajo del breakpoint `sm`, la barra lateral es un cajón (drawer)
+  // que se abre por encima del visor en vez de robarle casi todo el ancho
+  // de pantalla a un celular — crítico porque el código QR del Cuadro de
+  // Conocimiento manda justo a este visor, en un teléfono.
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  const isOwnReconstructionDeepLink = useMemo(
+    () => readDeepLinkTarget() === DEEP_LINK_OWN_RECONSTRUCTION,
+    []
+  );
+
   // Selección real (no-debug): o una estructura conocida (selectedId), o una
   // malla cruda que no matcheó ninguna estructura (unmatchedMesh) — nunca
   // las dos a la vez.
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(
+    isOwnReconstructionDeepLink ? OWN_RECONSTRUCTION_ID : null
+  );
   const [unmatchedMesh, setUnmatchedMesh] = useState(null);
 
-  // El .glb trae dos especímenes reales que no comparten coordenadas: el
-  // corazón completo (ex-vivo) y las piezas internas del atlas BodyParts3D.
-  // Solo uno está visible a la vez; seleccionar una estructura del otro
-  // grupo cambia esto y hace que la cámara se reencuadre a él (ver Model.jsx).
-  const [activeGroup, setActiveGroup] = useState(DEFAULT_GROUP);
+  // El .glb trae tres especímenes reales que no comparten coordenadas: el
+  // corazón completo (ex-vivo), las piezas internas del atlas BodyParts3D, y
+  // el pulmón de la reconstrucción propia. Solo uno está visible a la vez;
+  // seleccionar una estructura del otro grupo cambia esto y hace que la
+  // cámara se reencuadre a él (ver Model.jsx).
+  const [activeGroup, setActiveGroup] = useState(
+    isOwnReconstructionDeepLink ? "reconstruccion_propia" : DEFAULT_GROUP
+  );
 
   const handleHoverChange = useCallback((meshName) => {
     setHoveredMesh(meshName);
@@ -145,26 +176,62 @@ export default function App() {
         <div className="absolute -right-32 bottom-0 h-[28rem] w-[28rem] animate-drift-slow rounded-full bg-sky-500/10 blur-[120px]" />
       </div>
 
+      {/* Fondo que cierra el cajón al tocar afuera — solo existe en
+          pantallas angostas, mientras el cajón está abierto. */}
+      <AnimatePresence>
+        {mobileSidebarOpen ? (
+          <motion.div
+            key="mobile-sidebar-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileSidebarOpen(false)}
+            className="fixed inset-0 z-[25] bg-black/60 sm:hidden"
+            aria-hidden="true"
+          />
+        ) : null}
+      </AnimatePresence>
+
       <Sidebar
         debugMode={debugMode}
         onToggleDebug={() => setDebugMode((prev) => !prev)}
         activeGroup={activeGroup}
-        onSwitchGroup={handleSwitchGroup}
+        onSwitchGroup={(group) => {
+          handleSwitchGroup(group);
+          setMobileSidebarOpen(false);
+        }}
         selectedId={selectedId}
-        onSelect={handleSelectRelated}
+        onSelect={(id) => {
+          handleSelectRelated(id);
+          setMobileSidebarOpen(false);
+        }}
+        mobileOpen={mobileSidebarOpen}
+        onCloseMobile={() => setMobileSidebarOpen(false)}
       />
 
       <main className="relative z-10 flex-1 overflow-hidden">
-        <div className="pointer-events-none absolute left-5 top-5 z-10 max-w-sm">
+        <div className="pointer-events-none absolute left-5 top-5 z-10 flex max-w-[calc(100%-2.5rem)] items-center gap-2 sm:max-w-sm">
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen((prev) => !prev)}
+            aria-label="Abrir índice de estructuras"
+            className="glass-panel pointer-events-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/5 text-ink-dim shadow-glass sm:hidden"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+            </svg>
+          </button>
           <p
-            className={`glass-panel inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs shadow-glass transition-colors ${
+            className={`glass-panel inline-flex min-w-0 items-center gap-2 truncate rounded-full border px-3.5 py-1.5 text-xs shadow-glass transition-colors ${
               hoveredMesh ? "border-accent/40 text-accent-ink" : "border-white/5 text-ink-dim"
             }`}
           >
             <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${hoveredMesh ? "bg-accent-strong" : "bg-ink-faint"}`} />
-            {hoveredMesh
-              ? `Estructura bajo el cursor: ${hoveredMesh}`
-              : "Arrastra para rotar · rueda para hacer zoom · clic para más información"}
+            <span className="truncate">
+              {hoveredMesh
+                ? `Estructura bajo el cursor: ${hoveredMesh}`
+                : "Arrastra para rotar · rueda para hacer zoom · clic para más información"}
+            </span>
           </p>
         </div>
 
@@ -227,9 +294,13 @@ export default function App() {
   );
 }
 
-function Sidebar({ debugMode, onToggleDebug, activeGroup, onSwitchGroup, selectedId, onSelect }) {
+function Sidebar({ debugMode, onToggleDebug, activeGroup, onSwitchGroup, selectedId, onSelect, mobileOpen, onCloseMobile }) {
   return (
-    <aside className="glass-panel relative z-10 flex w-80 shrink-0 flex-col border-r border-white/5 shadow-glass">
+    <aside
+      className={`glass-panel fixed inset-y-0 left-0 z-30 flex w-80 shrink-0 flex-col border-r
+                  border-white/5 shadow-glass transition-transform duration-300 ease-out
+                  sm:relative sm:z-10 sm:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+    >
       <div className="flex items-center gap-2.5 border-b border-white/5 px-4 py-4">
         <span className="relative flex h-8 w-8 shrink-0 items-center justify-center">
           <span className="absolute inset-0 animate-pulse-slow rounded-full bg-accent/30 blur-md" aria-hidden="true" />
@@ -246,12 +317,22 @@ function Sidebar({ debugMode, onToggleDebug, activeGroup, onSwitchGroup, selecte
             <path d="M4.2 6 L19.8 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
           </svg>
         </span>
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <h1 className="truncate font-display text-sm font-semibold tracking-tight text-ink">
             Visor cardiorrespiratorio
           </h1>
           <p className="truncate text-[0.68rem] text-ink-faint">Mapa de conexiones clínicas</p>
         </div>
+        <button
+          type="button"
+          onClick={onCloseMobile}
+          aria-label="Cerrar índice de estructuras"
+          className="shrink-0 rounded-full p-1.5 text-ink-faint transition hover:bg-border/60 hover:text-ink sm:hidden"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
       </div>
 
       <div className="border-b border-white/5 px-4 py-3">
@@ -288,16 +369,17 @@ function Sidebar({ debugMode, onToggleDebug, activeGroup, onSwitchGroup, selecte
 function GroupSwitch({ activeGroup, onSwitchGroup }) {
   const groups = Object.keys(GROUP_LABELS);
   return (
-    <div className="relative grid grid-cols-2 gap-1 rounded-lg bg-surface-raised/80 p-1">
+    <div className="relative flex flex-col gap-1 rounded-lg bg-surface-raised/80 p-1">
       {groups.map((group) => {
         const active = group === activeGroup;
+        const isOwnWork = group === "reconstruccion_propia";
         return (
           <button
             key={group}
             type="button"
             onClick={() => onSwitchGroup(group)}
             aria-pressed={active}
-            className="relative rounded-md px-2 py-2 text-left outline-none"
+            className="relative flex items-center justify-between rounded-md px-2.5 py-1.5 text-left outline-none"
           >
             {active ? (
               <motion.span
@@ -306,20 +388,31 @@ function GroupSwitch({ activeGroup, onSwitchGroup }) {
                 transition={{ type: "spring", stiffness: 420, damping: 32 }}
               />
             ) : null}
-            <span
-              className={`relative block text-[0.72rem] font-semibold leading-tight ${
-                active ? "text-white" : "text-ink-dim"
-              }`}
-            >
-              {GROUP_LABELS[group]}
+            <span className="relative min-w-0">
+              <span
+                className={`block truncate text-[0.72rem] font-semibold leading-tight ${
+                  active ? "text-white" : "text-ink-dim"
+                }`}
+              >
+                {GROUP_LABELS[group]}
+              </span>
+              <span
+                className={`block truncate text-[0.6rem] leading-tight ${
+                  active ? "text-white/80" : "text-ink-faint"
+                }`}
+              >
+                {GROUP_SUBLABELS[group]}
+              </span>
             </span>
-            <span
-              className={`relative block text-[0.6rem] leading-tight ${
-                active ? "text-white/80" : "text-ink-faint"
-              }`}
-            >
-              {GROUP_SUBLABELS[group]}
-            </span>
+            {isOwnWork ? (
+              <span
+                className={`relative ml-2 shrink-0 rounded-full border px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-wider ${
+                  active ? "border-white/40 text-white" : "border-accent/40 text-accent-strong"
+                }`}
+              >
+                propio
+              </span>
+            ) : null}
           </button>
         );
       })}

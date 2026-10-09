@@ -1402,5 +1402,85 @@
     "imagenUrl": "",
     "sistema": "respiratorio",
     "notaSinMalla": "Los volúmenes y capacidades pulmonares son valores fisiológicos medidos por espirometría, no una estructura con malla 3D propia."
+  },
+  {
+    "id": "pulmon_reconstruccion_propia",
+    "nombre": "Pulmón (reconstrucción propia)",
+    "meshNames": [
+      "pulmon_reconstruccion_propia"
+    ],
+    "relacionadas": [
+      "pulmones",
+      "intercambio_gaseoso_pulmonar",
+      "volumenes_capacidades_pulmonares"
+    ],
+    "conocimientoPrevio": "Sabía que una tomografía es una pila de cortes 2D y que de alguna manera se puede convertir en un modelo 3D, pero no cómo se decide qué vóxel es pulmón y cuál no, ni cómo esa máscara se convierte en una malla con superficie real.",
+    "conocimientoNuevo": [
+      {
+        "titulo": "Metodología: umbral de Hounsfield",
+        "texto": "El pulmón aireado se ubica entre -900 y -500 UH, muy separado del resto del tejido (> -100 UH), así que un único umbral global basta una vez excluido el aire de fondo del escáner con una máscara corporal (-500 UH). Este pipeline usa -320 UH como frontera aire/tejido: queda muy por arriba del pulmón aireado y muy por debajo de cualquier tejido blando, por lo que es robusto al ruido normal de dosis. Es el enfoque clásico de Hu, Hoffman y Reinhardt (2001), y el que reprodujo el Dice de referencia 0.862 de este mismo proyecto contra datos etiquetados por expertos (no de esta tomografía en particular)."
+      },
+      {
+        "titulo": "De la máscara a la malla",
+        "texto": "Tras el umbral, se conservan los dos componentes de aire más grandes dentro del cuerpo (pulmón izquierdo y derecho; la tráquea/bronquios quedan fuera por ser un componente mucho más chico) y se aplica un cierre morfológico. La superficie se extrae con marching cubes, se suaviza (filtro de Taubin) y se decima un 40% para aligerar la malla sin perder la forma. El resultado se repara hasta quedar watertight (superficie cerrada, sin agujeros), condición necesaria para que el volumen calculado tenga sentido."
+      },
+      {
+        "titulo": "Validación cuantitativa (esta tomografía)",
+        "texto": "Volumen: 6453.8 mL. Área de superficie: 319 242 mm² (≈0.32 m²). Malla completa del pipeline: 185 475 vértices, 370 990 triángulos. Validación: malla watertight, normales consistentes, un solo cuerpo conectado, volumen dentro del rango fisiológico plausible para un adulto (2000-7000 mL). No se calculó Dice para esta tomografía específica porque no viene con una máscara experta de referencia: el 0.862 citado arriba es de trabajo previo del proyecto contra otros datos etiquetados, no una medición de esta malla exacta."
+      },
+      {
+        "titulo": "Comparación con Guyton: capacidad pulmonar total",
+        "texto": "La capacidad pulmonar total de referencia (Guyton, cap. 38) es de unos 5800 mL. El volumen medido aquí, 6453.8 mL, queda un 11.3% por arriba (+653.8 mL). No es un error: 5800 mL es un promedio poblacional, no la TLC de este paciente en particular, que puede ser mayor si es una persona de contextura grande; además la malla mide aire + tejido segmentado (incluye parénquima y la sangre intrapulmonar, cerca de 400 mL en reposo según el propio Guyton), no solo aire alveolar puro; y la discretización en vóxeles de marching cubes sobreestima ligeramente el volumen de superficies curvas. Explicar esta diferencia, en vez de ignorarla, es el punto de medir algo uno mismo."
+      },
+      {
+        "titulo": "De esta malla a este visor",
+        "texto": "La malla que ves acá (y la que se usó para el render del documento) está decimada a 45 000 triángulos para que cargue rápido en un celular al escanear el código QR — las métricas de arriba son siempre las de la malla completa del pipeline (370 990 triángulos), no las de esta copia liviana de presentación."
+      }
+    ],
+    "aplicacionClinica": {
+      "titulo": "Volumetría pulmonar por TC en la práctica clínica",
+      "texto": "Medir el volumen pulmonar por TC no es solo un ejercicio académico: se usa para cuantificar el enfisema y el atrapamiento aéreo en la EPOC, para estimar la reserva funcional antes de una resección pulmonar (lobectomía/neumonectomía) y así predecir si el paciente tolerará la cirugía, para el seguimiento de la fibrosis pulmonar, y como parte de la evaluación de candidatos a trasplante pulmonar. El mismo principio de este pipeline (umbral de Hounsfield + análisis de componentes) es la base de los software comerciales de cuantificación pulmonar usados en radiología torácica."
+    },
+    "imagenUrl": "",
+    "sistema": "reconstruccion_propia",
+    "grupo": "reconstruccion_propia",
+    "notaEspecimen": "Esta malla no viene de un atlas externo: es la salida real del pipeline de este mismo repositorio (umbral de Hounsfield + componentes conexas + marching cubes, con suavizado y reparación de malla) corrida sobre data/volumes/CTChest.nrrd, una tomografía de tórax real incluida en el proyecto. Es, de las cinco reconstrucciones del repositorio, la única validada de punta a punta contra una TC clínica real (las demás variantes TC del proyecto —corazón, hígado, riñones— solo están probadas contra fantomas sintéticos; ver README del repositorio).",
+    "fichaTecnica": {
+      "titulo": "Ficha técnica (pipeline completo, no la copia web)",
+      "items": [
+        {
+          "etiqueta": "Volumen",
+          "valor": "6453.8 mL"
+        },
+        {
+          "etiqueta": "Área de superficie",
+          "valor": "319 242 mm²"
+        },
+        {
+          "etiqueta": "Vértices",
+          "valor": "185 475"
+        },
+        {
+          "etiqueta": "Triángulos",
+          "valor": "370 990"
+        },
+        {
+          "etiqueta": "Malla watertight",
+          "valor": "Sí"
+        },
+        {
+          "etiqueta": "Cuerpos conectados",
+          "valor": "1"
+        },
+        {
+          "etiqueta": "Validación fisiológica",
+          "valor": "Aprobada (2000-7000 mL)"
+        },
+        {
+          "etiqueta": "Fuente",
+          "valor": "data/volumes/CTChest.nrrd"
+        }
+      ]
+    }
   }
 ]

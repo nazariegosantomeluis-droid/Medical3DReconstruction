@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 const SISTEMA_LABELS = {
   respiratorio: "Sistema respiratorio",
   cardiovascular: "Sistema cardiovascular",
+  reconstruccion_propia: "Mi reconstrucción 3D",
 };
 
 // Lista siempre visible en la barra lateral, no un desplegable flotante —
@@ -55,7 +56,11 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
                       />
                       {s.nombre}
                     </span>
-                    {s.sinMalla ? (
+                    {s.fichaTecnica ? (
+                      <span className="relative shrink-0 rounded-full border border-accent/40 px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-wider text-accent-strong">
+                        propio
+                      </span>
+                    ) : s.sinMalla ? (
                       <span className="relative shrink-0 text-[0.62rem] text-ink-faint">sin malla</span>
                     ) : null}
                   </button>
@@ -70,6 +75,17 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
 }
 
 function SistemaIcon({ sistema }) {
+  if (sistema === "reconstruccion_propia") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-3 w-3 text-accent-strong" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="13" rx="1.5" />
+        <path d="M3 13h18" strokeLinecap="round" />
+        <path d="M8 20h8" strokeLinecap="round" />
+        <path d="M12 17v3" strokeLinecap="round" />
+        <circle cx="12" cy="8.5" r="2.2" />
+      </svg>
+    );
+  }
   if (sistema === "respiratorio") {
     return (
       <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">

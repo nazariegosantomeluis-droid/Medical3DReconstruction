@@ -66,6 +66,8 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
             </p>
           ) : null}
 
+          {structure.fichaTecnica ? <FichaTecnica ficha={structure.fichaTecnica} /> : null}
+
           <CuadroDeConocimiento structure={structure} />
 
           <ConexionesClinicas
@@ -76,6 +78,30 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
         </motion.div>
       )}
     </motion.aside>
+  );
+}
+
+// Grilla de datos duros (volumen, área, vértices, validación...) para las
+// reconstrucciones propias del repo — se lee como la hoja de especificaciones
+// de un instrumento real, no como más prosa, porque son números medidos de
+// esta tomografía exacta, no un rango de libro de texto.
+function FichaTecnica({ ficha }) {
+  return (
+    <div className="rounded-xl border border-accent/25 bg-accent-soft/40 p-4">
+      {ficha.titulo ? (
+        <h3 className="mb-3 text-[0.68rem] font-bold uppercase tracking-wider text-accent-strong">
+          {ficha.titulo}
+        </h3>
+      ) : null}
+      <dl className="grid grid-cols-2 gap-x-3 gap-y-2.5">
+        {ficha.items.map((item) => (
+          <div key={item.etiqueta}>
+            <dt className="text-[0.62rem] uppercase tracking-wide text-ink-faint">{item.etiqueta}</dt>
+            <dd className="font-display text-sm font-semibold text-ink">{item.valor}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   );
 }
 
