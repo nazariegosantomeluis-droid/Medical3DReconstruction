@@ -4,13 +4,23 @@ import { useGLTF, useCursor } from "@react-three/drei";
 import * as THREE from "three";
 import { GROUP_NODE_NAMES } from "../constants/modelGroups";
 
-// Un resaltado sutil, solo para el hover en vivo — la pieza seleccionada ya
-// se distingue de sobra por ser la única opaca (ver más abajo). La
-// intensidad "respira" en vez de quedar fija (ver useFrame del hover).
+// Resaltado de hover: antes era un tinte emissive sobre TODA la malla, que
+// a cualquier intensidad visible aplastaba el sombreado por curvatura (AO)
+// que le costó tanto trabajo a esta sesión — el órgano se veía como un
+// blob naranja plano en vez de un tejido con relieve. Ahora es un
+// contorno/aura en el borde (silueta "inflada" renderizada por detrás,
+// técnica clásica de "inverted hull"): el color propio de la malla queda
+// intacto, y lo que "respira" es la opacidad del contorno, no un lavado
+// de color sobre toda la superficie.
 const HIGHLIGHT_COLOR = new THREE.Color("#fbbf24");
-const HIGHLIGHT_INTENSITY = 0.3;
+const HIGHLIGHT_OPACITY = 0.85;
 const HIGHLIGHT_PULSE_SPEED = 3.2;
-const HIGHLIGHT_PULSE_DEPTH = 0.4;
+const HIGHLIGHT_PULSE_DEPTH = 0.35;
+// Qué tan "inflado" queda el contorno, como fracción del radio de cada
+// malla — una fracción (no un valor fijo en mm) para que el grosor del
+// contorno se vea proporcional sin importar si la malla es una válvula
+// diminuta o el pulmón entero.
+const OUTLINE_THICKNESS_FRACTION = 0.01;
 const CLICK_DRAG_THRESHOLD_PX = 6;
 const KNOWN_GROUP_NAMES = new Set(Object.values(GROUP_NODE_NAMES));
 
@@ -42,7 +52,7 @@ function computeFrameForVisible(camera, root) {
   const box = new THREE.Box3();
   let any = false;
   root.traverse((child) => {
-    if (child.isMesh && child.visible) {
+    if (child.isMesh && child.visible && !child.userData.isOutline) {
       box.expandByObject(child);
       any = true;
     }
@@ -66,6 +76,50 @@ function computeFrameForVisible(camera, root) {
   };
 }
 
+// Crea la malla-contorno de "cáscara invertida" para una malla dada:
+// misma geometría, desplazada hacia afuera a lo largo de cada normal, con
+// material de solo-color renderizado por su cara TRASERA (BackSide) — así
+// solo asoma el borde (silueta) por detrás de la malla real, nunca la
+// superficie completa. Se agrega como hijo directo de la malla original
+// para heredar su transform sin tener que llevar la cuenta aparte.
+function buildOutlineMesh(mesh) {
+  if (!mesh.geometry.boundingSphere) mesh.geometry.computeBoundingSphere();
+  const radius = mesh.geometry.boundingSphere?.radius || 1;
+  const offset = radius * OUTLINE_THICKNESS_FRACTION;
+
+  const outlineGeometry = mesh.geometry.clone();
+  const position = outlineGeometry.attributes.position;
+  const normal = outlineGeometry.attributes.normal;
+  for (let i = 0; i < position.count; i++) {
+    position.setXYZ(
+      i,
+      position.getX(i) + normal.getX(i) * offset,
+      position.getY(i) + normal.getY(i) * offset,
+      position.getZ(i) + normal.getZ(i) * offset
+    );
+  }
+  position.needsUpdate = true;
+
+  const outlineMaterial = new THREE.MeshBasicMaterial({
+    color: HIGHLIGHT_COLOR,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    toneMapped: false,
+  });
+
+  const outlineMesh = new THREE.Mesh(outlineGeometry, outlineMaterial);
+  outlineMesh.raycast = () => {}; // nunca debe interceptar el puntero
+  outlineMesh.renderOrder = 10;
+  // Marcado para que el resto del componente lo excluya de cualquier
+  // scene.traverse() que busque mallas "reales" (visibilidad, encuadre de
+  // cámara, inventario de nombres) — si no, hereda esa lógica como si
+  // fuera una estructura más y termina forzado a visible/opaco.
+  outlineMesh.userData.isOutline = true;
+  return outlineMesh;
+}
+
 export default function Model({
   url,
   onSelect,
@@ -78,8 +132,8 @@ export default function Model({
 }) {
   const { scene } = useGLTF(url);
   const { camera } = useThree();
-  const originalEmissive = useRef(new Map());
   const meshGroups = useRef(new Map());
+  const outlineMeshes = useRef(new Map());
   const pointerDownAt = useRef(null);
   const hoveredMeshRef = useRef(null);
   const cameraGoalRef = useRef(null);
@@ -123,10 +177,16 @@ export default function Model({
       }
     }
 
-    const hoveredMesh = hoveredMeshRef.current;
-    if (hoveredMesh?.material?.emissive) {
+    // Solo el contorno de la malla bajo el cursor queda visible (opacidad
+    // "respirando"); todos los demás contornos quedan en 0 — recorrer los
+    // ~20 contornos cada frame es trivial, así que no hace falta llevar
+    // la cuenta de cuál era el anterior para apagarlo a mano.
+    if (outlineMeshes.current.size > 0) {
+      const hoveredUuid = hoveredMeshRef.current?.uuid;
       const wave = 1 - HIGHLIGHT_PULSE_DEPTH * (0.5 + 0.5 * Math.sin(state.clock.elapsedTime * HIGHLIGHT_PULSE_SPEED));
-      hoveredMesh.material.emissiveIntensity = HIGHLIGHT_INTENSITY * wave;
+      outlineMeshes.current.forEach((outlineMesh, uuid) => {
+        outlineMesh.material.opacity = uuid === hoveredUuid ? HIGHLIGHT_OPACITY * wave : 0;
+      });
     }
   });
 
@@ -139,16 +199,27 @@ export default function Model({
   // conocido — sin esto habría que pasar mesh por mesh a mano.
   useEffect(() => {
     const counts = new Map();
+    // Primero se junta la lista de mallas reales, SIN tocar el árbol
+    // todavía — agregar el contorno como hijo durante el propio
+    // scene.traverse() hace que ese mismo recorrido baje también al hijo
+    // recién agregado (que también es un Mesh) y arme un contorno para el
+    // contorno, infinitamente. Por eso la mutación del árbol va en un
+    // segundo paso, después de que el recorrido ya terminó.
+    const meshes = [];
     scene.traverse((child) => {
       if (!child.isMesh) return;
-      child.material = child.material.clone();
-      originalEmissive.current.set(child.uuid, {
-        color: child.material.emissive ? child.material.emissive.clone() : null,
-        intensity: child.material.emissiveIntensity ?? 0,
-      });
+      meshes.push(child);
       meshGroups.current.set(child.uuid, findGroupName(child));
       counts.set(child.name, (counts.get(child.name) ?? 0) + 1);
     });
+
+    meshes.forEach((child) => {
+      child.material = child.material.clone();
+      const outlineMesh = buildOutlineMesh(child);
+      child.add(outlineMesh);
+      outlineMeshes.current.set(child.uuid, outlineMesh);
+    });
+
     onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
   }, [scene, onMeshNames]);
 
@@ -164,7 +235,7 @@ export default function Model({
   useEffect(() => {
     const relatedSet = new Set(relatedMeshNames ?? []);
     scene.traverse((child) => {
-      if (!child.isMesh) return;
+      if (!child.isMesh || child.userData.isOutline) return;
       const group = meshGroups.current.get(child.uuid);
       const inActiveGroup = !group || group === activeGroupNodeName;
 
@@ -192,26 +263,6 @@ export default function Model({
     });
     cameraGoalRef.current = computeFrameForVisible(camera, scene);
   }, [activeGroupNodeName, selectedMeshName, relatedMeshNames, scene, camera, controlsRef]);
-
-  // Solo el hover en vivo tiñe con emissive — es una señal momentánea
-  // mientras el cursor está encima. La pieza "seleccionada" (panel abierto)
-  // ya se distingue de sobra por quedar opaca mientras el resto se
-  // transparenta arriba; sumarle también un tinte de color persistente
-  // solo tapaba su color anatómico real.
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (!child.isMesh || !child.material?.emissive) return;
-      const original = originalEmissive.current.get(child.uuid);
-      if (!original) return;
-      if (child.name === hoveredName) {
-        child.material.emissive.set(HIGHLIGHT_COLOR);
-        child.material.emissiveIntensity = HIGHLIGHT_INTENSITY;
-      } else {
-        child.material.emissive.copy(original.color ?? new THREE.Color(0, 0, 0));
-        child.material.emissiveIntensity = original.intensity;
-      }
-    });
-  }, [hoveredName, scene]);
 
   const handlePointerDown = (event) => {
     pointerDownAt.current = { x: event.clientX, y: event.clientY };
