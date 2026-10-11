@@ -5,19 +5,22 @@ const SISTEMA_LABELS = {
   respiratorio: "Sistema respiratorio",
   cardiovascular: "Sistema cardiovascular",
   reconstruccion_propia: "Mi reconstrucción 3D",
-  guia_alto_rendimiento: "Guía de alto rendimiento",
 };
 
-// Secciones que arrancan colapsadas — la guía de alto rendimiento sola
-// trae más de 40 entradas (es una guía de examen completa, no un puñado de
-// estructuras), así que mostrarla siempre abierta enterraría el resto del
-// índice bajo una lista kilométrica. El resto arranca abierto porque son
-// las 23-32 estructuras "principales" del visor.
-const COLLAPSED_BY_DEFAULT = new Set(["guia_alto_rendimiento"]);
+// Secciones que arrancan colapsadas — cardiovascular y respiratorio ahora
+// incluyen, además de las estructuras del visor, todos los temas de la
+// guía de alto rendimiento (ya no viven en su propia categoría aparte:
+// son más contenido del Cuadro de Conocimiento de cada sistema), así que
+// cada una pasó de ~20 a 30-45 entradas. Mostrarlas siempre abiertas
+// enterraría el índice bajo una lista kilométrica. "Mi reconstrucción 3D"
+// arranca abierta porque son solo 2 piezas.
+const COLLAPSED_BY_DEFAULT = new Set(["cardiovascular", "respiratorio"]);
 
-// Dentro de la guía, agrupar visualmente por número mayor ("1", "2"...)
-// ayuda a escanear 40 entradas sin perderse — no es otro nivel de
-// colapsable, solo un sub-encabezado liviano entre tandas.
+// Agrupar visualmente por número mayor ("1", "2"...) ayuda a escanear una
+// lista larga sin perderse — no es otro nivel de colapsable, solo un
+// sub-encabezado liviano entre tandas. Solo los temas que vienen de la
+// guía traen ese número al inicio del nombre; el resto de las estructuras
+// (sin número) simplemente no dispara ningún encabezado.
 function majorGroupOf(nombre) {
   const m = /^(\d+)(?:\.\d+)?/.exec(nombre);
   return m ? m[1] : null;
@@ -85,7 +88,7 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
                 >
                   {items.map((s) => {
                     const active = s.id === selectedId;
-                    const group = sistema === "guia_alto_rendimiento" ? majorGroupOf(s.nombre) : null;
+                    const group = majorGroupOf(s.nombre);
                     const showGroupLabel = group && group !== lastMajorGroup;
                     if (showGroupLabel) lastMajorGroup = group;
                     return (
@@ -141,15 +144,6 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
 }
 
 function SistemaIcon({ sistema }) {
-  if (sistema === "guia_alto_rendimiento") {
-    return (
-      <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-        <path d="M4 5.2A2.2 2.2 0 0 1 6.2 3H19v16H6.2A2.2 2.2 0 0 0 4 21.2Z" strokeLinejoin="round" />
-        <path d="M4 5.2v16" strokeLinecap="round" />
-        <path d="M8 8h7M8 11.5h7" strokeLinecap="round" />
-      </svg>
-    );
-  }
   if (sistema === "reconstruccion_propia") {
     return (
       <svg viewBox="0 0 24 24" className="h-3 w-3 text-accent-strong" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
