@@ -1,20 +1,10 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import ImagePlaceholder from "./ImagePlaceholder";
 
-// El "Cuadro de Conocimiento" se revela como una secuencia de mensajes que
-// van apareciendo uno tras otro (staggerChildren), no como un bloque de
-// texto que aparece de golpe — es lo que le da el aire de conversación/
-// chat que se pidió, sin inventar una interfaz de chat de verdad (no hay
-// nadie del otro lado respondiendo), solo el RITMO de revelado.
-const bubbleContainerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.06 } },
-};
-
-const bubbleVariants = {
-  hidden: { opacity: 0, y: 12, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 380, damping: 30 } },
+const fadeVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.18 } },
 };
 
 export default function InfoPanel({ structure, meshName, allStructures, onClose, onSelectRelated }) {
@@ -58,67 +48,36 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
       ) : (
         <motion.div
           key={structure.id}
-          variants={bubbleContainerVariants}
+          variants={fadeVariants}
           initial="hidden"
           animate="show"
           className="space-y-3.5 p-6"
         >
           {structure.imagenUrl ? (
-            <motion.img
-              variants={bubbleVariants}
+            <img
               src={structure.imagenUrl}
               alt={nombre}
               className="h-40 w-full rounded-lg border border-border object-cover"
             />
           ) : structure.sinMalla ? (
-            <motion.div variants={bubbleVariants}>
-              <ImagePlaceholder structureId={structure.id} />
-            </motion.div>
+            <ImagePlaceholder structureId={structure.id} />
           ) : null}
 
           {structure.notaSinMalla ? (
-            <motion.p
-              variants={bubbleVariants}
-              className="rounded-md border border-warn/30 bg-warn/10 px-3 py-2 text-xs text-warn"
-            >
+            <p className="rounded-md border border-warn/30 bg-warn/10 px-3 py-2 text-xs text-warn">
               {structure.notaSinMalla}
-            </motion.p>
+            </p>
           ) : null}
 
           {structure.notaEspecimen ? (
-            <motion.p
-              variants={bubbleVariants}
-              className="rounded-md border border-accent/30 bg-accent-soft px-3 py-2 text-xs text-accent-ink"
-            >
+            <p className="rounded-md border border-accent/30 bg-accent-soft px-3 py-2 text-xs text-accent-ink">
               {structure.notaEspecimen}
-            </motion.p>
+            </p>
           ) : null}
 
-          {structure.fichaTecnica ? (
-            <motion.div variants={bubbleVariants}>
-              <FichaTecnica ficha={structure.fichaTecnica} />
-            </motion.div>
-          ) : null}
+          {structure.fichaTecnica ? <FichaTecnica ficha={structure.fichaTecnica} /> : null}
 
-          {structure.tipo === "guia" ? (
-            <GuiaContenido structure={structure} />
-          ) : (
-            <>
-              <SeccionTitulo texto="Cuadro de Conocimiento" />
-
-              <Bubble tone="previo" icon={<IconoPrevio />}>
-                <EtiquetaBurbuja>Lo que sabía previamente</EtiquetaBurbuja>
-                <ParrafoSimple texto={structure.conocimientoPrevio} />
-              </Bubble>
-
-              <SubseccionesBurbujas items={structure.conocimientoNuevo} />
-
-              <Bubble tone="aplicacion" icon={<IconoAplicacion />}>
-                <EtiquetaBurbuja>Aplicación clínica</EtiquetaBurbuja>
-                <CasoClinico caso={structure.aplicacionClinica} />
-              </Bubble>
-            </>
-          )}
+          <CuadroConocimiento key={structure.id} structure={structure} />
 
           <ConexionesClinicas
             structure={structure}
@@ -157,135 +116,166 @@ function FichaTecnica({ ficha }) {
 
 function SeccionTitulo({ texto }) {
   return (
-    <motion.h3
-      variants={bubbleVariants}
-      className="flex items-center gap-2 pt-1 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint"
-    >
+    <h3 className="flex items-center gap-2 pt-1 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint">
       <span className="h-px flex-1 bg-gradient-to-r from-accent/60 to-transparent" aria-hidden="true" />
       {texto}
       <span className="h-px flex-1 bg-gradient-to-l from-accent/60 to-transparent" aria-hidden="true" />
-    </motion.h3>
+    </h3>
   );
 }
 
-// Las entradas de la Guía de Alto Rendimiento no son una estructura
-// anatómica con "lo que sabía antes / después" — son material de consulta
-// directa (valores normales, criterios de ECG, fórmulas), así que en vez
-// de forzar ese molde se muestran directo: cada elemento (texto o tabla,
-// en el orden original del documento) es su propia burbuja, con la regla
-// mnemotécnica ("clave") destacada aparte si la hay, y las preguntas de
-// práctica como tarjetas con la respuesta oculta hasta hacer clic.
-function GuiaContenido({ structure }) {
+// El Cuadro de Conocimiento ya no se revela todo de una — cada estructura
+// trae varios temas (lo que ya se sabía, cada subtema nuevo, la aplicación
+// clínica), y mostrarlos todos a la vez como una pared de texto no ayuda a
+// estudiar. En cambio, cada tema es un botón: se arranca mostrando el
+// primero, y hacer clic en otro botón reemplaza el contenido de abajo —
+// el estudio avanza "de a poco", un tema a la vez, a ritmo de quien lee.
+function CuadroConocimiento({ structure }) {
+  const secciones = useMemo(() => buildSecciones(structure), [structure]);
+  const [activeId, setActiveId] = useState(secciones[0]?.id ?? null);
+
+  if (secciones.length === 0) return null;
+
+  const activa = secciones.find((s) => s.id === activeId) ?? secciones[0];
+
   return (
-    <>
-      <SeccionTitulo texto="Guía de alto rendimiento" />
+    <div className="space-y-3">
+      <SeccionTitulo texto="Cuadro de Conocimiento" />
 
-      {structure.clave ? (
-        <Bubble tone="clave" icon={<IconoClave />}>
-          <EtiquetaBurbuja>Para recordar</EtiquetaBurbuja>
-          <p className="text-sm leading-relaxed text-ink-dim">{structure.clave}</p>
-        </Bubble>
-      ) : null}
-
-      {(structure.conocimientoNuevo ?? []).map((item, i) => (
-        <Bubble key={i} tone="nuevo" icon={<IconoNuevo />}>
-          {item.texto ? <p className="text-sm leading-relaxed text-ink-dim">{item.texto}</p> : null}
-          {item.tablas?.map((t, j) => <Tabla key={j} tabla={t} />)}
-        </Bubble>
-      ))}
-
-      {structure.preguntas?.length ? (
-        <div className="space-y-2.5 pt-1">
-          <EtiquetaBurbuja>{structure.preguntasIntro ?? "Preguntas de práctica"}</EtiquetaBurbuja>
-          {structure.preguntas.map((p) => (
-            <PreguntaCard key={p.numero} pregunta={p} />
-          ))}
-        </div>
-      ) : null}
-    </>
-  );
-}
-
-// Tarjeta de pregunta de opción múltiple con la respuesta oculta hasta
-// que se hace clic — invita a responder antes de leer la explicación, en
-// vez de que la respuesta aparezca ya resuelta junto con el enunciado.
-function PreguntaCard({ pregunta }) {
-  const [revealed, setRevealed] = useState(false);
-  return (
-    <motion.div variants={bubbleVariants} className="rounded-xl border border-border bg-surface-raised/80 p-3.5 shadow-glass">
-      <p className="text-sm leading-relaxed text-ink">
-        <span className="font-semibold text-accent-strong">{pregunta.numero}. </span>
-        {pregunta.enunciado}
-      </p>
-      <ul className="mt-2 space-y-1">
-        {Object.entries(pregunta.opciones).map(([letra, texto]) => {
-          const esCorrecta = revealed && letra === pregunta.respuestaLetra;
+      <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Temas de este cuadro de conocimiento">
+        {secciones.map((sec) => {
+          const active = sec.id === activa.id;
           return (
-            <li
-              key={letra}
-              className={`rounded-md px-2 py-1 text-sm transition-colors ${
-                esCorrecta ? "bg-ok/15 text-ok" : "text-ink-dim"
+            <button
+              key={sec.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => setActiveId(sec.id)}
+              className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                active
+                  ? "border-accent/40 bg-accent-soft text-accent-ink shadow-glow-accent-sm"
+                  : "border-border text-ink-dim hover:border-accent/30 hover:bg-surface-raised"
               }`}
             >
-              <span className="font-medium">{letra}) </span>
-              {texto}
-            </li>
+              {sec.titulo}
+            </button>
           );
         })}
-      </ul>
-      {revealed ? (
-        <motion.p
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="mt-2 rounded-md border border-ok/25 bg-ok/5 px-2.5 py-2 text-xs leading-relaxed text-ink-dim"
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activa.id}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.16 }}
         >
-          <span className="font-semibold text-ok">Respuesta {pregunta.respuestaLetra}): </span>
-          {pregunta.respuestaTexto}
-        </motion.p>
-      ) : (
-        <button
-          type="button"
-          onClick={() => setRevealed(true)}
-          className="mt-2 rounded-full border border-accent/30 bg-accent-soft px-3 py-1 text-xs font-medium text-accent-ink transition-colors hover:bg-accent/25"
-        >
-          Mostrar respuesta
-        </button>
-      )}
-    </motion.div>
+          <Bubble tone={activa.tone} icon={activa.icon}>
+            <EtiquetaBurbuja>{activa.titulo}</EtiquetaBurbuja>
+            {activa.render()}
+          </Bubble>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
-function IconoClave() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <circle cx="8" cy="15" r="4" />
-      <path d="M11 12l8-8M16 7l2 2M19 4l2 2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+// Arma la lista de temas/botones a partir de los mismos campos que ya
+// traía cada estructura (conocimientoPrevio / conocimientoNuevo /
+// aplicacionClinica) — es el único esquema de datos ahora, tanto para las
+// ~33 estructuras originales como para los temas que venían de la guía de
+// alto rendimiento (ya no existen como categoría aparte: son subtemas más
+// dentro del Cuadro de Conocimiento de su sistema).
+function buildSecciones(structure) {
+  const secciones = [];
+
+  if (structure.conocimientoPrevio) {
+    secciones.push({
+      id: "previo",
+      titulo: "Lo que ya sabía",
+      tone: "previo",
+      icon: <IconoPrevio />,
+      render: () => <ParrafoSimple texto={structure.conocimientoPrevio} />,
+    });
+  }
+
+  const multiple = (structure.conocimientoNuevo ?? []).length > 1;
+  (structure.conocimientoNuevo ?? []).forEach((item, i) => {
+    secciones.push({
+      id: `nuevo-${i}`,
+      titulo: item.titulo || (multiple ? shortLabel(item) : "Lo que sé después de estudiar"),
+      tone: "nuevo",
+      icon: <IconoNuevo />,
+      render: () => {
+        const texto = (item.texto || "").trim();
+        const esSoloCita = /^\(.*\)$/s.test(texto);
+        return (
+          <>
+            {texto && !esSoloCita ? <p className="text-sm leading-relaxed text-ink-dim">{texto}</p> : null}
+            {item.tablas?.map((t, j) => <Tabla key={j} tabla={t} />)}
+            {esSoloCita ? <p className="pt-0.5 text-xs italic text-ink-faint">{texto}</p> : null}
+          </>
+        );
+      },
+    });
+  });
+
+  if (structure.aplicacionClinica?.titulo || structure.aplicacionClinica?.texto) {
+    secciones.push({
+      id: "aplicacion",
+      titulo: "Aplicación clínica",
+      tone: "aplicacion",
+      icon: <IconoAplicacion />,
+      render: () => <CasoClinico caso={structure.aplicacionClinica} />,
+    });
+  }
+
+  return secciones;
+}
+
+// Para los temas que no traen un título propio (sobre todo contenido que
+// venía de la guía de alto rendimiento, donde cada párrafo u tabla del
+// documento original es un ítem sin encabezado) el botón necesita algo
+// más útil que "Tema 3" para que elegir entre varios tenga sentido de un
+// vistazo.
+function shortLabel(item) {
+  const texto = (item.texto || "").trim();
+  // Un texto que es solo una cita entre paréntesis (p. ej. "(Guyton, cap.
+  // 12...)") no sirve como vista previa del tema: la tabla o el resto del
+  // contenido dicen mucho más de qué trata.
+  const esSoloCita = /^\(.*\)$/s.test(texto);
+  if (texto && !esSoloCita) {
+    const primeraOracion = texto.split(/(?<=[.:;])\s/)[0];
+    return primeraOracion.length <= 42 ? primeraOracion : `${texto.slice(0, 38).trimEnd()}…`;
+  }
+  const primeraTabla = item.tablas?.[0];
+  if (primeraTabla?.headers?.length) {
+    return primeraTabla.headers.slice(0, 2).join(" / ");
+  }
+  if (texto) {
+    return texto.length <= 42 ? texto : `${texto.slice(0, 38).trimEnd()}…`;
+  }
+  return "Tabla";
 }
 
 // Burbuja individual: ícono redondo + contenido, con el tono de color que
 // le corresponda (previo = neutro, nuevo = base, aplicación = alerta
-// clínica) — el mismo lenguaje visual que un mensaje de chat, sin fingir
-// que hay alguien del otro lado.
+// clínica).
 function Bubble({ tone = "nuevo", icon, children }) {
   const toneClasses = {
     previo: "border-border bg-surface-raised/50",
     nuevo: "border-border bg-surface-raised/80 shadow-glass",
     aplicacion: "border-warn/30 bg-warn/5",
-    clave: "border-ok/30 bg-ok/5",
   };
   const iconToneClasses = {
     previo: "bg-surface text-ink-faint",
     nuevo: "bg-accent-soft text-accent-strong",
     aplicacion: "bg-warn/15 text-warn",
-    clave: "bg-ok/15 text-ok",
   };
   return (
-    <motion.div
-      variants={bubbleVariants}
-      className={`flex gap-3 rounded-xl border p-3.5 ${toneClasses[tone]}`}
-    >
+    <div className={`flex gap-3 rounded-xl border p-3.5 ${toneClasses[tone]}`}>
       <span
         className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${iconToneClasses[tone]}`}
         aria-hidden="true"
@@ -293,7 +283,7 @@ function Bubble({ tone = "nuevo", icon, children }) {
         {icon}
       </span>
       <div className="min-w-0 flex-1 space-y-1.5">{children}</div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -336,39 +326,9 @@ function ParrafoSimple({ texto }) {
   return <p className="text-sm leading-relaxed text-ink-dim">{texto}</p>;
 }
 
-// Cada subtema de "lo que sé después de estudiar" es SU PROPIA burbuja (no
-// un párrafo más dentro de una burbuja grande) — así el stagger de entrada
-// hace que se revelen uno por uno, como una explicación que va llegando en
-// partes en vez de un bloque de texto que aparece todo junto.
-function SubseccionesBurbujas({ items }) {
-  if (!items || items.length === 0) {
-    return (
-      <Bubble tone="nuevo" icon={<IconoNuevo />}>
-        <EtiquetaBurbuja>Lo que sé después de estudiar</EtiquetaBurbuja>
-        <p className="text-sm italic leading-relaxed text-ink-faint">Pendiente de completar.</p>
-      </Bubble>
-    );
-  }
-  return (
-    <>
-      {items.map((item, i) => (
-        <Bubble key={i} tone="nuevo" icon={<IconoNuevo />}>
-          {i === 0 ? <EtiquetaBurbuja>Lo que sé después de estudiar</EtiquetaBurbuja> : null}
-          <p className="text-sm leading-relaxed text-ink-dim">
-            {item.titulo ? <span className="font-semibold text-ink">{item.titulo}: </span> : null}
-            {item.texto}
-          </p>
-          {item.tablas?.map((t, j) => <Tabla key={j} tabla={t} />)}
-        </Bubble>
-      ))}
-    </>
-  );
-}
-
-// Soporte de tablas reales dentro de una burbuja — la guía de alto
-// rendimiento vive sobre todo en tablas (valores normales, criterios de
-// ECG, fórmulas), no en párrafos, así que el Cuadro de Conocimiento
-// necesita poder mostrar una tabla de verdad, no aplastarla en texto.
+// Soporte de tablas reales dentro de una burbuja — buena parte del
+// contenido que viene de la guía de alto rendimiento vive en tablas
+// (valores normales, criterios de ECG, fórmulas), no en párrafos.
 function Tabla({ tabla }) {
   return (
     <div className="mt-2 overflow-x-auto rounded-lg border border-border/70">
@@ -426,7 +386,7 @@ function ConexionesClinicas({ structure, allStructures, onSelectRelated }) {
   if (relacionadas.length === 0) return null;
 
   return (
-    <motion.div variants={bubbleVariants} className="border-t border-border pt-5">
+    <div className="border-t border-border pt-5">
       <h3 className="mb-2.5 text-[0.68rem] font-bold uppercase tracking-wider text-ink-faint">
         Estructuras relacionadas
       </h3>
@@ -449,6 +409,6 @@ function ConexionesClinicas({ structure, allStructures, onSelectRelated }) {
           </motion.button>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

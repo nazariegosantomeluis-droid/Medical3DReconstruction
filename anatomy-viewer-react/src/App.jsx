@@ -18,7 +18,7 @@ const GROUP_LABELS = {
 const GROUP_SUBLABELS = {
   atlas_bodyparts3d: "Atlas BodyParts3D",
   especimen_real: "Espécimen ex-vivo real",
-  reconstruccion_propia: "TC real · pipeline propio",
+  reconstruccion_propia: "Pulmón y corazón · TC real propia",
 };
 
 // Cambia esto por el nombre real de tu archivo dentro de public/models/.
