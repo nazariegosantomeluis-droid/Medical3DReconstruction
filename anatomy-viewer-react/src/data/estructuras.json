@@ -1482,5 +1482,3603 @@
         }
       ]
     }
+  },
+  {
+    "id": "guia_0",
+    "nombre": "Los números que hay que saber (resumen de una página)",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "Los números que hay que saber (resumen de una página)"
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Cardiovascular",
+              "Valor",
+              "Respiratorio",
+              "Valor"
+            ],
+            "rows": [
+              [
+                "Frecuencia cardiaca",
+                "60-100 lpm",
+                "Frecuencia respiratoria",
+                "12-20 rpm"
+              ],
+              [
+                "Gasto cardiaco",
+                "≈ 5 L/min",
+                "Volumen corriente",
+                "≈ 500 mL"
+              ],
+              [
+                "Volumen sistólico",
+                "≈ 70 mL",
+                "Espacio muerto anatómico",
+                "≈ 150 mL"
+              ],
+              [
+                "Fracción de eyección",
+                "≈ 60 % (≥ 50-55 %)",
+                "Ventilación alveolar",
+                "≈ 4,2 L/min"
+              ],
+              [
+                "Presión arterial",
+                "< 120/80 mmHg",
+                "Capacidad residual funcional",
+                "≈ 2300 mL"
+              ],
+              [
+                "Presión de pulso",
+                "≈ 40 mmHg",
+                "Capacidad vital",
+                "≈ 4600 mL"
+              ],
+              [
+                "Presión aurícula derecha",
+                "≈ 0 mmHg (2-6 en cateterismo)",
+                "Capacidad pulmonar total",
+                "≈ 5800 mL"
+              ],
+              [
+                "Presión aurícula izquierda",
+                "≈ 2 mmHg (6-12 en cateterismo)",
+                "FEV1/FVC normal",
+                "≈ 0,80 (< 0,70 = obstrucción)"
+              ],
+              [
+                "Arteria pulmonar",
+                "25/8, media 15 mmHg",
+                "PO2 alveolar",
+                "104 mmHg"
+              ],
+              [
+                "Flujo coronario",
+                "≈ 225 mL/min (4-5 % del GC)",
+                "PO2 arterial",
+                "80-100 (Guyton: 95) mmHg"
+              ],
+              [
+                "PR",
+                "0,12-0,20 s",
+                "PCO2 arterial",
+                "35-45 mmHg"
+              ],
+              [
+                "QRS",
+                "< 0,10-0,12 s",
+                "pH arterial",
+                "7,35-7,45"
+              ],
+              [
+                "QTc",
+                "< 0,45 s (H) / < 0,46 s (M)",
+                "HCO3-",
+                "22-26 mEq/L"
+              ],
+              [
+                "Eje del QRS",
+                "−30° a +90°",
+                "Saturación arterial / venosa",
+                "97 % / 75 %"
+              ],
+              [
+                "Potencial de reposo ventricular",
+                "−85 a −90 mV",
+                "P50 de la hemoglobina",
+                "≈ 26-27 mmHg"
+              ],
+              [
+                "Potencial de reposo nodo SA",
+                "−55 a −60 mV (umbral −40)",
+                "Área de la membrana respiratoria",
+                "≈ 70 m²"
+              ],
+              [
+                "Retraso total SA → ventrículos",
+                "≈ 0,16 s",
+                "Grosor de la membrana",
+                "0,2-0,6 µm"
+              ],
+              [
+                "Velocidad en Purkinje",
+                "1,5-4 m/s",
+                "Capacidad de difusión del O2",
+                "21 mL/min/mmHg"
+              ],
+              [
+                "Área valvular aórtica / mitral",
+                "3-4 / 4-6 cm²",
+                "Distensibilidad pulmonar",
+                "≈ 200 mL/cmH2O"
+              ],
+              [
+                "Volumen sanguíneo",
+                "≈ 5 L (≈ 64 % en venas)",
+                "Presión pleural",
+                "−5 a −7,5 cmH2O"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton y Hall, caps. 9-23 y 38-43; guías citadas en cada sección)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1",
+    "nombre": "1. Electrocardiograma: valores normales y lectura sistemática",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "Este apartado reúne los criterios que con más frecuencia se preguntan en examen: qué es normal en cada onda y en cada derivación, cómo calcular frecuencia y eje, y cuáles son los criterios de las alteraciones básicas. Los valores se expresan en milímetros con calibración estándar (25 mm/s y 10 mm/mV): 1 mm horizontal = 0,04 s y 1 mm vertical = 0,1 mV."
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_1",
+    "nombre": "1.1 Lectura sistemática en 8 pasos",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "1) Calibración y velocidad del papel (25 mm/s; 10 mm = 1 mV)."
+      },
+      {
+        "texto": "2) Ritmo: ¿hay una onda P antes de cada QRS y un QRS después de cada P? ¿La P es positiva en II y negativa en aVR? Si es así, el ritmo es sinusal."
+      },
+      {
+        "texto": "3) Frecuencia: 300 ÷ cuadros grandes entre dos R, o 1500 ÷ cuadros pequeños. Si el ritmo es irregular, se cuentan los QRS en una tira de 6 s (30 cuadros grandes) y se multiplican por 10. Normal: 60-100 lpm."
+      },
+      {
+        "texto": "4) Eje eléctrico del QRS (ver 1.4)."
+      },
+      {
+        "texto": "5) Intervalos: PR, QRS y QT/QTc."
+      },
+      {
+        "texto": "6) Morfología de la onda P (crecimiento auricular)."
+      },
+      {
+        "texto": "7) Complejo QRS: voltaje, ondas Q, progresión de la R, bloqueos de rama, hipertrofia."
+      },
+      {
+        "texto": "8) Segmento ST, onda T y onda U (isquemia, lesión, alteraciones electrolíticas)."
+      },
+      {
+        "texto": "(Guyton, caps. 11-13; Recomendaciones AHA/ACCF/HRS 2007-2009 para la estandarización e interpretación del ECG)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_2",
+    "nombre": "1.2 Valores normales de ondas, intervalos y segmentos",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Elemento",
+              "Valor normal (adulto)",
+              "Qué indica cuando está alterado"
+            ],
+            "rows": [
+              [
+                "Onda P",
+                "Duración < 0,12 s; amplitud ≤ 2,5 mm en derivaciones de extremidades",
+                "> 2,5 mm en II: crecimiento auricular derecho (P pulmonale). ≥ 0,12 s y con muesca: crecimiento auricular izquierdo (P mitrale)"
+              ],
+              [
+                "Intervalo PR",
+                "0,12-0,20 s (Guyton: 0,16 s)",
+                "> 0,20 s: bloqueo AV de 1.er grado. < 0,12 s: preexcitación (Wolff-Parkinson-White) o ritmo de la unión"
+              ],
+              [
+                "Segmento PR",
+                "Isoeléctrico",
+                "Descenso difuso del PR (con elevación en aVR): pericarditis aguda"
+              ],
+              [
+                "Complejo QRS",
+                "0,06-0,10 s (≤ 0,11 s); amplitud total ≥ 5 mm en extremidades y ≥ 10 mm en precordiales",
+                "0,11-0,119 s: bloqueo incompleto o retraso de conducción. ≥ 0,12 s: bloqueo completo de rama, ritmo ventricular o preexcitación. Voltaje bajo: derrame pericárdico, obesidad, EPOC, hipotiroidismo"
+              ],
+              [
+                "Onda Q septal (fisiológica)",
+                "< 0,04 s y < 25 % de la R siguiente; aparece en I, aVL, V5 y V6",
+                "Q patológica: necrosis antigua (ver 1.7)"
+              ],
+              [
+                "Punto J y segmento ST",
+                "Isoeléctrico (se acepta elevación pequeña del punto J en V2-V3; ver umbrales de infarto)",
+                "Elevación: lesión transmural, pericarditis, repolarización precoz, Brugada, aneurisma. Descenso: isquemia subendocárdica, efecto digitálico, imagen recíproca, hipertrofia con sobrecarga"
+              ],
+              [
+                "Onda T",
+                "Misma dirección que el QRS; < 5 mm en extremidades y < 10 mm en precordiales",
+                "Picuda: hiperpotasemia o isquemia hiperaguda. Invertida: isquemia, sobrecarga, posinfarto. Aplanada: hipopotasemia"
+              ],
+              [
+                "Intervalo QT / QTc",
+                "QT ≈ 0,35-0,44 s según frecuencia. QTc prolongado: ≥ 0,45 s en hombres y ≥ 0,46 s en mujeres; QTc corto: ≤ 0,39 s",
+                "Largo: fármacos, hipopotasemia, hipomagnesemia, hipocalcemia, síndrome de QT largo congénito; riesgo de torsade de pointes. Corto: hipercalcemia, digoxina, QT corto congénito"
+              ],
+              [
+                "Onda U",
+                "Pequeña (< 1/3 de la T), visible en V2-V3, misma dirección que la T",
+                "Prominente: hipopotasemia, bradicardia"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 11 y 12; Rautaharju et al., AHA/ACCF/HRS 2009, parte IV: segmento ST, onda T, onda U e intervalo QT)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Fórmulas del QT corregido. Bazett: QTc = QT ÷ √RR (RR en segundos). Fridericia: QTc = QT ÷ ∛RR, que es más exacta con frecuencias altas o bajas. Regla rápida: con frecuencias normales, el QT debe ocupar menos de la mitad del intervalo RR."
+  },
+  {
+    "id": "guia_1_3",
+    "nombre": "1.3 Morfología normal en cada una de las 12 derivaciones",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "La forma de cada onda depende de hacia dónde “mira” la derivación: la despolarización que se acerca al electrodo positivo da una onda positiva y la que se aleja da una onda negativa."
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Derivación",
+              "Mira hacia",
+              "Onda P y QRS normales",
+              "Onda T normal",
+              "Pared que explora"
+            ],
+            "rows": [
+              [
+                "I (0°)",
+                "Lateral alta izquierda",
+                "P positiva. QRS predominantemente positivo; puede tener q septal pequeña",
+                "Positiva",
+                "Lateral alta"
+              ],
+              [
+                "II (+60°)",
+                "Inferior izquierda",
+                "P positiva (la más clara para ver el ritmo sinusal). QRS positivo",
+                "Positiva",
+                "Inferior"
+              ],
+              [
+                "III (+120°)",
+                "Inferior derecha",
+                "P positiva, aplanada o bifásica. QRS variable; q pequeña aislada puede ser normal",
+                "Variable (puede ser negativa)",
+                "Inferior"
+              ],
+              [
+                "aVR (−150°)",
+                "Hombro derecho, cavidad",
+                "P negativa, QRS negativo",
+                "Negativa",
+                "Cavidad ventricular / tracto de salida"
+              ],
+              [
+                "aVL (−30°)",
+                "Lateral alta",
+                "P variable; QRS variable (R ≤ 11 mm)",
+                "Variable",
+                "Lateral alta"
+              ],
+              [
+                "aVF (+90°)",
+                "Inferior",
+                "P positiva; QRS positivo",
+                "Positiva (puede ser plana)",
+                "Inferior"
+              ],
+              [
+                "V1",
+                "Ventrículo derecho y tabique",
+                "P a menudo bifásica (+/−). QRS tipo rS (R pequeña, S profunda)",
+                "Puede ser negativa, plana o positiva",
+                "Septal"
+              ],
+              [
+                "V2",
+                "Tabique",
+                "P positiva. QRS rS, la R crece",
+                "Positiva (rara vez negativa)",
+                "Septal"
+              ],
+              [
+                "V3",
+                "Tabique y pared anterior",
+                "QRS cercano a la zona de transición (R ≈ S)",
+                "Positiva",
+                "Anterior"
+              ],
+              [
+                "V4",
+                "Pared anterior / ápex",
+                "QRS con R dominante; transición habitual V3-V4",
+                "Positiva",
+                "Anterior"
+              ],
+              [
+                "V5",
+                "Pared lateral",
+                "QRS tipo qR o qRs; R alta (≤ 26 mm)",
+                "Positiva",
+                "Lateral baja"
+              ],
+              [
+                "V6",
+                "Pared lateral",
+                "QRS tipo qR; R algo menor que en V5",
+                "Positiva",
+                "Lateral baja"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Progresión normal de la R: la onda R crece de V1 a V5 y la S disminuye; la zona de transición (R = S) está en V3 o V4. Si la R de V3 mide menos de 3 mm se habla de mala progresión de la R (infarto anterior antiguo, hipertrofia, mala colocación de electrodos)."
+      },
+      {
+        "texto": "Transición temprana (V1-V2): hipertrofia del ventrículo derecho, infarto posterior, bloqueo de rama derecha. Transición tardía (V5-V6): infarto anterior, hipertrofia izquierda, EPOC."
+      },
+      {
+        "texto": "Patrón juvenil: en niños y algunas mujeres jóvenes la onda T puede ser negativa de V1 a V3 sin enfermedad."
+      },
+      {
+        "texto": "Grupos de derivaciones contiguas: inferior (II, III, aVF), lateral (I, aVL, V5, V6), septal (V1-V2), anterior (V3-V4). Derivaciones adicionales: derechas (V3R-V4R) para el ventrículo derecho y posteriores (V7-V9) para la pared posterolateral."
+      },
+      {
+        "texto": "(Guyton, caps. 11 y 12; Kligfield et al., AHA/ACCF/HRS 2007; Hancock et al., AHA/ACCF/HRS 2009, parte V)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_4",
+    "nombre": "1.4 Eje eléctrico y sistema hexaxial",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Derivación I",
+              "aVF",
+              "Eje",
+              "Causas frecuentes"
+            ],
+            "rows": [
+              [
+                "Positiva",
+                "Positiva",
+                "Normal (0° a +90°)",
+                "—"
+              ],
+              [
+                "Positiva",
+                "Negativa",
+                "Normal si II es positiva (0° a −30°); desviación izquierda si II es negativa (−30° a −90°)",
+                "Hemibloqueo anterior izquierdo, hipertrofia del VI, infarto inferior, bloqueo de rama izquierda"
+              ],
+              [
+                "Negativa",
+                "Positiva",
+                "Desviación derecha (+90° a +180°)",
+                "Hipertrofia del VD, EPOC, TEP, hemibloqueo posterior izquierdo, infarto lateral, personas jóvenes y delgadas"
+              ],
+              [
+                "Negativa",
+                "Negativa",
+                "Extremo (−90° a ±180°)",
+                "Ritmo ventricular, electrodos invertidos, hiperpotasemia grave"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 12; Surawicz et al., AHA/ACCF/HRS 2009, parte III)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Método de la derivación isoeléctrica: busca la derivación en la que el QRS es más isodifásico (positivo y negativo casi iguales); el eje está a 90° de ella, del lado hacia donde el QRS es positivo en la derivación perpendicular."
+  },
+  {
+    "id": "guia_1_5",
+    "nombre": "1.5 Crecimiento de cavidades e hipertrofia",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Alteración",
+              "Criterios electrocardiográficos"
+            ],
+            "rows": [
+              [
+                "Crecimiento auricular derecho",
+                "P ≥ 2,5 mm en II, III o aVF (P pulmonale, picuda); componente positivo inicial de la P en V1 ≥ 1,5 mm"
+              ],
+              [
+                "Crecimiento auricular izquierdo",
+                "P ≥ 0,12 s en II con muesca (P mitrale, en forma de “M”); componente terminal negativo de la P en V1 de ≥ 1 mm de profundidad y ≥ 0,04 s de duración"
+              ],
+              [
+                "Hipertrofia del VI",
+                "Sokolow-Lyon: S en V1 + R en V5 o V6 ≥ 35 mm. Cornell: R en aVL + S en V3 > 28 mm en hombres o > 20 mm en mujeres. R en aVL ≥ 11 mm. Puede acompañarse de descenso del ST e inversión de T en V5-V6 (patrón de sobrecarga) y desviación del eje a la izquierda"
+              ],
+              [
+                "Hipertrofia del VD",
+                "R en V1 ≥ 7 mm o cociente R/S en V1 > 1; S profunda en V5-V6; desviación del eje a la derecha (≥ +110°); inversión de T en V1-V3 (sobrecarga)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 12; Hancock et al., AHA/ACCF/HRS 2009, parte V)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_6",
+    "nombre": "1.6 Bloqueos de rama y fasciculares",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Trastorno",
+              "Criterios"
+            ],
+            "rows": [
+              [
+                "Bloqueo completo de rama derecha",
+                "QRS ≥ 0,12 s; patrón rsR' (“M” u “orejas de conejo”) en V1-V2; S ancha y empastada en I, aVL y V6. La T suele ser opuesta al final del QRS en V1-V3. Puede verse en personas sanas"
+              ],
+              [
+                "Bloqueo completo de rama izquierda",
+                "QRS ≥ 0,12 s; R ancha, empastada o con muesca en I, aVL, V5 y V6; ausencia de q septal en I, V5 y V6; QS o rS profunda en V1. ST y T opuestos al QRS. Casi siempre indica cardiopatía y dificulta el diagnóstico de infarto"
+              ],
+              [
+                "Hemibloqueo anterior izquierdo",
+                "Eje entre −45° y −90°; qR en aVL; rS en II, III y aVF; QRS < 0,12 s"
+              ],
+              [
+                "Hemibloqueo posterior izquierdo",
+                "Eje entre +90° y +180°; rS en I y aVL; qR en III y aVF (descartando otras causas de desviación derecha)"
+              ],
+              [
+                "Preexcitación (Wolff-Parkinson-White)",
+                "PR < 0,12 s; onda delta (empastamiento inicial del QRS); QRS ancho; se debe a una vía accesoria (haz de Kent) que salta el retraso del nodo AV"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 12; Surawicz et al., AHA/ACCF/HRS 2009, parte III)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Regla para recordar: en el bloqueo de rama derecha el ventrículo derecho se activa tarde, por eso la última deflexión es positiva en V1 (R') y negativa en V6 (S ancha). En el izquierdo ocurre lo contrario."
+  },
+  {
+    "id": "guia_1_7",
+    "nombre": "1.7 Isquemia, lesión e infarto",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Hallazgo",
+              "Criterio (4.ª Definición universal del infarto, 2018)"
+            ],
+            "rows": [
+              [
+                "Elevación nueva del ST",
+                "En el punto J, en dos derivaciones contiguas: ≥ 1 mm en todas las derivaciones excepto V2-V3; en V2-V3: ≥ 2 mm en hombres ≥ 40 años, ≥ 2,5 mm en hombres < 40 años y ≥ 1,5 mm en mujeres"
+              ],
+              [
+                "Descenso del ST",
+                "Nuevo descenso horizontal o descendente ≥ 0,5 mm en dos derivaciones contiguas"
+              ],
+              [
+                "Inversión de la T",
+                "> 1 mm en dos derivaciones contiguas con R prominente o R/S > 1"
+              ],
+              [
+                "Infarto posterior",
+                "Descenso del ST en V1-V3 con R alta: registrar V7-V9; elevación ≥ 0,5 mm en esas derivaciones"
+              ],
+              [
+                "Infarto del VD",
+                "Elevación del ST ≥ 1 mm en V3R y V4R"
+              ],
+              [
+                "Onda Q patológica",
+                "Cualquier Q ≥ 0,02 s o complejo QS en V2-V3; o Q ≥ 0,03 s y ≥ 1 mm de profundidad en dos derivaciones contiguas (I, aVL, V6; V4-V6; II, III, aVF)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Localización",
+              "Derivaciones con elevación del ST",
+              "Arteria probable",
+              "Cambios recíprocos"
+            ],
+            "rows": [
+              [
+                "Anterior / anteroseptal",
+                "V1-V4",
+                "Descendente anterior",
+                "II, III, aVF"
+              ],
+              [
+                "Lateral",
+                "I, aVL, V5, V6",
+                "Circunfleja o diagonal",
+                "II, III, aVF"
+              ],
+              [
+                "Inferior",
+                "II, III, aVF",
+                "Coronaria derecha (≈ 80 %) o circunfleja",
+                "I, aVL"
+              ],
+              [
+                "Posterior",
+                "V7-V9 (descenso del ST en V1-V3)",
+                "Circunfleja o coronaria derecha",
+                "V1-V3"
+              ],
+              [
+                "Ventrículo derecho",
+                "V3R, V4R (y a veces V1)",
+                "Coronaria derecha proximal",
+                "—"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Evolución temporal típica: onda T hiperaguda (minutos) → elevación del ST (minutos a horas) → aparición de onda Q (horas) → inversión de la T (días) → normalización del ST; si la elevación persiste semanas, sugiere aneurisma ventricular."
+      },
+      {
+        "texto": "En un infarto inferior, si la elevación del ST es mayor en III que en II, es más probable que la arteria sea la coronaria derecha que la circunfleja."
+      },
+      {
+        "texto": "Patrones de alto riesgo que deben reconocerse: Wellens (T negativas profundas o bifásicas en V2-V3 por estenosis crítica de la descendente anterior proximal), de Winter (descenso ascendente del ST con T altas en precordiales, equivalente a oclusión de la descendente anterior) y elevación del ST en aVR con descenso difuso del ST (afectación del tronco común o enfermedad de varios vasos)."
+      },
+      {
+        "texto": "(Thygesen et al., 4.ª Definición universal del infarto, 2018; Guía ESC 2023 de síndromes coronarios agudos; Guyton, cap. 12)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_8",
+    "nombre": "1.8 Alteraciones electrolíticas, fármacos y otras",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Condición",
+              "Hallazgos en el ECG"
+            ],
+            "rows": [
+              [
+                "Hiperpotasemia",
+                "Secuencia según aumenta el K+: T altas, picudas y estrechas → prolongación del PR y aplanamiento de la P → ensanchamiento del QRS → patrón sinusoidal → fibrilación ventricular o asistolia. La correlación con la cifra exacta de potasio es variable"
+              ],
+              [
+                "Hipopotasemia",
+                "Aplanamiento de la T, descenso del ST, onda U prominente; aparente prolongación del QT (en realidad QU)"
+              ],
+              [
+                "Hipercalcemia / hipocalcemia",
+                "Hipercalcemia: QT corto. Hipocalcemia: QT largo por alargamiento del segmento ST"
+              ],
+              [
+                "Hipotermia",
+                "Bradicardia, onda J de Osborn (muesca al final del QRS), QT largo, temblor en la línea basal"
+              ],
+              [
+                "Digoxina",
+                "Descenso del ST “en cubeta”, QT corto, T aplanada; en toxicidad puede causar casi cualquier arritmia"
+              ],
+              [
+                "Pericarditis aguda",
+                "Elevación difusa y cóncava del ST, descenso del PR (elevación del PR en aVR), sin ondas Q ni imagen recíproca (salvo aVR y V1)"
+              ],
+              [
+                "Tromboembolia pulmonar",
+                "Lo más frecuente es taquicardia sinusal; patrón S1Q3T3, bloqueo de rama derecha, desviación derecha del eje e inversión de T en V1-V4 (sobrecarga del VD). El ECG normal no la descarta"
+              ],
+              [
+                "Síndrome de Brugada (tipo 1)",
+                "Elevación del ST ≥ 2 mm “en domo” seguida de T negativa en V1-V2; riesgo de muerte súbita"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 12; Rautaharju et al., AHA/ACCF/HRS 2009; Guía ESC 2015 de enfermedades del pericardio; Guía ESC 2019 de TEP)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_9",
+    "nombre": "1.9 Arritmias más preguntadas",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Ritmo",
+              "Rasgos en el ECG",
+              "Mecanismo / dato clave"
+            ],
+            "rows": [
+              [
+                "Taquicardia sinusal",
+                "Ritmo sinusal > 100 lpm",
+                "Fiebre, dolor, ejercicio, hipovolemia, anemia, hipertiroidismo"
+              ],
+              [
+                "Bradicardia sinusal",
+                "Ritmo sinusal < 60 lpm",
+                "Atletas, sueño, betabloqueadores, aumento del tono vagal"
+              ],
+              [
+                "Arritmia sinusal respiratoria",
+                "La FC aumenta en inspiración y disminuye en espiración",
+                "Normal en jóvenes; refleja el tono vagal"
+              ],
+              [
+                "Fibrilación auricular",
+                "Ritmo irregularmente irregular, sin ondas P, línea basal con ondas f",
+                "Activación auricular caótica (350-600/min); el nodo AV filtra los impulsos"
+              ],
+              [
+                "Flutter auricular",
+                "Ondas F “en dientes de sierra” en II, III y aVF, alrededor de 300/min; conducción típica 2:1 (FC ≈ 150 lpm)",
+                "Macrorreentrada alrededor del anillo tricuspídeo"
+              ],
+              [
+                "Taquicardia supraventricular paroxística",
+                "QRS estrecho, regular, 150-250 lpm, P ocultas o retrógradas",
+                "Reentrada en el nodo AV; responde a maniobras vagales o adenosina"
+              ],
+              [
+                "Extrasístole ventricular",
+                "QRS ancho y prematuro sin P previa, seguido de pausa compensadora",
+                "Foco ectópico ventricular"
+              ],
+              [
+                "Taquicardia ventricular",
+                "≥ 3 QRS anchos consecutivos a > 100 lpm; disociación AV, latidos de captura o de fusión",
+                "Reentrada o foco ventricular; puede degenerar en fibrilación"
+              ],
+              [
+                "Torsade de pointes",
+                "Taquicardia ventricular polimórfica cuyo eje “gira” alrededor de la línea basal",
+                "Se asocia a QT largo; se trata con sulfato de magnesio"
+              ],
+              [
+                "Fibrilación ventricular",
+                "Ondulaciones irregulares sin QRS identificables",
+                "Sin gasto cardiaco; desfibrilación inmediata"
+              ],
+              [
+                "Bloqueos AV",
+                "1.er grado: PR > 0,20 s. 2.º grado Mobitz I: PR que se alarga hasta un QRS bloqueado. Mobitz II: QRS bloqueado sin alargamiento previo. 3.er grado: P y QRS independientes",
+                "Ver sistema de conducción"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 13; Guía ESC 2024 de fibrilación auricular; Guía ESC 2019 de taquicardia supraventricular; Guía ESC 2021 de estimulación cardiaca)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_1_10",
+    "nombre": "1.10 Colocación de electrodos y errores comunes",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Electrodo",
+              "Posición",
+              "Color AHA",
+              "Color IEC"
+            ],
+            "rows": [
+              [
+                "Brazo derecho (RA / R)",
+                "Muñeca o región deltoidea derecha",
+                "Blanco",
+                "Rojo"
+              ],
+              [
+                "Brazo izquierdo (LA / L)",
+                "Muñeca o región deltoidea izquierda",
+                "Negro",
+                "Amarillo"
+              ],
+              [
+                "Pierna izquierda (LL / F)",
+                "Tobillo o región inferior izquierda",
+                "Rojo",
+                "Verde"
+              ],
+              [
+                "Pierna derecha (RL / N)",
+                "Tobillo derecho (tierra)",
+                "Verde",
+                "Negro"
+              ],
+              [
+                "V1",
+                "4.º espacio intercostal, borde esternal derecho",
+                "Rojo",
+                "Blanco/rojo"
+              ],
+              [
+                "V2",
+                "4.º espacio intercostal, borde esternal izquierdo",
+                "Amarillo",
+                "Blanco/amarillo"
+              ],
+              [
+                "V3",
+                "Punto medio entre V2 y V4",
+                "Verde",
+                "Blanco/verde"
+              ],
+              [
+                "V4",
+                "5.º espacio intercostal, línea medioclavicular",
+                "Azul",
+                "Blanco/marrón"
+              ],
+              [
+                "V5",
+                "Línea axilar anterior, a la altura de V4",
+                "Naranja",
+                "Blanco/negro"
+              ],
+              [
+                "V6",
+                "Línea axilar media, a la altura de V4",
+                "Morado",
+                "Blanco/violeta"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Inversión de los electrodos de los brazos: P, QRS y T negativas en I y positivas en aVR (“imagen en espejo”), con precordiales normales. La dextrocardia da un patrón similar en I, pero con pérdida de la progresión de la R en precordiales."
+      },
+      {
+        "texto": "Colocar V1-V2 demasiado altos (2.º-3.er espacio) puede simular un patrón rSr' o un infarto septal."
+      },
+      {
+        "texto": "(Kligfield et al., AHA/ACCF/HRS 2007)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_1",
+    "nombre": "2.1 Potenciales de acción: músculo ventricular frente a nodo sinusal",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Fase",
+              "Miocito ventricular (respuesta rápida)",
+              "Célula del nodo SA (respuesta lenta)"
+            ],
+            "rows": [
+              [
+                "Reposo / fase 4",
+                "Estable en −85 a −90 mV; canales de fuga de K+ (IK1)",
+                "Inestable; despolarización diastólica lenta desde −60 mV por corriente If (Na+ por canales HCN) y Ca2+ tipo T"
+              ],
+              [
+                "Umbral",
+                "≈ −70 mV",
+                "≈ −40 mV"
+              ],
+              [
+                "Fase 0",
+                "Entrada rápida de Na+ (canales rápidos); pendiente muy pronunciada",
+                "Entrada de Ca2+ por canales tipo L; pendiente lenta"
+              ],
+              [
+                "Fase 1",
+                "Salida transitoria de K+ (Ito)",
+                "No existe"
+              ],
+              [
+                "Fase 2 (meseta)",
+                "Entrada de Ca2+ (tipo L) equilibrada con salida de K+; ≈ 0,2 s",
+                "No existe meseta"
+              ],
+              [
+                "Fase 3",
+                "Salida de K+ (IKr, IKs)",
+                "Salida de K+"
+              ],
+              [
+                "Velocidad de conducción",
+                "0,3-0,5 m/s (Purkinje: 1,5-4 m/s)",
+                "0,02-0,05 m/s en el nodo AV (la más lenta del corazón)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Periodo refractario absoluto: el miocito no responde a ningún estímulo (fases 0 a parte de la 3). Periodo refractario relativo: sólo responde a un estímulo intenso (final de la fase 3). Periodo vulnerable: coincide con el ascenso de la onda T; un estímulo en ese momento puede desencadenar fibrilación ventricular (fenómeno R sobre T)."
+      },
+      {
+        "texto": "Efecto Bowditch (escalera o fuerza-frecuencia): al aumentar la frecuencia, aumenta un poco la fuerza de contracción porque se acumula Ca2+ en la célula."
+      },
+      {
+        "texto": "Inotropismo = fuerza de contracción; cronotropismo = frecuencia; dromotropismo = velocidad de conducción; lusitropismo = relajación; batmotropismo = excitabilidad. El simpático es positivo en todos."
+      },
+      {
+        "texto": "(Guyton, caps. 9 y 10; Klabunde, Cardiovascular Physiology Concepts)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Pregunta clásica: la fase 0 del miocito es por Na+, la de la célula marcapasos es por Ca2+. La pendiente de la fase 4 determina la frecuencia: el simpático la hace más pronunciada (más If y más Ca2+) y el vago la aplana e hiperpolariza la célula (más salida de K+)."
+  },
+  {
+    "id": "guia_2_2",
+    "nombre": "2.2 Ciclo cardiaco",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Fase",
+              "Válvulas",
+              "Qué ocurre"
+            ],
+            "rows": [
+              [
+                "Contracción isovolumétrica",
+                "Las 4 cerradas",
+                "Inicia con el QRS y el cierre de la mitral (R1); la presión del VI sube sin cambio de volumen"
+              ],
+              [
+                "Eyección rápida y lenta",
+                "Aórtica y pulmonar abiertas",
+                "La presión del VI supera 80 mmHg; sale ≈ 70 % del volumen sistólico en el primer tercio"
+              ],
+              [
+                "Relajación isovolumétrica",
+                "Las 4 cerradas",
+                "Inicia con el cierre aórtico (R2, incisura); la presión cae sin cambio de volumen"
+              ],
+              [
+                "Llenado rápido",
+                "Mitral y tricúspide abiertas",
+                "Primer tercio de la diástole; aquí se produce el R3"
+              ],
+              [
+                "Diástasis",
+                "AV abiertas",
+                "Llenado lento; se acorta mucho con la taquicardia"
+              ],
+              [
+                "Sístole auricular",
+                "AV abiertas",
+                "Onda P; aporta ≈ 20 % del llenado; aquí se produce el R4"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Cambio",
+              "Efecto en el asa presión-volumen"
+            ],
+            "rows": [
+              [
+                "↑ Precarga (más volumen)",
+                "El asa se ensancha hacia la derecha: mayor volumen telediastólico y mayor volumen sistólico (Frank-Starling)"
+              ],
+              [
+                "↑ Poscarga (hipertensión, estenosis aórtica)",
+                "El asa se hace más alta y estrecha: mayor presión, menor volumen sistólico y mayor volumen telesistólico"
+              ],
+              [
+                "↑ Contractilidad (simpático, inotrópicos)",
+                "Aumenta la pendiente de la relación presión-volumen telesistólica: menor volumen telesistólico y mayor volumen sistólico"
+              ],
+              [
+                "Insuficiencia cardiaca sistólica",
+                "Asa desplazada a la derecha, con fracción de eyección baja"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 9)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_3",
+    "nombre": "2.3 Valores hemodinámicos de referencia",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Sitio",
+              "Presión (mmHg), sistólica/diastólica (media)",
+              "Comentario"
+            ],
+            "rows": [
+              [
+                "Aurícula derecha",
+                "Media 2-6",
+                "≈ presión venosa central"
+              ],
+              [
+                "Ventrículo derecho",
+                "15-30 / 2-8",
+                "—"
+              ],
+              [
+                "Arteria pulmonar",
+                "15-30 / 4-12 (media 9-18)",
+                "Hipertensión pulmonar: media > 20"
+              ],
+              [
+                "Presión de enclavamiento (cuña)",
+                "Media 6-12",
+                "Estima la presión de la aurícula izquierda; ≤ 15 en la hipertensión pulmonar precapilar"
+              ],
+              [
+                "Ventrículo izquierdo",
+                "100-140 / 3-12",
+                "Telediastólica normal ≤ 12"
+              ],
+              [
+                "Aorta",
+                "100-140 / 60-90 (media 70-105)",
+                "—"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Estos valores provienen de las tablas de cateterismo cardiaco; son algo mayores que los valores “didácticos” de Guyton (por ejemplo, aurícula derecha ≈ 0 mmHg) porque se miden en pacientes en decúbito y con otro punto de referencia."
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Parámetro",
+              "Fórmula",
+              "Valor normal"
+            ],
+            "rows": [
+              [
+                "Gasto cardiaco (GC)",
+                "FC × volumen sistólico",
+                "4-8 L/min (≈ 5 L/min en reposo)"
+              ],
+              [
+                "Índice cardiaco",
+                "GC ÷ superficie corporal",
+                "2,5-4,0 L/min/m²"
+              ],
+              [
+                "Fracción de eyección",
+                "(VTD − VTS) ÷ VTD",
+                "≥ 50-55 %"
+              ],
+              [
+                "Presión arterial media (PAM)",
+                "PAD + (PAS − PAD)/3",
+                "70-105 mmHg"
+              ],
+              [
+                "Presión de pulso",
+                "PAS − PAD",
+                "≈ 40 mmHg"
+              ],
+              [
+                "Resistencia vascular sistémica",
+                "80 × (PAM − PVC) ÷ GC",
+                "800-1200 dyn·s·cm⁻⁵"
+              ],
+              [
+                "Resistencia vascular pulmonar",
+                "(PAPm − cuña) ÷ GC",
+                "< 2 unidades Wood (< 160 dyn·s·cm⁻⁵)"
+              ],
+              [
+                "Principio de Fick",
+                "GC = VO2 ÷ (CaO2 − CvO2)",
+                "250 mL/min ÷ 50 mL/L = 5 L/min"
+              ],
+              [
+                "Doble producto",
+                "FC × PAS",
+                "Índice del consumo de O2 del miocardio"
+              ],
+              [
+                "Presión de perfusión coronaria",
+                "PAD − presión telediastólica del VI",
+                "Por eso la hipotensión diastólica y la taquicardia empeoran la isquemia"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 9, 14, 15 y 20; Guía ESC/ERS 2022 de hipertensión pulmonar; Klabunde, Cardiovascular Physiology Concepts)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_4",
+    "nombre": "2.4 Física de la circulación",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Ley",
+              "Fórmula",
+              "Aplicación"
+            ],
+            "rows": [
+              [
+                "Ley de Ohm del flujo",
+                "Q = ΔP ÷ R",
+                "El flujo depende de la diferencia de presión, no de la presión absoluta"
+              ],
+              [
+                "Ley de Poiseuille",
+                "R = 8ηL ÷ πr⁴",
+                "Si el radio se reduce a la mitad, la resistencia aumenta 16 veces; por eso las arteriolas controlan la resistencia"
+              ],
+              [
+                "Ley de Laplace (vaso o cavidad)",
+                "T = P × r ÷ (2 × grosor)",
+                "Un ventrículo dilatado necesita más tensión (y más O2) para generar la misma presión; la hipertrofia normaliza la tensión"
+              ],
+              [
+                "Número de Reynolds",
+                "Re = ρ·v·D ÷ η",
+                "> 2000 favorece el flujo turbulento (soplos, en anemia o estenosis)"
+              ],
+              [
+                "Distensibilidad (compliance)",
+                "C = ΔV ÷ ΔP",
+                "Las venas son ≈ 8 veces más distensibles que las arterias y su capacitancia es ≈ 24 veces mayor"
+              ],
+              [
+                "Continuidad",
+                "Q = área × velocidad",
+                "La velocidad es menor donde el área total es mayor (capilares)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Segmento",
+              "Área transversal total (cm²)",
+              "Dato"
+            ],
+            "rows": [
+              [
+                "Aorta",
+                "2,5",
+                "Velocidad media ≈ 33 cm/s"
+              ],
+              [
+                "Arteriolas",
+                "40",
+                "Mayor caída de presión: son los vasos de resistencia"
+              ],
+              [
+                "Capilares",
+                "2500",
+                "Velocidad ≈ 0,3 mm/s, ideal para el intercambio"
+              ],
+              [
+                "Venas cavas",
+                "8",
+                "—"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Distribución de la sangre (≈ 5 L): venas sistémicas 64 %, arterias sistémicas 13 %, arteriolas y capilares sistémicos 7 %, corazón 7 % y circulación pulmonar 9 %."
+      },
+      {
+        "texto": "Fuerzas de Starling en el capilar (Guyton): presión capilar media ≈ 17 mmHg (30 en el extremo arterial y 10 en el venoso), presión del líquido intersticial ≈ −3 mmHg, presión coloidosmótica del plasma ≈ 28 mmHg y del intersticio ≈ 8 mmHg. Presión neta de filtración media ≈ +0,3 mmHg; el pequeño exceso filtrado regresa por los linfáticos."
+      },
+      {
+        "texto": "Causas de edema: aumento de la presión capilar (insuficiencia cardiaca), disminución de proteínas plasmáticas (desnutrición, síndrome nefrótico, cirrosis), aumento de la permeabilidad (inflamación, sepsis) u obstrucción linfática."
+      },
+      {
+        "texto": "(Guyton, caps. 14-16)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_5",
+    "nombre": "2.5 Regulación de la presión arterial",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Mecanismo",
+              "Tiempo de acción",
+              "Cómo funciona"
+            ],
+            "rows": [
+              [
+                "Barorreceptores (seno carotídeo y arco aórtico)",
+                "Segundos",
+                "Seno carotídeo → nervio de Hering → glosofaríngeo (IX); arco aórtico → vago (X); llegan al núcleo del tracto solitario. Responden sobre todo entre 60 y 180 mmHg"
+              ],
+              [
+                "Quimiorreceptores (cuerpos carotídeos y aórticos)",
+                "Segundos",
+                "Responden a hipoxia, hipercapnia y acidosis; estimulan el centro vasomotor cuando la presión cae por debajo de ≈ 80 mmHg"
+              ],
+              [
+                "Respuesta isquémica del SNC",
+                "Segundos",
+                "Cuando la presión cae por debajo de ≈ 60 mmHg; vasoconstricción simpática máxima (reflejo de Cushing en hipertensión intracraneal: hipertensión, bradicardia y respiración irregular)"
+              ],
+              [
+                "Renina-angiotensina-aldosterona",
+                "Minutos a horas",
+                "La angiotensina II produce vasoconstricción, sed, liberación de ADH y aldosterona (retención de Na+ y agua)"
+              ],
+              [
+                "Hormona antidiurética (vasopresina)",
+                "Minutos a horas",
+                "Vasoconstricción y reabsorción de agua en el túbulo colector"
+              ],
+              [
+                "Péptidos natriuréticos (ANP, BNP)",
+                "Horas",
+                "Liberados por distensión auricular y ventricular; natriuresis y vasodilatación"
+              ],
+              [
+                "Mecanismo renal de volumen (diuresis por presión)",
+                "Horas a días",
+                "Es el único con ganancia “infinita”: a largo plazo, el riñón determina la presión arterial"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Guía",
+              "Categorías (mmHg, en consultorio)",
+              "Comentario"
+            ],
+            "rows": [
+              [
+                "ACC/AHA 2017",
+                "Normal < 120/< 80; elevada 120-129/< 80; HTA estadio 1: 130-139 o 80-89; estadio 2: ≥ 140 o ≥ 90",
+                "Usada en EE. UU."
+              ],
+              [
+                "ESH 2023",
+                "Óptima < 120/< 80; normal 120-129/80-84; normal alta 130-139/85-89; grado 1: 140-159/90-99; grado 2: 160-179/100-109; grado 3: ≥ 180/≥ 110",
+                "Mantiene el umbral de 140/90"
+              ],
+              [
+                "ESC 2024",
+                "No elevada < 120/< 70; elevada 120-139/70-89; hipertensión ≥ 140/≥ 90",
+                "Introduce la categoría de presión “elevada”"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 18 y 19; Whelton et al., ACC/AHA 2017; Mancia et al., ESH 2023; McEvoy et al., ESC 2024)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_6",
+    "nombre": "2.6 Receptores autonómicos del sistema cardiorrespiratorio",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Receptor",
+              "Neurotransmisor",
+              "Efecto"
+            ],
+            "rows": [
+              [
+                "β1",
+                "Noradrenalina, adrenalina",
+                "Corazón: ↑ frecuencia, ↑ contractilidad, ↑ conducción AV; riñón: ↑ renina"
+              ],
+              [
+                "β2",
+                "Adrenalina",
+                "Broncodilatación; vasodilatación en músculo esquelético y coronarias"
+              ],
+              [
+                "α1",
+                "Noradrenalina",
+                "Vasoconstricción arteriolar y venosa"
+              ],
+              [
+                "M2",
+                "Acetilcolina",
+                "Corazón: ↓ frecuencia y ↓ conducción AV (efecto sobre todo auricular y nodal)"
+              ],
+              [
+                "M3",
+                "Acetilcolina",
+                "Broncoconstricción y aumento de la secreción de moco; vasodilatación mediada por óxido nítrico"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 10, 38 y 61)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_7",
+    "nombre": "2.7 Exploración cardiovascular: pulsos, pulso venoso y ruidos",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Pulso arterial",
+              "Significado"
+            ],
+            "rows": [
+              [
+                "Parvus et tardus (pequeño y tardío)",
+                "Estenosis aórtica"
+              ],
+              [
+                "Celer o en martillo de agua (Corrigan)",
+                "Insuficiencia aórtica: ascenso rápido y colapso brusco, presión de pulso amplia"
+              ],
+              [
+                "Bisferiens (dos picos sistólicos)",
+                "Insuficiencia aórtica grave o doble lesión aórtica; miocardiopatía hipertrófica"
+              ],
+              [
+                "Paradójico",
+                "Caída de la presión sistólica > 10 mmHg en inspiración: taponamiento cardiaco, asma grave, pericarditis constrictiva"
+              ],
+              [
+                "Alternante",
+                "Latidos fuertes y débiles alternados: disfunción grave del VI"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Onda del pulso venoso",
+              "Significado y alteraciones"
+            ],
+            "rows": [
+              [
+                "Onda a",
+                "Contracción auricular. Ausente en fibrilación auricular. Grande en estenosis tricuspídea o hipertensión pulmonar. “En cañón” cuando la aurícula se contrae contra la tricúspide cerrada (bloqueo AV completo, taquicardia ventricular)"
+              ],
+              [
+                "Onda c",
+                "Abombamiento de la tricúspide al inicio de la sístole"
+              ],
+              [
+                "Descenso x",
+                "Relajación auricular y desplazamiento del anillo tricuspídeo hacia el ápex"
+              ],
+              [
+                "Onda v",
+                "Llenado auricular con la tricúspide cerrada. Gigante en insuficiencia tricuspídea"
+              ],
+              [
+                "Descenso y",
+                "Apertura de la tricúspide. Profundo y rápido en pericarditis constrictiva; ausente en taponamiento"
+              ],
+              [
+                "Signo de Kussmaul",
+                "La presión venosa aumenta en inspiración (normalmente disminuye): pericarditis constrictiva, infarto del VD, miocardiopatía restrictiva"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Desdoblamiento del R2",
+              "Causa"
+            ],
+            "rows": [
+              [
+                "Fisiológico",
+                "Se separa en inspiración y se une en espiración; normal"
+              ],
+              [
+                "Amplio",
+                "Separado en ambas fases y mayor en inspiración; retraso del cierre pulmonar: bloqueo de rama derecha, estenosis pulmonar"
+              ],
+              [
+                "Fijo",
+                "No varía con la respiración: comunicación interauricular"
+              ],
+              [
+                "Paradójico (invertido)",
+                "Separado en espiración y unido en inspiración, porque A2 se retrasa: bloqueo de rama izquierda, estenosis aórtica grave"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Lesión",
+              "Momento",
+              "Foco e irradiación",
+              "Características"
+            ],
+            "rows": [
+              [
+                "Estenosis aórtica",
+                "Sistólico eyectivo (crescendo-decrescendo)",
+                "Foco aórtico → carótidas",
+                "Rudo; R2 disminuido; pulso parvus et tardus"
+              ],
+              [
+                "Insuficiencia mitral",
+                "Holosistólico",
+                "Ápex → axila",
+                "Soplante; puede acompañarse de R3"
+              ],
+              [
+                "Comunicación interventricular",
+                "Holosistólico",
+                "Borde esternal izquierdo bajo",
+                "Rudo, con frémito; más intenso cuanto más pequeño el defecto"
+              ],
+              [
+                "Prolapso mitral",
+                "Mesosistólico tardío precedido de clic",
+                "Ápex",
+                "El clic se adelanta al ponerse de pie o con Valsalva"
+              ],
+              [
+                "Insuficiencia aórtica",
+                "Diastólico temprano decreciente",
+                "Borde esternal izquierdo, paciente sentado e inclinado",
+                "Aspirativo; signos periféricos (Corrigan, de Musset, Quincke)"
+              ],
+              [
+                "Estenosis mitral",
+                "Diastólico medio (retumbo)",
+                "Ápex, decúbito lateral izquierdo, con campana",
+                "Precedido de chasquido de apertura; R1 intenso"
+              ],
+              [
+                "Conducto arterioso persistente",
+                "Continuo (“en maquinaria”)",
+                "Infraclavicular izquierdo",
+                "Sistólico y diastólico"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Maniobra",
+              "Efecto sobre los soplos"
+            ],
+            "rows": [
+              [
+                "Inspiración",
+                "Aumentan los soplos del lado derecho (signo de Rivero-Carvallo)"
+              ],
+              [
+                "Valsalva o ponerse de pie (↓ precarga)",
+                "Disminuyen casi todos; aumentan el de la miocardiopatía hipertrófica obstructiva y el del prolapso mitral"
+              ],
+              [
+                "Cuclillas (↑ precarga y poscarga)",
+                "Aumentan casi todos; disminuye el de la miocardiopatía hipertrófica"
+              ],
+              [
+                "Prensión manual sostenida (↑ poscarga)",
+                "Aumentan insuficiencia mitral, insuficiencia aórtica y comunicación interventricular; disminuye la estenosis aórtica"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Bates, Guía de exploración física, cap. 9; Guyton, cap. 23)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_2_8",
+    "nombre": "2.8 Biomarcadores cardiacos",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Marcador",
+              "Se eleva",
+              "Pico",
+              "Comentario"
+            ],
+            "rows": [
+              [
+                "Troponina I o T de alta sensibilidad",
+                "1-3 h",
+                "24-48 h",
+                "Se mantiene elevada 7-14 días; marcador de elección. Se interpreta con algoritmos 0/1 h o 0/2 h y respecto al percentil 99 del método"
+              ],
+              [
+                "CK-MB",
+                "3-6 h",
+                "12-24 h",
+                "Normaliza en 48-72 h; útil para detectar reinfarto"
+              ],
+              [
+                "Mioglobina",
+                "1-2 h",
+                "6-12 h",
+                "Muy temprana pero poco específica; ya casi no se usa"
+              ],
+              [
+                "BNP / NT-proBNP",
+                "—",
+                "—",
+                "Descarta insuficiencia cardiaca si: crónica NT-proBNP < 125 pg/mL o BNP < 35 pg/mL; aguda NT-proBNP < 300 pg/mL o BNP < 100 pg/mL. Aumentan con la edad y la insuficiencia renal; disminuyen en la obesidad"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guía ESC 2023 de síndromes coronarios agudos; Guía ESC 2021 de insuficiencia cardiaca)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_3_1",
+    "nombre": "3.1 Niveles vertebrales y referencias de superficie",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Nivel",
+              "Estructura"
+            ],
+            "rows": [
+              [
+                "C3-C6",
+                "Laringe en el adulto"
+              ],
+              [
+                "C6",
+                "Cartílago cricoides; inicio de la tráquea y del esófago"
+              ],
+              [
+                "T4-T5 (ángulo esternal)",
+                "Bifurcación traqueal (carina), inicio y fin del arco aórtico, división del tronco pulmonar, unión de la ácigos con la VCS; límite entre mediastino superior e inferior; 2.º cartílago costal"
+              ],
+              [
+                "T8",
+                "Orificio de la vena cava inferior (con ramas del nervio frénico derecho)"
+              ],
+              [
+                "T10",
+                "Hiato esofágico (con los troncos vagales)"
+              ],
+              [
+                "T12",
+                "Hiato aórtico (con el conducto torácico y la vena ácigos)"
+              ],
+              [
+                "L4",
+                "Bifurcación de la aorta abdominal"
+              ],
+              [
+                "L5",
+                "Formación de la vena cava inferior"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Línea",
+              "Borde inferior del pulmón",
+              "Pleura parietal",
+              "Diferencia"
+            ],
+            "rows": [
+              [
+                "Medioclavicular",
+                "6.ª costilla",
+                "8.ª costilla",
+                "Receso costodiafragmático"
+              ],
+              [
+                "Axilar media",
+                "8.ª costilla",
+                "10.ª costilla",
+                "Sitio para drenaje pleural"
+              ],
+              [
+                "Paravertebral",
+                "10.ª costilla",
+                "12.ª costilla",
+                "—"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Proyección de las fisuras: la oblicua va de la apófisis espinosa de T2 por detrás a la 6.ª costilla en la línea medioclavicular por delante; la horizontal (sólo derecha) sigue el 4.º cartílago costal."
+      },
+      {
+        "texto": "Triángulo de seguridad para colocar un drenaje torácico: borde lateral del pectoral mayor, borde anterior del dorsal ancho y una línea horizontal a la altura del pezón (4.º-5.º espacio intercostal), por encima del borde superior de la costilla."
+      },
+      {
+        "texto": "Paquete intercostal: vena, arteria y nervio (VAN, de arriba abajo) corren en el surco costal, por el borde inferior de cada costilla."
+      },
+      {
+        "texto": "Mediastino: superior (por encima del plano T4-T5) e inferior, dividido en anterior (timo en niños, grasa), medio (corazón, pericardio, raíces de los grandes vasos, frénicos) y posterior (esófago, aorta descendente, ácigos, conducto torácico, vagos, cadena simpática)."
+      },
+      {
+        "texto": "Nervio frénico: pasa por delante del hilio pulmonar. Nervio vago: pasa por detrás del hilio. Esto ayuda a identificarlos en preparaciones anatómicas."
+      },
+      {
+        "texto": "(Moore, caps. 4 y 9)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Regla para el diafragma: “I 8 10 Eggs At 12”: IVC (vena cava inferior) T8, Esophagus T10, Aorta T12."
+  },
+  {
+    "id": "guia_3_2",
+    "nombre": "3.2 Segmentos broncopulmonares",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Lóbulo",
+              "Pulmón derecho (10 segmentos)",
+              "Pulmón izquierdo (8-10 segmentos)"
+            ],
+            "rows": [
+              [
+                "Superior",
+                "Apical, posterior y anterior",
+                "Apicoposterior (fusionados) y anterior; língula: lingular superior e inferior"
+              ],
+              [
+                "Medio",
+                "Lateral y medial",
+                "— (equivalente: língula)"
+              ],
+              [
+                "Inferior",
+                "Superior, basal medial, basal anterior, basal lateral y basal posterior",
+                "Superior, basal anteromedial (fusionados), basal lateral y basal posterior"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Hilio: en el pulmón derecho el bronquio del lóbulo superior está por encima de la arteria pulmonar (bronquio eparterial); en el izquierdo la arteria pulmonar es la estructura más alta. En ambos, las venas pulmonares son las más anteriores e inferiores."
+      },
+      {
+        "texto": "Aspiración según la posición: de pie o sentado, la aspiración suele llegar a los segmentos basales del lóbulo inferior derecho; acostado boca arriba, al segmento superior del lóbulo inferior o al posterior del lóbulo superior derecho."
+      },
+      {
+        "texto": "(Moore, cap. 4)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_3_3",
+    "nombre": "3.3 Zonas del árbol respiratorio (generaciones de Weibel)",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Generación",
+              "Estructuras",
+              "Zona"
+            ],
+            "rows": [
+              [
+                "0",
+                "Tráquea",
+                "Conducción"
+              ],
+              [
+                "1-4",
+                "Bronquios principales, lobares y segmentarios",
+                "Conducción"
+              ],
+              [
+                "5-16",
+                "Bronquios pequeños, bronquiolos y bronquiolos terminales",
+                "Conducción (espacio muerto anatómico ≈ 150 mL)"
+              ],
+              [
+                "17-19",
+                "Bronquiolos respiratorios",
+                "Transición"
+              ],
+              [
+                "20-23",
+                "Conductos alveolares y sacos alveolares",
+                "Respiratoria (≈ 2,5-3 L de volumen en reposo)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(West y Luks, Fisiología respiratoria, cap. 1)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_3_4",
+    "nombre": "3.4 Histología comparada de la vía respiratoria",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Región",
+              "Epitelio",
+              "Cartílago",
+              "Glándulas",
+              "Caliciformes",
+              "Músculo liso"
+            ],
+            "rows": [
+              [
+                "Vestíbulo nasal",
+                "Estratificado plano queratinizado con vibrisas",
+                "Sí (alar)",
+                "Sebáceas y sudoríparas",
+                "No",
+                "No"
+              ],
+              [
+                "Cavidad nasal",
+                "Pseudoestratificado cilíndrico ciliado (respiratorio); olfatorio en el techo",
+                "No (hueso y cartílago septal)",
+                "Sí",
+                "Sí",
+                "No"
+              ],
+              [
+                "Laringe",
+                "Respiratorio; plano estratificado no queratinizado en pliegues vocales y cara lingual de la epiglotis",
+                "Hialino y elástico",
+                "Sí",
+                "Sí",
+                "Músculo esquelético (intrínsecos)"
+              ],
+              [
+                "Tráquea y bronquios principales",
+                "Respiratorio",
+                "Anillos en C (hialino)",
+                "Sí",
+                "Abundantes",
+                "Músculo traqueal"
+              ],
+              [
+                "Bronquios intrapulmonares",
+                "Respiratorio",
+                "Placas",
+                "Sí",
+                "Sí",
+                "Haces en espiral"
+              ],
+              [
+                "Bronquiolos",
+                "Cilíndrico simple a cúbico; células club",
+                "No",
+                "No",
+                "Escasas o ausentes",
+                "Prominente"
+              ],
+              [
+                "Bronquiolo respiratorio",
+                "Cúbico simple con células club, interrumpido por alveolos",
+                "No",
+                "No",
+                "No",
+                "Escaso"
+              ],
+              [
+                "Alveolo",
+                "Neumocitos I y II",
+                "No",
+                "No",
+                "No",
+                "No (fibras elásticas y reticulares)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Tipos celulares del epitelio respiratorio: ciliadas (las más abundantes), caliciformes (moco), basales (células madre), en cepillo (receptores sensitivos) y de gránulos pequeños o neuroendocrinas (de Kulchitsky)."
+      },
+      {
+        "texto": "Cartílago elástico en la laringe: epiglotis, corniculados, cuneiformes y apófisis vocal del aritenoides. El tiroides, el cricoides y la mayor parte de los aritenoides son hialinos y pueden calcificarse con la edad."
+      },
+      {
+        "texto": "Los neumocitos tipo II son más numerosos que los tipo I, aunque cubren mucho menos superficie (≈ 5 % frente a ≈ 95 %)."
+      },
+      {
+        "texto": "(Ross y Pawlina, cap. 19)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_3_5",
+    "nombre": "3.5 Histología cardiovascular",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Característica",
+              "Músculo cardiaco",
+              "Músculo esquelético",
+              "Músculo liso"
+            ],
+            "rows": [
+              [
+                "Forma",
+                "Fibras ramificadas",
+                "Fibras largas cilíndricas",
+                "Células fusiformes"
+              ],
+              [
+                "Núcleos",
+                "1-2 centrales",
+                "Múltiples periféricos",
+                "Uno central"
+              ],
+              [
+                "Estriaciones",
+                "Sí",
+                "Sí",
+                "No"
+              ],
+              [
+                "Túbulos T",
+                "Anchos, a nivel de la línea Z; forman díadas",
+                "A nivel de la unión A-I; forman tríadas",
+                "No (caveolas)"
+              ],
+              [
+                "Uniones entre células",
+                "Discos intercalares (gap, desmosomas, fascia adherens)",
+                "No",
+                "Uniones gap (músculo unitario)"
+              ],
+              [
+                "Origen del Ca2+",
+                "Extracelular y retículo sarcoplásmico",
+                "Retículo sarcoplásmico",
+                "Principalmente extracelular"
+              ],
+              [
+                "Regulación",
+                "Troponina",
+                "Troponina",
+                "Calmodulina y cinasa de cadena ligera de miosina"
+              ],
+              [
+                "Regeneración",
+                "Mínima (se repara con fibrosis)",
+                "Limitada (células satélite)",
+                "Buena"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Disco intercalar: porción transversal con fascia adherens (ancla la actina) y desmosomas (unión mecánica); porción lateral con uniones gap (acoplamiento eléctrico)."
+      },
+      {
+        "texto": "Las células musculares auriculares tienen gránulos que contienen péptido natriurético auricular."
+      },
+      {
+        "texto": "Las fibras de Purkinje se ubican en el subendocardio; son grandes, con glucógeno abundante y pocas miofibrillas."
+      },
+      {
+        "texto": "Arterias: elásticas (aorta y grandes ramas), musculares (coronarias, radial; lámina elástica interna prominente) y arteriolas (1-2 capas de músculo liso). Capilares: continuos (músculo, pulmón, SNC), fenestrados (riñón, intestino, glándulas endocrinas) y sinusoides (hígado, bazo, médula ósea). Las venas tienen una adventicia gruesa y válvulas en los miembros."
+      },
+      {
+        "texto": "(Ross y Pawlina, caps. 11 y 13)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_3_6",
+    "nombre": "3.6 Embriología cardiaca",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Región del tubo cardiaco primitivo",
+              "Estructura adulta que forma"
+            ],
+            "rows": [
+              [
+                "Tronco arterioso",
+                "Porción proximal de la aorta ascendente y del tronco pulmonar (separados por el tabique aorticopulmonar, formado por células de la cresta neural)"
+              ],
+              [
+                "Bulbo cardiaco",
+                "Porción lisa de los ventrículos: cono arterioso del VD y vestíbulo aórtico del VI"
+              ],
+              [
+                "Ventrículo primitivo",
+                "Porción trabeculada de ambos ventrículos (sobre todo del izquierdo)"
+              ],
+              [
+                "Aurícula primitiva",
+                "Porción trabeculada de ambas aurículas y las orejuelas"
+              ],
+              [
+                "Seno venoso",
+                "Cuerno derecho: porción lisa de la AD (seno de las cavas). Cuerno izquierdo: seno coronario y vena oblicua de la AI"
+              ],
+              [
+                "Vena pulmonar primitiva",
+                "Porción lisa de la aurícula izquierda"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Estructura fetal",
+              "Función",
+              "Estructura adulta"
+            ],
+            "rows": [
+              [
+                "Vena umbilical",
+                "Lleva sangre oxigenada de la placenta al feto (la sangre más oxigenada del feto, ≈ 80 % de saturación)",
+                "Ligamento redondo del hígado"
+              ],
+              [
+                "Conducto venoso",
+                "Desvía sangre de la vena umbilical a la VCI, sin pasar por el hígado",
+                "Ligamento venoso"
+              ],
+              [
+                "Agujero oval",
+                "Pasa sangre de la AD a la AI",
+                "Fosa oval"
+              ],
+              [
+                "Conducto arterioso",
+                "Desvía sangre del tronco pulmonar a la aorta",
+                "Ligamento arterioso (se cierra en las primeras 24-72 h por el aumento de O2 y la caída de prostaglandinas)"
+              ],
+              [
+                "Arterias umbilicales",
+                "Regresan sangre desoxigenada a la placenta",
+                "Ligamentos umbilicales mediales"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Arco faríngeo",
+              "Derivado arterial"
+            ],
+            "rows": [
+              [
+                "1.º",
+                "Parte de la arteria maxilar"
+              ],
+              [
+                "2.º",
+                "Arterias hioidea y estapedia"
+              ],
+              [
+                "3.º",
+                "Carótida común y porción proximal de la carótida interna"
+              ],
+              [
+                "4.º",
+                "Izquierdo: parte del arco aórtico. Derecho: porción proximal de la subclavia derecha"
+              ],
+              [
+                "6.º",
+                "Porción proximal de las arterias pulmonares; el izquierdo forma el conducto arterioso"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Cardiopatía congénita",
+              "Dato clave"
+            ],
+            "rows": [
+              [
+                "Comunicación interventricular",
+                "La más frecuente; soplo holosistólico en borde esternal izquierdo; cortocircuito izquierda-derecha"
+              ],
+              [
+                "Comunicación interauricular",
+                "Desdoblamiento fijo del R2; la variedad ostium secundum es la más común"
+              ],
+              [
+                "Conducto arterioso persistente",
+                "Soplo continuo en maquinaria; se cierra con inhibidores de prostaglandinas (indometacina, ibuprofeno) y se mantiene abierto con prostaglandina E1"
+              ],
+              [
+                "Coartación de aorta",
+                "Hipertensión en brazos y pulsos femorales débiles o retrasados; muescas costales en la radiografía; asociada a síndrome de Turner y válvula bicúspide"
+              ],
+              [
+                "Tetralogía de Fallot",
+                "Cardiopatía cianótica más frecuente después del periodo neonatal; crisis hipóxicas que mejoran en cuclillas (aumenta la resistencia sistémica y el flujo pulmonar); corazón en forma de bota"
+              ],
+              [
+                "Transposición de grandes arterias",
+                "Cardiopatía cianótica más frecuente en el recién nacido; circulaciones en paralelo; requiere comunicación entre ellas para sobrevivir"
+              ],
+              [
+                "Síndrome de Eisenmenger",
+                "Un cortocircuito izquierda-derecha no corregido produce hipertensión pulmonar y se invierte a derecha-izquierda, con cianosis tardía"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(StatPearls, Embryology, Heart; Moore, cap. 4; Guía ESC 2020 de cardiopatías congénitas del adulto)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Cardiopatías cianóticas, regla de las “5 T”: Tetralogía de Fallot, Transposición de grandes arterias, Tronco arterioso común, aTresia tricuspídea y conexión anómala Total de venas pulmonares."
+  },
+  {
+    "id": "guia_3_7",
+    "nombre": "3.7 Embriología respiratoria",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "El divertículo respiratorio (brote pulmonar) aparece hacia la 4.ª semana en la pared ventral del intestino anterior. El endodermo forma el epitelio y las glándulas; el mesodermo esplácnico forma el cartílago, el músculo liso, el tejido conectivo y los vasos."
+      },
+      {
+        "texto": "El tabique traqueoesofágico separa la tráquea del esófago. La alteración más frecuente es la atresia esofágica con fístula traqueoesofágica distal (≈ 85 % de los casos): el recién nacido presenta salivación excesiva, tos y cianosis al alimentarse, y se asocia a polihidramnios."
+      },
+      {
+        "texto": "Etapas del desarrollo pulmonar: embrionaria (semanas 3-6), pseudoglandular (5-17; se forman todas las vías de conducción), canalicular (16-25; bronquiolos respiratorios y primeros capilares cercanos al epitelio; viabilidad límite), sacular (24 al nacimiento; sacos terminales, neumocitos I y II) y alveolar (36 semanas a 8 años; la mayoría de los alveolos se forman después del nacimiento)."
+      },
+      {
+        "texto": "El surfactante se produce desde la semana 24, pero en cantidad suficiente hasta cerca de la semana 32-34. La madurez pulmonar se evaluaba con el cociente lecitina/esfingomielina en líquido amniótico (≥ 2 indica madurez)."
+      },
+      {
+        "texto": "La hernia diafragmática congénita (con mayor frecuencia posterolateral izquierda, de Bochdalek) comprime el pulmón en desarrollo y produce hipoplasia pulmonar."
+      },
+      {
+        "texto": "Al nacer, la primera respiración expande los alveolos, la resistencia vascular pulmonar cae bruscamente y aumenta la presión en la aurícula izquierda, lo que cierra funcionalmente el agujero oval."
+      },
+      {
+        "texto": "(StatPearls, Embryology, Pulmonary; Guyton, caps. 38 y 84)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_1",
+    "nombre": "4.1 Presiones parciales de los gases (mmHg, al nivel del mar)",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Gas",
+              "Aire atmosférico",
+              "Aire humidificado (tráquea)",
+              "Aire alveolar",
+              "Aire espirado"
+            ],
+            "rows": [
+              [
+                "N2",
+                "597",
+                "563",
+                "569",
+                "566"
+              ],
+              [
+                "O2",
+                "159",
+                "149",
+                "104",
+                "120"
+              ],
+              [
+                "CO2",
+                "0,3",
+                "0,3",
+                "40",
+                "27"
+              ],
+              [
+                "H2O",
+                "3,7",
+                "47",
+                "47",
+                "47"
+              ],
+              [
+                "Total",
+                "760",
+                "760",
+                "760",
+                "760"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Sangre / tejido",
+              "PO2 (mmHg)",
+              "PCO2 (mmHg)",
+              "Saturación de Hb"
+            ],
+            "rows": [
+              [
+                "Sangre venosa mixta (arteria pulmonar)",
+                "40",
+                "45",
+                "≈ 75 %"
+              ],
+              [
+                "Sangre capilar pulmonar al final",
+                "104",
+                "40",
+                "≈ 98 %"
+              ],
+              [
+                "Sangre arterial sistémica",
+                "95",
+                "40",
+                "≈ 97 %"
+              ],
+              [
+                "Líquido intersticial",
+                "40",
+                "45",
+                "—"
+              ],
+              [
+                "Interior de la célula",
+                "23 (5-40)",
+                "46",
+                "—"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 40 y 41)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "Por qué el aire espirado tiene más O2 que el alveolar: es una mezcla del aire alveolar con el aire del espacio muerto, que no participó en el intercambio y conserva la composición del aire humidificado."
+  },
+  {
+    "id": "guia_4_2",
+    "nombre": "4.2 Ecuaciones esenciales",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Concepto",
+              "Fórmula",
+              "Valor normal / ejemplo"
+            ],
+            "rows": [
+              [
+                "Ventilación minuto",
+                "VE = VC × FR",
+                "500 mL × 12 = 6 L/min"
+              ],
+              [
+                "Ventilación alveolar",
+                "VA = (VC − VD) × FR",
+                "(500 − 150) × 12 = 4,2 L/min"
+              ],
+              [
+                "Relación PaCO2-ventilación",
+                "PaCO2 ∝ VCO2 ÷ VA",
+                "Si la ventilación alveolar se duplica, la PaCO2 baja a la mitad"
+              ],
+              [
+                "Espacio muerto (ecuación de Bohr)",
+                "VD/VT = (PaCO2 − PECO2) ÷ PaCO2",
+                "≈ 0,2-0,35"
+              ],
+              [
+                "Gas alveolar",
+                "PAO2 = FiO2 × (Patm − 47) − PaCO2 ÷ 0,8",
+                "0,21 × 713 − 50 ≈ 100 mmHg"
+              ],
+              [
+                "Gradiente alveolo-arterial",
+                "P(A−a)O2 = PAO2 − PaO2",
+                "< 10-15 mmHg en jóvenes; aproximación: (edad ÷ 4) + 4"
+              ],
+              [
+                "Contenido arterial de O2",
+                "CaO2 = 1,34 × Hb × SaO2 + 0,003 × PaO2",
+                "≈ 20 mL de O2 por cada 100 mL de sangre"
+              ],
+              [
+                "Entrega de O2",
+                "DO2 = GC × CaO2 × 10",
+                "5 L/min × 200 mL/L ≈ 1000 mL/min"
+              ],
+              [
+                "Consumo de O2 y producción de CO2",
+                "VO2 ≈ 250 mL/min; VCO2 ≈ 200 mL/min",
+                "Cociente respiratorio = VCO2 ÷ VO2 ≈ 0,8"
+              ],
+              [
+                "Índice de oxigenación",
+                "PaO2 ÷ FiO2",
+                "> 400 normal; < 300 sugiere lesión pulmonar"
+              ],
+              [
+                "Ley de Laplace (alveolo)",
+                "P = 2T ÷ r",
+                "Explica la importancia del surfactante"
+              ],
+              [
+                "Ley de Fick (difusión)",
+                "V gas ∝ (A × D × ΔP) ÷ grosor",
+                "El CO2 difunde ≈ 20 veces más rápido que el O2"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 38, 40 y 41; West y Luks, caps. 2, 3 y 5)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_3",
+    "nombre": "4.3 Mecánica respiratoria",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "Distensibilidad de los pulmones aislados: ≈ 200 mL/cmH2O; de pulmones y caja torácica juntos: ≈ 110 mL/cmH2O. Disminuye en fibrosis, edema y falta de surfactante; aumenta en el enfisema y con la edad."
+      },
+      {
+        "texto": "Histéresis: la curva presión-volumen del pulmón es distinta en inspiración y en espiración, sobre todo por el surfactante."
+      },
+      {
+        "texto": "Presión transpulmonar = presión alveolar − presión pleural. Es la que mantiene inflados los pulmones."
+      },
+      {
+        "texto": "Trabajo respiratorio: en reposo, ≈ 65 % se emplea en vencer la distensibilidad (trabajo elástico), ≈ 7 % en vencer la resistencia de los tejidos (viscosidad) y ≈ 28 % en la resistencia de las vías aéreas; este último aumenta mucho en el ejercicio intenso y en las enfermedades obstructivas."
+      },
+      {
+        "texto": "Resistencia: depende sobre todo del radio (Poiseuille). Aumenta con broncoconstricción, moco y edema; disminuye a mayor volumen pulmonar, porque la tracción elástica abre las vías."
+      },
+      {
+        "texto": "Frecuencia respiratoria normal del adulto: 12-20 por minuto (Guyton usa 12)."
+      },
+      {
+        "texto": "(Guyton, cap. 38; West y Luks, cap. 7)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_4",
+    "nombre": "4.4 Relación ventilación-perfusión y zonas de West",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Zona",
+              "Relación de presiones",
+              "Flujo"
+            ],
+            "rows": [
+              [
+                "Zona 1",
+                "Presión alveolar > arterial > venosa",
+                "Sin flujo; no existe en personas sanas (sí en hemorragia o ventilación con presión positiva alta)"
+              ],
+              [
+                "Zona 2",
+                "Arterial > alveolar > venosa",
+                "Intermitente (sólo en sístole); vértices pulmonares de pie"
+              ],
+              [
+                "Zona 3",
+                "Arterial > venosa > alveolar",
+                "Continuo; bases pulmonares"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Región (de pie)",
+              "V/Q",
+              "PAO2 (mmHg)",
+              "PACO2 (mmHg)",
+              "Dato"
+            ],
+            "rows": [
+              [
+                "Vértice",
+                "≈ 3,3",
+                "≈ 132",
+                "≈ 28",
+                "Mejor ventilado en relación con su flujo; aquí se reactiva la tuberculosis por la alta PO2"
+              ],
+              [
+                "Base",
+                "≈ 0,6",
+                "≈ 89",
+                "≈ 42",
+                "Recibe más ventilación y mucho más flujo en términos absolutos"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Causa de hipoxemia",
+              "Gradiente A-a",
+              "PaCO2",
+              "Mejora con O2"
+            ],
+            "rows": [
+              [
+                "Hipoventilación (fármacos, enfermedad neuromuscular)",
+                "Normal",
+                "Alta",
+                "Sí"
+              ],
+              [
+                "Baja PO2 inspirada (altitud)",
+                "Normal",
+                "Normal o baja",
+                "Sí"
+              ],
+              [
+                "Alteración V/Q (la más frecuente)",
+                "Aumentado",
+                "Normal o baja",
+                "Sí"
+              ],
+              [
+                "Cortocircuito (shunt)",
+                "Aumentado",
+                "Normal o baja",
+                "Poco o nada"
+              ],
+              [
+                "Trastorno de la difusión",
+                "Aumentado (sobre todo en ejercicio)",
+                "Normal o baja",
+                "Sí"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, caps. 39 y 40; West y Luks, caps. 4 y 5)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_5",
+    "nombre": "4.5 Transporte de gases",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Desplazamiento de la curva de disociación",
+              "Causas"
+            ],
+            "rows": [
+              [
+                "A la derecha (menor afinidad, la Hb libera más O2; P50 ↑)",
+                "↑ CO2, ↑ H+ (acidosis), ↑ temperatura, ↑ 2,3-BPG (anemia, altitud), ejercicio"
+              ],
+              [
+                "A la izquierda (mayor afinidad, la Hb retiene el O2; P50 ↓)",
+                "↓ CO2, alcalosis, hipotermia, ↓ 2,3-BPG, hemoglobina fetal, monóxido de carbono, metahemoglobina"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "P50 normal: ≈ 26-27 mmHg. Puntos útiles de la curva: PO2 40 → saturación 75 %; PO2 60 → ≈ 90 % (por debajo de este punto la saturación cae rápidamente); PO2 100 → ≈ 97-98 %."
+      },
+      {
+        "texto": "Cianosis: aparece cuando hay más de ≈ 5 g/dL de hemoglobina desoxigenada en la sangre capilar; por eso en la anemia grave puede haber hipoxemia sin cianosis y en la policitemia puede haber cianosis con menor hipoxemia."
+      },
+      {
+        "texto": "Transporte de CO2: ≈ 70 % como bicarbonato, 20-30 % como carbaminohemoglobina y ≈ 7 % disuelto. Desplazamiento del cloruro (efecto Hamburger): el HCO3- sale del eritrocito y entra Cl-."
+      },
+      {
+        "texto": "Efecto Bohr: el CO2 y los H+ facilitan la liberación de O2 en los tejidos. Efecto Haldane: la oxigenación de la Hb en el pulmón facilita la liberación de CO2."
+      },
+      {
+        "texto": "Metahemoglobinemia (hierro en estado férrico, Fe3+): la sangre se ve color chocolate y el oxímetro tiende a marcar ≈ 85 % sin importar la PaO2; se trata con azul de metileno."
+      },
+      {
+        "texto": "(Guyton, cap. 41; West y Luks, cap. 6)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_6",
+    "nombre": "4.6 Control de la respiración",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Componente",
+              "Función"
+            ],
+            "rows": [
+              [
+                "Grupo respiratorio dorsal (bulbo)",
+                "Genera el ritmo inspiratorio básico; recibe aferencias de los nervios vago y glosofaríngeo en el núcleo del tracto solitario"
+              ],
+              [
+                "Grupo respiratorio ventral (bulbo)",
+                "Inactivo en la respiración tranquila; participa en la respiración forzada. Contiene el complejo pre-Bötzinger, considerado el generador del ritmo"
+              ],
+              [
+                "Centro neumotáxico (protuberancia)",
+                "Limita la duración de la inspiración y aumenta la frecuencia"
+              ],
+              [
+                "Quimiorreceptores centrales (bulbo)",
+                "Responden al H+ del líquido cefalorraquídeo, que refleja el CO2 arterial (el CO2 cruza la barrera hematoencefálica; el H+ no). Son el principal estímulo de la ventilación"
+              ],
+              [
+                "Quimiorreceptores periféricos (cuerpos carotídeos y aórticos)",
+                "Responden sobre todo a la caída de la PaO2 (< 60 mmHg), y también a CO2 y H+. Carotídeos → nervio de Hering → glosofaríngeo; aórticos → vago"
+              ],
+              [
+                "Receptores de estiramiento pulmonar",
+                "Reflejo de Hering-Breuer: limitan la inspiración con volúmenes corrientes grandes (> 1,5 L en el adulto)"
+              ],
+              [
+                "Receptores J (yuxtacapilares) e irritantes",
+                "Se estimulan con edema o congestión pulmonar y con irritantes; producen taquipnea, tos y sensación de disnea"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guyton, cap. 42; Guía BTS 2017 de oxigenoterapia de urgencia, O'Driscoll et al.)"
+      }
+    ],
+    "imagenUrl": "",
+    "clave": "En pacientes con EPOC e hipercapnia crónica, el oxígeno a concentraciones altas puede elevar la PaCO2, sobre todo por empeoramiento de la relación V/Q (se pierde la vasoconstricción hipóxica) y por el efecto Haldane. Por eso en ellos se busca una saturación de 88-92 %, mientras que en la mayoría de los pacientes agudos el objetivo es 94-98 %."
+  },
+  {
+    "id": "guia_4_7",
+    "nombre": "4.7 Altitud: un ejemplo cercano",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "La fracción de O2 del aire es siempre 21 %, pero al subir disminuye la presión barométrica y con ella la PO2 inspirada. El cálculo con la ecuación del gas alveolar muestra por qué en ciudades altas los valores normales de la gasometría son menores."
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Lugar (altitud aproximada)",
+              "Patm aprox. (mmHg)",
+              "PO2 inspirada",
+              "PAO2 estimada*",
+              "Comentario"
+            ],
+            "rows": [
+              [
+                "Nivel del mar",
+                "760",
+                "≈ 150",
+                "≈ 100",
+                "Valores de los libros de texto"
+              ],
+              [
+                "Guadalajara (≈ 1550 m)",
+                "≈ 635",
+                "≈ 123",
+                "≈ 78",
+                "*Con PaCO2 de 36 mmHg"
+              ],
+              [
+                "Ciudad de México (≈ 2240 m)",
+                "≈ 585",
+                "≈ 113",
+                "≈ 73",
+                "*Con PaCO2 de 32 mmHg por la hiperventilación de adaptación"
+              ],
+              [
+                "Monte Everest (8848 m)",
+                "≈ 253",
+                "≈ 43",
+                "—",
+                "Sólo tolerable con aclimatación extrema u oxígeno"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Aclimatación: hiperventilación (estímulo de los quimiorreceptores periféricos), aumento de 2,3-BPG, aumento de la eritropoyetina y del hematocrito, mayor capilarización de los tejidos y mayor capacidad de difusión pulmonar."
+      },
+      {
+        "texto": "El mal agudo de montaña, el edema pulmonar de altura y el edema cerebral de altura se previenen con ascenso gradual; el edema pulmonar se relaciona con vasoconstricción hipóxica pulmonar exagerada."
+      },
+      {
+        "texto": "(Guyton, cap. 44; cálculos propios con la ecuación del gas alveolar; los valores de presión barométrica son aproximados)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_8",
+    "nombre": "4.8 Gasometría arterial y equilibrio ácido-base",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Parámetro",
+              "Valor normal (nivel del mar)",
+              "Comentario"
+            ],
+            "rows": [
+              [
+                "pH",
+                "7,35-7,45",
+                "< 7,35 acidemia; > 7,45 alcalemia"
+              ],
+              [
+                "PaCO2",
+                "35-45 mmHg",
+                "Componente respiratorio"
+              ],
+              [
+                "HCO3-",
+                "22-26 mEq/L",
+                "Componente metabólico"
+              ],
+              [
+                "Exceso de base",
+                "−2 a +2 mEq/L",
+                "—"
+              ],
+              [
+                "PaO2",
+                "80-100 mmHg",
+                "Disminuye con la edad y la altitud"
+              ],
+              [
+                "SaO2",
+                "95-100 %",
+                "—"
+              ],
+              [
+                "Brecha aniónica",
+                "Na+ − (Cl- + HCO3-) = 8-12 mEq/L",
+                "Corregir si hay hipoalbuminemia (+2,5 por cada g/dL de albúmina menos de 4)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Trastorno primario",
+              "Cambio primario",
+              "Compensación esperada"
+            ],
+            "rows": [
+              [
+                "Acidosis metabólica",
+                "↓ HCO3-",
+                "Fórmula de Winter: PaCO2 esperada = 1,5 × HCO3- + 8 (± 2)"
+              ],
+              [
+                "Alcalosis metabólica",
+                "↑ HCO3-",
+                "PaCO2 aumenta ≈ 0,7 mmHg por cada 1 mEq/L de aumento del HCO3-"
+              ],
+              [
+                "Acidosis respiratoria",
+                "↑ PaCO2",
+                "Aguda: HCO3- +1 por cada 10 mmHg de PaCO2; crónica: +3,5 a +4 por cada 10 mmHg"
+              ],
+              [
+                "Alcalosis respiratoria",
+                "↓ PaCO2",
+                "Aguda: HCO3- −2 por cada 10 mmHg; crónica: −4 a −5 por cada 10 mmHg"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "Ecuación de Henderson-Hasselbalch: pH = 6,1 + log [HCO3- ÷ (0,03 × PaCO2)]."
+      },
+      {
+        "texto": "Método en 4 pasos: 1) ¿acidemia o alcalemia? 2) ¿el trastorno primario es respiratorio o metabólico? 3) ¿la compensación es la esperada? Si no, hay un trastorno mixto. 4) En la acidosis metabólica, calcular la brecha aniónica."
+      },
+      {
+        "texto": "Acidosis metabólica con brecha aumentada: cetoacidosis, acidosis láctica, insuficiencia renal, intoxicaciones (metanol, etilenglicol, salicilatos). Con brecha normal: diarrea, acidosis tubular renal."
+      },
+      {
+        "texto": "Causas respiratorias: acidosis por hipoventilación (EPOC, sedantes, enfermedades neuromusculares); alcalosis por hiperventilación (ansiedad, dolor, altitud, TEP, embarazo)."
+      },
+      {
+        "texto": "(Guyton, caps. 31 y 41; Berend et al., N Engl J Med 2014, “Physiological approach to assessment of acid-base disturbances”)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_9",
+    "nombre": "4.9 Pruebas de función respiratoria",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Parámetro",
+              "Obstructivo",
+              "Restrictivo",
+              "Mixto"
+            ],
+            "rows": [
+              [
+                "FEV1",
+                "↓↓",
+                "↓",
+                "↓"
+              ],
+              [
+                "FVC",
+                "Normal o ↓",
+                "↓",
+                "↓"
+              ],
+              [
+                "FEV1/FVC",
+                "< 0,70 o < límite inferior normal",
+                "Normal o ↑",
+                "↓"
+              ],
+              [
+                "Capacidad pulmonar total",
+                "Normal o ↑",
+                "↓ (confirma la restricción)",
+                "↓"
+              ],
+              [
+                "Volumen residual",
+                "↑ (atrapamiento)",
+                "↓ o normal",
+                "Variable"
+              ],
+              [
+                "DLCO",
+                "↓ en enfisema; normal o ↑ en asma",
+                "↓ en enfermedad intersticial; normal en restricción extrapulmonar (obesidad, neuromuscular)",
+                "Variable"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Clasificación",
+              "Criterio"
+            ],
+            "rows": [
+              [
+                "GOLD 1 (leve)",
+                "FEV1 ≥ 80 % del predicho (con FEV1/FVC posbroncodilatador < 0,70)"
+              ],
+              [
+                "GOLD 2 (moderada)",
+                "FEV1 50-79 %"
+              ],
+              [
+                "GOLD 3 (grave)",
+                "FEV1 30-49 %"
+              ],
+              [
+                "GOLD 4 (muy grave)",
+                "FEV1 < 30 %"
+              ],
+              [
+                "Respuesta al broncodilatador (ERS/ATS 2022)",
+                "Aumento > 10 % del valor predicho en FEV1 o FVC"
+              ],
+              [
+                "Respuesta al broncodilatador (GINA, asma)",
+                "Aumento del FEV1 > 12 % y > 200 mL respecto al basal"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "DLCO aumentada: asma, policitemia, hemorragia alveolar, obesidad, ejercicio. DLCO disminuida: enfisema, enfermedad intersticial, enfermedad vascular pulmonar (TEP crónico, hipertensión pulmonar) y anemia (por eso se corrige por hemoglobina)."
+      },
+      {
+        "texto": "Curva flujo-volumen: en la obstrucción la rama espiratoria es cóncava (“excavada”); en la restricción la curva es estrecha y alta; en la obstrucción fija de vía aérea superior (estenosis traqueal) ambas ramas se aplanan."
+      },
+      {
+        "texto": "(Graham et al., ATS/ERS 2019; Stanojevic et al., ERS/ATS 2022; Informe GOLD 2025; GINA 2024; Graham et al., ERS/ATS 2017 de DLCO)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_10",
+    "nombre": "4.10 Exploración física respiratoria",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Condición",
+              "Vibraciones vocales",
+              "Percusión",
+              "Murmullo vesicular",
+              "Ruidos agregados",
+              "Tráquea"
+            ],
+            "rows": [
+              [
+                "Normal",
+                "Normales",
+                "Resonante (claro pulmonar)",
+                "Vesicular",
+                "No",
+                "Centrada"
+              ],
+              [
+                "Consolidación (neumonía)",
+                "Aumentadas",
+                "Mate",
+                "Soplo tubario (respiración bronquial)",
+                "Crepitantes; egofonía y pectoriloquia",
+                "Centrada"
+              ],
+              [
+                "Derrame pleural",
+                "Disminuidas o abolidas",
+                "Mate (pétrea)",
+                "Disminuido o abolido",
+                "Frote pleural en derrames pequeños",
+                "Desviada al lado contrario si es grande"
+              ],
+              [
+                "Neumotórax",
+                "Disminuidas o abolidas",
+                "Hiperresonante (timpánica)",
+                "Disminuido o abolido",
+                "No",
+                "Desviada al lado contrario si es a tensión"
+              ],
+              [
+                "Atelectasia",
+                "Disminuidas",
+                "Mate",
+                "Disminuido",
+                "Variables",
+                "Desviada hacia el mismo lado"
+              ],
+              [
+                "Enfisema",
+                "Disminuidas",
+                "Hiperresonante",
+                "Disminuido",
+                "Sibilancias posibles",
+                "Centrada"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Ruido",
+              "Descripción y causas"
+            ],
+            "rows": [
+              [
+                "Vesicular",
+                "Suave, de baja frecuencia, inspiración más larga que la espiración; normal en casi todo el campo pulmonar"
+              ],
+              [
+                "Bronquial (tubario)",
+                "Alto, con espiración más larga que la inspiración; normal sobre el manubrio; anormal en el campo pulmonar (consolidación)"
+              ],
+              [
+                "Crepitantes finos",
+                "Discontinuos, al final de la inspiración, como velcro: fibrosis pulmonar, edema, neumonía temprana"
+              ],
+              [
+                "Crepitantes gruesos",
+                "Discontinuos, más graves, al inicio de la inspiración: bronquiectasias, secreciones"
+              ],
+              [
+                "Sibilancias",
+                "Continuos, agudos, sobre todo espiratorios: asma, EPOC, obstrucción de vías pequeñas"
+              ],
+              [
+                "Roncus",
+                "Continuos, graves: secreciones en vías grandes; cambian con la tos"
+              ],
+              [
+                "Estridor",
+                "Continuo, inspiratorio, se oye sin estetoscopio: obstrucción de vía aérea superior (laringe, tráquea); es una urgencia"
+              ],
+              [
+                "Frote pleural",
+                "Áspero, en ambas fases, como cuero: pleuritis"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Bates, Guía de exploración física, cap. 8)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_4_11",
+    "nombre": "4.11 Otros valores y criterios útiles",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Tema",
+              "Dato"
+            ],
+            "rows": [
+              [
+                "Oximetría de pulso",
+                "Objetivo de SpO2 en la mayoría de los pacientes agudos: 94-98 %; en riesgo de hipercapnia: 88-92 %. Falsamente normal en intoxicación por CO; poco fiable con mala perfusión, movimiento, esmalte de uñas o arritmias"
+              ],
+              [
+                "Síndrome de dificultad respiratoria aguda (Berlín)",
+                "Inicio en ≤ 1 semana, opacidades bilaterales no explicadas por insuficiencia cardiaca, con PEEP ≥ 5: leve PaO2/FiO2 200-300; moderado 100-200; grave ≤ 100"
+              ],
+              [
+                "Líquido pleural normal",
+                "≈ 0,1-0,3 mL/kg por hemitórax; pH ≈ 7,60; proteínas bajas (< 2 g/dL)"
+              ],
+              [
+                "Detección de derrame",
+                "Radiografía lateral: ≈ 50 mL; posteroanterior: ≈ 200 mL (borramiento del ángulo costofrénico); el ultrasonido detecta volúmenes aún menores"
+              ],
+              [
+                "Surfactante",
+                "Fosfolípidos (sobre todo dipalmitoilfosfatidilcolina) ≈ 90 % y proteínas SP-A, SP-B, SP-C y SP-D ≈ 10 %; SP-A y SP-D participan en la defensa inmunitaria"
+              ],
+              [
+                "Asma frente a EPOC",
+                "Asma: inicio joven, variable, atopia, reversible, eosinófilos. EPOC: > 40 años, tabaquismo o humo de leña, progresiva, obstrucción persistente tras broncodilatador"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "texto": "(Guía BTS 2017 de oxigenoterapia; ARDS Definition Task Force, JAMA 2012; Guía BTS 2023 de enfermedad pleural; Guyton, cap. 38; GINA 2024; GOLD 2025)"
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_5",
+    "nombre": "5. Trampas frecuentes de examen",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "tablas": [
+          {
+            "headers": [
+              "Afirmación incorrecta frecuente",
+              "Lo correcto"
+            ],
+            "rows": [
+              [
+                "Las arterias llevan sangre oxigenada",
+                "Las arterias salen del corazón; las pulmonares llevan sangre desoxigenada y las venas pulmonares, oxigenada"
+              ],
+              [
+                "Los músculos papilares cierran las válvulas",
+                "Las válvulas se cierran pasivamente por diferencia de presión; los papilares sólo evitan que las valvas se eviertan"
+              ],
+              [
+                "El R1 y el R2 se producen por el choque de las valvas",
+                "Se deben a la vibración de las valvas tensas, la sangre y las paredes después del cierre"
+              ],
+              [
+                "El Na+ que entra en la fase 0 activa la contracción",
+                "La contracción la desencadena el Ca2+ liberado del retículo sarcoplásmico, activado por el Ca2+ que entra en la meseta"
+              ],
+              [
+                "La despolarización del nodo SA es por Na+",
+                "Es por Ca2+ (canales tipo L); el Na+ participa en la fase 4 (corriente If)"
+              ],
+              [
+                "La onda T representa la repolarización auricular",
+                "La T es repolarización ventricular; la auricular queda oculta en el QRS"
+              ],
+              [
+                "El segmento PR y el intervalo PR son lo mismo",
+                "El intervalo incluye la onda P; el segmento va del final de la P al QRS (nodo AV, His y ramas)"
+              ],
+              [
+                "La mayor resistencia aérea está en los bronquiolos pequeños",
+                "Está en los bronquios de mediano calibre; los bronquiolos son millones en paralelo"
+              ],
+              [
+                "El principal estímulo de la ventilación es la falta de O2",
+                "En condiciones normales es el CO2 (vía H+ en los quimiorreceptores centrales)"
+              ],
+              [
+                "El volumen residual se mide con espirometría",
+                "No; requiere dilución de helio o pletismografía (igual que la CRF y la CPT)"
+              ],
+              [
+                "El aire espirado tiene la misma composición que el alveolar",
+                "Tiene más O2 y menos CO2, porque se mezcla con el aire del espacio muerto"
+              ],
+              [
+                "El epicardio y el pericardio son capas diferentes sin relación",
+                "El epicardio es la lámina visceral del pericardio seroso"
+              ],
+              [
+                "La sangre fetal más oxigenada está en la aorta",
+                "Está en la vena umbilical (≈ 80 % de saturación)"
+              ],
+              [
+                "En la estenosis pulmonar el flujo pulmonar está aumentado",
+                "Está disminuido; por eso aparecen cianosis e hipertrofia del VD"
+              ],
+              [
+                "El bronquio izquierdo es el más afectado por aspiración",
+                "Es el derecho, por ser más ancho, corto y vertical"
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_6",
+    "nombre": "6. Reglas mnemotécnicas",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "Recorrido de la sangre (válvulas): “TRI-PUL-MI-AO”: tricúspide, pulmonar, mitral, aórtica."
+      },
+      {
+        "texto": "Focos de auscultación en orden de la base al ápex: “APTM” (aórtico, pulmonar, tricuspídeo, mitral): 2.º EIC derecho, 2.º EIC izquierdo, borde esternal izquierdo bajo y 5.º EIC en la línea medioclavicular."
+      },
+      {
+        "texto": "Lóbulos: el pulmón derecho tiene 3 lóbulos y 2 fisuras; el izquierdo tiene 2 lóbulos y 1 fisura."
+      },
+      {
+        "texto": "Hilio: “RALS”: en el pulmón derecho la arteria es Anterior al bronquio; en el izquierdo es Superior."
+      },
+      {
+        "texto": "Frénico: “C3, 4 y 5 mantienen vivo el diafragma”."
+      },
+      {
+        "texto": "Pleura y pulmón: “6-8-10” para el pulmón y “8-10-12” para la pleura (medioclavicular, axilar media, paravertebral)."
+      },
+      {
+        "texto": "Derivaciones de pared inferior: “II, III, aVF miran al piso”."
+      },
+      {
+        "texto": "Hiperpotasemia: “la T se para (picuda), la P se va y el QRS se ensancha”."
+      },
+      {
+        "texto": "Desviación del R2: “fijo = CIA; paradójico = rama izquierda o estenosis aórtica”."
+      },
+      {
+        "texto": "Curva de disociación a la derecha: “CADET, a la derecha” (CO2, Ácido, 2,3-DPG, Ejercicio, Temperatura)."
+      }
+    ],
+    "imagenUrl": ""
+  },
+  {
+    "id": "guia_7_preguntas",
+    "nombre": "7. Preguntas de práctica con respuesta",
+    "sinMalla": true,
+    "tipo": "guia",
+    "sistema": "guia_alto_rendimiento",
+    "conocimientoNuevo": [
+      {
+        "texto": "Las preguntas siguen el estilo de los exámenes de la unidad: casos breves que obligan a relacionar anatomía con fisiología. Intenta responder antes de leer la explicación."
+      }
+    ],
+    "preguntas": [
+      {
+        "numero": "1",
+        "enunciado": "Un paciente tiene regurgitación de sangre de la aorta al ventrículo izquierdo durante la diástole. ¿Qué válvula está afectada y qué soplo se espera?",
+        "opciones": {
+          "a": "Mitral, holosistólico",
+          "b": "Aórtica, diastólico temprano",
+          "c": "Pulmonar, sistólico",
+          "d": "Tricúspide, holosistólico"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La válvula situada entre la cavidad a la que regresa la sangre (VI) y la de donde viene (aorta) es la aórtica. Como el reflujo ocurre en la diástole, el soplo es diastólico, aspirativo y decreciente."
+      },
+      {
+        "numero": "2",
+        "enunciado": "¿Qué válvulas están abiertas durante la fase de eyección ventricular?",
+        "opciones": {
+          "a": "Mitral y tricúspide",
+          "b": "Aórtica y pulmonar",
+          "c": "Las cuatro",
+          "d": "Ninguna"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "En la eyección se abren las semilunares y las auriculoventriculares permanecen cerradas. En las fases isovolumétricas están cerradas las cuatro."
+      },
+      {
+        "numero": "3",
+        "enunciado": "Durante una ablación se perfora la pared posterior de la aurícula izquierda. ¿Qué órgano tiene mayor riesgo de lesionarse?",
+        "opciones": {
+          "a": "Tráquea",
+          "b": "Esófago",
+          "c": "Aorta ascendente",
+          "d": "Nervio frénico izquierdo"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La aurícula izquierda forma la base del corazón y sólo el pericardio (seno oblicuo) la separa del esófago; la complicación temida es la fístula atrioesofágica."
+      },
+      {
+        "numero": "4",
+        "enunciado": "Un ECG muestra elevación del ST en II, III y aVF con descenso en I y aVL. ¿Qué arteria es la más probable?",
+        "opciones": {
+          "a": "Descendente anterior",
+          "b": "Circunfleja",
+          "c": "Coronaria derecha",
+          "d": "Tronco común izquierdo"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "Es un infarto inferior con cambios recíprocos laterales; en ≈ 80 % de los casos la responsable es la coronaria derecha (dominancia derecha)."
+      },
+      {
+        "numero": "5",
+        "enunciado": "¿Qué onda del ECG representa la despolarización auricular?",
+        "opciones": {
+          "a": "P",
+          "b": "QRS",
+          "c": "T",
+          "d": "U"
+        },
+        "respuestaLetra": "a",
+        "respuestaTexto": "La P es la despolarización auricular; el QRS, la ventricular; la T, la repolarización ventricular."
+      },
+      {
+        "numero": "6",
+        "enunciado": "Un intervalo PR de 0,26 s con todos los QRS conducidos corresponde a:",
+        "opciones": {
+          "a": "Ritmo normal",
+          "b": "Bloqueo AV de 1.er grado",
+          "c": "Mobitz II",
+          "d": "Bloqueo AV completo"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El PR normal es de 0,12 a 0,20 s; si es mayor y todos los impulsos se conducen, es un bloqueo de primer grado."
+      },
+      {
+        "numero": "7",
+        "enunciado": "En la derivación I el QRS es positivo y en aVF es negativo; en II también es negativo. El eje es:",
+        "opciones": {
+          "a": "Normal",
+          "b": "Desviado a la izquierda",
+          "c": "Desviado a la derecha",
+          "d": "Extremo"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "I positivo y aVF negativo dejan el eje entre 0° y −90°; si II es negativo, el eje es más negativo que −30°, es decir, hay desviación izquierda (por ejemplo, hemibloqueo anterior izquierdo)."
+      },
+      {
+        "numero": "8",
+        "enunciado": "¿Cuál es la causa principal del potencial de membrana en reposo del miocito?",
+        "opciones": {
+          "a": "Gradiente y permeabilidad al Na+",
+          "b": "Gradiente y permeabilidad al K+",
+          "c": "Entrada de Ca2+",
+          "d": "Salida de Cl-"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La membrana en reposo es mucho más permeable al K+, que sale a favor de su gradiente; el potencial se acerca al de equilibrio del K+."
+      },
+      {
+        "numero": "9",
+        "enunciado": "¿Por qué el nodo AV retrasa el impulso?",
+        "opciones": {
+          "a": "Tiene muchas uniones gap",
+          "b": "Sus células son grandes",
+          "c": "Tiene pocas uniones gap y fibras pequeñas",
+          "d": "Está aislado por el pericardio"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "Las pocas uniones comunicantes y el diámetro pequeño de sus fibras enlentecen la conducción; el retraso permite el vaciamiento auricular."
+      },
+      {
+        "numero": "10",
+        "enunciado": "Un recién nacido con estenosis pulmonar crítica está cianótico. ¿Cómo está el flujo pulmonar y qué fármaco mantiene abierto el conducto arterioso?",
+        "opciones": {
+          "a": "Aumentado; indometacina",
+          "b": "Disminuido; prostaglandina E1",
+          "c": "Normal; adenosina",
+          "d": "Disminuido; indometacina"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La obstrucción reduce el paso de sangre a los pulmones; la prostaglandina E1 mantiene el conducto arterioso abierto para que llegue sangre al pulmón. La indometacina hace lo contrario."
+      },
+      {
+        "numero": "11",
+        "enunciado": "¿Qué estructura del corazón embrionario forma el seno coronario?",
+        "opciones": {
+          "a": "Bulbo cardiaco",
+          "b": "Cuerno izquierdo del seno venoso",
+          "c": "Tronco arterioso",
+          "d": "Aurícula primitiva"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El cuerno izquierdo del seno venoso forma el seno coronario; el derecho, la porción lisa de la aurícula derecha."
+      },
+      {
+        "numero": "12",
+        "enunciado": "Un paciente con EPOC tiene FEV1/FVC de 0,58 y FEV1 de 42 % del predicho. Su clasificación GOLD es:",
+        "opciones": {
+          "a": "GOLD 1",
+          "b": "GOLD 2",
+          "c": "GOLD 3",
+          "d": "GOLD 4"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "Hay obstrucción (cociente < 0,70) y el FEV1 entre 30 y 49 % corresponde a GOLD 3 (grave)."
+      },
+      {
+        "numero": "13",
+        "enunciado": "¿Qué volumen pulmonar NO puede medirse con espirometría simple?",
+        "opciones": {
+          "a": "Volumen corriente",
+          "b": "Capacidad vital",
+          "c": "Volumen residual",
+          "d": "Volumen de reserva inspiratoria"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "El volumen residual queda en el pulmón tras la espiración máxima; por eso también la CRF y la CPT requieren otras técnicas."
+      },
+      {
+        "numero": "14",
+        "enunciado": "Con aire ambiente al nivel del mar, PaCO2 de 40 mmHg y PaO2 de 60 mmHg, el gradiente A-a es aproximadamente:",
+        "opciones": {
+          "a": "0 mmHg",
+          "b": "10 mmHg",
+          "c": "40 mmHg",
+          "d": "100 mmHg"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "PAO2 = 0,21 × 713 − 40/0,8 ≈ 100 mmHg; 100 − 60 = 40 mmHg, un gradiente aumentado que sugiere alteración V/Q, cortocircuito o difusión."
+      },
+      {
+        "numero": "15",
+        "enunciado": "Un paciente tiene pH 7,25, PaCO2 de 60 mmHg y HCO3- de 26 mEq/L. ¿Qué trastorno presenta?",
+        "opciones": {
+          "a": "Acidosis metabólica",
+          "b": "Acidosis respiratoria aguda",
+          "c": "Alcalosis respiratoria",
+          "d": "Acidosis respiratoria crónica compensada"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "Hay acidemia con PaCO2 alta; el HCO3- apenas subió (+1 por cada 10 mmHg esperado en la forma aguda), lo que indica que el trastorno es agudo."
+      },
+      {
+        "numero": "16",
+        "enunciado": "Una paciente con cetoacidosis tiene HCO3- de 12 mEq/L. ¿Qué PaCO2 se espera si la compensación es adecuada?",
+        "opciones": {
+          "a": "20-24 mmHg",
+          "b": "24-28 mmHg",
+          "c": "35-45 mmHg",
+          "d": "50 mmHg"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "Fórmula de Winter: 1,5 × 12 + 8 = 26 ± 2 mmHg."
+      },
+      {
+        "numero": "17",
+        "enunciado": "¿Cuál de los siguientes desplaza la curva de disociación de la Hb a la izquierda?",
+        "opciones": {
+          "a": "Fiebre",
+          "b": "Acidosis",
+          "c": "Hemoglobina fetal",
+          "d": "Aumento de 2,3-BPG"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "La hemoglobina fetal tiene mayor afinidad por el O2, lo que le permite captarlo en la placenta; los demás factores desplazan la curva a la derecha."
+      },
+      {
+        "numero": "18",
+        "enunciado": "¿Cuál es el principal estímulo químico de la ventilación en una persona sana?",
+        "opciones": {
+          "a": "PaO2 baja en los cuerpos carotídeos",
+          "b": "Aumento del CO2 detectado por quimiorreceptores centrales vía H+",
+          "c": "Distensión pulmonar",
+          "d": "Aumento de la presión arterial"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El CO2 cruza la barrera hematoencefálica, forma H+ en el líquido cefalorraquídeo y estimula los quimiorreceptores centrales."
+      },
+      {
+        "numero": "19",
+        "enunciado": "En un neumotórax a tensión del lado derecho se espera:",
+        "opciones": {
+          "a": "Matidez y tráquea desviada a la derecha",
+          "b": "Hiperresonancia y tráquea desviada a la izquierda",
+          "c": "Soplo tubario y crepitantes",
+          "d": "Vibraciones vocales aumentadas"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El aire acumulado da hiperresonancia, abolición del murmullo y desplazamiento del mediastino y la tráquea hacia el lado contrario."
+      },
+      {
+        "numero": "20",
+        "enunciado": "¿Por qué el CO2 se equilibra a pesar de tener un gradiente de sólo 5 mmHg en la membrana respiratoria?",
+        "opciones": {
+          "a": "Es transportado activamente",
+          "b": "Difunde ≈ 20 veces más rápido que el O2 por su mayor solubilidad",
+          "c": "No atraviesa la membrana",
+          "d": "Se elimina por los riñones"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "Su coeficiente de difusión es mucho mayor, así que un gradiente pequeño basta para eliminarlo."
+      },
+      {
+        "numero": "21",
+        "enunciado": "¿Qué capa de la pared cardiaca está en contacto con la sangre?",
+        "opciones": {
+          "a": "Epicardio",
+          "b": "Miocardio",
+          "c": "Endocardio",
+          "d": "Pericardio parietal"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "El endocardio recubre las cavidades y las válvulas."
+      },
+      {
+        "numero": "22",
+        "enunciado": "En el ECG, un QRS de 0,14 s con rsR' en V1 y S ancha en I y V6 indica:",
+        "opciones": {
+          "a": "Bloqueo de rama izquierda",
+          "b": "Bloqueo de rama derecha",
+          "c": "Hemibloqueo anterior",
+          "d": "Preexcitación"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El ventrículo derecho se activa tarde: la última fuerza es positiva en V1 (R') y negativa en las derivaciones izquierdas."
+      },
+      {
+        "numero": "23",
+        "enunciado": "¿Qué hallazgo del ECG es típico de hiperpotasemia temprana?",
+        "opciones": {
+          "a": "Onda U",
+          "b": "T altas y picudas",
+          "c": "QT corto",
+          "d": "Onda J de Osborn"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "Las T picudas son el primer signo; después aparecen aplanamiento de la P, prolongación del PR y ensanchamiento del QRS."
+      },
+      {
+        "numero": "24",
+        "enunciado": "¿Qué cardiopatía produce un desdoblamiento fijo del segundo ruido?",
+        "opciones": {
+          "a": "Bloqueo de rama izquierda",
+          "b": "Comunicación interauricular",
+          "c": "Estenosis aórtica",
+          "d": "Insuficiencia mitral"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "El cortocircuito auricular iguala los cambios de volumen de ambos lados durante la respiración, por lo que el desdoblamiento no varía."
+      },
+      {
+        "numero": "25",
+        "enunciado": "En un paciente con taponamiento cardiaco, ¿qué hallazgo del pulso es característico?",
+        "opciones": {
+          "a": "Pulso parvus et tardus",
+          "b": "Pulso en martillo de agua",
+          "c": "Pulso paradójico",
+          "d": "Pulso bisferiens"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "La presión sistólica cae más de 10 mmHg en la inspiración porque el llenado del VD comprime al VI dentro de un pericardio que no se distiende."
+      },
+      {
+        "numero": "26",
+        "enunciado": "¿Qué arteria irriga con mayor frecuencia el nodo AV?",
+        "opciones": {
+          "a": "Descendente anterior",
+          "b": "Circunfleja",
+          "c": "Coronaria derecha",
+          "d": "Marginal izquierda"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "En ≈ 80 % de las personas la rama del nodo AV procede de la coronaria derecha; por eso los infartos inferiores pueden causar bloqueos AV."
+      },
+      {
+        "numero": "27",
+        "enunciado": "Durante una espiración forzada, el flujo deja de aumentar aunque el esfuerzo sea mayor. ¿Por qué?",
+        "opciones": {
+          "a": "Se cierra la glotis",
+          "b": "Compresión dinámica de las vías aéreas",
+          "c": "Falta de surfactante",
+          "d": "Fatiga diafragmática"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La presión pleural positiva comprime las vías aéreas, limitando el flujo; en el enfisema esta compresión es mayor."
+      },
+      {
+        "numero": "28",
+        "enunciado": "¿Qué hallazgo del ECG sugiere crecimiento auricular izquierdo?",
+        "opciones": {
+          "a": "P de 3 mm en II",
+          "b": "P ≥ 0,12 s con muesca en II",
+          "c": "PR corto",
+          "d": "Onda delta"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "La aurícula izquierda se activa al final y prolonga la P, que adquiere forma de “M” (P mitrale)."
+      },
+      {
+        "numero": "29",
+        "enunciado": "¿En qué zona de West el flujo es intermitente?",
+        "opciones": {
+          "a": "Zona 1",
+          "b": "Zona 2",
+          "c": "Zona 3",
+          "d": "En todas"
+        },
+        "respuestaLetra": "b",
+        "respuestaTexto": "En la zona 2 la presión arterial supera a la alveolar sólo en la sístole; ocurre en los vértices de pie."
+      },
+      {
+        "numero": "30",
+        "enunciado": "¿Cuál es el derivado adulto del conducto arterioso?",
+        "opciones": {
+          "a": "Ligamento venoso",
+          "b": "Fosa oval",
+          "c": "Ligamento arterioso",
+          "d": "Ligamento redondo"
+        },
+        "respuestaLetra": "c",
+        "respuestaTexto": "El conducto arterioso, del 6.º arco izquierdo, se cierra después del nacimiento y forma el ligamento arterioso; el nervio laríngeo recurrente izquierdo pasa por debajo de él."
+      }
+    ],
+    "preguntasIntro": "30 preguntas de práctica",
+    "imagenUrl": ""
   }
 ]

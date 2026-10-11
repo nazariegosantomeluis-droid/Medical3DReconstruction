@@ -1,80 +1,155 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SISTEMA_LABELS = {
   respiratorio: "Sistema respiratorio",
   cardiovascular: "Sistema cardiovascular",
   reconstruccion_propia: "Mi reconstrucción 3D",
+  guia_alto_rendimiento: "Guía de alto rendimiento",
 };
 
+// Secciones que arrancan colapsadas — la guía de alto rendimiento sola
+// trae más de 40 entradas (es una guía de examen completa, no un puñado de
+// estructuras), así que mostrarla siempre abierta enterraría el resto del
+// índice bajo una lista kilométrica. El resto arranca abierto porque son
+// las 23-32 estructuras "principales" del visor.
+const COLLAPSED_BY_DEFAULT = new Set(["guia_alto_rendimiento"]);
+
+// Dentro de la guía, agrupar visualmente por número mayor ("1", "2"...)
+// ayuda a escanear 40 entradas sin perderse — no es otro nivel de
+// colapsable, solo un sub-encabezado liviano entre tandas.
+function majorGroupOf(nombre) {
+  const m = /^(\d+)(?:\.\d+)?/.exec(nombre);
+  return m ? m[1] : null;
+}
+
 // Lista siempre visible en la barra lateral, no un desplegable flotante —
-// es el punto de entrada explícito a las 32 estructuras y temas del Cuadro
-// de Conocimiento, incluidos los que no tienen malla propia (estructuras
-// microscópicas/no modeladas y temas de fisiología general, como el
-// sistema de conducción eléctrica o los volúmenes pulmonares) que de otro
-// modo solo se alcanzarían de rebote desde un chip de "estructuras
-// relacionadas".
+// es el punto de entrada explícito a las estructuras y temas del Cuadro
+// de Conocimiento y de la Guía de Alto Rendimiento, incluidos los que no
+// tienen malla propia (estructuras microscópicas/no modeladas, temas de
+// fisiología general, y referencia de examen) que de otro modo solo se
+// alcanzarían de rebote desde un chip de "estructuras relacionadas".
 export default function StructureIndex({ structures, selectedId, onSelect }) {
   const porSistema = structures.reduce((acc, s) => {
     (acc[s.sistema] ??= []).push(s);
     return acc;
   }, {});
 
+  const [collapsed, setCollapsed] = useState(COLLAPSED_BY_DEFAULT);
+  const toggle = (sistema) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(sistema)) next.delete(sistema);
+      else next.add(sistema);
+      return next;
+    });
+  };
+
   return (
     <div className="space-y-5">
-      {Object.entries(porSistema).map(([sistema, items]) => (
-        <div key={sistema}>
-          <p className="mb-1.5 flex items-center gap-1.5 px-1 text-[0.68rem] font-semibold uppercase tracking-wider text-ink-faint">
-            <SistemaIcon sistema={sistema} />
-            {SISTEMA_LABELS[sistema] ?? sistema}
-          </p>
-          <ul className="space-y-0.5">
-            {items.map((s) => {
-              const active = s.id === selectedId;
-              return (
-                <li key={s.id} className="relative">
-                  <button
-                    type="button"
-                    onClick={() => onSelect(s.id)}
-                    aria-pressed={active}
-                    className={`relative flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-[0.82rem] transition-colors ${
-                      active ? "text-ink" : "text-ink-dim hover:bg-surface-raised hover:text-ink"
-                    }`}
-                  >
-                    {active ? (
-                      <motion.span
-                        layoutId="structure-index-active"
-                        className="absolute inset-0 rounded-md bg-accent-soft ring-1 ring-inset ring-accent/30"
-                        transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                      />
-                    ) : null}
-                    <span className="relative flex items-center gap-2">
-                      <span
-                        className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
-                          active ? "bg-accent-strong shadow-glow-accent-sm" : "bg-border"
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {s.nombre}
-                    </span>
-                    {s.fichaTecnica ? (
-                      <span className="relative shrink-0 rounded-full border border-accent/40 px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-wider text-accent-strong">
-                        propio
-                      </span>
-                    ) : s.sinMalla ? (
-                      <span className="relative shrink-0 text-[0.62rem] text-ink-faint">sin malla</span>
-                    ) : null}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
+      {Object.entries(porSistema).map(([sistema, items]) => {
+        const isOpen = !collapsed.has(sistema);
+        let lastMajorGroup = null;
+        return (
+          <div key={sistema}>
+            <button
+              type="button"
+              onClick={() => toggle(sistema)}
+              aria-expanded={isOpen}
+              className="mb-1.5 flex w-full items-center gap-1.5 px-1 text-[0.68rem] font-semibold uppercase tracking-wider text-ink-faint transition-colors hover:text-ink-dim"
+            >
+              <SistemaIcon sistema={sistema} />
+              <span className="flex-1 text-left">{SISTEMA_LABELS[sistema] ?? sistema}</span>
+              <span className="text-[0.6rem] font-normal normal-case text-ink-faint">{items.length}</span>
+              <motion.svg
+                viewBox="0 0 24 24"
+                className="h-3 w-3 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                animate={{ rotate: isOpen ? 90 : 0 }}
+                transition={{ duration: 0.18 }}
+                aria-hidden="true"
+              >
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </motion.svg>
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen ? (
+                <motion.ul
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="space-y-0.5 overflow-hidden"
+                >
+                  {items.map((s) => {
+                    const active = s.id === selectedId;
+                    const group = sistema === "guia_alto_rendimiento" ? majorGroupOf(s.nombre) : null;
+                    const showGroupLabel = group && group !== lastMajorGroup;
+                    if (showGroupLabel) lastMajorGroup = group;
+                    return (
+                      <li key={s.id} className="relative">
+                        {showGroupLabel ? (
+                          <p className="mb-0.5 mt-2.5 px-2.5 text-[0.6rem] font-semibold uppercase tracking-wide text-ink-faint/70 first:mt-0">
+                            Bloque {group}
+                          </p>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => onSelect(s.id)}
+                          aria-pressed={active}
+                          className={`relative flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-[0.82rem] transition-colors ${
+                            active ? "text-ink" : "text-ink-dim hover:bg-surface-raised hover:text-ink"
+                          }`}
+                        >
+                          {active ? (
+                            <motion.span
+                              layoutId="structure-index-active"
+                              className="absolute inset-0 rounded-md bg-accent-soft ring-1 ring-inset ring-accent/30"
+                              transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                            />
+                          ) : null}
+                          <span className="relative flex min-w-0 items-center gap-2">
+                            <span
+                              className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors ${
+                                active ? "bg-accent-strong shadow-glow-accent-sm" : "bg-border"
+                              }`}
+                              aria-hidden="true"
+                            />
+                            <span className="truncate">{s.nombre}</span>
+                          </span>
+                          {s.fichaTecnica ? (
+                            <span className="relative shrink-0 rounded-full border border-accent/40 px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-wider text-accent-strong">
+                              propio
+                            </span>
+                          ) : s.sinMalla ? (
+                            <span className="relative shrink-0 text-[0.62rem] text-ink-faint">sin malla</span>
+                          ) : null}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </motion.ul>
+              ) : null}
+            </AnimatePresence>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 function SistemaIcon({ sistema }) {
+  if (sistema === "guia_alto_rendimiento") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+        <path d="M4 5.2A2.2 2.2 0 0 1 6.2 3H19v16H6.2A2.2 2.2 0 0 0 4 21.2Z" strokeLinejoin="round" />
+        <path d="M4 5.2v16" strokeLinecap="round" />
+        <path d="M8 8h7M8 11.5h7" strokeLinecap="round" />
+      </svg>
+    );
+  }
   if (sistema === "reconstruccion_propia") {
     return (
       <svg viewBox="0 0 24 24" className="h-3 w-3 text-accent-strong" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
