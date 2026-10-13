@@ -4,34 +4,20 @@ import { motion, AnimatePresence } from "framer-motion";
 const SISTEMA_LABELS = {
   respiratorio: "Sistema respiratorio",
   cardiovascular: "Sistema cardiovascular",
-  reconstruccion_propia: "Mi reconstrucción 3D",
 };
 
-// Secciones que arrancan colapsadas — cardiovascular y respiratorio ahora
-// incluyen, además de las estructuras del visor, todos los temas de la
-// guía de alto rendimiento (ya no viven en su propia categoría aparte:
-// son más contenido del Cuadro de Conocimiento de cada sistema), así que
-// cada una pasó de ~20 a 30-45 entradas. Mostrarlas siempre abiertas
-// enterraría el índice bajo una lista kilométrica. "Mi reconstrucción 3D"
-// arranca abierta porque son solo 2 piezas.
-const COLLAPSED_BY_DEFAULT = new Set(["cardiovascular", "respiratorio"]);
-
-// Agrupar visualmente por número mayor ("1", "2"...) ayuda a escanear una
-// lista larga sin perderse — no es otro nivel de colapsable, solo un
-// sub-encabezado liviano entre tandas. Solo los temas que vienen de la
-// guía traen ese número al inicio del nombre; el resto de las estructuras
-// (sin número) simplemente no dispara ningún encabezado.
-function majorGroupOf(nombre) {
-  const m = /^(\d+)(?:\.\d+)?/.exec(nombre);
-  return m ? m[1] : null;
-}
+// Las ~20-32 estructuras "principales" de cada sistema caben bien
+// mostradas siempre abiertas — ya no hay una categoría aparte con decenas
+// de temas de examen que obligue a arrancar colapsada (esos temas ahora
+// viven dentro del Cuadro de Conocimiento de la estructura que les
+// corresponde, no como entradas propias del índice).
+const COLLAPSED_BY_DEFAULT = new Set();
 
 // Lista siempre visible en la barra lateral, no un desplegable flotante —
-// es el punto de entrada explícito a las estructuras y temas del Cuadro
-// de Conocimiento y de la Guía de Alto Rendimiento, incluidos los que no
-// tienen malla propia (estructuras microscópicas/no modeladas, temas de
-// fisiología general, y referencia de examen) que de otro modo solo se
-// alcanzarían de rebote desde un chip de "estructuras relacionadas".
+// es el punto de entrada explícito a las estructuras del Cuadro de
+// Conocimiento, incluidas las que no tienen malla propia (estructuras
+// microscópicas o no modeladas) que de otro modo solo se alcanzarían de
+// rebote desde un chip de "estructuras relacionadas".
 export default function StructureIndex({ structures, selectedId, onSelect }) {
   const porSistema = structures.reduce((acc, s) => {
     (acc[s.sistema] ??= []).push(s);
@@ -52,7 +38,6 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
     <div className="space-y-5">
       {Object.entries(porSistema).map(([sistema, items]) => {
         const isOpen = !collapsed.has(sistema);
-        let lastMajorGroup = null;
         return (
           <div key={sistema}>
             <button
@@ -88,16 +73,8 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
                 >
                   {items.map((s) => {
                     const active = s.id === selectedId;
-                    const group = majorGroupOf(s.nombre);
-                    const showGroupLabel = group && group !== lastMajorGroup;
-                    if (showGroupLabel) lastMajorGroup = group;
                     return (
                       <li key={s.id} className="relative">
-                        {showGroupLabel ? (
-                          <p className="mb-0.5 mt-2.5 px-2.5 text-[0.6rem] font-semibold uppercase tracking-wide text-ink-faint/70 first:mt-0">
-                            Bloque {group}
-                          </p>
-                        ) : null}
                         <button
                           type="button"
                           onClick={() => onSelect(s.id)}
@@ -144,17 +121,6 @@ export default function StructureIndex({ structures, selectedId, onSelect }) {
 }
 
 function SistemaIcon({ sistema }) {
-  if (sistema === "reconstruccion_propia") {
-    return (
-      <svg viewBox="0 0 24 24" className="h-3 w-3 text-accent-strong" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="13" rx="1.5" />
-        <path d="M3 13h18" strokeLinecap="round" />
-        <path d="M8 20h8" strokeLinecap="round" />
-        <path d="M12 17v3" strokeLinecap="round" />
-        <circle cx="12" cy="8.5" r="2.2" />
-      </svg>
-    );
-  }
   if (sistema === "respiratorio") {
     return (
       <svg viewBox="0 0 24 24" className="h-3 w-3 text-ink-faint" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
