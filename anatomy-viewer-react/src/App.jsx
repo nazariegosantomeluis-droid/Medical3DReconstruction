@@ -13,12 +13,10 @@ import { GROUP_NODE_NAMES, DEFAULT_GROUP } from "./constants/modelGroups";
 const GROUP_LABELS = {
   atlas_bodyparts3d: "Piezas internas",
   especimen_real: "Corazón completo",
-  reconstruccion_propia: "Mi reconstrucción",
 };
 const GROUP_SUBLABELS = {
   atlas_bodyparts3d: "Atlas BodyParts3D",
   especimen_real: "Espécimen ex-vivo real",
-  reconstruccion_propia: "Pulmón y corazón · TC real propia",
 };
 
 // Cambia esto por el nombre real de tu archivo dentro de public/models/.
@@ -26,19 +24,6 @@ const GROUP_SUBLABELS = {
 // modelo se siga encontrando cuando el sitio se publique bajo una subruta,
 // como /anatomy-viewer/, y no solo en la raíz del dominio.
 const MODEL_URL = `${import.meta.env.BASE_URL}models/corazon-segmentado.glb`;
-
-// Deep-link para el código QR del Cuadro de Conocimiento: visitar
-// /anatomy-viewer/?ver=mi-reconstruccion abre directo el panel del pulmón
-// propio con el grupo correcto activo, sin que quien escanea el QR tenga
-// que saber en qué botón hacer clic.
-const DEEP_LINK_PARAM = "ver";
-const DEEP_LINK_OWN_RECONSTRUCTION = "mi-reconstruccion";
-const OWN_RECONSTRUCTION_ID = "pulmon_reconstruccion_propia";
-
-function readDeepLinkTarget() {
-  if (typeof window === "undefined") return null;
-  return new URLSearchParams(window.location.search).get(DEEP_LINK_PARAM);
-}
 
 export default function App() {
   const [hoveredMesh, setHoveredMesh] = useState(null);
@@ -57,27 +42,17 @@ export default function App() {
   // Conocimiento manda justo a este visor, en un teléfono.
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const isOwnReconstructionDeepLink = useMemo(
-    () => readDeepLinkTarget() === DEEP_LINK_OWN_RECONSTRUCTION,
-    []
-  );
-
   // Selección real (no-debug): o una estructura conocida (selectedId), o una
   // malla cruda que no matcheó ninguna estructura (unmatchedMesh) — nunca
   // las dos a la vez.
-  const [selectedId, setSelectedId] = useState(
-    isOwnReconstructionDeepLink ? OWN_RECONSTRUCTION_ID : null
-  );
+  const [selectedId, setSelectedId] = useState(null);
   const [unmatchedMesh, setUnmatchedMesh] = useState(null);
 
-  // El .glb trae tres especímenes reales que no comparten coordenadas: el
-  // corazón completo (ex-vivo), las piezas internas del atlas BodyParts3D, y
-  // el pulmón de la reconstrucción propia. Solo uno está visible a la vez;
-  // seleccionar una estructura del otro grupo cambia esto y hace que la
-  // cámara se reencuadre a él (ver Model.jsx).
-  const [activeGroup, setActiveGroup] = useState(
-    isOwnReconstructionDeepLink ? "reconstruccion_propia" : DEFAULT_GROUP
-  );
+  // El .glb trae dos especímenes reales que no comparten coordenadas: el
+  // corazón completo (ex-vivo) y las piezas internas del atlas BodyParts3D.
+  // Solo uno está visible a la vez; seleccionar una estructura del otro
+  // grupo cambia esto y hace que la cámara se reencuadre a él (ver Model.jsx).
+  const [activeGroup, setActiveGroup] = useState(DEFAULT_GROUP);
 
   const handleHoverChange = useCallback((meshName) => {
     setHoveredMesh(meshName);
@@ -372,7 +347,6 @@ function GroupSwitch({ activeGroup, onSwitchGroup }) {
     <div className="relative flex flex-col gap-1 rounded-lg bg-surface-raised/80 p-1">
       {groups.map((group) => {
         const active = group === activeGroup;
-        const isOwnWork = group === "reconstruccion_propia";
         return (
           <button
             key={group}
@@ -404,15 +378,6 @@ function GroupSwitch({ activeGroup, onSwitchGroup }) {
                 {GROUP_SUBLABELS[group]}
               </span>
             </span>
-            {isOwnWork ? (
-              <span
-                className={`relative ml-2 shrink-0 rounded-full border px-1.5 py-0.5 text-[0.56rem] font-bold uppercase tracking-wider ${
-                  active ? "border-white/40 text-white" : "border-accent/40 text-accent-strong"
-                }`}
-              >
-                propio
-              </span>
-            ) : null}
           </button>
         );
       })}

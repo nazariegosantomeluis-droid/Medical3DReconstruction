@@ -132,51 +132,75 @@ function SeccionTitulo({ texto }) {
 // el estudio avanza "de a poco", un tema a la vez, a ritmo de quien lee.
 function CuadroConocimiento({ structure }) {
   const secciones = useMemo(() => buildSecciones(structure), [structure]);
-  const [activeId, setActiveId] = useState(secciones[0]?.id ?? null);
+  // Arranca sin ningún tema elegido a propósito: la información aparece
+  // recién cuando se hace clic en un tema de la lista, de a uno — no hay
+  // una primera burbuja ya puesta ahí esperando. Es lo que hace que el
+  // estudio avance "poco a poco" en vez de encontrarse todo servido.
+  const [activeId, setActiveId] = useState(null);
 
   if (secciones.length === 0) return null;
 
-  const activa = secciones.find((s) => s.id === activeId) ?? secciones[0];
+  const activa = secciones.find((s) => s.id === activeId) ?? null;
 
   return (
     <div className="space-y-3">
       <SeccionTitulo texto="Cuadro de Conocimiento" />
 
-      <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Temas de este cuadro de conocimiento">
+      <div
+        role="tablist"
+        aria-label="Temas de este cuadro de conocimiento"
+        className="max-h-48 space-y-0.5 overflow-y-auto rounded-xl border border-border bg-surface-raised/40 p-1.5"
+      >
         {secciones.map((sec) => {
-          const active = sec.id === activa.id;
+          const active = sec.id === activa?.id;
           return (
             <button
               key={sec.id}
               type="button"
               role="tab"
               aria-selected={active}
-              onClick={() => setActiveId(sec.id)}
-              className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+              onClick={() => setActiveId(active ? null : sec.id)}
+              className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-[0.8rem] leading-snug transition-colors ${
                 active
-                  ? "border-accent/40 bg-accent-soft text-accent-ink shadow-glow-accent-sm"
-                  : "border-border text-ink-dim hover:border-accent/30 hover:bg-surface-raised"
+                  ? "bg-accent-soft text-accent-ink"
+                  : "text-ink-dim hover:bg-surface-raised hover:text-ink"
               }`}
             >
-              {sec.titulo}
+              <span
+                className={`h-1.5 w-1.5 shrink-0 rounded-full ${active ? "bg-accent-strong shadow-glow-accent-sm" : "bg-border"}`}
+                aria-hidden="true"
+              />
+              <span className="min-w-0 flex-1 truncate">{sec.titulo}</span>
             </button>
           );
         })}
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div
-          key={activa.id}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.16 }}
-        >
-          <Bubble tone={activa.tone} icon={activa.icon}>
-            <EtiquetaBurbuja>{activa.titulo}</EtiquetaBurbuja>
-            {activa.render()}
-          </Bubble>
-        </motion.div>
+        {activa ? (
+          <motion.div
+            key={activa.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.16 }}
+          >
+            <Bubble tone={activa.tone} icon={activa.icon}>
+              <EtiquetaBurbuja>{activa.titulo}</EtiquetaBurbuja>
+              {activa.render()}
+            </Bubble>
+          </motion.div>
+        ) : (
+          <motion.p
+            key="placeholder"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="rounded-xl border border-dashed border-border px-3.5 py-5 text-center text-xs leading-relaxed text-ink-faint"
+          >
+            Elegí un tema de la lista para ver su contenido.
+          </motion.p>
+        )}
       </AnimatePresence>
     </div>
   );
@@ -203,22 +227,21 @@ function buildSecciones(structure) {
 
   const multiple = (structure.conocimientoNuevo ?? []).length > 1;
   (structure.conocimientoNuevo ?? []).forEach((item, i) => {
+    // item.bloques (contenido que viene de la guía de alto rendimiento,
+    // fusionado en un solo tema con varios párrafos/tablas en su orden
+    // original) o el par texto/tablas de siempre (estructuras originales)
+    // — un tema, un botón, cualquiera sea su forma.
+    const bloques = item.bloques ?? [{ texto: item.texto, tablas: item.tablas }];
     secciones.push({
       id: `nuevo-${i}`,
-      titulo: item.titulo || (multiple ? shortLabel(item) : "Lo que sé después de estudiar"),
+      titulo: item.titulo || (multiple ? shortLabel(bloques[0]) : "Lo que sé después de estudiar"),
       tone: "nuevo",
       icon: <IconoNuevo />,
-      render: () => {
-        const texto = (item.texto || "").trim();
-        const esSoloCita = /^\(.*\)$/s.test(texto);
-        return (
-          <>
-            {texto && !esSoloCita ? <p className="text-sm leading-relaxed text-ink-dim">{texto}</p> : null}
-            {item.tablas?.map((t, j) => <Tabla key={j} tabla={t} />)}
-            {esSoloCita ? <p className="pt-0.5 text-xs italic text-ink-faint">{texto}</p> : null}
-          </>
-        );
-      },
+      render: () => (
+        <>
+          {bloques.map((bloque, j) => <Bloque key={j} bloque={bloque} />)}
+        </>
+      ),
     });
   });
 
@@ -240,8 +263,8 @@ function buildSecciones(structure) {
 // documento original es un ítem sin encabezado) el botón necesita algo
 // más útil que "Tema 3" para que elegir entre varios tenga sentido de un
 // vistazo.
-function shortLabel(item) {
-  const texto = (item.texto || "").trim();
+function shortLabel(bloque) {
+  const texto = (bloque.texto || "").trim();
   // Un texto que es solo una cita entre paréntesis (p. ej. "(Guyton, cap.
   // 12...)") no sirve como vista previa del tema: la tabla o el resto del
   // contenido dicen mucho más de qué trata.
@@ -250,7 +273,7 @@ function shortLabel(item) {
     const primeraOracion = texto.split(/(?<=[.:;])\s/)[0];
     return primeraOracion.length <= 42 ? primeraOracion : `${texto.slice(0, 38).trimEnd()}…`;
   }
-  const primeraTabla = item.tablas?.[0];
+  const primeraTabla = bloque.tablas?.[0];
   if (primeraTabla?.headers?.length) {
     return primeraTabla.headers.slice(0, 2).join(" / ");
   }
@@ -258,6 +281,22 @@ function shortLabel(item) {
     return texto.length <= 42 ? texto : `${texto.slice(0, 38).trimEnd()}…`;
   }
   return "Tabla";
+}
+
+// Un bloque es un párrafo y/o una o más tablas, en el orden en que
+// aparecían en el documento original — varios bloques seguidos arman un
+// tema completo sin aplastar la cita bibliográfica contra el texto
+// principal ni el texto contra la tabla que describe.
+function Bloque({ bloque }) {
+  const texto = (bloque.texto || "").trim();
+  const esSoloCita = /^\(.*\)$/s.test(texto);
+  return (
+    <div className="space-y-2">
+      {texto && !esSoloCita ? <p className="text-sm leading-relaxed text-ink-dim">{texto}</p> : null}
+      {bloque.tablas?.map((t, j) => <Tabla key={j} tabla={t} />)}
+      {esSoloCita ? <p className="text-xs italic text-ink-faint">{texto}</p> : null}
+    </div>
+  );
 }
 
 // Burbuja individual: ícono redondo + contenido, con el tono de color que
