@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ImagePlaceholder from "./ImagePlaceholder";
+import Lightbox from "./Lightbox";
 
 const fadeVariants = {
   hidden: { opacity: 0 },
@@ -9,6 +10,7 @@ const fadeVariants = {
 
 export default function InfoPanel({ structure, meshName, allStructures, onClose, onSelectRelated }) {
   const nombre = structure?.nombre ?? meshName;
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
     <motion.aside
@@ -54,11 +56,21 @@ export default function InfoPanel({ structure, meshName, allStructures, onClose,
           className="space-y-3.5 p-6"
         >
           {structure.imagenUrl ? (
-            <img
-              src={structure.imagenUrl}
-              alt={nombre}
-              className="h-40 w-full rounded-lg border border-border object-cover"
-            />
+            <>
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                aria-label="Ver imagen completa"
+                className="block h-40 w-full cursor-zoom-in overflow-hidden rounded-lg border border-border"
+              >
+                <img src={structure.imagenUrl} alt={nombre} className="h-full w-full object-cover" />
+              </button>
+              <Lightbox
+                src={lightboxOpen ? structure.imagenUrl : null}
+                alt={nombre}
+                onClose={() => setLightboxOpen(false)}
+              />
+            </>
           ) : structure.sinMalla ? (
             <ImagePlaceholder structureId={structure.id} />
           ) : null}
