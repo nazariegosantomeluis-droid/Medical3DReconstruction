@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Lightbox from "./Lightbox";
 
 const STORAGE_PREFIX = "anatomy-viewer:pasted-image:";
 
@@ -46,6 +47,7 @@ function fileToDataUrl(file) {
 export default function ImagePlaceholder({ structureId }) {
   const [imageSrc, setImageSrc] = useState(() => readStoredImage(structureId));
   const [isDragOver, setIsDragOver] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const fileInputRef = useRef(null);
   const boxRef = useRef(null);
 
@@ -86,22 +88,32 @@ export default function ImagePlaceholder({ structureId }) {
 
   if (imageSrc) {
     return (
-      <div className="group relative overflow-hidden rounded-lg border border-border">
-        <img src={imageSrc} alt="" className="h-40 w-full object-cover" />
-        <button
-          type="button"
-          onClick={handleRemove}
-          aria-label="Quitar imagen pegada"
-          className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
-        >
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
-            <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-        <span className="pointer-events-none absolute bottom-2 left-2 rounded-full bg-black/60 px-2 py-0.5 text-[0.6rem] text-white/80">
-          Guardada en este dispositivo
-        </span>
-      </div>
+      <>
+        <div className="group relative overflow-hidden rounded-lg border border-border">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="Ver imagen completa"
+            className="block h-40 w-full cursor-zoom-in"
+          >
+            <img src={imageSrc} alt="" className="h-full w-full object-cover" />
+          </button>
+          <button
+            type="button"
+            onClick={handleRemove}
+            aria-label="Quitar imagen pegada"
+            className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+              <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+          <span className="pointer-events-none absolute bottom-2 left-2 rounded-full bg-black/60 px-2 py-0.5 text-[0.6rem] text-white/80">
+            Guardada en este dispositivo
+          </span>
+        </div>
+        <Lightbox src={lightboxOpen ? imageSrc : null} onClose={() => setLightboxOpen(false)} />
+      </>
     );
   }
 
