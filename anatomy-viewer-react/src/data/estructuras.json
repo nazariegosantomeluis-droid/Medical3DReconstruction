@@ -14,7 +14,7 @@
       "ventriculo_izquierdo",
       "pericardio"
     ],
-    "conocimientoPrevio": "Lo que tenía clarísimo desde el colegio es que el corazón bombea la sangre por todo el cuerpo — eso lo repiten tanto que ya es casi un reflejo. Sabía que está en el pecho, más hacia la izquierda de lo que la gente cree (yo también pensaba que estaba justo en el centro), y que tiene cuatro cavidades, aunque la verdad nunca tuve del todo claro cuáles eran ni para qué servía cada una por separado.",
+    "conocimientoPrevio": "Sabía que es el órgano que bombea la sangre a todo el cuerpo y que está en el pecho, un poco hacia la izquierda.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y morfología",
@@ -788,7 +788,7 @@
       "auricula_derecha",
       "corazon"
     ],
-    "conocimientoPrevio": "Esto lo tenía medio confuso, la verdad. Sabía que había venas grandes que le devolvían la sangre al corazón, pero se me mezclaban con la aorta y nunca terminé de entender por qué había dos (una de arriba y otra de abajo) en vez de una sola.",
+    "conocimientoPrevio": "Sabía que eran venas grandes que le devolvían al corazón la sangre que ya recorrió el cuerpo.",
     "conocimientoNuevo": [
       {
         "titulo": "Vena cava superior",
@@ -831,7 +831,7 @@
       "valvula_aortica",
       "arterias_coronarias"
     ],
-    "conocimientoPrevio": "De la aorta sí me acordaba bien: es la arteria más grande que hay, sale directo del corazón, y lleva sangre oxigenada. Eso se me quedó grabado porque en el colegio siempre la ponían como ejemplo cuando hablaban de aneurismas.",
+    "conocimientoPrevio": "Sabía que es la arteria más grande del cuerpo y que sale directo del corazón.",
     "conocimientoNuevo": [
       {
         "titulo": "Aorta ascendente",
@@ -1051,7 +1051,7 @@
       "valvula_pulmonar",
       "pulmones"
     ],
-    "conocimientoPrevio": "Esta me la sabía mal, para qué negarlo. Daba por hecho que todas las arterias llevaban sangre oxigenada porque \"arteria = oxigenada\" era la regla que me había aprendido de memoria, así que nunca me cuestioné que hubiera una que saliera del corazón hacia los pulmones con sangre sucia.",
+    "conocimientoPrevio": "Pensaba que todas las arterias llevaban sangre oxigenada, así que no sabía que estas llevaran sangre sin oxígeno.",
     "conocimientoNuevo": [
       {
         "titulo": "Tronco pulmonar",
@@ -1102,7 +1102,7 @@
       "auricula_izquierda",
       "pulmones"
     ],
-    "conocimientoPrevio": "Con estas me pasaba lo mismo pero al revés: tenía metido en la cabeza que toda vena lleva sangre sin oxígeno, punto, así que ni sabía que existieran unas venas que hicieran la excepción.",
+    "conocimientoPrevio": "Pensaba que todas las venas llevaban sangre sin oxígeno, así que no sabía que estas fueran la excepción.",
     "conocimientoNuevo": [
       {
         "titulo": "Anatomía",
@@ -1146,7 +1146,7 @@
       "valvula_tricuspide",
       "corazon"
     ],
-    "conocimientoPrevio": "Sabía que era una de las cámaras de arriba del corazón, pero en mi cabeza las aurículas eran casi decorativas — como una sala de espera antes de lo \"importante\", que para mí eran los ventrículos.",
+    "conocimientoPrevio": "Sabía que era una de las cámaras de arriba del corazón y que recibía la sangre que venía del cuerpo.",
     "conocimientoNuevo": [
       {
         "titulo": "Anatomía",
@@ -1186,7 +1186,7 @@
       "valvula_bicuspide",
       "corazon"
     ],
-    "conocimientoPrevio": "Más o menos igual que con la derecha: sabía que era la cámara de arriba del lado izquierdo y que ahí llegaba la sangre que venía de los pulmones, pero no tenía ni idea de por qué eso importaba tanto clínicamente.",
+    "conocimientoPrevio": "Sabía que era la cámara de arriba del lado izquierdo y que recibía la sangre que venía de los pulmones.",
     "conocimientoNuevo": [
       {
         "titulo": "Anatomía",
@@ -1223,7 +1223,7 @@
       "arterias_pulmonares",
       "corazon"
     ],
-    "conocimientoPrevio": "Esta la tenía clara porque la asociaba directo con los pulmones: cámara de abajo, lado derecho, manda sangre hacia allá. Lo que no sabía es que bombea con mucha menos fuerza que el izquierdo.",
+    "conocimientoPrevio": "Sabía que era la cámara de abajo del lado derecho y que mandaba la sangre hacia los pulmones.",
     "conocimientoNuevo": [
       {
         "titulo": "Anatomía",
@@ -1260,7 +1260,7 @@
       "aorta",
       "corazon"
     ],
-    "conocimientoPrevio": "Del ventrículo izquierdo sí sabía que era \"el fuerte\", el que manda sangre a todo el cuerpo — eso se repite tanto en cualquier clase de anatomía que ya es casi un cliché. Lo que no tenía tan claro era por qué su pared es tan gruesa comparada con la del derecho.",
+    "conocimientoPrevio": "Sabía que era la cámara más fuerte del corazón, la que manda la sangre a todo el cuerpo.",
     "conocimientoNuevo": [
       {
         "titulo": "Anatomía",
@@ -1298,7 +1298,7 @@
       "valvula_tricuspide",
       "corazon"
     ],
-    "conocimientoPrevio": "Las imaginaba literalmente como puertitas de resorte, de esas de dibujo animado, que se abren para un lado y no para el otro. La idea general — que evitan que la sangre se devuelva — la tenía bien, pero el mecanismo real nunca lo pensé mucho.",
+    "conocimientoPrevio": "Pensaba que eran como puertas que se abrían y cerraban para dejar pasar la sangre en un solo sentido.",
     "conocimientoNuevo": [
       {
         "titulo": "Función",
@@ -1345,7 +1345,7 @@
       "ventriculo_izquierdo",
       "aorta"
     ],
-    "conocimientoPrevio": "Sabía que había algo así como una compuerta justo entre el corazón y la aorta, pero no tenía idea de que esa válvula en particular fuera la que más problemas da con la edad (lo de la estenosis aórtica ni me sonaba).",
+    "conocimientoPrevio": "Sabía que había una válvula entre el corazón y la aorta, pero no mucho más que eso.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y estructura",
@@ -1384,7 +1384,7 @@
       "ventriculo_derecho",
       "arterias_pulmonares"
     ],
-    "conocimientoPrevio": "Honestamente esta ni la tenía en el radar. Sabía que existía una salida del corazón hacia los pulmones, pero nunca pensé que tuviera su propia válvula — para mí \"las válvulas del corazón\" eran solo la mitral y la tricúspide.",
+    "conocimientoPrevio": "No sabía que existiera una válvula propia a la salida del corazón hacia los pulmones.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y estructura",
@@ -1424,7 +1424,7 @@
       "auricula_izquierda",
       "ventriculo_izquierdo"
     ],
-    "conocimientoPrevio": "Sabía que había una válvula entre las cámaras del lado izquierdo, pero el nombre \"mitral\" siempre me sonó rarísimo y nunca entendí de dónde salía — pensaba que era solo un nombre más sin razón de ser.",
+    "conocimientoPrevio": "Sabía que había una válvula entre las cámaras izquierdas, pero no por qué también se llama mitral.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y estructura",
@@ -1459,7 +1459,7 @@
       "auricula_derecha",
       "ventriculo_derecho"
     ],
-    "conocimientoPrevio": "Esta la tenía ubicada bien: lado derecho, entre la aurícula y el ventrículo. Me acuerdo de que el truco para no confundirla con la mitral era contar las letras (\"tri\" de tres, el lado derecho tiene tres valvas), aunque nunca verifiqué si eso era verdad.",
+    "conocimientoPrevio": "Sabía que era la válvula del lado derecho, entre la aurícula y el ventrículo.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y estructura",
@@ -1493,7 +1493,7 @@
     "relacionadas": [
       "corazon"
     ],
-    "conocimientoPrevio": "Sabía que el corazón estaba envuelto en una especie de bolsa, pero la imaginaba como algo simple, tipo una funda de celular. No tenía idea de que tuviera varias capas ni de que ahí adentro hubiera líquido.",
+    "conocimientoPrevio": "Sabía que era una especie de bolsa que envolvía al corazón, nada más.",
     "conocimientoNuevo": [
       {
         "titulo": "Pericardio fibroso",
@@ -1533,7 +1533,7 @@
       "aorta",
       "corazon"
     ],
-    "conocimientoPrevio": "De esto sabía lo básico que sabe cualquiera por la tele: que el corazón tiene sus propias arterias y que si se tapan es cuando da el infarto. Más allá de esa frase hecha, no tenía ni idea de cómo se llamaban ni por dónde pasaban.",
+    "conocimientoPrevio": "Sabía que el corazón tenía sus propias arterias y que, si se tapaban, eso era un infarto.",
     "conocimientoNuevo": [
       {
         "titulo": "Arteria coronaria derecha (ACD)",
@@ -1625,7 +1625,7 @@
       "auricula_derecha",
       "corazon"
     ],
-    "conocimientoPrevio": "Esta directamente no la tenía ni contemplada. Sabía que el corazón necesitaba arterias para alimentarse a sí mismo, pero nunca me pregunté por dónde salía esa sangre después — como si el corazón solo recibiera y nunca devolviera nada.",
+    "conocimientoPrevio": "No sabía que el corazón también tuviera venas propias para drenar su propia sangre.",
     "conocimientoNuevo": [
       {
         "titulo": "Seno coronario",
@@ -1660,7 +1660,7 @@
       "valvulas_cardiacas_generalidades",
       "corazon"
     ],
-    "conocimientoPrevio": "Lo único que sabía es que el corazón hace \"lub-dub\" y que para eso sirve el estetoscopio — lo probé una vez con el de un pariente médico y ahí quedó, básicamente, todo mi conocimiento del tema.",
+    "conocimientoPrevio": "Sabía que el corazón hacía \"lub-dub\" y que eso se escuchaba con un estetoscopio.",
     "conocimientoNuevo": [
       {
         "titulo": "Origen",
@@ -1889,7 +1889,7 @@
       "corazon",
       "ondas_ekg"
     ],
-    "conocimientoPrevio": "Sabía que el corazón late por impulsos eléctricos (lo del \"marcapasos natural\" se oye bastante) y que a la gente le ponen marcapasos artificiales cuando eso falla, pero no tenía idea de qué parte del corazón genera esos impulsos ni cómo viajan.",
+    "conocimientoPrevio": "Sabía que el corazón latía por impulsos eléctricos y que por eso existían los marcapasos.",
     "conocimientoNuevo": [
       {
         "titulo": "Origen del automatismo",
@@ -2122,7 +2122,7 @@
       "sistema_conduccion_electrica",
       "corazon"
     ],
-    "conocimientoPrevio": "El electrocardiograma para mí era solo \"la gráfica con picos\" que sale en las películas cuando alguien está en el hospital — esa línea que se pone plana es prácticamente un cliché de cine. No tenía idea de qué representaba cada pico.",
+    "conocimientoPrevio": "Sabía que el electrocardiograma era esa gráfica con picos que muestra los latidos del corazón.",
     "conocimientoNuevo": [
       {
         "titulo": "Definición",
@@ -2714,7 +2714,7 @@
       "laringe",
       "traquea"
     ],
-    "conocimientoPrevio": "De la nariz sabía lo obvio: que sirve para respirar y para oler, y que los pelitos de adentro atrapan el polvo. Nunca pensé en ella como un órgano que hace algo más sofisticado que filtrar.",
+    "conocimientoPrevio": "Sabía que por la nariz respiramos y olemos, y que los pelitos de adentro atrapan el polvo.",
     "conocimientoNuevo": [
       {
         "titulo": "Nariz externa",
@@ -2764,7 +2764,7 @@
       "nariz",
       "traquea"
     ],
-    "conocimientoPrevio": "Sabía que ahí estaban las cuerdas vocales y que la \"manzana de Adán\" tenía algo que ver, pero la verdad nunca entendí bien la diferencia entre laringe y faringe — siempre las confundía.",
+    "conocimientoPrevio": "Sabía que ahí estaban las cuerdas vocales y que tenía que ver con la manzana de Adán.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y función",
@@ -2811,7 +2811,7 @@
       "laringe",
       "bronquios"
     ],
-    "conocimientoPrevio": "Esto lo tenía claro: es el tubo por donde baja el aire, y tiene esos anillos que se sienten si te tocas el cuello. Lo que no sabía es por qué esos anillos no son completos, dejando una parte más blanda atrás.",
+    "conocimientoPrevio": "Sabía que era el tubo por donde baja el aire hacia los pulmones y que tenía anillos.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación",
@@ -2949,7 +2949,7 @@
       "bronquiolos",
       "pulmones"
     ],
-    "conocimientoPrevio": "Sabía que la tráquea se dividía en dos, uno para cada pulmón, como una Y al revés. Lo que no tenía tan claro es que no fueran simétricos — pensaba que ambos lados eran prácticamente iguales.",
+    "conocimientoPrevio": "Sabía que la tráquea se dividía en dos bronquios, uno para cada pulmón.",
     "conocimientoNuevo": [
       {
         "titulo": "Bronquios principales",
@@ -3035,7 +3035,7 @@
       "bronquios",
       "alveolos"
     ],
-    "conocimientoPrevio": "Esto directamente no lo sabía. Para mí, después de los bronquios, el aire llegaba casi directo a los alveolos — nunca me imaginé que hubiera toda una ramificación intermedia, cada vez más fina, antes de llegar ahí.",
+    "conocimientoPrevio": "No sabía que existieran; pensaba que los bronquios llegaban directo a los alveolos.",
     "conocimientoNuevo": [
       {
         "titulo": "Definición",
@@ -3119,7 +3119,7 @@
       "bronquiolos",
       "pulmones"
     ],
-    "conocimientoPrevio": "Sabía que eran como bolsitas al final de los pulmones y que ahí es donde el oxígeno pasa a la sangre — eso se enseña tanto que ya es casi lo primero que uno aprende de los pulmones. Lo que no sabía es cuántos son ni lo delgaditas que son sus paredes.",
+    "conocimientoPrevio": "Sabía que eran como bolsitas al final de los pulmones donde el oxígeno pasa a la sangre.",
     "conocimientoNuevo": [
       {
         "titulo": "Número y tamaño",
@@ -3158,7 +3158,7 @@
       "alveolos",
       "pulmones"
     ],
-    "conocimientoPrevio": "Sabía que el oxígeno \"pasaba\" del pulmón a la sangre, pero lo pensaba como algo casi mágico, sin detenerme a pensar que tenía que atravesar físicamente varias capas de tejido para lograrlo.",
+    "conocimientoPrevio": "Sabía que el oxígeno pasaba del pulmón a la sangre, pero no que tuviera que atravesar una membrana.",
     "conocimientoNuevo": [
       {
         "titulo": "Definición",
@@ -3205,7 +3205,7 @@
       "venas_pulmonares",
       "alveolos"
     ],
-    "conocimientoPrevio": "Lo básico lo sabía: tenemos dos pulmones, se inflan cuando respiramos, y el cigarro los daña un montón (eso lo repiten en todas las campañas antitabaco). Lo que no tenía tan claro es que no fueran del mismo tamaño ni la misma forma.",
+    "conocimientoPrevio": "Sabía que tenemos dos pulmones que se inflan al respirar y que el cigarro los daña.",
     "conocimientoNuevo": [
       {
         "titulo": "Ubicación y forma",
@@ -3840,7 +3840,7 @@
     "relacionadas": [
       "pulmones"
     ],
-    "conocimientoPrevio": "Sabía que había una capa que cubría los pulmones, pero la imaginaba como una sola envoltura, tipo plástico film. No tenía idea de que en realidad fueran dos hojas con un espacio líquido entre medio.",
+    "conocimientoPrevio": "Sabía que era una capa que cubría los pulmones, pero no que tuviera dos hojas.",
     "conocimientoNuevo": [
       {
         "titulo": "Pleura visceral",
@@ -3880,7 +3880,7 @@
       "membrana_respiratoria",
       "pulmones"
     ],
-    "conocimientoPrevio": "Esto me lo sé de memoria desde el colegio: inhalamos oxígeno, exhalamos dióxido de carbono. Es casi lo primero que te enseñan de respiración, aunque nunca pensé mucho en el \"cómo\" pasa eso realmente.",
+    "conocimientoPrevio": "Sabía que al respirar inhalamos oxígeno y exhalamos dióxido de carbono.",
     "conocimientoNuevo": [
       {
         "titulo": "Principio físico",
@@ -4270,7 +4270,7 @@
       "intercambio_gaseoso_pulmonar",
       "corazon"
     ],
-    "conocimientoPrevio": "Sabía que la sangre llevaba el oxígeno a las células de todo el cuerpo, en plan \"la sangre es como un camión de reparto\", pero no tenía ni idea de que hubiera un intercambio parecido al de los pulmones pasando ahí, solo que al revés.",
+    "conocimientoPrevio": "Sabía que la sangre llevaba el oxígeno a todas las células del cuerpo.",
     "conocimientoNuevo": [
       {
         "titulo": "Gradientes en los tejidos",
@@ -4446,7 +4446,7 @@
     "relacionadas": [
       "pulmones"
     ],
-    "conocimientoPrevio": "Sabía que los pulmones tenían cierta \"capacidad\" de aire y que los deportistas, sobre todo los nadadores, parecían tener más — eso se comenta mucho cuando hablan de atletas de alto rendimiento. Nunca pensé que hubiera varios tipos de volúmenes distintos con nombres técnicos.",
+    "conocimientoPrevio": "Sabía que los pulmones tienen cierta capacidad de aire y que los deportistas suelen tener más.",
     "conocimientoNuevo": [
       {
         "titulo": "Volúmenes pulmonares",
