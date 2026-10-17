@@ -125,37 +125,23 @@ function buildOutlineMesh(mesh) {
 // bruma tenue. Un MeshBasicMaterial no lee luces en absoluto, así que
 // queda como una silueta plana y pareja sin importar cuántas se
 // superpongan — el "fantasma" que el diseño pedía.
-// Gris neutro hacia el que se funde el color real de una malla
-// "relacionada" — ver el porqué en buildGhostMaterial.
-const GHOST_NEUTRAL = new THREE.Color("#55565c");
-const GHOST_NEUTRAL_MIX = 0.72;
+const RELATED_OPACITY = 0.12;
 
 function buildGhostMaterial(mesh) {
   const source = mesh.userData.realMaterial ?? mesh.material;
-  const base = source.color ? source.color.clone() : new THREE.Color("#ffffff");
-  const dimmed = base.clone().lerp(GHOST_NEUTRAL, GHOST_NEUTRAL_MIX);
   return new THREE.MeshBasicMaterial({
-    color: dimmed,
+    color: source.color ? source.color.clone() : new THREE.Color("#ffffff"),
     vertexColors: Boolean(source.vertexColors),
     // Las mallas reales son doubleSided (ver build_corazon_segmentado.py):
     // muchas son cáscaras delgadas y conviene verlas desde adentro de un
-    // hueco como el del pulmón.
+    // hueco como el del pulmón. MeshBasicMaterial es FrontSide por
+    // defecto — dejarlo así hacía que la malla fantasma desapareciera
+    // (se recortaba el backface) al rotar hacia esos ángulos desde
+    // adentro, en vez de quedarse como una silueta tenue constante.
     side: source.side ?? THREE.FrontSide,
-    // Nada de transparencia real: "bronquios" (y cualquier malla
-    // ramificada/cóncava en general) se pliega sobre sí misma muchas
-    // veces desde casi cualquier ángulo. Con alpha blending, cada
-    // pliegue que se superpone suma opacidad sobre el anterior -- pasa
-    // incluso con una sola malla relacionada, ni hace falta que se
-    // crucen VARIAS -- y el resultado es un remolino de bandas en vez de
-    // una silueta pareja (se probó con depthWrite:true y con
-    // alphaHash, los dos siguen dependiendo de cuántos pliegues se
-    // crucen en cada píxel). En vez de "transparente", la malla
-    // relacionada queda "apagada": su color real se funde hacia un gris
-    // neutro pero se dibuja 100% opaca -- sin nada que mezclar ni
-    // ordenar, no hay combinación de geometría que la rompa.
-    transparent: false,
-    opacity: 1,
-    depthWrite: true,
+    transparent: true,
+    opacity: RELATED_OPACITY,
+    depthWrite: false,
     toneMapped: false,
   });
 }
