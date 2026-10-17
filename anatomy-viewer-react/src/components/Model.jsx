@@ -120,6 +120,28 @@ function buildOutlineMesh(mesh) {
   return outlineMesh;
 }
 
+// Material "fantasma" para las estructuras relacionadas: antes se
+// reusaba el mismo material PBR real con opacity bajada a 0.12, pero ese
+// material sigue respondiendo a las luces de la escena (incluida la luz
+// de contorno fría de atrás) incluso casi transparente. En una cavidad
+// chica como el hueco del pulmón, con varias mallas fantasma superpuestas
+// (bronquios + arterias + venas pulmonares a la vez), esa luz se veía
+// como un brillo especular blanco-azulado "de vidrio" en vez de una
+// bruma tenue. Un MeshBasicMaterial no lee luces en absoluto, así que
+// queda como una silueta plana y pareja sin importar cuántas se
+// superpongan — el "fantasma" que el diseño pedía.
+function buildGhostMaterial(mesh) {
+  const source = mesh.userData.realMaterial ?? mesh.material;
+  return new THREE.MeshBasicMaterial({
+    color: source.color ? source.color.clone() : new THREE.Color("#ffffff"),
+    vertexColors: Boolean(source.vertexColors),
+    transparent: true,
+    opacity: RELATED_OPACITY,
+    depthWrite: false,
+    toneMapped: false,
+  });
+}
+
 export default function Model({
   url,
   onSelect,
@@ -134,6 +156,7 @@ export default function Model({
   const { camera } = useThree();
   const meshGroups = useRef(new Map());
   const outlineMeshes = useRef(new Map());
+  const ghostMaterials = useRef(new Map());
   const pointerDownAt = useRef(null);
   const hoveredMeshRef = useRef(null);
   const cameraGoalRef = useRef(null);
@@ -215,9 +238,14 @@ export default function Model({
 
     meshes.forEach((child) => {
       child.material = child.material.clone();
+      // Se guarda aparte para poder volver a ella al salir del estado
+      // "fantasma" — mientras tanto child.material puede apuntar al
+      // material plano de buildGhostMaterial en vez de esta.
+      child.userData.realMaterial = child.material;
       const outlineMesh = buildOutlineMesh(child);
       child.add(outlineMesh);
       outlineMeshes.current.set(child.uuid, outlineMesh);
+      ghostMaterials.current.set(child.uuid, buildGhostMaterial(child));
     });
 
     onMeshNames?.(Array.from(counts, ([name, count]) => ({ name, count })));
@@ -249,14 +277,13 @@ export default function Model({
 
       if (!selectedMeshName || isSelected) {
         child.visible = true;
+        child.material = child.userData.realMaterial ?? child.material;
         child.material.transparent = false;
         child.material.opacity = 1;
         child.material.depthWrite = true;
       } else if (isRelated) {
         child.visible = true;
-        child.material.transparent = true;
-        child.material.opacity = RELATED_OPACITY;
-        child.material.depthWrite = false;
+        child.material = ghostMaterials.current.get(child.uuid) ?? child.material;
       } else {
         child.visible = false;
       }
