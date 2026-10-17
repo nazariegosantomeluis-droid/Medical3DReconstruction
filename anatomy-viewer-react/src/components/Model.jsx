@@ -135,6 +135,13 @@ function buildGhostMaterial(mesh) {
   return new THREE.MeshBasicMaterial({
     color: source.color ? source.color.clone() : new THREE.Color("#ffffff"),
     vertexColors: Boolean(source.vertexColors),
+    // Las mallas reales son doubleSided (ver build_corazon_segmentado.py):
+    // muchas son cáscaras delgadas y conviene verlas desde adentro de un
+    // hueco como el del pulmón. MeshBasicMaterial es FrontSide por
+    // defecto — dejarlo así hacía que la malla fantasma desapareciera
+    // (se recortaba el backface) al rotar hacia esos ángulos desde
+    // adentro, en vez de quedarse como una silueta tenue constante.
+    side: source.side ?? THREE.FrontSide,
     transparent: true,
     opacity: RELATED_OPACITY,
     depthWrite: false,
@@ -163,6 +170,25 @@ export default function Model({
   const [hoveredName, setHoveredName] = useState(null);
 
   useCursor(Boolean(hoveredName));
+
+  // Si cameraGoalRef sigue activo (la cámara todavía está deslizándose
+  // hacia el encuadre automático, justo después de seleccionar algo) y la
+  // persona agarra el mouse para rotar/hacer zoom/paniar, el useFrame de
+  // abajo seguía tirando de camera.position hacia la meta en CADA frame,
+  // peleando contra el gesto manual — se sentía como que la cámara se
+  // resistía o se "enganchaba" al rotar en el primer segundo después de
+  // elegir una estructura. En cuanto OrbitControls detecta el inicio de
+  // una interacción real de la persona, se suelta la meta del todo: el
+  // control manual gana siempre, sin excepción.
+  useEffect(() => {
+    const controls = controlsRef?.current;
+    if (!controls) return undefined;
+    const releaseGlide = () => {
+      cameraGoalRef.current = null;
+    };
+    controls.addEventListener("start", releaseGlide);
+    return () => controls.removeEventListener("start", releaseGlide);
+  }, [controlsRef]);
 
   // Desliza la cámara hacia el encuadre objetivo (calculado más abajo cada
   // vez que cambia la selección/grupo) en vez de saltar de golpe, y hace
